@@ -37,10 +37,15 @@ function IconShape({ type, size = 40 }) {
 }
 
 // ─── Telegram-мини-снимок (стилизованный, не реальный скрин) ───
-function TgMock({ time, lines }) {
+function TgMock({ time, lines, tag }) {
   return (
     <div style={{ marginTop: 16, background: "var(--ink)", color: "var(--bg)",
       padding: "14px 14px 12px", border: "2px solid var(--ink)" }}>
+      {tag ? (
+        <div style={{ display: "inline-block", background: "var(--accent)", color: "var(--accent-ink)",
+          fontFamily: MONO_I, fontSize: 9, fontWeight: 700, letterSpacing: "0.12em",
+          textTransform: "uppercase", padding: "3px 8px", marginBottom: 10 }}>{tag}</div>
+      ) : null}
       <div style={{ fontFamily: MONO_I, fontSize: 9, letterSpacing: "0.12em",
         color: "var(--accent)", textTransform: "uppercase", marginBottom: 8,
         display: "flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
@@ -60,7 +65,7 @@ function TgMock({ time, lines }) {
 const FEATURES = [
   { icon: "portrait", tier: "FREE", head: "Архетип и разбор за 5 минут — бесплатно",
     body: "Подключаешь Garmin и Strava — за минуту читаем 90 дней тренировок и сна. Получаешь архетип (один из 6) — карточкой можно поделиться. Через 30 секунд приходит персональный разбор: что сильное, какой паттерн за 90 дней, аномалии, 3 рекомендации.",
-    tg: { lines: [
+    tg: { tag: "ПРИМЕР · ПОСЛЕ 30 ТРЕНИРОВОК", lines: [
       { t: "<b>МНОГОБОРЕЦ.</b> За 90 дней — 426 активностей, баланс трёх дисциплин почти ровный: бег 30%, вело 43%, плавание 27% по времени." },
       { t: "<b>Сильная сторона:</b> дисциплина объёма. 72% времени в Z1—Z2 — близко к поляризованной модели. Длинные сессии стабильны, не разваливаются к концу." },
       { t: "<b>Слабое место за 90 дней:</b> восстановление по средам. После интенсивных вторников HRV проседает в среднем на 18%, а ты всё равно выходишь на ключевую. Трижды за квартал это закончилось вялой тренировкой." },
@@ -132,7 +137,7 @@ function WhatsInside() {
               <h3 style={{ margin: "20px 0 0", fontSize: m ? 20 : 24, fontWeight: 900, letterSpacing: "-0.02em",
                 lineHeight: 1.0, textTransform: "uppercase", color: "var(--ink)" }}>{f.head}</h3>
               <p style={{ margin: "12px 0 0", fontSize: 15, lineHeight: 1.55, color: "var(--muted)" }}>{f.body}</p>
-              <TgMock time={f.tg.time} lines={f.tg.lines} />
+              <TgMock time={f.tg.time} lines={f.tg.lines} tag={f.tg.tag} />
             </div>
           ))}
         </div>

@@ -5,10 +5,13 @@
 const SANS = '"Geist", system-ui, sans-serif';
 const MONO = '"Geist Mono", "JetBrains Mono", monospace';
 const PAGE_W = 1280;
+const BOT = "https://t.me/fizkult_bot?start=";
 
 // ─── responsive context ───────────────────────────────────────
 const RCtx = React.createContext({ m: false, vw: 1280 });
 window.RCtx = RCtx;
+// общий 152-ФЗ consent: отметил один раз — разблокированы все CTA
+const ConsentCtx = React.createContext({ consent: false, setConsent: () => {} });
 function useVW() {
   const [w, setW] = React.useState(typeof window !== "undefined" ? window.innerWidth : 1280);
   React.useEffect(() => {
@@ -134,41 +137,38 @@ const btn = {
   fontSize: 14, fontWeight: 900, letterSpacing: "0.04em", textTransform: "uppercase",
   cursor: "pointer", fontFamily: SANS, borderRadius: 0,
 };
-function Consent({ center }) {
-  return (
-    <p style={{ margin: "14px 0 0", fontSize: 11, lineHeight: 1.5, color: "#1A1A1A",
-      maxWidth: 420, fontFamily: MONO, letterSpacing: "0.02em",
-      textAlign: center ? "center" : "left", marginLeft: center ? "auto" : 0,
-      marginRight: center ? "auto" : 0 }}>
-      Подключая Garmin / Strava, ты соглашаешься на обработку и трансграничную передачу
-      данных. <span style={{ textDecoration: "underline" }}>Политика обработки ПДн</span>
-    </p>
-  );
-}
 const pad = (m) => (m ? "56px 20px" : "96px 48px");
 
-// 152-ФЗ gated CTA — кнопка заблокирована пока не отмечен явный чекбокс
- function GatedCTA({ label, hint, center, full }) {
-  const [ok, setOk] = React.useState(false);
+// 152-ФЗ gated CTA — общий consent (отметил раз → все кнопки активны).
+// Чекбокс НАД кнопкой (findability), tooltip + hint в disabled-состоянии.
+function GatedCTA({ label, href, hint, center, full, dark, btnStyle }) {
+  const { consent: ok, setConsent: setOk } = React.useContext(ConsentCtx);
+  const txt = dark ? "#EFE6D6" : "#1A1A1A";
+  const go = () => { if (ok && href) window.open(href, "_blank", "noopener"); };
   return (
     <div style={{ textAlign: center ? "center" : "left" }}>
-      <button disabled={!ok} style={{ background: "var(--ink)", color: "var(--accent)",
-        border: "none", padding: "18px 30px", fontSize: 15, fontWeight: 900, letterSpacing: "0.04em",
-        textTransform: "uppercase", fontFamily: SANS, borderRadius: 0,
-        width: full ? "100%" : "auto", opacity: ok ? 1 : 0.4,
-        cursor: ok ? "pointer" : "not-allowed", transition: "opacity .15s" }}>{label}</button>
-      <label style={{ display: "flex", gap: 9, alignItems: "flex-start", marginTop: 14,
-        maxWidth: 440, marginLeft: center ? "auto" : 0, marginRight: center ? "auto" : 0,
+      <label style={{ display: "flex", gap: 9, alignItems: "flex-start", marginBottom: 12,
+        maxWidth: 460, marginLeft: center ? "auto" : 0, marginRight: center ? "auto" : 0,
         cursor: "pointer", textAlign: "left" }}>
         <input type="checkbox" checked={ok} onChange={e => setOk(e.target.checked)}
           style={{ marginTop: 2, width: 16, height: 16, accentColor: "var(--accent)", flexShrink: 0 }} />
-        <span style={{ fontFamily: MONO, fontSize: 11, lineHeight: 1.5, color: "#1A1A1A" }}>
+        <span style={{ fontFamily: MONO, fontSize: 11, lineHeight: 1.5, color: txt }}>
           Согласен на обработку и трансграничную передачу данных Garmin / Strava.{" "}
-          <span style={{ textDecoration: "underline" }}>Политика обработки ПДн</span>
+          <a href="/privacy-pdn.html" style={{ color: txt, textDecoration: "underline" }}>Политика обработки ПДн</a>
         </span>
       </label>
-      {hint ? <div style={{ fontFamily: MONO, fontSize: 11, color: "#1A1A1A",
-        letterSpacing: "0.1em", textTransform: "uppercase", marginTop: 12 }}>{hint}</div> : null}
+      <button onClick={go} disabled={!ok} title={ok ? "" : "Требуется согласие — отметь галочку выше"}
+        style={{ background: "var(--ink)", color: "var(--accent)", border: "none",
+          padding: "18px 30px", fontSize: 15, fontWeight: 900, letterSpacing: "0.04em",
+          textTransform: "uppercase", fontFamily: SANS, borderRadius: 0,
+          width: full ? "100%" : "auto", opacity: ok ? 1 : 0.4,
+          cursor: ok ? "pointer" : "not-allowed", transition: "opacity .15s", ...(btnStyle || {}) }}>
+        {label}
+      </button>
+      <div style={{ fontFamily: MONO, fontSize: 11, color: txt, letterSpacing: "0.1em",
+        textTransform: "uppercase", marginTop: 12, minHeight: 14, opacity: ok ? 0.8 : 1 }}>
+        {ok ? (hint || "") : "↑ Отметь согласие, чтобы продолжить"}
+      </div>
     </div>
   );
 }
@@ -176,6 +176,12 @@ const pad = (m) => (m ? "56px 20px" : "96px 48px");
 // ═══ SECTIONS ══════════════════════════════════════════════════
 function Nav() {
   const { m } = useR();
+  const [open, setOpen] = React.useState(false);
+  const links = [["Архетипы", "#archetypes"], ["Что внутри", "#inside"], ["Тарифы", "#pricing"]];
+  const aS = { color: "var(--ink)", textDecoration: "none", cursor: "pointer",
+    fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em" };
+  const loginBtn = { ...btn, padding: "10px 18px", fontSize: 11, whiteSpace: "nowrap",
+    textDecoration: "none", display: "inline-block" };
   return (
     <nav style={{ borderBottom: "3px solid var(--ink)", background: "var(--bg)",
       position: "sticky", top: 0, zIndex: 50 }}>
@@ -186,18 +192,39 @@ function Nav() {
           <div style={{ fontSize: 20, fontWeight: 900, letterSpacing: "-0.03em",
             textTransform: "uppercase" }}>ФИЗКУЛЬТ</div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 22, fontSize: 12,
-          fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", whiteSpace: "nowrap" }}>
-          {m ? null : (<><span>Архетипы</span><span>Что внутри</span><span>Тарифы</span></>)}
-          <button style={{ ...btn, padding: "10px 18px", fontSize: 11, whiteSpace: "nowrap" }}>Архетип →</button>
-        </div>
+        {m ? (
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <a href={BOT + "archetype_nav"} target="_blank" rel="noopener" style={{ ...loginBtn, padding: "9px 14px" }}>Войти →</a>
+            <button onClick={() => setOpen(o => !o)} aria-label="Меню"
+              style={{ background: "none", border: "none", cursor: "pointer", padding: 6,
+                display: "flex", flexDirection: "column", gap: 4 }}>
+              {[0,1,2].map(i => <span key={i} style={{ width: 24, height: 3, background: "var(--ink)" }} />)}
+            </button>
+          </div>
+        ) : (
+          <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+            {links.map(l => <a key={l[1]} href={l[1]} style={aS}>{l[0]}</a>)}
+            <a href={BOT + "archetype_nav"} target="_blank" rel="noopener" style={loginBtn}>Войти →</a>
+          </div>
+        )}
       </div>
+      {m && open ? (
+        <div style={{ borderTop: "3px solid var(--ink)", background: "var(--bg)" }}>
+          {links.map(l => (
+            <a key={l[1]} href={l[1]} onClick={() => setOpen(false)}
+              style={{ display: "block", padding: "16px 20px", color: "var(--ink)",
+                textDecoration: "none", fontSize: 14, fontWeight: 900, textTransform: "uppercase",
+                letterSpacing: "0.04em", borderBottom: "1px solid rgba(26,26,26,0.12)" }}>{l[0]}</a>
+          ))}
+        </div>
+      ) : null}
     </nav>
   );
 }
 
 function Hero() {
   const { m } = useR();
+  const sources = ["GARMIN", "STRAVA", "ПЛАН ТРЕНЕРА", "МЕД-ОГРАНИЧЕНИЯ"];
   return (
     <section style={{ background: "var(--bg)", position: "relative", overflow: "hidden" }}>
       {m ? null : (<>
@@ -232,11 +259,16 @@ function Hero() {
           <div style={{ marginTop: 24, display: "block", boxSizing: "border-box",
             width: m ? "100%" : "auto", border: "2px solid var(--ink)", padding: "14px 18px",
             background: "var(--bg)" }}>
-            <div style={{ fontFamily: MONO, fontSize: m ? 10 : 11, fontWeight: 700, letterSpacing: "0.06em",
-              textTransform: "uppercase", color: "#1A1A1A" }}>
-              GARMIN · STRAVA · ПЛАН ТРЕНЕРА · МЕД-ОГРАНИЧЕНИЯ
-            </div>
-            <div style={{ textAlign: "center", color: "var(--accent)", fontSize: 16, lineHeight: 1, margin: "4px 0" }}>↓</div>
+            {m ? (
+              <div style={{ display: "flex", flexDirection: "column", gap: 4, fontFamily: MONO,
+                fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", color: "#1A1A1A" }}>
+                {sources.map(s => <div key={s}>· {s}</div>)}
+              </div>
+            ) : (
+              <div style={{ fontFamily: MONO, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em",
+                textTransform: "uppercase", color: "#1A1A1A" }}>{sources.join(" · ")}</div>
+            )}
+            <div style={{ textAlign: "center", color: "var(--accent)", fontSize: 16, lineHeight: 1, margin: "6px 0" }}>↓</div>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 8,
               background: "var(--ink)", color: "var(--accent-ink)", padding: "4px 10px",
               fontFamily: MONO, fontSize: 12, fontWeight: 700, letterSpacing: "0.08em",
@@ -245,15 +277,15 @@ function Hero() {
                 animation: "blink 1.6s steps(2) infinite" }} />
               ФИЗКУЛЬТ читает за 60 сек
             </div>
-            <div style={{ textAlign: "center", color: "var(--accent)", fontSize: 16, lineHeight: 1, margin: "4px 0" }}>↓</div>
-            <div style={{ fontFamily: MONO, fontSize: m ? 10 : 11, fontWeight: 700, letterSpacing: "0.06em",
+            <div style={{ textAlign: "center", color: "var(--accent)", fontSize: 16, lineHeight: 1, margin: "6px 0" }}>↓</div>
+            <div style={{ fontFamily: MONO, fontSize: m ? 11 : 11, fontWeight: 700, letterSpacing: "0.06em",
               textTransform: "uppercase", color: "var(--accent)" }}>
               АРХЕТИП + РАЗБОР + ЕЖЕДНЕВНЫЕ СОВЕТЫ
             </div>
           </div>
 
           <div style={{ marginTop: 26 }}>
-            <GatedCTA label="Узнать архетип →" hint="2 мин · без email" full={m} />
+            <GatedCTA label="Узнать архетип →" href={BOT + "archetype_hero"} hint="2 мин · без email" full={m} />
           </div>
           <div style={{ marginTop: 18, display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
             <span style={{ fontFamily: MONO, fontSize: 10, color: "#1A1A1A",
@@ -264,7 +296,7 @@ function Hero() {
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Card a={ARCH[3]} size="lg" />
+          <Card a={ARCH[3]} size={m ? "md" : "lg"} />
         </div>
       </div>
     </section>
@@ -340,10 +372,8 @@ function Gallery() {
           letterSpacing: "0.04em", textAlign: "center" }}>
           Цифры на карточках — пример. Твои появятся после подключения (30+ тренировок).
         </p>
-        <div style={{ marginTop: m ? 36 : 48, textAlign: "center" }}>
-          <button style={{ ...btn, fontSize: m ? 14 : 16, padding: m ? "16px 24px" : "20px 40px" }}>
-            Узнать свой архетип бесплатно →
-          </button>
+        <div style={{ marginTop: m ? 36 : 48, display: "flex", justifyContent: "center" }}>
+          <GatedCTA label="Узнать свой архетип бесплатно →" href={BOT + "archetype_gallery"} center />
         </div>
       </div>
     </section>
@@ -352,6 +382,11 @@ function Gallery() {
 
 function Pricing() {
   const { m } = useR();
+  const [yearly, setYearly] = React.useState(false);
+  const tBtn = (on) => ({ flex: 1, padding: "9px 0", fontFamily: MONO, fontSize: 11, fontWeight: 700,
+    letterSpacing: "0.08em", textTransform: "uppercase", cursor: "pointer", borderRadius: 0,
+    border: "2px solid var(--accent)", background: on ? "var(--accent)" : "transparent",
+    color: on ? "var(--accent-ink)" : "#E8E2D6" });
   return (
     <section id="pricing" style={{ background: "var(--bg)" }}>
       <div style={{ maxWidth: PAGE_W, margin: "0 auto", padding: pad(m) }}>
@@ -373,7 +408,7 @@ function Pricing() {
               letterSpacing: "-0.02em" }}>Free</div>
             <div style={{ marginTop: 12, fontSize: 52, fontWeight: 900, letterSpacing: "-0.04em",
               lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>₽0</div>
-            <ul style={{ margin: "24px 0 0", padding: 0, listStyle: "none", fontSize: 15, lineHeight: 1.5 }}>
+            <ul style={{ margin: "24px 0 24px", padding: 0, listStyle: "none", fontSize: 15, lineHeight: 1.5 }}>
               {["Архетип и разбор за 5 минут",
                 "Утром по понедельникам — что делать (sample)",
                 "Карточка 9:16 для шеринга"].map((f, j) => (
@@ -382,9 +417,8 @@ function Pricing() {
                   <span style={{ color: "var(--accent)", fontWeight: 900 }}>✓</span>{f}</li>
               ))}
             </ul>
-            <button style={{ marginTop: 24, width: "100%", padding: "15px 0", background: "var(--ink)",
-              color: "var(--bg)", border: "none", fontSize: 13, fontWeight: 900, letterSpacing: "0.04em",
-              textTransform: "uppercase", cursor: "pointer", fontFamily: SANS }}>Узнать архетип →</button>
+            <GatedCTA label="Узнать архетип →" href={BOT + "archetype_pricing"} full
+              btnStyle={{ background: "var(--ink)", color: "var(--bg)", padding: "15px 0", fontSize: 13 }} />
           </div>
           {/* PRO */}
           <div style={{ background: "var(--ink)", color: "var(--bg)", padding: "30px 28px 28px",
@@ -392,18 +426,22 @@ function Pricing() {
             <div style={{ position: "absolute", top: -13, left: 24, background: "var(--accent)",
               color: "var(--accent-ink)", fontFamily: MONO, fontSize: 10, fontWeight: 700,
               letterSpacing: "0.14em", textTransform: "uppercase", padding: "4px 10px", whiteSpace: "nowrap" }}>ПОЛНЫЙ ДОСТУП</div>
-            <div style={{ marginTop: 8, display: "flex", alignItems: "baseline", justifyContent: "space-between",
-              flexWrap: "wrap", gap: 6 }}>
-              <div style={{ fontSize: 26, fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.02em" }}>Pro</div>
-              <div style={{ fontFamily: MONO, fontSize: 11, color: "#E8E2D6", letterSpacing: "0.08em" }}>
-                ₽12 990 / ГОД · <span style={{ color: "var(--accent)" }}>−27%</span></div>
+            <div style={{ marginTop: 8, fontSize: 26, fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.02em" }}>Pro</div>
+            {/* toggle месяц / год */}
+            <div style={{ marginTop: 14, display: "flex", gap: 0, maxWidth: 280 }}>
+              <button onClick={() => setYearly(false)} style={tBtn(!yearly)}>Месяц</button>
+              <button onClick={() => setYearly(true)} style={tBtn(yearly)}>Год · −27%</button>
             </div>
-            <div style={{ marginTop: 12, display: "flex", alignItems: "baseline", gap: 6, whiteSpace: "nowrap" }}>
+            <div style={{ marginTop: 16, display: "flex", alignItems: "baseline", gap: 6, whiteSpace: "nowrap" }}>
               <span style={{ fontSize: 52, fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1,
-                fontVariantNumeric: "tabular-nums" }}>₽1 490</span>
-              <span style={{ fontSize: 14, color: "#9F9A92" }}>/ мес</span>
+                fontVariantNumeric: "tabular-nums" }}>{yearly ? "₽12 990" : "₽1 490"}</span>
+              <span style={{ fontSize: 14, color: "#9F9A92" }}>{yearly ? "/ год" : "/ мес"}</span>
             </div>
-            <ul style={{ margin: "24px 0 0", padding: 0, listStyle: "none", fontSize: 15, lineHeight: 1.5 }}>
+            <div style={{ marginTop: 6, fontFamily: MONO, fontSize: 11, letterSpacing: "0.04em",
+              color: yearly ? "var(--accent)" : "#C9C2B5", textTransform: "uppercase", minHeight: 14 }}>
+              {yearly ? "Экономия ₽4 890 в год" : "₽17 880 в год помесячно"}
+            </div>
+            <ul style={{ margin: "20px 0 24px", padding: 0, listStyle: "none", fontSize: 15, lineHeight: 1.5 }}>
               {["Утром каждый день — что делать сегодня",
                 "AI-аналитик — спроси про свои данные в любой момент",
                 "Будит когда HRV ушёл в минус — push с разбором",
@@ -414,13 +452,11 @@ function Pricing() {
                   <span style={{ color: "var(--accent)", fontWeight: 900 }}>✓</span>{f}</li>
               ))}
             </ul>
-            <button style={{ marginTop: 24, width: "100%", padding: "15px 0", background: "var(--accent)",
-              color: "var(--accent-ink)", border: "none", fontSize: 13, fontWeight: 900,
-              letterSpacing: "0.04em", textTransform: "uppercase", cursor: "pointer",
-              fontFamily: SANS }}>Оформить Pro</button>
+            <GatedCTA label="Оформить Pro" href={BOT + "pro"} full dark
+              btnStyle={{ background: "var(--accent)", color: "var(--accent-ink)", padding: "15px 0", fontSize: 13 }} />
             <div style={{ marginTop: 14, fontFamily: MONO, fontSize: 10, color: "#C9C2B5",
               letterSpacing: "0.06em", textTransform: "uppercase", textAlign: "center" }}>
-              Telegram Stars · Карта РФ · СБП через Tribute · отмена в любой момент
+              Оплата через Telegram · отмена в любой момент
             </div>
           </div>
         </div>
@@ -444,8 +480,8 @@ function FinalCTA() {
           textTransform: "uppercase", letterSpacing: "0.02em" }}>
           Две минуты. Бесплатно. Без email.
         </p>
-        <div style={{ marginTop: 36 }}>
-          <GatedCTA label="Узнать архетип бесплатно →" center />
+        <div style={{ marginTop: 36, display: "flex", justifyContent: "center" }}>
+          <GatedCTA label="Узнать архетип бесплатно →" href={BOT + "archetype_final"} center />
         </div>
       </div>
     </section>
@@ -472,22 +508,19 @@ function Footer() {
           </p>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          <div style={{ fontFamily: MONO, fontSize: 10, color: "#9F9A92", letterSpacing: "0.14em",
+          <div style={{ fontFamily: MONO, fontSize: 10, color: "#C9C2B5", letterSpacing: "0.14em",
             textTransform: "uppercase" }}>Работает на</div>
           <div style={{ fontSize: 13, color: "#C9C2B5" }}>Garmin · Strava · технология Anthropic Claude</div>
-          <div style={{ fontFamily: MONO, fontSize: 9, color: "#9F9A92", letterSpacing: "0.06em" }}>
-            * официальные логотипы + «Powered by Strava» — после approval
-          </div>
         </div>
         <div>
-          <span style={linkS}>Политика обработки ПДн</span>
-          <span style={linkS}>Privacy</span>
-          <span style={linkS}>Terms</span>
+          <a href="/privacy-pdn.html" style={linkS}>Политика обработки ПДн</a>
+          <a href="/privacy.html" style={linkS}>Privacy</a>
+          <a href="/terms.html" style={linkS}>Terms</a>
         </div>
       </div>
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.12)", padding: m ? "18px 20px" : "18px 48px",
         maxWidth: PAGE_W, margin: "0 auto" }}>
-        <p style={{ margin: 0, fontFamily: MONO, fontSize: 10, color: "#9F9A92",
+        <p style={{ margin: 0, fontFamily: MONO, fontSize: 10, color: "#C9C2B5",
           letterSpacing: "0.06em", lineHeight: 1.6 }}>
           Сервис не заменяет врача и тренера, не является медицинской рекомендацией.
           Обработка ПДн — с уведомлением РКН. © 2026 FIZKULT.AI
@@ -497,21 +530,24 @@ function Footer() {
   );
 }
 
-// ─── full page · responsive ───────────────────────────────────
+// ─── full page · responsive + shared consent ─────────────────
 function ConstructivistLanding({ vars, forceVW }) {
   const auto = useVW();
   const vw = forceVW || auto;
   const m = vw <= 760;
+  const [consent, setConsent] = React.useState(false);
   const Inside = window.WhatsInside, NotDoing = window.NotDoing;
   return (
     <RCtx.Provider value={{ m, vw }}>
-      <div style={{ ...vars, width: "100%", maxWidth: PAGE_W, margin: "0 auto",
-        fontFamily: SANS, background: "var(--bg)", color: "var(--ink)" }}>
-        <Nav /><Hero /><How /><Gallery />
-        {Inside ? <Inside /> : null}
-        {NotDoing ? <NotDoing /> : null}
-        <Pricing /><FinalCTA /><Footer />
-      </div>
+      <ConsentCtx.Provider value={{ consent, setConsent }}>
+        <div style={{ ...vars, width: "100%", maxWidth: PAGE_W, margin: "0 auto",
+          fontFamily: SANS, background: "var(--bg)", color: "var(--ink)" }}>
+          <Nav /><Hero /><How /><Gallery />
+          {Inside ? <Inside /> : null}
+          {NotDoing ? <NotDoing /> : null}
+          <Pricing /><FinalCTA /><Footer />
+        </div>
+      </ConsentCtx.Provider>
     </RCtx.Provider>
   );
 }
