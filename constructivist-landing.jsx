@@ -342,17 +342,17 @@ function Hero() {
             fontFamily: MONO, fontSize: 11, fontWeight: 700, letterSpacing: "0.14em",
             textTransform: "uppercase", whiteSpace: "nowrap" }}>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent-ink)" }} />
-            BETA · БЕСПЛАТНО
+            BETA · ВСЁ БЕСПЛАТНО ДО 1.07
           </span>
-          <h1 style={{ margin: "20px 0 0", fontSize: m ? 46 : 98, fontWeight: 900,
-            letterSpacing: "-0.05em", lineHeight: 0.84, textTransform: "uppercase",
+          <h1 style={{ margin: "20px 0 0", fontSize: m ? 42 : 86, fontWeight: 900,
+            letterSpacing: "-0.05em", lineHeight: 0.86, textTransform: "uppercase",
             color: "var(--ink)" }}>
-            КАКОЙ ТЫ<br/><span style={{ color: "var(--accent)" }}>СПОРТСМЕН?</span>
+            Garmin показывает цифры.<br/><span style={{ color: "var(--accent)" }}>Мы говорим что делать.</span>
           </h1>
           <p style={{ margin: "22px 0 0", fontSize: m ? 16 : 17, lineHeight: 1.5, color: "var(--ink)",
-            maxWidth: 460, fontWeight: 500 }}>
-            Подключаешь Garmin или Strava. Алгоритм читает 90 дней тренировок и собирает
-            твой архетип за 2 минуты.
+            maxWidth: 480, fontWeight: 500 }}>
+            AI читает 90 дней твоих тренировок, план тренера и календарь стартов —
+            говорит что менять на этой неделе. На научной базе, по-русски.
           </p>
 
           <div style={{ marginTop: 24, display: "block", boxSizing: "border-box", order: m ? 5 : 0,
@@ -379,12 +379,12 @@ function Hero() {
             <div style={{ textAlign: "center", color: "var(--accent)", fontSize: 16, lineHeight: 1, margin: "6px 0" }}>↓</div>
             <div style={{ fontFamily: MONO, fontSize: m ? 11 : 11, fontWeight: 700, letterSpacing: "0.06em",
               textTransform: "uppercase", color: "var(--accent)" }}>
-              АРХЕТИП + РАЗБОР + ЕЖЕДНЕВНЫЕ СОВЕТЫ
+              УТРЕННИЙ БРИФ + ПЛАН НЕДЕЛИ + AI-АНАЛИТИК
             </div>
           </div>
 
           <div style={{ marginTop: 26, order: m ? 3 : 0 }}>
-            <GatedCTA label="Узнать архетип →" href={BOT + "archetype_hero"} hint="2 мин · без email" full={m} />
+            <GatedCTA label="Подключить Garmin →" href={BOT + "hero_cta"} hint="2 мин · без email" full={m} />
           </div>
           <div style={{ marginTop: 18, order: m ? 4 : 0, display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
             <span style={{ fontFamily: MONO, fontSize: 10, color: "#1A1A1A",
@@ -687,10 +687,11 @@ function ConstructivistLanding({ vars, forceVW }) {
       <ConsentCtx.Provider value={{ consent, setConsent }}>
         <div style={{ ...vars, width: "100%", maxWidth: PAGE_W, margin: "0 auto",
           fontFamily: SANS, background: "var(--bg)", color: "var(--ink)" }}>
-          <Nav /><Hero /><How /><Gallery />
-          {Inside ? <Inside /> : null}
-          {NotDoing ? <NotDoing /> : null}
+          <Nav /><Hero /><How />
           {Methodology ? <Methodology /> : null}
+          {Inside ? <Inside /> : null}
+          <Gallery />
+          {NotDoing ? <NotDoing /> : null}
           <Pricing /><FinalCTA /><Footer />
           <IGFallback />
         </div>
