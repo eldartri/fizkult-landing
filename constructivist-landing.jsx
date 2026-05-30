@@ -5,7 +5,7 @@
 const SANS = '"Geist", system-ui, sans-serif';
 const MONO = '"Geist Mono", "JetBrains Mono", monospace';
 const PAGE_W = 1280;
-const BOT = "https://t.me/fizkult_bot?start=";
+const BOT = "https://t.me/fizkult_ai_bot?start=";
 
 // ─── responsive context ───────────────────────────────────────
 const RCtx = React.createContext({ m: false, vw: 1280 });
