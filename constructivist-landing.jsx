@@ -323,7 +323,7 @@ function Nav() {
 
 function Hero() {
   const { m } = useR();
-  const sources = ["GARMIN", "STRAVA", "ПЛАН ТРЕНЕРА", "МЕД-ОГРАНИЧЕНИЯ"];
+  const sources = ["GARMIN", "STRAVA", "ПЛАН ТРЕНЕРА"];
   return (
     <section style={{ background: "var(--bg)", position: "relative", overflow: "hidden" }}>
       {m ? null : (<>
@@ -598,7 +598,7 @@ function Footer() {
               textTransform: "uppercase" }}>ФИЗКУЛЬТ</div>
           </div>
           <p style={{ margin: 0, fontSize: 13, color: "#C9C2B5", lineHeight: 1.5, maxWidth: 300 }}>
-            Eldar Faizullin — Product Lead. Тихий аналитик, который читает твои данные.
+            Тихий аналитик, который читает твои данные.
           </p>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
