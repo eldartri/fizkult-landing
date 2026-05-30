@@ -25,90 +25,189 @@ const useR = () => React.useContext(RCtx);
 
 // ─── 6 канонических архетипов ─────────────────────────────────
 const ARCH = [
-  { no: "01", name: "СТАЙЕР",     hero: "54.2",  unit: "VO2MAX · БЕГ",
-    stats: [["680","ОБЪЁМ КМ"],["84","Z1—Z2 %"],["48","RHR"]],
-    badge: "РАННИЕ СТАРТЫ · 80%", tag: "Дисциплина выше комфорта." },
-  { no: "02", name: "ТЕМПОВИК",   hero: "3.7",   unit: "FTP/КГ · ВЕЛО",
-    stats: [["540","ОБЪЁМ КМ"],["28","Z3—Z4 %"],["1.2","ТЕМП/НЕД"]],
-    badge: "FTP +14 ВТ · Q1", tag: "Работает у порога." },
-  { no: "03", name: "СИСТЕМЩИК",  hero: "127",   unit: "ДНЕЙ ПОДРЯД",
-    stats: [["1.08","ACWR"],["87","НЕД 3+ %"],["78","ТРЕН 90Д"]],
-    badge: "STREAK · 127 ДНЕЙ", tag: "Регулярность важнее объёма." },
-  { no: "04", name: "МНОГОБОРЕЦ", hero: "127",   unit: "ЧАСОВ · 90 ДНЕЙ", multi: true,
-    stats: [["380","БЕГ КМ"],["2 100","ВЕЛО КМ"],["32","ПЛАВ КМ"]],
-    badge: "IRONMAN · FINISHER", tag: "Три дисциплины в балансе.",
-    split: [0.30, 0.55, 0.15] },
-  { no: "05", name: "ГОНЩИК",     hero: "1:38",  unit: "PR · ПОЛУМАРАФОН",
-    stats: [["5","СТАРТОВ"],["3","PR / 90Д"],["540","ОБЪЁМ КМ"]],
-    badge: "70.3 · 5:14", tag: "Сезон расписан за полгода." },
-  { no: "06", name: "НОВИЧОК",    hero: "42",    unit: "ДЕНЬ · СТАРТ",
-    stats: [["28","ТРЕН"],["156","КМ"],["3.4","/ НЕД"]],
-    badge: "БАЗА НАБИРАЕТСЯ", tag: "Day one — это уже архетип." },
+  { no: "01", name: "СТАЙЕР",     viz: "zones", vizData: [84,70,42,20,8],
+    tagline: "Длинно и ровно",
+    desc: "Аэробная база и низкий пульс. Сила в дистанции и терпении, а не в спринте.",
+    stats: [["680","ОБЪЁМ КМ · 90Д"],["84%","В ЗОНАХ Z1—Z2"],["48","ПУЛЬС ПОКОЯ"]] },
+  { no: "02", name: "ТЕМПОВИК",   viz: "zones", vizData: [40,52,70,46,24],
+    tagline: "Работа у порога",
+    desc: "Острые интервалы и контроль FTP. Ты живёшь на грани темпа, а не в комфорте.",
+    stats: [["540","ОБЪЁМ КМ · 90Д"],["3.7","FTP / КГ"],["28%","В ЗОНАХ Z3—Z4"]] },
+  { no: "03", name: "СИСТЕМЩИК",  viz: "spark", vizData: [10,14,12,18,16,22,20,26,24,30,28,34,33,40],
+    tagline: "Без пропусков",
+    desc: "Постоянство важнее пиков. Форма растёт на регулярности, а не на подвигах.",
+    stats: [["127","ДНЕЙ ПОДРЯД"],["1.08","ACWR · БАЛАНС"],["78","ТРЕНИРОВОК"]] },
+  { no: "04", name: "МНОГОБОРЕЦ", viz: "radar", vizData: [0.62, 0.95, 0.42],
+    tagline: "Три спорта, один объём",
+    desc: "Бег, вело и плавание в балансе. Готовишь тело к длинной мультигонке.",
+    stats: [["380","БЕГ · КМ"],["2 100","ВЕЛО · КМ"],["32","ПЛАВ · КМ"]] },
+  { no: "05", name: "ГОНЩИК",     viz: "spark", vizData: [22,18,30,24,40,30,52,34,58,30,68,40,74,38],
+    tagline: "Заточен под старт",
+    desc: "Сезон расписан под гонки. Пики формы подведены точно к датам стартов.",
+    stats: [["5","СТАРТОВ · 90Д"],["3","ЛИЧНЫХ РЕКОРДА"],["1:38","ПОЛУМАРАФОН"]] },
+  { no: "06", name: "НОВИЧОК",    viz: "zones", vizData: [60,40,22,12,6],
+    tagline: "База набирается",
+    desc: "Первые недели в деле. Карточка станет точнее после 90 дней данных.",
+    stats: [["28","ТРЕНИРОВОК"],["156","ОБЪЁМ КМ"],["3.4","ТРЕН / НЕД"]] },
 ];
 
-// ─── archetype card (fluid width, fixed height) ───────────────
+// ─── рондель (знак бренда) ────────────────────────────────────
+function Rondel({ size = 20, fg = "var(--ink)", accent = "var(--accent)" }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" fill="none">
+      <circle cx="50" cy="50" r="29" stroke={accent} strokeWidth="13" />
+      <rect x="44" y="6" width="12" height="88" fill={fg} />
+    </svg>
+  );
+}
+
+// ─── data-viz: зоны пульса ────────────────────────────────────
+function ZoneBars({ data = [84,62,40,22,10], h = 46, w = 220 }) {
+  const max = Math.max(...data);
+  const bw = (w - (data.length - 1) * 6) / data.length;
+  return (
+    <svg width="100%" height={h} viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" fill="none">
+      {data.map((v, i) => {
+        const bh = Math.max(3, (v / max) * (h - 12)), x = i * (bw + 6);
+        return (
+          <g key={i}>
+            <rect x={x} y={h - bh} width={bw} height={bh} fill={i === 0 ? "var(--accent)" : "var(--ink)"}
+              opacity={i === 0 ? 1 : 1 - i * 0.14} />
+            <text x={x + bw / 2} y={h - 1} textAnchor="middle" fontFamily={MONO}
+              fontSize="7" fontWeight="700" fill="var(--ink)" opacity="0.65">Z{i + 1}</text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+// ─── data-viz: тренд нагрузки ─────────────────────────────────
+function Sparkline({ data = [12,18,14,22,19,28,24,33,27,38,31,44,40,52], w = 220, h = 46 }) {
+  const max = Math.max(...data), min = Math.min(...data), sx = w / (data.length - 1);
+  const Y = v => h - 5 - ((v - min) / (max - min || 1)) * (h - 12);
+  const d = data.map((v, i) => `${i ? "L" : "M"}${(i * sx).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
+  const lx = (data.length - 1) * sx, ly = Y(data[data.length - 1]);
+  return (
+    <svg width="100%" height={h} viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" fill="none">
+      <line x1="0" y1={h - 5} x2={w} y2={h - 5} stroke="var(--ink)" strokeWidth="1" opacity="0.22" />
+      <path d={d} stroke="var(--ink)" strokeWidth="2.4" fill="none" />
+      <rect x={lx - 3.5} y={ly - 3.5} width="7" height="7" fill="var(--accent)" />
+    </svg>
+  );
+}
+
+// ─── data-viz: триатлон-радар ─────────────────────────────────
+function TriRadar({ data = [0.82,0.95,0.55], size = 104 }) {
+  const c = size / 2, R = size / 2 - 16;
+  const ang = i => -Math.PI / 2 + (i * 2 * Math.PI) / 3;
+  const pt = (i, r) => [c + Math.cos(ang(i)) * R * r, c + Math.sin(ang(i)) * R * r];
+  const grid = r => [0,1,2].map(i => pt(i, r).join(",")).join(" ");
+  const poly = data.map((v, i) => pt(i, v).join(",")).join(" ");
+  const labels = ["БЕГ","ВЕЛО","ПЛАВ"];
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} fill="none">
+      {[1,0.66,0.33].map((r, k) => <polygon key={k} points={grid(r)} fill="none" stroke="var(--ink)" strokeWidth="1" opacity="0.26" />)}
+      {[0,1,2].map(i => { const [x, y] = pt(i, 1); return <line key={i} x1={c} y1={c} x2={x} y2={y} stroke="var(--ink)" strokeWidth="1" opacity="0.26" />; })}
+      <polygon points={poly} fill="var(--accent)" fillOpacity="0.85" stroke="var(--ink)" strokeWidth="2" />
+      {labels.map((l, i) => { const [x, y] = pt(i, 1.28); return <text key={i} x={x} y={y + 3} textAnchor="middle" fontFamily={MONO} fontSize="7" fontWeight="700" fill="var(--ink)">{l}</text>; })}
+    </svg>
+  );
+}
+
+// ─── авто-подгон имени под ширину колонки (responsive) ────────
+function FitName({ text, max = 50, min = 26 }) {
+  const wrapRef = React.useRef(null), nameRef = React.useRef(null);
+  React.useLayoutEffect(() => {
+    const fit = () => {
+      const wrap = wrapRef.current, el = nameRef.current;
+      if (!wrap || !el) return;
+      const avail = wrap.clientWidth;
+      if (avail <= 1) return;            // ширина ещё не разрешена — не пинимся к min
+      let s = max; el.style.fontSize = s + "px";
+      while (el.scrollWidth > avail && s > min) { s -= 1; el.style.fontSize = s + "px"; }
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    if (wrapRef.current) ro.observe(wrapRef.current);
+    // Geist 900 шире фолбэка. fonts.ready может быть уже resolved (шрифт в кеше)
+    // и его .then сработает ДО раскладки грида — поэтому переобмеряем через
+    // двойной rAF (после того как и ширина колонки, и метрики Geist применены).
+    const refit = () => requestAnimationFrame(() => requestAnimationFrame(fit));
+    if (document.fonts) {
+      if (document.fonts.ready) document.fonts.ready.then(refit);
+      try { document.fonts.load('900 50px "Geist"').then(refit); } catch {}
+    }
+    return () => ro.disconnect();
+  }, [text, max, min]);
+  return (
+    <div ref={wrapRef} style={{ flex: 1, minWidth: 0 }}>
+      <h3 ref={nameRef} style={{ margin: 0, fontSize: max, fontWeight: 900, letterSpacing: "-0.035em",
+        lineHeight: 0.86, textTransform: "uppercase", whiteSpace: "nowrap", color: "var(--ink)" }}>{text}</h3>
+    </div>
+  );
+}
+
+// ─── archetype card v3 (shareable artefact) ───────────────────
 function Card({ a, size = "md" }) {
-  const H = size === "lg" ? 556 : 500;
-  const maxW = size === "lg" ? 340 : 320;
-  const archSize = size === "lg" ? 38 : 30;
-  const heroSize = size === "lg" ? 100 : 86;
+  const H = size === "lg" ? 556 : 524;
+  const maxW = size === "lg" ? 400 : 380;
+  const vizLabel = a.viz === "radar" ? "БАЛАНС ДИСЦИПЛИН · 90Д"
+    : a.viz === "spark" ? "ОБЪЁМ ТРЕНИРОВОК · ТРЕНД" : "РАСПРЕДЕЛЕНИЕ ПУЛЬСА · %";
   return (
     <div style={{
-      width: "100%", maxWidth: maxW, height: H, background: "var(--accent)", color: "var(--accent-ink)",
-      fontFamily: SANS, position: "relative", overflow: "hidden",
-      boxSizing: "border-box", padding: 20, border: "3px solid var(--ink)",
+      width: "100%", maxWidth: maxW, height: H, background: "var(--bg)", color: "var(--ink)",
+      fontFamily: SANS, position: "relative", overflow: "hidden", boxSizing: "border-box",
+      padding: 24, border: "3px solid var(--ink)", display: "flex", flexDirection: "column",
     }}>
-      <div style={{ position: "absolute", top: 0, right: 0, width: 72, height: 72,
-        background: "var(--ink)" }} />
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center",
-        position: "relative", zIndex: 1, fontSize: 10, fontWeight: 900,
-        letterSpacing: "0.08em", textTransform: "uppercase" }}>
-        <span>● ФИЗКУЛЬТ</span>
-        <span style={{ color: "var(--accent)", fontFamily: MONO }}>{a.no}/06</span>
-      </div>
-      <div style={{ marginTop: 22, fontFamily: MONO, fontSize: 9, fontWeight: 700,
-        letterSpacing: "0.12em", textTransform: "uppercase", opacity: 0.85,
-        display: "flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
-        <span style={{ width: 5, height: 5, background: "var(--accent-ink)",
-          animation: "blink 1.6s steps(2) infinite" }} />
-        АНАЛИЗ · 90Д
-      </div>
-      <h3 style={{ margin: "6px 0 0", fontSize: archSize, fontWeight: 900,
-        letterSpacing: "-0.03em", lineHeight: 0.88, textTransform: "uppercase" }}>{a.name}</h3>
-      <div style={{ marginTop: 14, fontSize: heroSize, fontWeight: 900,
-        letterSpacing: "-0.05em", lineHeight: 0.82, fontVariantNumeric: "tabular-nums" }}>{a.hero}</div>
-      <div style={{ marginTop: 4, fontFamily: MONO, fontSize: 11, fontWeight: 700,
-        letterSpacing: "0.1em", textTransform: "uppercase" }}>{a.unit}</div>
-      {a.split ? (
-        <div style={{ marginTop: 16, display: "flex", gap: 3 }}>
-          {a.split.map((f, i) => (
-            <div key={i} style={{ flex: f, height: 14,
-              background: i === 0 ? "var(--accent-ink)" : "var(--ink)",
-              opacity: i === 2 ? 0.5 : 1 }} />
-          ))}
+      {/* header */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <Rondel size={20} />
+          <span style={{ fontSize: 12, fontWeight: 900, letterSpacing: "-0.01em" }}>
+            fizkult<span style={{ color: "var(--accent)" }}>.</span>ai
+          </span>
         </div>
-      ) : (
-        <div style={{ marginTop: 16, height: 8, background: "var(--ink)" }} />
-      )}
-      <div style={{ marginTop: 16, display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
+        <span style={{ fontFamily: MONO, fontSize: 11, fontWeight: 700, letterSpacing: "0.1em",
+          color: "var(--muted)" }}>АРХЕТИП {a.no} / 06</span>
+      </div>
+
+      {/* eyebrow */}
+      <div style={{ marginTop: 22, fontFamily: MONO, fontSize: 10, fontWeight: 700,
+        letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--accent)" }}>
+        ПРИМЕР · ПОСЛЕ 30 ТРЕНИРОВОК
+      </div>
+
+      {/* name — герой, с красным акцент-баром */}
+      <div style={{ marginTop: 10, display: "flex", alignItems: "stretch", gap: 12 }}>
+        <div style={{ width: 6, background: "var(--accent)", flexShrink: 0 }} />
+        <FitName text={a.name} max={size === "lg" ? 54 : 50} min={26} />
+      </div>
+
+      {/* tagline + описание */}
+      <div style={{ marginTop: 14, fontSize: 14, fontWeight: 800 }}>{a.tagline}.</div>
+      <p style={{ margin: "6px 0 0", fontSize: 13.5, lineHeight: 1.5, color: "var(--muted)", textWrap: "pretty" }}>{a.desc}</p>
+
+      {/* один наглядный график */}
+      <div style={{ marginTop: 18 }}>
+        <div style={{ fontFamily: MONO, fontSize: 9, fontWeight: 700, letterSpacing: "0.12em",
+          textTransform: "uppercase", color: "var(--muted)", marginBottom: 8 }}>{vizLabel}</div>
+        {a.viz === "zones" && <ZoneBars data={a.vizData} h={48} />}
+        {a.viz === "spark" && <Sparkline data={a.vizData} h={48} />}
+        {a.viz === "radar" && <TriRadar data={a.vizData} size={104} />}
+      </div>
+
+      {/* три факта */}
+      <div style={{ marginTop: "auto", paddingTop: 18, borderTop: "2px solid var(--ink)",
+        display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
         {a.stats.map(([v, l], i) => (
-          <div key={i} style={{ paddingRight: 6,
-            borderRight: i < 2 ? "1.5px solid currentColor" : "none", paddingLeft: i > 0 ? 8 : 0 }}>
-            <div style={{ fontSize: size === "lg" ? 22 : 19, fontWeight: 900,
-              letterSpacing: "-0.02em", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>{v}</div>
-            <div style={{ fontSize: 8, fontWeight: 900, letterSpacing: "0.06em",
-              textTransform: "uppercase", marginTop: 4, opacity: 0.7, lineHeight: 1.2 }}>{l}</div>
+          <div key={i}>
+            <div style={{ fontSize: 26, fontWeight: 900, letterSpacing: "-0.02em", lineHeight: 1,
+              color: "var(--accent)", fontVariantNumeric: "tabular-nums" }}>{v}</div>
+            <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.04em",
+              textTransform: "uppercase", marginTop: 5, color: "var(--muted)", lineHeight: 1.25 }}>{l}</div>
           </div>
         ))}
-      </div>
-      <div style={{ position: "absolute", left: 20, right: 20, bottom: 20 }}>
-        <div style={{ fontFamily: MONO, fontSize: 8, fontWeight: 700, letterSpacing: "0.14em",
-          textTransform: "uppercase", opacity: 0.7, marginBottom: 5 }}>
-          ПРИМЕР · после 30 тренировок
-        </div>
-        <div style={{ background: "var(--ink)", color: "var(--accent)", textAlign: "center",
-          padding: "9px 0", fontSize: size === "lg" ? 15 : 13, fontWeight: 900,
-          letterSpacing: "0.04em", textTransform: "uppercase" }}>{a.badge}</div>
       </div>
     </div>
   );
@@ -188,7 +287,7 @@ function Nav() {
       <div style={{ maxWidth: PAGE_W, margin: "0 auto", padding: m ? "14px 20px" : "18px 48px",
         display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ width: 10, height: 28, background: "var(--accent)" }} />
+          <Rondel size={26} />
           <div style={{ fontSize: 20, fontWeight: 900, letterSpacing: "-0.03em",
             textTransform: "uppercase" }}>ФИЗКУЛЬТ</div>
         </div>
@@ -228,7 +327,7 @@ function Hero() {
   return (
     <section style={{ background: "var(--bg)", position: "relative", overflow: "hidden" }}>
       {m ? null : (<>
-        <div style={{ position: "absolute", left: -140, bottom: -260, width: 460, height: 460,
+        <div style={{ position: "absolute", right: -150, bottom: -280, width: 460, height: 460,
           background: "var(--accent)", transform: "rotate(-12deg)", zIndex: 0 }} />
         <div style={{ position: "absolute", right: 360, top: -40, width: 8, height: 420,
           background: "var(--ink)", transform: "rotate(15deg)", zIndex: 0 }} />
@@ -237,7 +336,7 @@ function Hero() {
       <div style={{ maxWidth: PAGE_W, margin: "0 auto", padding: m ? "40px 20px 56px" : "60px 48px 84px",
         position: "relative", zIndex: 1, display: "grid",
         gridTemplateColumns: m ? "1fr" : "1.25fr 1fr", gap: m ? 36 : 40, alignItems: "center" }}>
-        <div>
+        <div style={{ display: m ? "flex" : "block", flexDirection: m ? "column" : undefined }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 8,
             padding: "5px 12px", background: "var(--accent)", color: "var(--accent-ink)",
             fontFamily: MONO, fontSize: 11, fontWeight: 700, letterSpacing: "0.14em",
@@ -248,7 +347,7 @@ function Hero() {
           <h1 style={{ margin: "20px 0 0", fontSize: m ? 46 : 98, fontWeight: 900,
             letterSpacing: "-0.05em", lineHeight: 0.84, textTransform: "uppercase",
             color: "var(--ink)" }}>
-            КАКОЙ ТЫ<br/><span style={{ color: "var(--accent)" }}>СПОРТСМЕН.</span>
+            КАКОЙ ТЫ<br/><span style={{ color: "var(--accent)" }}>СПОРТСМЕН?</span>
           </h1>
           <p style={{ margin: "22px 0 0", fontSize: m ? 16 : 17, lineHeight: 1.5, color: "var(--ink)",
             maxWidth: 460, fontWeight: 500 }}>
@@ -256,7 +355,7 @@ function Hero() {
             твой архетип за 2 минуты.
           </p>
 
-          <div style={{ marginTop: 24, display: "block", boxSizing: "border-box",
+          <div style={{ marginTop: 24, display: "block", boxSizing: "border-box", order: m ? 5 : 0,
             width: m ? "100%" : "auto", border: "2px solid var(--ink)", padding: "14px 18px",
             background: "var(--bg)" }}>
             {m ? (
@@ -284,10 +383,10 @@ function Hero() {
             </div>
           </div>
 
-          <div style={{ marginTop: 26 }}>
+          <div style={{ marginTop: 26, order: m ? 3 : 0 }}>
             <GatedCTA label="Узнать архетип →" href={BOT + "archetype_hero"} hint="2 мин · без email" full={m} />
           </div>
-          <div style={{ marginTop: 18, display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+          <div style={{ marginTop: 18, order: m ? 4 : 0, display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
             <span style={{ fontFamily: MONO, fontSize: 10, color: "#1A1A1A",
               letterSpacing: "0.12em", textTransform: "uppercase", whiteSpace: "nowrap" }}>Работает с</span>
             <span style={{ fontSize: 15, fontWeight: 800, letterSpacing: "-0.01em", color: "var(--ink)" }}>GARMIN</span>
@@ -360,12 +459,7 @@ function Gallery() {
         <div style={{ marginTop: m ? 36 : 56, display: "grid", gridTemplateColumns: cols,
           gap: 36, justifyItems: "center" }}>
           {ARCH.map(a => (
-            <div key={a.no} style={{ width: "100%", display: "flex", flexDirection: "column",
-              alignItems: "center", gap: 16 }}>
-              <Card a={a} />
-              <div style={{ fontSize: 16, fontWeight: 900, textTransform: "uppercase",
-                letterSpacing: "-0.01em", textAlign: "center" }}>{a.tag}</div>
-            </div>
+            <Card key={a.no} a={a} />
           ))}
         </div>
         <p style={{ margin: "32px 0 0", fontSize: 12, color: "#1A1A1A", fontFamily: MONO,
@@ -452,11 +546,11 @@ function Pricing() {
                   <span style={{ color: "var(--accent)", fontWeight: 900 }}>✓</span>{f}</li>
               ))}
             </ul>
-            <GatedCTA label="Оформить Pro" href={BOT + "pro"} full dark
+            <GatedCTA label="Оформить Pro" href={BOT + "pro_waitlist"} full dark
               btnStyle={{ background: "var(--accent)", color: "var(--accent-ink)", padding: "15px 0", fontSize: 13 }} />
             <div style={{ marginTop: 14, fontFamily: MONO, fontSize: 10, color: "#C9C2B5",
               letterSpacing: "0.06em", textTransform: "uppercase", textAlign: "center" }}>
-              Оплата через Telegram · отмена в любой момент
+              Оплата в боте · отмена в любой момент
             </div>
           </div>
         </div>
@@ -499,7 +593,7 @@ function Footer() {
         flexWrap: "wrap", gap: 28 }}>
         <div style={{ minWidth: 220 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
-            <div style={{ width: 6, height: 22, background: "var(--accent)" }} />
+            <Rondel size={22} fg="var(--bg)" accent="var(--accent)" />
             <div style={{ fontSize: 18, fontWeight: 900, letterSpacing: "-0.03em",
               textTransform: "uppercase" }}>ФИЗКУЛЬТ</div>
           </div>
@@ -510,7 +604,7 @@ function Footer() {
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <div style={{ fontFamily: MONO, fontSize: 10, color: "#C9C2B5", letterSpacing: "0.14em",
             textTransform: "uppercase" }}>Работает на</div>
-          <div style={{ fontSize: 13, color: "#C9C2B5" }}>Garmin · Strava · технология Anthropic Claude</div>
+          <div style={{ fontSize: 13, color: "#C9C2B5" }}>Garmin · Strava · AI-движок</div>
         </div>
         <div>
           <a href="/privacy-pdn.html" style={linkS}>Политика обработки ПДн</a>
@@ -530,6 +624,57 @@ function Footer() {
   );
 }
 
+// ─── Instagram/FB in-app WebView fallback ─────────────────────
+// OAuth Garmin/Strava ломается во встроенном браузере IG Stories —
+// просим открыть в системном браузере. Конструктивистская модалка.
+function IGFallback() {
+  const [show, setShow] = React.useState(false);
+  const [copied, setCopied] = React.useState(false);
+  React.useEffect(() => {
+    const ua = navigator.userAgent || "";
+    const inApp = /Instagram|FBAN|FBAV|FB_IAB/i.test(ua);
+    if (inApp && !sessionStorage.getItem("fk_ig_dismissed")) setShow(true);
+  }, []);
+  if (!show) return null;
+  const close = () => { try { sessionStorage.setItem("fk_ig_dismissed", "1"); } catch {} setShow(false); };
+  const copy = () => {
+    const url = window.location.href;
+    const done = () => { setCopied(true); setTimeout(() => setCopied(false), 2000); };
+    if (navigator.clipboard) navigator.clipboard.writeText(url).then(done).catch(done); else done();
+  };
+  return (
+    <div onClick={close} style={{ position: "fixed", inset: 0, zIndex: 9999,
+      background: "rgba(26,26,26,0.78)", display: "flex", alignItems: "flex-end",
+      justifyContent: "center", fontFamily: SANS }}>
+      <div onClick={e => e.stopPropagation()} style={{ width: "100%", maxWidth: 460,
+        background: "var(--bg)", border: "3px solid var(--ink)", borderBottom: "none",
+        boxSizing: "border-box", padding: "24px 22px 28px", color: "var(--ink)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+          <Rondel size={24} />
+          <div style={{ fontFamily: MONO, fontSize: 11, fontWeight: 700, letterSpacing: "0.14em",
+            textTransform: "uppercase", color: "var(--accent)" }}>ОТКРОЙ В БРАУЗЕРЕ</div>
+        </div>
+        <h3 style={{ margin: 0, fontSize: 26, fontWeight: 900, letterSpacing: "-0.03em",
+          lineHeight: 0.95, textTransform: "uppercase" }}>Подключение работает<br/>в Safari / Chrome</h3>
+        <p style={{ margin: "12px 0 18px", fontSize: 14, lineHeight: 1.5, color: "var(--muted)" }}>
+          Встроенный браузер Instagram не пускает на вход Garmin / Strava.
+          Открой ссылку в обычном браузере — нажми «···» вверху и «Открыть в браузере».
+        </p>
+        <button onClick={copy} style={{ width: "100%", background: "var(--ink)", color: "var(--bg)",
+          border: "none", padding: "15px 0", fontSize: 13, fontWeight: 900, letterSpacing: "0.04em",
+          textTransform: "uppercase", cursor: "pointer", fontFamily: SANS }}>
+          {copied ? "Ссылка скопирована ✓" : "Скопировать ссылку"}
+        </button>
+        <button onClick={close} style={{ width: "100%", background: "none", color: "var(--muted)",
+          border: "none", padding: "12px 0 0", fontSize: 12, fontFamily: MONO, letterSpacing: "0.08em",
+          textTransform: "uppercase", cursor: "pointer" }}>
+          Продолжить здесь
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ─── full page · responsive + shared consent ─────────────────
 function ConstructivistLanding({ vars, forceVW }) {
   const auto = useVW();
@@ -546,6 +691,7 @@ function ConstructivistLanding({ vars, forceVW }) {
           {Inside ? <Inside /> : null}
           {NotDoing ? <NotDoing /> : null}
           <Pricing /><FinalCTA /><Footer />
+          <IGFallback />
         </div>
       </ConsentCtx.Provider>
     </RCtx.Provider>
