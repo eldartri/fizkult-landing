@@ -519,7 +519,7 @@ function Pricing() {
             border: "3px solid var(--ink)", position: "relative" }}>
             <div style={{ position: "absolute", top: -13, left: 24, background: "var(--accent)",
               color: "var(--accent-ink)", fontFamily: MONO, fontSize: 10, fontWeight: 700,
-              letterSpacing: "0.14em", textTransform: "uppercase", padding: "4px 10px", whiteSpace: "nowrap" }}>ПОЛНЫЙ ДОСТУП</div>
+              letterSpacing: "0.14em", textTransform: "uppercase", padding: "4px 10px", whiteSpace: "nowrap" }}>BETA · ВСЁ БЕСПЛАТНО ДО 1.07</div>
             <div style={{ marginTop: 8, fontSize: 26, fontWeight: 900, textTransform: "uppercase", letterSpacing: "-0.02em" }}>Pro</div>
             {/* toggle месяц / год */}
             <div style={{ marginTop: 14, display: "flex", gap: 0, maxWidth: 280 }}>
@@ -546,11 +546,11 @@ function Pricing() {
                   <span style={{ color: "var(--accent)", fontWeight: 900 }}>✓</span>{f}</li>
               ))}
             </ul>
-            <GatedCTA label="Оформить Pro" href={BOT + "pro_waitlist"} full dark
+            <GatedCTA label="Включить Pro" href={BOT + "pro_beta"} full dark
               btnStyle={{ background: "var(--accent)", color: "var(--accent-ink)", padding: "15px 0", fontSize: 13 }} />
             <div style={{ marginTop: 14, fontFamily: MONO, fontSize: 10, color: "#C9C2B5",
               letterSpacing: "0.06em", textTransform: "uppercase", textAlign: "center" }}>
-              Оплата в боте · отмена в любой момент
+              Beta: всё бесплатно до 1 июля · после — 1490 ₽/мес
             </div>
           </div>
         </div>
