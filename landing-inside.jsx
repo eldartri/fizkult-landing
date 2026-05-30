@@ -29,6 +29,11 @@ function IconShape({ type, size = 40 }) {
     <svg viewBox="0 0 40 40" style={common}><rect x="5" y="8" width="30" height="5" fill={ink}/>
       <rect x="5" y="18" width="22" height="5" fill={acc}/><rect x="5" y="28" width="14" height="5" fill={ink}/></svg>
   );
+  if (type === "discipline") return (
+    <svg viewBox="0 0 40 40" style={common}><circle cx="7" cy="20" r="6" fill={acc}/>
+      <rect x="16" y="14" width="11" height="12" fill={ink}/>
+      <polygon points="33,14 40,27 26,27" fill={ink}/></svg>
+  );
   // race — target
   return (
     <svg viewBox="0 0 40 40" style={common}><circle cx="20" cy="20" r="15" fill="none" stroke={ink} strokeWidth="3"/>
@@ -50,7 +55,7 @@ function TgMock({ time, lines, tag }) {
         color: "var(--accent)", textTransform: "uppercase", marginBottom: 8,
         display: "flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
         <span style={{ width: 5, height: 5, background: "var(--accent)" }} />
-        @FIZKULT_BOT{time ? " · " + time : ""}
+        @FIZKULT_AI_BOT{time ? " · " + time : ""}
       </div>
       {lines.map((l, i) => (
         <p key={i} style={{ margin: i ? "8px 0 0" : 0, fontSize: 13, lineHeight: 1.5,
@@ -78,6 +83,17 @@ const FEATURES = [
     tg: { time: "07:30", lines: [
       { t: "Доброе утро. Сон 5ч 24м, качество 64/100 — главный фактор дня. HRV 36 мс, выше средней. Готовность 50/100." },
       { t: "→ <b>Рекомендую</b> сдвинуть интервальную на завтра. Сегодня — easy run в зоне 2." },
+    ] } },
+  { icon: "discipline", tier: "BETA-PRO ВКЛЮЧЁН", head: "Статус 3 дисциплин — без оценок",
+    body: "Каждая дисциплина — отдельная история. /discipline показывает когда последний раз был бег, велосипед, плавание. Не оценивает, не торопит. Просто статус: что свежо, что выпало из ритма, что сбалансировано. И 2 варианта на сегодня — твой выбор.",
+    tg: { tag: "/DISCIPLINE", lines: [
+      { mono: true, t: '<span style="color:var(--accent)">●</span> <b>Плавание</b> · 4 дн · 2 км · 45 мин' },
+      { mono: true, t: '<span style="color:var(--accent)">▬</span> <b>Велосипед</b> · 3 дн · 45 км · Z2 · 1:40' },
+      { mono: true, t: '<span style="color:var(--accent)">▲</span> <b>Бег</b> · 1 дн · 8 км · 48 мин · 6:00/км' },
+      { t: "<b>Паттерн:</b> все три за 7 дней. Бег 34%, вело 63%, плавание 3% — крен в вело." },
+      { t: "<b>Что можно сейчас:</b>" },
+      { dim: true, t: "— Плавание 1.5—2 км, техника: выровнять баланс к старту в Казани (76 дн)." },
+      { dim: true, t: "— Бег Z2 60 мин: если ноги после вчера спокойные." },
     ] } },
   { icon: "coach", tier: "PRO", head: "AI-аналитик, который читает твои данные",
     body: "Любой вопрос: «стоит ли завтра темповую?», «почему я тащусь третью неделю?». Читает твою историю Garmin + Strava + план тренера + календарь стартов и отвечает с объяснением «почему». Не заменяет тренера — работает рядом.",
