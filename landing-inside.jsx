@@ -199,4 +199,97 @@ function NotDoing() {
   );
 }
 
-Object.assign(window, { WhatsInside, NotDoing });
+// ─── ─── ─── Блок «На чём это построено» (МЕТОДОЛОГИЯ) ─── ─── ───
+const METHODS = [
+  {
+    eyebrow: "КУПЕР · 2024 (ОБНОВЛ. ГЭББЕТТА 2016)",
+    name: "ACWR",
+    body: "Соотношение нагрузки за 7 и 28 дней. Выход за коридор 0.8–1.3 повышает риск травмы в 1.5–2×. Применяют Liverpool FC, Toronto Raptors, сборная Норвегии по триатлону.",
+    where: "→ В УТРЕННЕМ БРИФЕ",
+  },
+  {
+    eyebrow: "КАСАДО · 2023 (ПРОДОЛЖ. СЕЙЛЕРА 2010)",
+    name: "ПОЛЯРИЗАЦИЯ 80/20",
+    body: "80% времени в Z1—Z2, 20% в Z4+. Минимум серой Z3. Тренировался по этому Элиуд Кипчоге (марафон 1:59:40), Йосуа Чептегеи (мировые рекорды 5K + 10K).",
+    where: "→ В РАЗБОРЕ АРХЕТИПА",
+  },
+  {
+    eyebrow: "ПЛЕВС · 2017, ДЮКИНГ · 2021",
+    name: "HRV BASELINE",
+    body: "Сравниваем твой rMSSD с личным baseline ±1σ. Стабильное отклонение вниз = недовосстановление. Используют норвежская и шведская федерации лыжных гонок.",
+    where: "→ В УТРЕННЕМ БРИФЕ",
+  },
+  {
+    eyebrow: "ДАНИЭЛС · 2014 · КОГГАН · 2010",
+    name: "ЗОНЫ ПО СПОРТУ",
+    body: "VDOT-pace для бега, FTP-power для вело, CSS-pace для плавания. Зоны от твоего уровня, не от max HR из паспорта. На этом основан training Лайонела Сандерса (PB Ironman 7:34) и Густава Идена (Kona 2022).",
+    where: "→ В /COACH И /PORTRAIT",
+  },
+  {
+    eyebrow: "НОРВЕЖСКИЙ МЕТОД · BU · 2023",
+    name: "ФАЗА ПОДГОТОВКИ К СТАРТУ",
+    body: "Base → Build → Peak → Taper. Тип сессий зависит от дней до старта, не от календарной недели. Эту систему норвежский тренер Олав Бу применил с Блюменфельтом (Олимпиада 2021, рекорд Ironman 7:21).",
+    where: "→ В /RACE",
+  },
+  {
+    eyebrow: "LEAF & RYAN · 2024 (РАЗВИТИЕ SDT 1985)",
+    name: "АВТОНОМИЯ ВЫБОРА",
+    body: "AI не говорит «делай». Даёт выбор: «если силы — Z2 60 мин, если устал — 30 Z1». Принцип норвежской и нидерландской школ коучинга — лучшие endurance-страны последних 5 лет.",
+    where: "→ ВО ВСЕХ КОМАНДАХ",
+  },
+];
+
+function Methodology() {
+  const { m } = React.useContext(window.RCtx);
+  return (
+    <section id="methodology" style={{ background: "var(--bg)" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: m ? "56px 20px" : "96px 48px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+          <div style={{ width: 40, height: 8, background: "var(--accent)" }} />
+          <div style={{ fontFamily: MONO_I, fontSize: 11, letterSpacing: "0.18em",
+            color: "#1A1A1A", textTransform: "uppercase" }}>Методология · Источники</div>
+        </div>
+        <h2 style={{ margin: 0, fontSize: m ? 34 : 68, fontWeight: 900, letterSpacing: "-0.04em",
+          lineHeight: 0.92, color: "var(--ink)", textTransform: "uppercase", maxWidth: 900 }}>
+          На чём это <span style={{ color: "var(--accent)" }}>построено.</span>
+        </h2>
+        <p style={{ margin: "20px 0 0", fontSize: m ? 16 : 18, lineHeight: 1.5,
+          color: "var(--muted)", maxWidth: 640 }}>
+          Каждый утренний разбор и каждый ответ AI опирается на конкретный метод спортивной науки.
+          Ниже — авторы, годы, и где это включается в продукте.
+        </p>
+
+        <div style={{ marginTop: m ? 36 : 56, display: "grid",
+          gridTemplateColumns: m ? "1fr" : "1fr 1fr 1fr", gap: m ? 20 : 28 }}>
+          {METHODS.map((meth, i) => (
+            <div key={i} style={{ border: "3px solid var(--ink)", padding: "26px 26px 22px",
+              background: "var(--panel)", display: "flex", flexDirection: "column" }}>
+              <div style={{ fontFamily: MONO_I, fontSize: 10, fontWeight: 700,
+                letterSpacing: "0.12em", textTransform: "uppercase",
+                color: "var(--accent)", marginBottom: 12 }}>{meth.eyebrow}</div>
+              <h3 style={{ margin: 0, fontSize: m ? 22 : 26, fontWeight: 900,
+                letterSpacing: "-0.03em", lineHeight: 1.0,
+                textTransform: "uppercase", color: "var(--ink)" }}>{meth.name}</h3>
+              <p style={{ margin: "14px 0 18px", fontSize: 14.5, lineHeight: 1.5,
+                color: "var(--muted)", flex: 1 }}>{meth.body}</p>
+              <div style={{ borderTop: "1px solid rgba(26,26,26,0.14)", paddingTop: 14,
+                fontFamily: MONO_I, fontSize: 10, fontWeight: 700,
+                letterSpacing: "0.1em", textTransform: "uppercase",
+                color: "var(--accent)" }}>{meth.where}</div>
+            </div>
+          ))}
+        </div>
+
+        <p style={{ marginTop: m ? 28 : 40, fontSize: 11, fontStyle: "italic",
+          color: "var(--muted)", textAlign: "center", lineHeight: 1.5, maxWidth: 760,
+          marginLeft: "auto", marginRight: "auto" }}>
+          Методы — те же, что применяют тренеры топ-10 endurance-стран.
+          Мы не изобретаем, а помогаем не нарушать.
+          Полный список источников — /methodology в боте.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+Object.assign(window, { WhatsInside, NotDoing, Methodology });

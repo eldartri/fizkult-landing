@@ -681,7 +681,7 @@ function ConstructivistLanding({ vars, forceVW }) {
   const vw = forceVW || auto;
   const m = vw <= 760;
   const [consent, setConsent] = React.useState(false);
-  const Inside = window.WhatsInside, NotDoing = window.NotDoing;
+  const Inside = window.WhatsInside, NotDoing = window.NotDoing, Methodology = window.Methodology;
   return (
     <RCtx.Provider value={{ m, vw }}>
       <ConsentCtx.Provider value={{ consent, setConsent }}>
@@ -690,6 +690,7 @@ function ConstructivistLanding({ vars, forceVW }) {
           <Nav /><Hero /><How /><Gallery />
           {Inside ? <Inside /> : null}
           {NotDoing ? <NotDoing /> : null}
+          {Methodology ? <Methodology /> : null}
           <Pricing /><FinalCTA /><Footer />
           <IGFallback />
         </div>
