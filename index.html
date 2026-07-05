@@ -3,147 +3,436 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Физкульт — личный тренер в Telegram. Но с цифрами.</title>
-<meta name="description" content="Физкульт читает твои Garmin и Strava и говорит, что делать сегодня: тренироваться, полегче или отдыхать. Личный тренер в Telegram. 7 дней бесплатно.">
-<meta property="og:title" content="Физкульт — личный тренер в Telegram">
-<meta property="og:description" content="Читает твои Garmin и Strava. Говорит, что делать сегодня. Пишет сам, когда замечает важное.">
+<title>Физкульт — личный тренер в Telegram: читает твой Garmin и говорит, что делать сегодня</title>
+<meta name="description" content="Часы Garmin копят твои цифры — Физкульт их читает. Каждое утро говорит, что делать: работать, полегче или отдыхать. Сам пишет первым, когда что-то не так. 7 дней бесплатно, без карты, отмена одной командой.">
+<meta property="og:title" content="Твои часы всё видят. Физкульт — читает и говорит, что делать">
+<meta property="og:description" content="Личный тренер в Telegram для тех, кто бегает, крутит и плавает с Garmin. Помнит твою историю, пишет первым, когда что-то не так. 7 дней бесплатно.">
 <meta property="og:url" content="https://fizkult.ai">
 <meta property="og:type" content="website">
 <link rel="icon" href="assets/favicon/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg:#EFE6D6; --bg-alt:#E5D9C3; --panel:#FFFFFF; --ink:#1A1A1A;
-    --muted:#5B5347; --accent:#C8261A; --accent-ink:#EFE6D6; --line:#1A1A1A;
+    --muted:#5B5347; --muted-d:#C9C2B5; --accent:#C8261A; --accent-ink:#EFE6D6; --line:#1A1A1A;
   }
   * { box-sizing:border-box; }
   html { scroll-behavior:smooth; }
   body { margin:0; background:var(--bg); color:var(--ink);
-    font-family:"Geist",system-ui,sans-serif; line-height:1.55; }
-  .wrap { max-width:1080px; margin:0 auto; padding:0 20px; }
+    font-family:"Geist",system-ui,sans-serif; line-height:1.55;
+    font-variant-numeric:tabular-nums; }
+  ::selection { background:var(--accent); color:var(--accent-ink); }
+  .wrap { max-width:1120px; margin:0 auto; padding:0 20px; }
   .mono { font-family:"Geist Mono",monospace; }
-  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.16em;
-    text-transform:uppercase; color:var(--accent); margin-bottom:14px; }
+  a { color:inherit; }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline:3px solid var(--accent); outline-offset:3px; }
+  .dark a:focus-visible, .dark summary:focus-visible, footer a:focus-visible { outline-color:var(--bg); }
+  .skip { position:absolute; left:-9999px; top:0; background:var(--ink); color:var(--bg);
+    padding:10px 16px; z-index:100; font-weight:700; }
+  .skip:focus { left:0; }
+
+  /* kicker with section number chip */
+  .kicker { display:flex; align-items:center; gap:10px; font-family:"Geist Mono",monospace;
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase; margin-bottom:16px; }
+  .kicker .knum { background:var(--accent); color:var(--accent-ink); padding:2px 8px;
+    font-weight:700; letter-spacing:.1em; }
+  .dark .kicker { color:var(--bg); }
+
   h1,h2,h3 { letter-spacing:-.03em; text-transform:uppercase; font-weight:900; margin:0; }
-  h2 { font-size:clamp(24px,4vw,36px); margin-bottom:10px; }
-  .sub { color:var(--muted); font-size:16px; max-width:560px; margin:0; }
-  section { padding:72px 0; }
+  h2 { font-size:clamp(28px,4.6vw,46px); line-height:.96; margin-bottom:12px; }
+  h2 .red { color:var(--accent); }
+  .sub { color:var(--muted); font-size:16px; max-width:580px; margin:0; }
+  .dark .sub { color:var(--muted-d); }
+  section { padding:76px 0; }
+
   .btn { display:inline-block; background:var(--accent); color:var(--accent-ink);
-    border:1.5px solid var(--line); padding:15px 26px; font-weight:800; font-size:15px;
+    border:1.5px solid var(--line); padding:16px 28px; font-weight:800; font-size:15px;
     text-decoration:none; text-transform:uppercase; letter-spacing:.02em;
     box-shadow:4px 4px 0 var(--line); transition:transform .1s, box-shadow .1s; }
   .btn:hover { transform:translate(2px,2px); box-shadow:2px 2px 0 var(--line); }
   .btn.ghost { background:var(--panel); color:var(--ink); }
+  .btn.inv { background:var(--ink); color:var(--bg); box-shadow:4px 4px 0 var(--accent-ink); border-color:var(--accent-ink); }
+  .btn.inv:hover { box-shadow:2px 2px 0 var(--accent-ink); }
+  .btn-note { margin-top:12px; font-family:"Geist Mono",monospace; font-size:10px;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+  .final .btn-note { color:var(--accent-ink); opacity:.85; }
+
+  /* sticky mobile CTA (appears via JS after hero scrolls out; page works without JS) */
+  .sticky-cta { position:fixed; left:0; right:0; bottom:0; z-index:40; display:none;
+    align-items:center; justify-content:space-between; gap:14px;
+    background:var(--ink); color:var(--bg); border-top:1.5px solid var(--line);
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom)); }
+  .sticky-cta .sc-note { font-family:"Geist Mono",monospace; font-size:10px;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--muted-d); line-height:1.5; }
+  .sticky-cta .btn { padding:12px 18px; font-size:13px; box-shadow:3px 3px 0 var(--accent);
+    border-color:var(--bg); white-space:nowrap; }
+  .sticky-cta .btn:hover { box-shadow:2px 2px 0 var(--accent); }
+  @media (max-width:700px) { .js .sticky-cta.on { display:flex; } }
+
+  /* header */
   header { border-bottom:1.5px solid var(--line); background:var(--bg); position:sticky; top:0; z-index:10; }
-  .nav { display:flex; align-items:center; justify-content:space-between; padding:14px 0; }
+  .nav { display:flex; align-items:center; justify-content:space-between; padding:14px 0; gap:16px; }
   .logo { display:flex; align-items:center; gap:10px; font-weight:900; font-size:18px;
     text-transform:uppercase; letter-spacing:-.02em; }
-  .rondel { width:22px; height:22px; border-radius:50%; background:var(--ink); position:relative; flex-shrink:0; }
-  .rondel::after { content:""; position:absolute; inset:6px; border-radius:50%; background:var(--accent); }
+  .logo svg { flex-shrink:0; display:block; }
+  .nav-links { display:flex; align-items:center; gap:22px; font-family:"Geist Mono",monospace;
+    font-size:11px; letter-spacing:.1em; text-transform:uppercase; }
+  .nav-links a { text-decoration:none; }
+  .nav-links a:hover { color:var(--accent); }
   .nav a.cta { font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em;
-    color:var(--ink); text-decoration:underline; }
-  .hero { padding:88px 0 80px; border-bottom:1.5px solid var(--line); background:var(--bg); }
-  .hero h1 { font-size:clamp(38px,7vw,72px); line-height:.98; }
+    color:var(--accent-ink); background:var(--ink); padding:9px 14px; text-decoration:none;
+    box-shadow:3px 3px 0 var(--accent); white-space:nowrap; }
+  .nav a.cta:hover { transform:translate(1px,1px); box-shadow:2px 2px 0 var(--accent); }
+  .est { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em;
+    color:var(--muted); border:1.5px solid var(--line); padding:4px 9px; }
+
+  /* hero */
+  .hero { position:relative; overflow:hidden; padding:84px 0 88px; border-bottom:1.5px solid var(--line); }
+  .hero .wedge { position:absolute; right:-170px; bottom:-300px; width:480px; height:480px;
+    background:var(--accent); transform:rotate(-14deg); }
+  .hero .beam { position:absolute; right:330px; top:-60px; width:8px; height:460px;
+    background:var(--ink); transform:rotate(16deg); }
+  .hero .inner { position:relative; z-index:1; display:grid; grid-template-columns:1.15fr .85fr;
+    gap:48px; align-items:center; }
+  .hero h1 { font-size:clamp(40px,6.4vw,76px); line-height:.94; letter-spacing:-.04em; }
   .hero h1 .red { color:var(--accent); }
-  .hero p.lead { font-size:18px; color:var(--muted); max-width:540px; margin:22px 0 34px; }
-  .hero .tagline { font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.1em;
-    text-transform:uppercase; color:var(--muted); margin-top:18px; }
-  .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1.5px solid var(--line); background:var(--panel); }
-  .step { padding:26px 24px; border-right:1.5px solid var(--line); }
+  .hero p.lead { font-size:18px; color:var(--muted); max-width:520px; margin:24px 0 32px; }
+  .hero .tagline { font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--ink); margin-top:20px; font-weight:600; }
+  .stamps { display:flex; flex-wrap:wrap; gap:8px; margin-top:26px; }
+  .stamp { font-family:"Geist Mono",monospace; font-size:10px; font-weight:600; letter-spacing:.14em;
+    text-transform:uppercase; border:1.5px solid var(--line); padding:5px 10px; background:var(--bg); }
+  .stamp.red { background:var(--accent); color:var(--accent-ink); border-color:var(--line); }
+
+  /* morning ticket card */
+  .ticket { background:var(--panel); border:1.5px solid var(--line); box-shadow:6px 6px 0 var(--line);
+    padding:22px 22px 20px; max-width:400px; width:100%; justify-self:center; position:relative;
+    transform:rotate(-1.4deg); }
+  .ticket .thead { display:flex; justify-content:space-between; align-items:center;
+    font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); padding-bottom:12px; margin-bottom:14px; }
+  .ticket .thead .live { display:inline-flex; align-items:center; gap:7px; color:var(--accent); font-weight:700; }
+  .ticket .thead .live i { width:7px; height:7px; background:var(--accent); display:inline-block; }
+  .trow { display:flex; justify-content:space-between; align-items:baseline; padding:7px 0; }
+  .trow .k { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--muted); }
+  .trow .v { font-weight:900; font-size:20px; letter-spacing:-.02em; }
+  .trow .v small { font-family:"Geist Mono",monospace; font-size:10px; font-weight:600; color:var(--muted); margin-left:6px; letter-spacing:.04em; }
+  .trow .v .dn, .trow .v .up { color:var(--accent); }
+  .tviz { margin:10px 0 4px; }
+  .tviz .vl { font-family:"Geist Mono",monospace; font-size:9px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .hatch { height:12px; margin:16px 0 14px; border-top:1.5px solid var(--line); border-bottom:1.5px solid var(--line);
+    background:repeating-linear-gradient(-45deg, var(--ink) 0 2px, transparent 2px 9px); }
+  .verdict { background:var(--ink); color:var(--bg); padding:14px 16px; }
+  .verdict .vk { font-family:"Geist Mono",monospace; font-size:9px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--muted-d); margin-bottom:5px; }
+  .verdict .vt { font-weight:900; text-transform:uppercase; letter-spacing:-.01em; font-size:16px; line-height:1.25; }
+  .verdict .vt em { font-style:normal; color:#F0A79F; }
+  .ticket .corner { position:absolute; top:-13px; right:-12px; transform:rotate(6deg);
+    background:var(--accent); color:var(--accent-ink); font-family:"Geist Mono",monospace;
+    font-size:9px; font-weight:700; letter-spacing:.16em; padding:5px 10px; border:1.5px solid var(--line); }
+
+  /* marquee */
+  .marquee { background:var(--ink); border-bottom:1.5px solid var(--line); overflow:hidden;
+    display:flex; padding:13px 0; }
+  .marquee .track { display:flex; flex-shrink:0; min-width:100%; animation:mq 30s linear infinite; }
+  .mq-item { color:var(--bg); font-family:"Geist Mono",monospace; font-size:12px; font-weight:600;
+    letter-spacing:.16em; text-transform:uppercase; white-space:nowrap; padding:0 14px;
+    display:inline-flex; align-items:center; gap:28px; }
+  .mq-item .sq { width:9px; height:9px; background:var(--accent); display:inline-block; flex-shrink:0; }
+  @keyframes mq { to { transform:translateX(-100%); } }
+  @media (prefers-reduced-motion: reduce) { .marquee .track { animation:none; } }
+
+  /* steps */
+  .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1.5px solid var(--line);
+    background:var(--panel); box-shadow:6px 6px 0 var(--line); margin-top:38px; }
+  .step { padding:28px 26px 30px; border-right:1.5px solid var(--line); position:relative; }
   .step:last-child { border-right:none; }
-  .step .n { font-family:"Geist Mono",monospace; font-size:12px; color:var(--accent); letter-spacing:.1em; }
-  .step h3 { font-size:16px; margin:10px 0 8px; }
+  .step .n { font-family:"Geist Mono",monospace; font-size:12px; font-weight:700; color:var(--accent-ink);
+    background:var(--accent); display:inline-block; padding:3px 9px; letter-spacing:.1em; }
+  .step h3 { font-size:19px; margin:16px 0 10px; line-height:1.05; }
   .step p { margin:0; font-size:14px; color:var(--muted); }
-  .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:34px; }
+
+  /* dark sections */
+  .dark { background:var(--ink); color:var(--bg); border-top:1.5px solid var(--line); border-bottom:1.5px solid var(--line); }
+  .dark h2 { color:var(--bg); }
+  .dark h2 .red { color:var(--accent); }
+
+  /* telegram chat */
+  .tg { max-width:660px; margin-top:40px; border:1.5px solid var(--bg); box-shadow:8px 8px 0 var(--accent); }
+  .tg-head { display:flex; align-items:center; gap:12px; padding:13px 18px;
+    border-bottom:1.5px solid var(--bg); background:var(--ink); }
+  .tg-head .tname { font-weight:900; text-transform:uppercase; letter-spacing:-.01em; font-size:14px; }
+  .tg-head .tstat { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--muted-d); margin-left:auto; }
+  .tg-body { padding:22px 18px 24px; display:flex; flex-direction:column; gap:16px; }
+  .msg { max-width:82%; padding:14px 16px; font-size:14.5px; line-height:1.55; border:1.5px solid var(--line); }
+  .msg .mt { display:block; font-family:"Geist Mono",monospace; font-size:9px; letter-spacing:.14em;
+    text-transform:uppercase; margin-bottom:7px; }
+  .msg.coach { background:var(--panel); color:var(--ink); align-self:flex-start;
+    box-shadow:4px 4px 0 var(--accent); }
+  .msg.coach .mt { color:var(--accent); font-weight:700; }
+  .msg.user { background:var(--bg-alt); color:var(--ink); align-self:flex-end;
+    box-shadow:-4px 4px 0 var(--accent); }
+  .msg.user .mt { color:var(--muted); text-align:right; }
+  .msg b { font-weight:800; }
+  .tg-note { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.08em;
+    color:var(--muted-d); margin-top:18px; max-width:660px; line-height:1.7; text-transform:uppercase; }
+  .tg-note b { color:var(--bg); }
+
+  /* scenario grid */
+  .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:38px; }
   .card { background:var(--panel); border:1.5px solid var(--line); padding:20px;
-    box-shadow:4px 4px 0 var(--line); }
+    box-shadow:4px 4px 0 var(--line); position:relative; transition:transform .12s, box-shadow .12s; }
+  .card:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--line); }
+  .card::before { content:""; position:absolute; top:0; left:0; width:34px; height:5px; background:var(--accent); }
+  .card .chead { display:flex; justify-content:space-between; align-items:baseline; margin-top:6px; }
   .card .tag { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.12em;
-    text-transform:uppercase; color:var(--accent); }
-  .card h3 { font-size:15px; margin:8px 0 8px; }
+    text-transform:uppercase; color:var(--accent); font-weight:600; }
+  .card .cn { font-family:"Geist Mono",monospace; font-size:10px; color:var(--muted); letter-spacing:.1em; }
+  .card h3 { font-size:15.5px; margin:9px 0 8px; }
   .card p { margin:0; font-size:13px; color:var(--muted); line-height:1.5; }
-  .strip { background:var(--ink); color:var(--bg); border-top:1.5px solid var(--line); border-bottom:1.5px solid var(--line); }
-  .strip .inner { padding:44px 0; }
-  .strip blockquote { margin:0; font-size:clamp(18px,3vw,26px); font-weight:700; letter-spacing:-.01em;
-    max-width:820px; line-height:1.35; }
-  .strip .who { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.12em;
-    text-transform:uppercase; color:#C9C2B5; margin-top:16px; }
-  .plans { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:36px; align-items:start; }
-  .plan { background:var(--panel); border:1.5px solid var(--line); padding:26px 24px; box-shadow:4px 4px 0 var(--line); }
-  .plan.hot { background:var(--ink); color:var(--bg); }
-  .plan .name { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
-  .plan .price { font-size:34px; font-weight:900; letter-spacing:-.03em; margin:10px 0 2px; }
-  .plan .per { font-family:"Geist Mono",monospace; font-size:11px; color:var(--muted); }
-  .plan.hot .per { color:#C9C2B5; }
-  .plan ul { list-style:none; padding:0; margin:18px 0 22px; }
-  .plan li { font-size:13.5px; padding:7px 0 7px 22px; position:relative; border-top:1px dashed rgba(0,0,0,.18); }
-  .plan.hot li { border-top:1px dashed rgba(255,255,255,.2); }
+
+  /* decisions: numbers -> verdict */
+  .alt { background:var(--bg-alt); border-top:1.5px solid var(--line); }
+  .duo { display:grid; grid-template-columns:1fr 64px 1fr; gap:20px; align-items:stretch; margin-top:40px; }
+  .duo .panel { background:var(--panel); border:1.5px solid var(--line); box-shadow:6px 6px 0 var(--line); padding:24px; }
+  .duo .panel.inkp { background:var(--ink); color:var(--bg); box-shadow:6px 6px 0 var(--accent);
+    display:flex; flex-direction:column; justify-content:center; }
+  .duo .ph { font-family:"Geist Mono",monospace; font-size:10px; font-weight:700; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+  .duo .inkp .ph { color:var(--muted-d); }
+  .duo .arrow { display:flex; align-items:center; justify-content:center; }
+  .duo .arrow svg { display:block; }
+  .duo .big { font-size:clamp(22px,2.6vw,30px); font-weight:900; text-transform:uppercase;
+    letter-spacing:-.02em; line-height:1.08; }
+  .duo .big .red { color:#F0A79F; }
+  .duo .small { margin:14px 0 0; font-size:14px; color:var(--muted-d); }
+
+  /* pricing */
+  .plans { display:grid; grid-template-columns:1fr 1fr 1.08fr; gap:18px; margin-top:44px; align-items:stretch; }
+  .plan { background:var(--panel); border:1.5px solid var(--line); padding:28px 26px;
+    box-shadow:4px 4px 0 var(--line); position:relative; display:flex; flex-direction:column; }
+  .plan.hot { background:var(--ink); color:var(--bg); box-shadow:8px 8px 0 var(--accent); }
+  .plan .badge { position:absolute; top:-14px; left:22px; background:var(--accent); color:var(--accent-ink);
+    font-family:"Geist Mono",monospace; font-size:10px; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; padding:4px 11px; border:1.5px solid var(--line); white-space:nowrap; }
+  .plan .name { font-family:"Geist Mono",monospace; font-size:11px; font-weight:700; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--accent); }
+  .plan .who { font-size:13.5px; font-weight:600; color:var(--muted); margin-top:9px; }
+  .plan.hot .who { color:var(--muted-d); }
+  .plan .price { font-size:42px; font-weight:900; letter-spacing:-.03em; margin:12px 0 2px; line-height:1; }
+  .plan .per { font-family:"Geist Mono",monospace; font-size:11px; color:var(--muted); letter-spacing:.06em; }
+  .plan.hot .per { color:var(--muted-d); }
+  .plan ul { list-style:none; padding:0; margin:20px 0 24px; flex:1; }
+  .plan li { font-size:13.5px; padding:8px 0 8px 22px; position:relative; border-top:1px dashed rgba(0,0,0,.2); }
+  .plan.hot li { border-top:1px dashed rgba(255,255,255,.22); }
   .plan li::before { content:"→"; position:absolute; left:0; color:var(--accent); font-weight:700; }
-  .plan .btn { width:100%; text-align:center; padding:13px 10px; font-size:13px; }
-  .plan .note { font-size:12px; color:var(--muted); margin-top:12px; }
-  .plan.hot .note { color:#C9C2B5; }
-  .honest { background:var(--bg-alt); border-top:1.5px solid var(--line); }
-  .honest .box { border:1.5px solid var(--line); background:var(--panel); padding:26px 28px; max-width:720px; }
-  .honest .box p { margin:0 0 10px; font-size:14px; }
+  .plan.hot li::before { color:#F0A79F; }
+  .plan .btn { width:100%; text-align:center; padding:14px 10px; font-size:13px; }
+  .plan.hot .btn { box-shadow:4px 4px 0 var(--accent-ink); border-color:var(--accent-ink); }
+  .plan.hot .btn:hover { box-shadow:2px 2px 0 var(--accent-ink); }
+  .plan .note { font-size:12px; color:var(--muted); margin-top:14px; }
+  .plan.hot .note { color:var(--muted-d); }
+
+  /* honest */
+  .honest .box { border:1.5px solid var(--bg); background:var(--panel); color:var(--ink);
+    padding:28px 30px; max-width:760px; margin-top:34px; box-shadow:8px 8px 0 var(--accent); }
+  .honest .box p { margin:0 0 12px; font-size:15px; }
   .honest .box p:last-child { margin:0; }
-  .final { text-align:center; border-top:1.5px solid var(--line); }
-  .final h2 { font-size:clamp(26px,5vw,44px); }
-  .final p { color:var(--muted); margin:14px auto 32px; max-width:480px; }
-  footer { background:var(--ink); color:var(--bg); border-top:1.5px solid var(--line); }
-  .foot { display:flex; justify-content:space-between; flex-wrap:wrap; gap:28px; padding:44px 0; }
-  .foot .about p { margin:8px 0 0; font-size:13px; color:#C9C2B5; max-width:300px; }
+  .honest .box b { text-transform:uppercase; letter-spacing:-.01em; }
+  .honest .box b .red { color:var(--accent); }
+
+  /* faq */
+  .faq { max-width:760px; margin-top:38px; border:1.5px solid var(--line); background:var(--panel);
+    box-shadow:6px 6px 0 var(--line); }
+  .faq details { border-bottom:1.5px solid var(--line); }
+  .faq details:last-child { border-bottom:none; }
+  .faq summary { list-style:none; cursor:pointer; display:flex; justify-content:space-between;
+    align-items:center; gap:16px; padding:19px 22px; font-weight:800; font-size:15.5px;
+    text-transform:uppercase; letter-spacing:-.01em; }
+  .faq summary::-webkit-details-marker { display:none; }
+  .faq summary::after { content:"+"; font-family:"Geist Mono",monospace; font-size:20px; font-weight:600;
+    color:var(--accent); flex-shrink:0; line-height:1; transition:transform .15s; }
+  .faq details[open] summary::after { transform:rotate(45deg); }
+  .faq details[open] summary { background:var(--bg); }
+  .faq .a { padding:0 22px 20px; font-size:14px; color:var(--muted); max-width:640px; }
+  .faq .a p { margin:12px 0 0; }
+  .faq .a a { color:var(--ink); }
+
+  /* final CTA */
+  .final { background:var(--accent); color:var(--accent-ink); text-align:center;
+    position:relative; overflow:hidden; border-top:1.5px solid var(--line); padding:96px 0; }
+  .final .wedge { position:absolute; left:-120px; top:-140px; width:340px; height:340px;
+    background:var(--ink); transform:rotate(18deg); opacity:.16; }
+  .final .inner { position:relative; z-index:1; }
+  .final h2 { color:var(--accent-ink); font-size:clamp(30px,5.4vw,54px); }
+  .final p { color:var(--accent-ink); margin:18px auto 34px; max-width:500px; font-weight:600; }
+  .final .tagline { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.16em;
+    text-transform:uppercase; margin-top:26px; opacity:.85; }
+
+  /* footer */
+  footer { background:var(--ink); color:var(--bg); }
+  .foot { display:flex; justify-content:space-between; flex-wrap:wrap; gap:32px; padding:48px 0; }
+  .foot .about p { margin:10px 0 0; font-size:13px; color:var(--muted-d); max-width:300px; }
+  .foot .col-h { font-family:"Geist Mono",monospace; font-size:10px; color:var(--muted-d);
+    letter-spacing:.16em; text-transform:uppercase; margin-bottom:10px; }
   .foot a { color:var(--bg); font-family:"Geist Mono",monospace; font-size:11px;
-    letter-spacing:.06em; display:block; padding:3px 0; }
-  .legal { border-top:1px solid rgba(255,255,255,.12); padding:18px 0; }
-  .legal p { margin:0; font-family:"Geist Mono",monospace; font-size:10px; color:#C9C2B5;
+    letter-spacing:.06em; display:block; padding:4px 0; }
+  .legal { border-top:1px solid rgba(255,255,255,.14); padding:20px 0; }
+  .legal p { margin:0; font-family:"Geist Mono",monospace; font-size:10px; color:var(--muted-d);
     letter-spacing:.06em; line-height:1.7; }
-  @media (max-width:900px) {
+
+  /* reveal on scroll (JS progressive enhancement, motion-safe only) */
+  @media (prefers-reduced-motion: no-preference) {
+    .js .rv { opacity:0; transform:translateY(16px); transition:opacity .5s ease, transform .5s ease; }
+    .js .rv.in { opacity:1; transform:none; }
+  }
+
+  /* responsive */
+  @media (max-width:1000px) {
     .grid { grid-template-columns:repeat(2,1fr); }
+    .hero .inner { grid-template-columns:1fr; gap:44px; }
+    .hero .beam { display:none; }
+    .ticket { transform:none; justify-self:start; }
+    .duo { grid-template-columns:1fr; gap:16px; }
+    .duo .arrow svg { transform:rotate(90deg); }
+    .nav-links { display:none; }
+  }
+  @media (max-width:900px) {
     .steps { grid-template-columns:1fr; }
     .step { border-right:none; border-bottom:1.5px solid var(--line); }
     .step:last-child { border-bottom:none; }
-    .plans { grid-template-columns:1fr; }
+    .plans { grid-template-columns:1fr; gap:26px; }
+    .msg { max-width:92%; }
   }
-  @media (max-width:520px) { .grid { grid-template-columns:1fr; } section { padding:56px 0; } }
+  @media (max-width:560px) {
+    .grid { grid-template-columns:1fr; }
+    section { padding:60px 0; }
+    .hero { padding:64px 0 72px; }
+    .hero .wedge { right:-220px; bottom:-360px; }
+    .est { display:none; }
+  }
 </style>
 </head>
 <body>
 
+<a class="skip" href="#main">К содержанию</a>
+
 <header>
   <div class="wrap nav">
-    <div class="logo"><span class="rondel"></span>ФИЗКУЛЬТ</div>
-    <a class="cta" href="https://t.me/fizkult_bot">Открыть в Telegram →</a>
+    <div class="logo">
+      <svg width="22" height="22" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="29" stroke="#C8261A" stroke-width="13"/><rect x="44" y="6" width="12" height="88" fill="#1A1A1A"/></svg>
+      ФИЗКУЛЬТ
+    </div>
+    <nav class="nav-links" aria-label="Разделы страницы">
+      <a href="#chat">Диалог</a>
+      <a href="#scenarios">Что умеет</a>
+      <a href="#pricing">Тарифы</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <span class="est mono" aria-hidden="true">EST. 2026</span>
+    <a class="cta" href="https://t.me/fizkult_bot">7 дней бесплатно →</a>
   </div>
 </header>
 
-<section class="hero">
-  <div class="wrap">
-    <div class="kicker">Для тех, кто бегает, крутит и плавает</div>
-    <h1>Личный тренер<br>в твоём <span class="red">Telegram</span></h1>
-    <p class="lead">Физкульт читает твои Garmin и Strava — тренировки, сон, пульс, восстановление — и говорит, что делать сегодня: работать, полегче или отдыхать. А когда замечает важное — пишет первым.</p>
-    <a class="btn" href="https://t.me/fizkult_bot">Попробовать 7 дней бесплатно →</a>
-    <div class="tagline">Физкульт. Но с цифрами.</div>
+<main id="main">
+
+<section class="hero" aria-label="Главное">
+  <div class="wedge" aria-hidden="true"></div>
+  <div class="beam" aria-hidden="true"></div>
+  <div class="wrap inner">
+    <div>
+      <div class="kicker"><span class="knum">RU</span> Для тех, кто бегает, крутит и плавает</div>
+      <h1>Тренер, который <span class="red">сам следит</span> за тобой</h1>
+      <p class="lead">Твои часы Garmin копят цифры — тренировки, сон, пульс, — но никто их не читает. Физкульт читает. Каждое утро в Telegram он говорит одно: что делать сегодня — работать, полегче или отдыхать. А когда что-то идёт не так — пишет первым, не дожидаясь вопроса.</p>
+      <a class="btn" href="https://t.me/fizkult_bot">Попробовать 7 дней бесплатно →</a>
+      <div class="btn-note">Бесплатно · Без карты · 2 минуты на подключение</div>
+      <div class="tagline">Физкульт. Но с цифрами.</div>
+      <div class="stamps" aria-hidden="true">
+        <span class="stamp red">Garmin-native</span>
+        <span class="stamp">Telegram</span>
+        <span class="stamp">Бег · Вело · Плавание</span>
+        <span class="stamp">Est. 2026</span>
+      </div>
+    </div>
+
+    <div class="ticket" role="img" aria-label="Пример утреннего разбора: сон 6 часов 10 минут ниже нормы, пульс покоя 52, решение — лёгкий кросс до 50 минут, интервалы перенесены на четверг">
+      <span class="corner">Утро · 07:12</span>
+      <div class="thead">
+        <span>Утренний разбор · ВТ</span>
+        <span class="live"><i></i>На связи</span>
+      </div>
+      <div class="trow">
+        <span class="k">Сон</span>
+        <span class="v">6:10 <span class="dn">▼</span><small>норма 7:20</small></span>
+      </div>
+      <div class="tviz">
+        <div class="vl">Сон · 7 ночей</div>
+        <svg width="100%" height="44" viewBox="0 0 220 44" preserveAspectRatio="none" fill="none" aria-hidden="true">
+          <line x1="0" y1="39" x2="220" y2="39" stroke="#1A1A1A" stroke-width="1" opacity=".22"/>
+          <path d="M0,10 L37,17 L73,13 L110,20 L147,16 L183,24 L214,34" stroke="#1A1A1A" stroke-width="2.4" fill="none"/>
+          <rect x="210" y="30" width="8" height="8" fill="#C8261A"/>
+        </svg>
+      </div>
+      <div class="trow">
+        <span class="k">Пульс покоя</span>
+        <span class="v">52 <span class="up">▲</span><small>обычно 48</small></span>
+      </div>
+      <div class="tviz">
+        <div class="vl">Пульс по зонам · 7 дней</div>
+        <svg width="100%" height="48" viewBox="0 0 220 48" preserveAspectRatio="none" fill="none" aria-hidden="true">
+          <rect x="0" y="11" width="39" height="29" fill="#C8261A"/>
+          <rect x="45" y="19" width="39" height="21" fill="#1A1A1A" opacity=".86"/>
+          <rect x="90" y="26" width="39" height="14" fill="#1A1A1A" opacity=".72"/>
+          <rect x="135" y="32" width="39" height="8" fill="#1A1A1A" opacity=".58"/>
+          <rect x="181" y="36" width="39" height="4" fill="#1A1A1A" opacity=".44"/>
+          <text x="19" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">Z1</text>
+          <text x="64" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">Z2</text>
+          <text x="109" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">Z3</text>
+          <text x="154" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">Z4</text>
+          <text x="200" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">Z5</text>
+        </svg>
+      </div>
+      <div class="hatch" aria-hidden="true"></div>
+      <div class="verdict">
+        <div class="vk">Решение на сегодня</div>
+        <div class="vt">Лёгкий кросс ≤ 50′.<br><em>Интервалы 5×3′ → четверг</em></div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section>
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span class="mq-item"><span class="sq"></span>Физкульт. Но с цифрами.<span class="sq"></span>Garmin-native<span class="sq"></span>Сон · Пульс · Нагрузка · Восстановление<span class="sq"></span>Решения, а не цифры<span class="sq"></span>Бег · Вело · Плавание<span class="sq"></span>Est. 2026&nbsp;&nbsp;</span>
+  </div>
+  <div class="track">
+    <span class="mq-item"><span class="sq"></span>Физкульт. Но с цифрами.<span class="sq"></span>Garmin-native<span class="sq"></span>Сон · Пульс · Нагрузка · Восстановление<span class="sq"></span>Решения, а не цифры<span class="sq"></span>Бег · Вело · Плавание<span class="sq"></span>Est. 2026&nbsp;&nbsp;</span>
+  </div>
+</div>
+
+<section id="how">
   <div class="wrap">
-    <div class="kicker">Как это работает</div>
-    <h2>Три шага — и тренер на связи</h2>
-    <div class="steps" style="margin-top:34px">
+    <div class="kicker"><span class="knum">01</span> Как это работает</div>
+    <h2 class="rv">Две минуты — <span class="red">и тренер на связи</span></h2>
+    <div class="steps rv">
       <div class="step">
-        <div class="n">01</div>
-        <h3>Подключи Garmin и Strava</h3>
+        <span class="n">01</span>
+        <h3>Подключи часы Garmin</h3>
         <p>Две минуты в боте. Тренировки, сон и пульс подтягиваются сами — руками ничего вносить не нужно.</p>
       </div>
       <div class="step">
-        <div class="n">02</div>
-        <h3>Тренер видит контекст</h3>
-        <p>Не только вчерашнюю тренировку — сон, восстановление, план, твои ощущения и то, что было раньше.</p>
+        <span class="n">02</span>
+        <h3>Тренер узнаёт тебя</h3>
+        <p>Не только вчерашнюю тренировку — твой сон, твою норму пульса, план и то, что было раньше. Сравнивает с твоей историей, а не со «средним атлетом».</p>
       </div>
       <div class="step">
-        <div class="n">03</div>
+        <span class="n">03</span>
         <h3>Получай решения, не цифры</h3>
         <p>Каждое утро — что делать сегодня. После тренировки — что она значит. Когда что-то не так — он напишет сам.</p>
       </div>
@@ -151,62 +440,120 @@
   </div>
 </section>
 
-<div class="strip">
-  <div class="wrap inner">
-    <blockquote>«Сон 6:10, ниже твоей нормы третий день. Ключевую интервальную я бы перенёс на четверг — сегодня лёгкий кросс до 50 минут.»</blockquote>
-    <div class="who">— Физкульт, утро вторника</div>
-  </div>
-</div>
-
-<section>
+<section id="chat" class="dark">
   <div class="wrap">
-    <div class="kicker">Что умеет</div>
-    <h2>Восемь вещей, которые делает тренер</h2>
-    <div class="grid">
-      <div class="card"><div class="tag">Каждое утро</div><h3>Утренний разбор</h3><p>Как ты восстановился и что это значит для сегодняшней тренировки.</p></div>
-      <div class="card"><div class="tag">/today</div><h3>Сегодня</h3><p>Одно решение на день: работать, полегче или день отдыха.</p></div>
-      <div class="card"><div class="tag">/coach</div><h3>Тренер</h3><p>Задай вопрос — ответит по твоей ситуации, а не общими словами.</p></div>
-      <div class="card"><div class="tag">После финиша</div><h3>Разбор тренировки</h3><p>Закончил — получил: что получилось, где перегруз, что дальше.</p></div>
-      <div class="card"><div class="tag">Воскресенье</div><h3>Недельный обзор</h3><p>Что произошло за неделю и с чем идёшь в следующую.</p></div>
-      <div class="card"><div class="tag">/portrait</div><h3>Спортпортрет</h3><p>Кто ты как атлет: сильное, слабое и на чём стоит твоя форма.</p></div>
-      <div class="card"><div class="tag">/plan</div><h3>План</h3><p>Твой план всегда под рукой — и подстраивается, когда жизнь вносит правки.</p></div>
-      <div class="card"><div class="tag">Сам напишет</div><h3>Сигналы тренера</h3><p>Недосып копится, нагрузка скачет, пора притормозить — он заметит первым.</p></div>
+    <div class="kicker"><span class="knum">02</span> Так это выглядит в чате</div>
+    <h2 class="rv">Утро. Тренер уже <span class="red">посмотрел твою ночь</span></h2>
+    <p class="sub">Не дашборд, который надо расшифровывать. Обычный диалог — как с тренером, который в курсе.</p>
+
+    <div class="tg rv">
+      <div class="tg-head">
+        <svg width="20" height="20" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="29" stroke="#C8261A" stroke-width="13"/><rect x="44" y="6" width="12" height="88" fill="#EFE6D6"/></svg>
+        <span class="tname">Физкульт</span>
+        <span class="tstat">тренер · на связи</span>
+      </div>
+      <div class="tg-body">
+        <div class="msg coach">
+          <span class="mt">Физкульт · 07:12</span>
+          Доброе утро. Сон <b>6:10</b> — третья ночь подряд ниже твоей нормы 7:20. Пульс покоя <b>52</b>, обычно у тебя 48. По плану сегодня интервалы <b>5×3′</b>, но на таком фоне я бы их не трогал — переносим на четверг. Сегодня лёгкий кросс до 50 минут, разговорный темп.
+        </div>
+        <div class="msg user">
+          <span class="mt">Ты · 07:15</span>
+          А если всё-таки сделаю интервалы? Жалко ломать неделю.
+        </div>
+        <div class="msg coach">
+          <span class="mt">Физкульт · 07:16</span>
+          Неделя не сломается — сломается сессия. На недовосстановлении ты не удержишь темп в последних двух отрезках, и вместо развития получишь просто усталость. В четверг, после двух нормальных ночей, те же <b>5×3′</b> дадут полный эффект. Тогда сегодня — кросс, интервалы переносим?
+        </div>
+        <div class="msg user">
+          <span class="mt">Ты · 07:17</span>
+          Ставь. Договорились.
+        </div>
+      </div>
+    </div>
+    <p class="tg-note">Диалог — пример. Твой будет по твоим цифрам. <b>В Pro тренер пишет первым</b> и помнит, что было раньше.</p>
+  </div>
+</section>
+
+<section id="scenarios">
+  <div class="wrap">
+    <div class="kicker"><span class="knum">03</span> Что умеет</div>
+    <h2 class="rv">Восемь вещей, <span class="red">которые делает тренер</span></h2>
+    <div class="grid rv">
+      <article class="card"><div class="chead"><span class="tag">Каждое утро</span><span class="cn">01</span></div><h3>Утренний разбор</h3><p>Как ты восстановился и что это значит для сегодняшней тренировки.</p></article>
+      <article class="card"><div class="chead"><span class="tag">/today</span><span class="cn">02</span></div><h3>Сегодня</h3><p>Одно решение на день: работать, полегче или день отдыха.</p></article>
+      <article class="card"><div class="chead"><span class="tag">/coach</span><span class="cn">03</span></div><h3>Тренер</h3><p>Задай вопрос — ответит по твоей ситуации, а не общими словами.</p></article>
+      <article class="card"><div class="chead"><span class="tag">После финиша</span><span class="cn">04</span></div><h3>Разбор тренировки</h3><p>Закончил — получил: что получилось, где перегруз, что дальше.</p></article>
+      <article class="card"><div class="chead"><span class="tag">Воскресенье</span><span class="cn">05</span></div><h3>Недельный обзор</h3><p>Что произошло за неделю и с чем идёшь в следующую.</p></article>
+      <article class="card"><div class="chead"><span class="tag">/portrait</span><span class="cn">06</span></div><h3>Спортпортрет</h3><p>Кто ты как атлет: сильное, слабое и на чём стоит твоя форма.</p></article>
+      <article class="card"><div class="chead"><span class="tag">/plan</span><span class="cn">07</span></div><h3>План</h3><p>Твой план всегда под рукой — и подстраивается, когда жизнь вносит правки.</p></article>
+      <article class="card"><div class="chead"><span class="tag">Сам напишет</span><span class="cn">08</span></div><h3>Сигналы тренера</h3><p>Недосып копится, нагрузка скачет, пора притормозить — он заметит первым и напишет сам.</p></article>
+    </div>
+    <div class="rv" style="margin-top:38px">
+      <a class="btn" href="https://t.me/fizkult_bot">Попробовать все восемь →</a>
+      <div class="btn-note">Первые 7 дней — всё включено, бесплатно</div>
     </div>
   </div>
 </section>
 
-<section class="honest">
+<section class="alt" id="decisions">
   <div class="wrap">
-    <div class="kicker">Честно</div>
-    <h2>Что Физкульт — и что нет</h2>
-    <div class="box" style="margin-top:30px">
-      <p><b>Физкульт — это</b> тренер, который всегда в курсе твоих цифр, помнит, что было раньше, и говорит простым языком, что делать.</p>
-      <p><b>Физкульт — это не</b> врач и не замена живому тренеру. Медицинских рекомендаций он не даёт, а если у тебя есть тренер — Физкульт работает с его планом, а не против него.</p>
+    <div class="kicker"><span class="knum">04</span> Решения, а не цифры</div>
+    <h2 class="rv">Часы показывают. <span class="red">Физкульт говорит</span></h2>
+    <p class="sub">Графики ты и так видишь в приложении. Вопрос, на который они не отвечают: что со всем этим делать сегодня.</p>
+
+    <div class="duo rv">
+      <div class="panel">
+        <div class="ph">Часы показывают</div>
+        <div class="trow"><span class="k">Сон</span><span class="v">6:10 <span class="dn">▼</span></span></div>
+        <div class="trow"><span class="k">Пульс покоя</span><span class="v">52 <span class="up">▲</span></span></div>
+        <div class="trow"><span class="k">Нагрузка · 7 дней</span><span class="v">+18%</span></div>
+        <div class="tviz" style="margin-top:14px">
+          <div class="vl">Сон · тренд</div>
+          <svg width="100%" height="44" viewBox="0 0 220 44" preserveAspectRatio="none" fill="none" aria-hidden="true">
+            <line x1="0" y1="39" x2="220" y2="39" stroke="#1A1A1A" stroke-width="1" opacity=".22"/>
+            <path d="M0,10 L37,17 L73,13 L110,20 L147,16 L183,24 L214,34" stroke="#1A1A1A" stroke-width="2.4" fill="none"/>
+            <rect x="210" y="30" width="8" height="8" fill="#C8261A"/>
+          </svg>
+        </div>
+      </div>
+      <div class="arrow" aria-hidden="true">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <path d="M2 22 H34 M24 10 L38 22 L24 34" stroke="#C8261A" stroke-width="5"/>
+        </svg>
+      </div>
+      <div class="panel inkp">
+        <div class="ph">Физкульт говорит</div>
+        <div class="big">Сегодня — полегче.<br><span class="red">Интервалы — на четверг.</span></div>
+        <p class="small">Одно решение на день — из твоего сна, твоей нагрузки, твоей истории. Не из таблицы «средних норм». И без чувства вины за пропуск.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section>
+<section id="pricing">
   <div class="wrap">
-    <div class="kicker">Тарифы</div>
-    <h2>Сначала — 7 дней бесплатно</h2>
-    <p class="sub">Пробный период включает всё из Pro. Дальше — сам решаешь.</p>
-    <div class="plans">
+    <div class="kicker"><span class="knum">05</span> Тарифы</div>
+    <h2 class="rv">Сначала — <span class="red">7 дней бесплатно</span></h2>
+    <p class="sub">Первая неделя — полный Pro, бесплатно и без карты. Дальше сам решаешь, каким тренером он останется.</p>
+    <div class="plans rv">
       <div class="plan">
         <div class="name">Пробный период</div>
+        <div class="who">Полный Pro — попробуй всё</div>
         <div class="price">0 ₽</div>
-        <div class="per">7 дней, полный Pro</div>
+        <div class="per">7 дней · всё из Pro</div>
         <ul>
           <li>Все функции Pro без ограничений</li>
-          <li>Подключение Garmin и Strava</li>
-          <li>Начинается сразу после старта</li>
+          <li>Подключение часов Garmin за две минуты</li>
+          <li>Без карты — платишь, только если решишь остаться</li>
         </ul>
-        <a class="btn ghost" href="https://t.me/fizkult_bot">Начать бесплатно →</a>
+        <a class="btn ghost" href="https://t.me/fizkult_bot">Включить пробную неделю →</a>
       </div>
       <div class="plan">
         <div class="name">Basic</div>
+        <div class="who">Тренер отвечает, когда спросишь</div>
         <div class="price">499 ₽</div>
-        <div class="per">за 30 дней</div>
+        <div class="per">за 30 дней · ≈17 ₽ в день</div>
         <ul>
           <li>Утро и «Сегодня» — по сегодняшним цифрам</li>
           <li>Короткий итог после тренировки</li>
@@ -218,9 +565,11 @@
         <a class="btn ghost" href="https://t.me/fizkult_bot">Выбрать Basic →</a>
       </div>
       <div class="plan hot">
+        <span class="badge">Полная версия тренера</span>
         <div class="name">Pro</div>
+        <div class="who">Тренер следит сам — и пишет первым</div>
         <div class="price">999 ₽</div>
-        <div class="per">за 30 дней</div>
+        <div class="per">за 30 дней · ≈33 ₽ в день</div>
         <ul>
           <li>Всё из Basic — в полную силу</li>
           <li>Тренер с памятью: помнит, что было раньше</li>
@@ -229,32 +578,94 @@
           <li>Тренерский обзор недели</li>
           <li>Сам пишет, когда замечает важное</li>
         </ul>
-        <a class="btn" href="https://t.me/fizkult_bot">Выбрать Pro →</a>
-        <div class="note">Отмена в любой момент командой /cancel. <a href="oferta.html" style="color:inherit">Условия и возврат</a>.</div>
+        <a class="btn" href="https://t.me/fizkult_bot">Попробовать Pro бесплатно →</a>
+        <div class="note">Месяц Pro стоит меньше одной тренировки с живым тренером. Отмена в любой момент командой /cancel. <a href="oferta.html" style="color:inherit">Условия и возврат</a>.</div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="final">
+<section class="dark honest">
   <div class="wrap">
-    <h2>Твои часы уже всё знают.<br>Пусть кто-то это прочитает.</h2>
-    <p>Две минуты на подключение. 7 дней бесплатно. Отписаться можно одной командой.</p>
-    <a class="btn" href="https://t.me/fizkult_bot">Открыть Физкульт в Telegram →</a>
+    <div class="kicker"><span class="knum">06</span> Честно</div>
+    <h2 class="rv">Что Физкульт — <span class="red">и что нет</span></h2>
+    <div class="box rv">
+      <p><b>Физкульт — <span class="red">это</span></b> тренер, который всегда в курсе твоих цифр, помнит, что было раньше, и говорит простым языком, что делать.</p>
+      <p><b>Физкульт — <span class="red">это не</span></b> врач и не замена живому тренеру. Медицинских рекомендаций он не даёт, а если у тебя есть тренер — Физкульт работает с его планом, а не против него.</p>
+    </div>
   </div>
 </section>
+
+<section id="faq" class="alt">
+  <div class="wrap">
+    <div class="kicker"><span class="knum">07</span> Вопросы</div>
+    <h2 class="rv">Что спрашивают <span class="red">перед стартом</span></h2>
+    <div class="faq rv">
+      <details>
+        <summary>Нужны ли часы Garmin?</summary>
+        <div class="a"><p>Да, на них всё и стоит: тренировки, сон и пульс Физкульт берёт прямо из часов, руками вносить ничего не надо. Если Garmin уже на руке — подключение займёт две минуты, и первый утренний разбор придёт в первое же утро после синхронизации.</p></div>
+      </details>
+      <details>
+        <summary>У меня Polar, Suunto или Apple Watch</summary>
+        <div class="a"><p>Пока Физкульт работает только с Garmin — говорим честно, без «скоро всё будет». Другие часы в планах: открой <a href="https://t.me/fizkult_bot">бота</a>, нажми /start и оставь его в контактах — он сам напишет, когда добавим твои.</p></div>
+      </details>
+      <details>
+        <summary>Я любитель, а не спортсмен. Мне подойдёт?</summary>
+        <div class="a"><p>Физкульт сделан ровно для этого: ты тренируешься несколько раз в неделю, сам себе составляешь неделю и не всегда понимаешь, когда жать, а когда отдыхать. Про-атлету с командой тренеров он не нужен. А вот тому, за чьим сном и нагрузкой никто не следит, — очень.</p></div>
+      </details>
+      <details>
+        <summary>У меня уже есть тренер. Зачем мне это?</summary>
+        <div class="a"><p>Тренер видит тебя раз в неделю — Физкульт смотрит на твоё утро каждый день между вашими встречами. Он работает с планом твоего тренера, а не против него: заметит недовосстановление раньше, чем оно попадёт в переписку, и подскажет, что стоит обсудить.</p></div>
+      </details>
+      <details>
+        <summary>Это врач?</summary>
+        <div class="a"><p>Нет. Физкульт не ставит диагнозы и не даёт медицинских рекомендаций. Если что-то болит или беспокоит — сначала к врачу. Зато он умеет вовремя сказать «притормози».</p></div>
+      </details>
+      <details>
+        <summary>Как отменить подписку?</summary>
+        <div class="a"><p>Одной командой /cancel прямо в боте — в любой момент, без писем, звонков и «менеджер вам перезвонит». А пробная неделя вообще ни к чему не обязывает: карту на старте не спрашиваем. Условия оплаты и возврата — в <a href="oferta.html">оферте</a>.</p></div>
+      </details>
+      <details>
+        <summary>Что с приватностью?</summary>
+        <div class="a"><p>Цифры из твоих часов работают только на твои рекомендации. Мы не продаём их и не передаём третьим лицам. Подробно — в <a href="privacy.html">политике обработки ПДн</a>.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wedge" aria-hidden="true"></div>
+  <div class="wrap inner">
+    <h2 class="rv">Твои часы уже всё знают.<br>Пусть кто-то это прочитает.</h2>
+    <p>Две минуты на подключение — и первым же утром тебя ждёт разбор. Неделя полного Pro бесплатно. Не твоё — /cancel, и никто не перезвонит.</p>
+    <a class="btn inv" href="https://t.me/fizkult_bot">Начать бесплатную неделю →</a>
+    <div class="btn-note">Без карты · Полный Pro · Отмена одной командой</div>
+    <div class="tagline" aria-hidden="true">Физкульт. Но с цифрами. · Est. 2026</div>
+  </div>
+</section>
+
+</main>
+
+<div class="sticky-cta" id="stickyCta" aria-hidden="true">
+  <span class="sc-note">7 дней бесплатно<br>Без карты · 2 минуты</span>
+  <a class="btn" href="https://t.me/fizkult_bot">Попробовать →</a>
+</div>
 
 <footer>
   <div class="wrap foot">
     <div class="about">
-      <div class="logo" style="color:var(--bg)"><span class="rondel"></span>ФИЗКУЛЬТ</div>
+      <div class="logo" style="color:var(--bg)">
+        <svg width="22" height="22" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="29" stroke="#C8261A" stroke-width="13"/><rect x="44" y="6" width="12" height="88" fill="#EFE6D6"/></svg>
+        ФИЗКУЛЬТ
+      </div>
       <p>Личный тренер, который читает твои цифры.</p>
     </div>
     <div>
-      <div class="mono" style="font-size:10px; color:#C9C2B5; letter-spacing:.14em; text-transform:uppercase; margin-bottom:8px">Работает с</div>
-      <p style="margin:0; font-size:13px; color:#C9C2B5">Garmin · Strava · Telegram</p>
+      <div class="col-h">Работает с</div>
+      <p style="margin:0; font-size:13px; color:var(--muted-d)">Garmin · Telegram</p>
     </div>
     <div>
+      <div class="col-h">Документы</div>
       <a href="oferta.html">Условия, оплата и возврат</a>
       <a href="privacy.html">Политика обработки ПДн</a>
       <a href="mailto:hello@fizkult.ai">hello@fizkult.ai</a>
@@ -264,6 +675,46 @@
     <p>Сервис не заменяет врача и тренера, не является медицинской услугой. Исполнитель: самозанятый Файзуллин Эльдар Гомилевич, ИНН 027710621544. © 2026 FIZKULT.AI</p>
   </div>
 </footer>
+
+<script>
+(function () {
+  document.documentElement.classList.add('js');
+  var bar = document.getElementById('stickyCta'),
+      hero = document.querySelector('.hero'),
+      fin = document.querySelector('.final');
+  if (bar && hero && fin && 'IntersectionObserver' in window) {
+    var pastHero = false, atFinal = false;
+    var upd = function () {
+      var on = pastHero && !atFinal;
+      bar.classList.toggle('on', on);
+      bar.setAttribute('aria-hidden', String(!on));
+    };
+    new IntersectionObserver(function (e) { pastHero = !e[0].isIntersecting; upd(); }).observe(hero);
+    new IntersectionObserver(function (e) { atFinal = e[0].isIntersecting; upd(); }).observe(fin);
+    var foot = document.querySelector('footer');
+    if (foot) {
+      var atFoot = false;
+      upd = function () {
+        var on = pastHero && !atFinal && !atFoot;
+        bar.classList.toggle('on', on);
+        bar.setAttribute('aria-hidden', String(!on));
+      };
+      new IntersectionObserver(function (e) { atFoot = e[0].isIntersecting; upd(); }).observe(foot);
+    }
+  }
+  if (!('IntersectionObserver' in window) ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+  document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+})();
+</script>
 
 </body>
 </html>
