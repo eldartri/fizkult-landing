@@ -1,0 +1,264 @@
+<title>Физкульт 2.0 — что под капотом · для тестеров</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --red:#C8261A; --bg:#EFE6D6; --sand:#E5D9C3; --ink:#1A1A1A; --panel:#FFFFFF;
+    --muted:#6E675C; --line:#D8CFBE; --accent-ink:#EFE6D6;
+    --dark-bg:#1A1A1A; --dark-ink:#EFE6D6; /* fixed — не переворачиваются по теме */
+    --sans:'Geist','Helvetica Neue',Helvetica,Arial,system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: dark){ :root{ --bg:#171512; --ink:#EFE6D6; --panel:#22201B; --muted:#A79E8E; --line:#3A362F; --sand:#26231D; } }
+  :root[data-theme="dark"]{ --bg:#171512; --ink:#EFE6D6; --panel:#22201B; --muted:#A79E8E; --line:#3A362F; --sand:#26231D; }
+  :root[data-theme="light"]{ --bg:#EFE6D6; --ink:#1A1A1A; --panel:#FFFFFF; --muted:#6E675C; --line:#D8CFBE; --sand:#E5D9C3; }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;
+       -webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+  h1,h2,h3{font-weight:900;letter-spacing:-.03em;line-height:1.02;text-wrap:balance;margin:0}
+  p{margin:0 0 16px}
+  b,strong{font-weight:700}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+           color:var(--red);font-weight:700}
+
+  /* HERO */
+  header{background:var(--dark-bg);color:var(--dark-ink);padding:64px 0 56px;position:relative;overflow:hidden}
+  header .diag{position:absolute;left:-10%;right:-10%;bottom:-70px;height:200px;background:var(--red);transform:rotate(-6deg)}
+  header .wrap{position:relative}
+  header .eyebrow{color:#E9A9A2}
+  header h1{font-size:clamp(38px,8vw,66px);text-transform:uppercase;margin:16px 0 20px;color:var(--dark-ink)}
+  header h1 .r{color:var(--red)}
+  header p{font-size:clamp(17px,2.4vw,20px);color:#D8D2C6;max-width:56ch}
+  .pill{display:inline-block;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;
+        text-transform:uppercase;border:1.5px solid #E9A9A2;color:#E9A9A2;padding:8px 14px;margin-top:24px;border-radius:2px}
+
+  section{padding:44px 0;border-bottom:1px solid var(--line)}
+  section h2{font-size:clamp(26px,4.5vw,38px);text-transform:uppercase;margin-bottom:20px}
+  .num{font-family:var(--mono);color:var(--red);font-size:13px;font-weight:700;letter-spacing:.1em}
+
+  /* insight cards */
+  .insight{border-left:4px solid var(--red);padding:4px 0 4px 20px;margin:22px 0}
+  .insight h3{font-size:20px;margin-bottom:8px}
+  .insight p{margin:0;color:var(--muted)}
+
+  /* stat row */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}
+  .stat{background:var(--panel);border:1.5px solid var(--ink);padding:18px 14px}
+  .stat .n{font-size:clamp(30px,6vw,42px);font-weight:900;letter-spacing:-.04em;color:var(--red);line-height:1}
+  .stat .l{font-size:13px;color:var(--muted);margin-top:8px;font-weight:500;line-height:1.3}
+
+  /* proof callout */
+  .proof{background:var(--red);color:var(--accent-ink);padding:26px 22px;margin:24px 0}
+  .proof .k{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+  .proof h3{color:var(--accent-ink);font-size:22px;margin:8px 0 10px}
+  .proof p{color:#F3E4E2;margin:0}
+  .proof .big{font-weight:900;font-size:clamp(22px,4vw,28px);letter-spacing:-.02em}
+
+  /* trust levels */
+  .trust{display:grid;gap:12px;margin:22px 0}
+  .tl{border:1.5px solid var(--line);padding:16px 18px;background:var(--panel)}
+  .tl .t{font-weight:800;font-size:16px;margin-bottom:4px}
+  .tl.a .t{color:#1f7a4d} .tl.b .t{color:#b8860b} .tl.c .t{color:var(--muted)}
+  .tl p{margin:0;font-size:14px;color:var(--muted)}
+
+  table{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px}
+  th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .scroll{overflow-x:auto}
+
+  .bound{background:var(--sand);border:1.5px solid var(--ink);padding:24px 22px;margin:22px 0}
+  .bound h3{font-size:18px;margin:0 0 10px}
+  .bound p{margin:0 0 12px;font-size:15px}
+  .bound p:last-child{margin:0}
+
+  .slot{border:2px dashed var(--red);padding:22px;margin:24px 0;background:var(--panel)}
+  .slot .k{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--red);font-weight:700}
+
+  .close{background:var(--dark-bg);color:var(--dark-ink);padding:48px 0}
+  .close h2{color:var(--dark-ink)}
+  .close p{color:#D8D2C6}
+  .close .big{font-size:clamp(20px,3vw,24px);font-weight:700;color:var(--dark-ink);margin-bottom:16px}
+
+  footer{padding:30px 0 60px}
+  footer p{font-size:12px;color:var(--muted);font-family:var(--mono);line-height:1.6}
+</style>
+
+<header>
+  <div class="diag"></div>
+  <div class="wrap">
+    <div class="eyebrow">Физкульт 2.0 · whitepaper для тестеров · v2 · 13.07.2026</div>
+    <h1>Твои часы<br>не врут.<br><span class="r">Они просто молчат.</span></h1>
+    <p>Часы считают тебя всю ночь и всю тренировку — а потом показывают экран с цифрами и уходят в тень. Дальше сам. Я собран, чтобы так тебя не бросать: за эти недели я разобрал по косточкам всё, что твои часы умеют отдавать, — чтобы читать их тебе, как это делает живой тренер. Что сегодня важно, чему верить, а на что не смотреть вовсе. Здесь — без воды: что я вижу в твоих данных, что считаю сам и где честно провожу границы. Бегаешь или крутишь педали с Garmin? Тогда это про тебя.</p>
+    <span class="pill">Пока отлажено на одном атлете — на вас, тестерах, проверяем дальше</span>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <span class="num">01</span>
+    <h2>Три места, где цифра значит не то, что ты думаешь</h2>
+    <p>Начнём с того, что поменяет чтение твоих часов уже сегодня. Три вещи, которые не скажет ни сам Garmin, ни обычное приложение — они показывают число и молчат.</p>
+    <div class="insight">
+      <h3>«Стресс 70», а ты спокоен — часы не врут</h3>
+      <p>«Стресс» у Garmin — это не нервы, а нагрузка на вегетативную нервную систему, посчитанная по пульсу. Вчерашняя интервалка, недосып, двойной эспрессо и жара дадут высокий «стресс» без единой нервной мысли. Абсолютное число бесполезно — смотри тренд и причину.</p>
+    </div>
+    <div class="insight">
+      <h3>Одна цифра ВСР не значит ничего</h3>
+      <p>ВСР 33 у одного — норма, у другого — тревога. Смысл появляется только рядом с твоим личным коридором за несколько недель. Без него обычная ночная вариация читается как «плохое восстановление» — и совет уходит мимо.</p>
+    </div>
+    <div class="insight">
+      <h3>«42 минуты глубокого сна» — набросок, не протокол</h3>
+      <p>Против лабораторной полисомнографии трекеры на запястье путают фазы сна. «Спал / не спал» — надёжно. Раскладка по фазам — грубая прикидка, выводы на ней не строим.</p>
+    </div>
+    <p>Это только три примера. Так я прошёл каждую цифру — чему верить, а на что не смотреть. Дальше покажу, какой тренер из этого собирается и почему стоит остаться в тесте.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="num" style="color:var(--muted)">частый вопрос</span>
+    <h2>Чем мы отличаемся от приложения Garmin</h2>
+    <p>Garmin — отличные часы и честные данные, и мы работаем именно на них. Мы не «лучше Garmin» и не «точнее» — мы тренер ПОВЕРХ его данных. Разница не в том, кто точнее меряет, а в том, что часы показывают, а тренер — объясняет и ведёт. На практике:</p>
+    <div class="insight">
+      <h3>Garmin показывает — мы объясняем</h3>
+      <p>В приложении десятки экранов и виджетов, которые ты собираешь в картину сам. Физкульт читает их за тебя и говорит, что делать сегодня, — одним сообщением, на русском, без копания.</p>
+    </div>
+    <div class="insight">
+      <h3>Спроси что угодно, когда угодно</h3>
+      <p>Чтобы найти метрику в Garmin — идёшь по меню. Здесь ты просто спрашиваешь коуча: «стоит ли завтра темповая?», «почему я тащусь третью неделю?» — и получаешь ответ с объяснением «почему», а не ещё один график.</p>
+    </div>
+    <div class="insight">
+      <h3>Открытые формулы вместо закрытых ярлыков</h3>
+      <p>Body Battery, Training Readiness — красивые числа с закрытой формулой и без независимой проверки. Мы пересобираем тренерский смысл из открытых, проверяемых формул и честно помечаем уровень доверия к каждой цифре.</p>
+    </div>
+    <div class="insight">
+      <h3>Не один вендор, а лучшая наука</h3>
+      <p>Интерпретация Garmin — это методика одного производителя (Firstbeat). Мы сверяем с независимой рецензируемой наукой и открытыми стандартами спорта — не заперты в одном источнике.</p>
+    </div>
+    <div class="insight">
+      <h3>Растём с тобой <span style="font-family:var(--mono);font-size:12px;color:var(--muted)">· роадмап</span></h3>
+      <p>Garmin — это Garmin. Мы будем подключать другие источники данных, новые фичи и комьюнити — впереди больше, чем одни часы. Это направление, не «уже готово».</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="num">02</span>
+    <h2>Почему пересобираем, а не латаем</h2>
+    <p>Ты наверняка ловил бота на том, что он путается: пишет про тренировку не того дня (велосипед был в пятницу, а он говорит «вчера»), показывает ВСР и пульс покоя не сегодняшние. Это не отдельные баги — это симптом.</p>
+    <p>В v1 мы наплодили десятки версий движков и сценариев, и они конфликтовали между собой: чинишь в одном — ломается в другом, дата события путается с датой расчёта. Точечные заплатки такую штуку не лечат, только размазывают. Поэтому 2.0 строится заново — на фундаменте, где у каждого сигнала ровно один дом, одна дата-истина и один движок вместо зоопарка. Скучно звучит, но именно это убивает класс багов, который тебя бесит.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="num">03</span>
+    <h2>Что мы реально читаем с часов</h2>
+    <p>Прежде чем что-то тебе советовать, я разобрал всё, что твои часы отдают, — до последнего поля. Не «взял, что дают», а по каждому сигналу проверил: живой он, пустой или обманывает. Вот с каким объёмом я работаю — по одному профилю за 90 дней (дальше назад Garmin историю просто не отдаёт):</p>
+    <div class="stats">
+      <div class="stat"><div class="n">516</div><div class="l">путей данных — разобран каждый, до последнего поля</div></div>
+      <div class="stat"><div class="n">28/28</div><div class="l">тренировок записаны посекундно</div></div>
+      <div class="stat"><div class="n">~4000</div><div class="l">замеров в одной тренировке</div></div>
+      <div class="stat"><div class="n">11 204</div><div class="l">замера пульса за сутки — каждый удар дня</div></div>
+      <div class="stat"><div class="n">90</div><div class="l">ночей сна с посекундной гипнограммой</div></div>
+      <div class="stat"><div class="n">до&nbsp;секунды</div><div class="l">сошлась расшифровка фаз сна</div></div>
+    </div>
+    <div class="proof">
+      <div class="k">Главный актив</div>
+      <h3>Твою тренировку я вижу посекундно, а не по итогам</h3>
+      <p>Не «средний пульс 148» — а весь профиль усилия, удар за ударом: как пульс шёл за темпом, где ты уплыл, где держал, где тебя подкосил подъём. <span class="big">До ~4000 точек за одну тренировку.</span> Из такой записи считается то, что усреднённой цифре не под силу, — и на ней стоит настоящий разбор твоей тренировки.</p>
+    </div>
+    <div class="scroll"><table>
+      <tr><th>Канал</th><th>Честный статус</th></tr>
+      <tr><td>Пульс</td><td>Реально с данными в посекундном потоке — <b>18 из 28</b> (10 вело-тренировок без пульс-датчика). «Канал есть» ≠ «данные есть».</td></tr>
+      <tr><td>Темп, дистанция, высота (рельеф), каденс</td><td>28/28 — полно. Высоту и набор используем для разбора: темп с поправкой на подъём (GAP).</td></tr>
+      <tr><td>GPS-маршрут</td><td>Координаты приходят, но мы их не показываем и не подкладываем в разбор или логи — гео-контракт приватности. Для разбора нужен только рельеф, его берём из канала высоты.</td></tr>
+      <tr><td>Мощность</td><td>Реальные ватты только с вело-мощемера; на беге Garmin оценивает</td></tr>
+      <tr><td>Температура</td><td>Датчик температуры окружающей среды (не тела). У этого профиля (Fenix 8) поток пустой на всех 28 — на другом устройстве может заполняться. Формул на нём пока не строим.</td></tr>
+    </table></div>
+    <div class="proof">
+      <div class="k">Как выглядит наша строгость</div>
+      <h3>Мы не гадаем — мы доказываем</h3>
+      <p>Garmin отдаёт фазы сна числами (1, 2, 3, 4) без словаря — что есть что, официально не сказано. Мы просуммировали длительность всех отрезков каждой стадии за ночь и сверили с итогами Garmin. <span class="big">Сошлось до секунды на всех 90 ночах.</span> Только после этого зафиксировали: 1 = глубокий, 2 = лёгкий, 3 = REM, 4 = бодрствование.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="num">04</span>
+    <h2>Что Garmin считает сам, а что — мы</h2>
+    <p>Тут проходит главный водораздел продукта. <b>Что Garmin отдаёт готовым</b> (транслируем, помечая источник): VO2max, Sleep Score, стресс, пульс, шаги, калории. <b>Чего не отдаёт вообще</b> (проверили — полей нет): Body Battery, Training Readiness, Training Status, Training Load, Recovery Time, Fitness Age.</p>
+    <p>И вот почему мы вообще существуем как отдельный продукт:</p>
+    <div class="insight">
+      <h3>Закрытые ярлыки Garmin мы не копируем — тренерский смысл за ними пересобираем сами</h3>
+      <p>Body Battery и Training Readiness — красивые числа с закрытой формулой, которую не знает никто снаружи, и независимой проверки которых не существует. Мы идём другим путём: считаем восстановление и нагрузку из открытых, проверяемых формул (те, чем считают на intervals.icu и Golden Cheetah), где виден каждый шаг. Открытость и есть доверие.</p>
+    </div>
+    <p style="color:var(--muted);font-size:14px"><b>Важно:</b> «умеем считать» = формула готова и проверена на n=1. Это ещё НЕ «уже считает в боте» — что реально собрано и в каком порядке, см. ниже. На старте разбор тренировки — в разработке, не из коробки.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="num">05</span>
+    <h2>Наука под каждой метрикой</h2>
+    <p>Здесь большинство приложений незаметно смешивают уровни доказанности — выдают вендор-оценку за независимую науку. Мы всегда говорим, какой уровень перед тобой:</p>
+    <div class="trust">
+      <div class="tl a"><div class="t">Независимая наука</div><p>Рецензируемое, не оплаченное производителем. Только это — «проверено независимо». Пример: независимая проверка VO2max (Garmin Fenix 6, с ЭКГ-ремнём, 2025) — ошибка ~7%.</p></div>
+      <div class="tl b"><div class="t">Методология производителя</div><p>Что Firstbeat/Garmin заявил и проверил сам о себе. Знаменитые «~95% точности VO2max» — это вендор о себе, не «учёные доказали». Мы так и подаём.</p></div>
+      <div class="tl c"><div class="t">Эвристика</div><p>Конвенция тренеров (Golden Cheetah, TrainingPeaks). Работает, но это не закон природы — калибруем. Пример: порог 5% дрейфа, окна формы 42/7 дней.</p></div>
+    </div>
+    <p>Именно эта честность — продукт. Тренер, которому можно верить, потому что он не выдаёт эвристику за истину.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="num">06</span>
+    <h2>Разбор тренировки — то, что мы собираем сейчас</h2>
+    <p>Это следующий шаг, не готовая фича (честно) — но он строится целиком на посекундных потоках, которые уже лежат в базе. Отвечает на три вопроса: <b>что это была за тренировка</b> (по основному блоку, а не по средней), <b>насколько тяжёлая</b> (на единой шкале нагрузки), <b>растёт ли база</b> (аэробное расхождение как тренд). Первым готово аэробное расхождение — оно работает на запястном пульсе, без лаборатории и мощемера.</p>
+    <div class="slot">
+      <div class="k">⚡ Скоро — на живых тренировках</div>
+      <p style="margin:10px 0 0">Отдельно разберём реальные тренировки с настоящими данными — бег, вело, плавание: аэробное расхождение, нагрузка, вывод по каждой. Покажем, как выглядит разбор на живой пробежке и заезде, а не на словах. Следи за обновлениями.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="num">07</span>
+    <h2>Честные границы</h2>
+    <div class="bound">
+      <h3>Где мы ещё не проверили</h3>
+      <p><b>Про n=1.</b> Всё отлажено на одном атлете и трёх приборах. Пороги и охваты — его, не твои. Ни одно число мы не несём в обещание «так будет у всех» до проверки на группе. Это и есть смысл теста.</p>
+      <p><b>Персонального коридора ВСР/пульса в проде ещё нет</b> — собирается за ~4 недели данных. Это следующий шаг, не обещание из коробки.</p>
+      <p><b>Где слабы сами часы:</b> стадии сна на запястье путаются против лабораторного эталона (на старой модели Garmin согласие было слабым — но это модель 2018, Fenix 8 не тестировался; врать вверх не будем). «Спишь / не спишь» — уверенно; минуты REM — как набросок.</p>
+      <p><b>Пульсовые зоны</b> будут собираться с каждого на онбординге (позже) — от них зависит точность нагрузки. Пока порог оцениваем из данных и помечаем, что это оценка.</p>
+    </div>
+    <p style="color:var(--muted);font-size:15px">Мы говорим это тебе до того, как ты нажал «начать», а не после.</p>
+  </div>
+</section>
+
+<div class="close">
+  <div class="wrap">
+    <p class="big">Ты не «пользователь бета-версии». Ты тот, на ком эвристика становится знанием.</p>
+    <p>Тот самый баг с датами мы видим именно потому, что ты его ловишь и пишешь. Чем больше вас — разных, с разными часами и видами спорта — тем быстрее n=1 превращается в проверенную методику. Спасибо, что тестируете и не молчите, когда бот не прав.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>Источники: внутренний разбор слоя данных fizkult (инвентарь полей, паспорт метрик, формульный справочник) + три верифицированных ресёрча по спортивной науке. Цифры точности Firstbeat — заявленная вендором методология, не независимая наука. Независимые числа привязаны к моделям и годам (VO2max — Fenix 6, 2025; стадии сна — Vivosmart 4, 2018), на Fenix 8 не переносятся без данных. Пороги (5% дрейфа, 42/7 дней) — конвенции. Всё измерено на n=1 (профиль Eldar) и валидируется на группе тестеров.</p>
+    <p>Физкульт 2.0 · fizkult.ai · whitepaper для тестеров · 13.07.2026</p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var t=document.documentElement;
+    try{var s=localStorage.getItem('fk-theme'); if(s)t.setAttribute('data-theme',s);}catch(e){}
+  })();
+</script>
