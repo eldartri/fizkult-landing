@@ -14,7 +14,7 @@ handoff/
   SPEC.md              ← design tokens (цвета, шрифты, шкалы, spacing, breakpoints, шрифты-подключение)
   COPY.md              ← все финальные тексты (HTML), вкл. 200-словный sample-отчёт
   INTERACTIONS.md      ← hover, gated-CTA (152-ФЗ), анимации, cookie, reduced-motion
-  DEEPLINKS.md         ← куда ведут CTA (t.me/fizkult_bot?start=…) + якоря + /privacy /terms
+  DEEPLINKS.md         ← куда ведут CTA (t.me/fizkult_ai_bot?start=…) + якоря + /privacy /terms
   CHECKLIST.md         ← статус 11-пунктового pre-handoff verify
   source/              ← рабочий код (референс)
     Landing — Constructivist Red.html

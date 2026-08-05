@@ -12,7 +12,7 @@
 | 6 | WCAG: мелкий текст #1A1A1A на беже (не красный) | ✅ | Мета/цены/согласие/дисклеймеры — ink. Красный только ≥24px. |
 | 7 | OG images — 2 версии (бежевая для share, красная on-site) | ✅ | `assets/og/og-share.png` (беж) + `og-onsite.png` (красный), 1200×630. |
 | 8 | Слово «Founder» нигде не упоминается | ✅ | Тарифы — только Free + Pro. MCP-only вынесен на /mcp. |
-| 9 | Pro CTA = «Оформить Pro» (НЕ waitlist) | ✅ | Заменено. Ведёт `t.me/fizkult_bot?start=pro`. |
+| 9 | Pro CTA = «Оформить Pro» (НЕ waitlist) | ✅ | Заменено. Ведёт `t.me/fizkult_ai_bot?start=pro`. |
 | 10 | Naming: МНОГОБОРЕЦ заголовок > РАННИЕ СТАРТЫ badge | ✅ | Canon-имя — h3 primary; behavioural badge ниже + маркер «ПРИМЕР · после 30 тренировок». |
 | 11 | «CLAUDE» убран из видимого UI (P0 #1) | ✅ | Штампы `АНАЛИЗ · 90Д`, шаг «Алгоритм читает паттерны». Атрибуция «технология Anthropic Claude» — только в footer. |
 

@@ -1,15 +1,15 @@
 # DEEPLINKS.md — Куда ведут CTA и ссылки
 
-**Бот:** `@fizkult_bot`. Все архетип-CTA ведут в Telegram с deep-link параметром `start`.
+**Бот:** `@fizkult_ai_bot`. Все архетип-CTA ведут в Telegram с deep-link параметром `start`.
 
 | Элемент | Назначение |
 |---|---|
-| Hero CTA `Узнать архетип →` | `https://t.me/fizkult_bot?start=archetype` |
-| CTA #2 (после архетипов) `Узнать свой архетип бесплатно →` | `https://t.me/fizkult_bot?start=archetype` |
-| Free тариф `Узнать архетип →` | `https://t.me/fizkult_bot?start=archetype` |
-| Финальный CTA `Узнать архетип бесплатно →` | `https://t.me/fizkult_bot?start=archetype` |
-| Pro тариф `Оформить Pro` | `https://t.me/fizkult_bot?start=pro` |
-| Nav CTA `Архетип →` | `https://t.me/fizkult_bot?start=archetype` |
+| Hero CTA `Узнать архетип →` | `https://t.me/fizkult_ai_bot?start=archetype` |
+| CTA #2 (после архетипов) `Узнать свой архетип бесплатно →` | `https://t.me/fizkult_ai_bot?start=archetype` |
+| Free тариф `Узнать архетип →` | `https://t.me/fizkult_ai_bot?start=archetype` |
+| Финальный CTA `Узнать архетип бесплатно →` | `https://t.me/fizkult_ai_bot?start=archetype` |
+| Pro тариф `Оформить Pro` | `https://t.me/fizkult_ai_bot?start=pro` |
+| Nav CTA `Архетип →` | `https://t.me/fizkult_ai_bot?start=archetype` |
 
 ## Якоря (внутренние)
 - `Архетипы` → `#archetypes`
