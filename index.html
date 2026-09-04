@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Физкульт — личный тренер в Telegram: читает твой Garmin и говорит, что делать сегодня</title>
-<meta name="description" content="Часы Garmin копят твои цифры — Физкульт их читает. Каждое утро говорит, что делать: работать, полегче или отдыхать. Сам пишет первым, когда что-то не так. 7 дней бесплатно, без карты, отмена одной командой.">
+<meta name="description" content="Часы Garmin копят твои цифры — Физкульт их читает. Каждое утро сам пишет: как прошла ночь и что делать сегодня. Разбор тренировки, тренер в том же чате. Есть Тренерская для тренеров и клубы для групп. 7 дней бесплатно, без карты.">
 <meta property="og:title" content="Твои часы всё видят. Физкульт — читает и говорит, что делать">
-<meta property="og:description" content="Личный тренер в Telegram для тех, кто бегает, крутит и плавает с Garmin. Помнит твою историю, пишет первым, когда что-то не так. 7 дней бесплатно.">
+<meta property="og:description" content="Личный тренер в Telegram для тех, кто бегает, крутит и плавает с Garmin. Каждое утро пишет сам, помнит твою историю, разбирает тренировки. 7 дней бесплатно.">
 <meta property="og:url" content="https://fizkult.ai">
 <meta property="og:type" content="website">
 <link rel="icon" href="assets/favicon/favicon-32.png">
@@ -317,6 +317,22 @@
     .hero .wedge { right:-220px; bottom:-360px; }
     .est { display:none; }
   }
+
+  /* audience blocks (trainers / clubs) */
+  .two { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:38px; }
+  .feat { background:var(--panel); color:var(--ink); border:1.5px solid var(--line);
+    padding:22px 24px; box-shadow:4px 4px 0 var(--accent); }
+  .dark .feat { border-color:var(--bg); }
+  .feat h3 { font-size:16px; margin:0 0 9px; line-height:1.1; }
+  .feat p { margin:0; font-size:13.5px; color:var(--muted); line-height:1.55; }
+  .feat b { color:var(--ink); font-weight:800; }
+  .dark .btn-note { color:var(--muted-d); }
+  .btn-row { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+  .plan li.no { color:var(--muted); }
+  .plan li.no::before { content:"\2715"; color:var(--muted); font-weight:700; }
+  .plan.hot li.no { color:var(--muted-d); }
+  .plan.hot li.no::before { color:var(--muted-d); }
+  @media (max-width:900px) { .two { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -329,9 +345,11 @@
       <svg width="22" height="22" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="29" stroke="#C8261A" stroke-width="13"/><rect x="44" y="6" width="12" height="88" fill="#1A1A1A"/></svg>
       ФИЗКУЛЬТ
     </div>
-    <nav class="nav-links" aria-label="Разделы страницы">
+    <nav class="nav-links" aria-label="Разделы">
       <a href="#chat">Диалог</a>
       <a href="#scenarios">Что умеет</a>
+      <a href="#trainers">Тренерам</a>
+      <a href="#clubs">Клубам</a>
       <a href="#pricing">Тарифы</a>
       <a href="#faq">Вопросы</a>
     </nav>
@@ -348,8 +366,8 @@
   <div class="wrap inner">
     <div>
       <div class="kicker"><span class="knum">RU</span> Для тех, кто бегает, крутит и плавает</div>
-      <h1>Тренер, который <span class="red">всегда рядом</span> с тобой</h1>
-      <p class="lead">Твои часы Garmin копят цифры — тренировки, сон, пульс, — но никто их не читает. Физкульт читает. Каждое утро в Telegram он говорит одно: что делать сегодня — работать, полегче или отдыхать. А когда что-то идёт не так — пишет первым, не дожидаясь вопроса.</p>
+      <h1>Тренер, который следит за тобой <span class="red">каждый день</span></h1>
+      <p class="lead">Твои часы Garmin копят цифры — тренировки, сон, пульс, — но никто их не читает. Физкульт читает и каждое утро пишет сам: как прошла ночь, что она значит для нагрузки и что делать сегодня. Сравнивает не со «средним атлетом», а с твоей собственной нормой.</p>
       <a class="btn" href="https://t.me/fizkult_ai_bot">Попробовать 7 дней бесплатно →</a>
       <div class="btn-note">Бесплатно · Без карты · 2 минуты на подключение</div>
       <div class="tagline">Физкульт. Но с цифрами.</div>
@@ -357,19 +375,19 @@
         <span class="stamp red">Garmin-native</span>
         <span class="stamp">Telegram</span>
         <span class="stamp">Бег · Вело · Плавание</span>
-        <span class="stamp">Est. 2026</span>
+        <span class="stamp">Claude Opus 5</span>
       </div>
     </div>
 
-    <div class="ticket" role="img" aria-label="Пример утреннего разбора: сон 6 часов 10 минут ниже нормы, пульс покоя 52, решение — лёгкий кросс до 50 минут, интервалы перенесены на четверг">
+    <div class="ticket" role="img" aria-label="Пример утреннего письма: сон 6 часов 10 минут при норме 7 часов 20 минут, пульс покоя 52 при обычных 48, готовность средняя 54 из 100, решение — лёгкий кросс до 50 минут, интервалы перенесены на четверг">
       <span class="corner">Утро · 07:12</span>
       <div class="thead">
-        <span>Утренний разбор · ВТ</span>
+        <span>Утро · ВТ</span>
         <span class="live"><i></i>На связи</span>
       </div>
       <div class="trow">
-        <span class="k">Сон</span>
-        <span class="v">6:10 <span class="dn">▼</span><small>норма 7:20</small></span>
+        <span class="k">😴 Сон</span>
+        <span class="v">6:10 <span class="dn">▼</span><small>обычно 7:20</small></span>
       </div>
       <div class="tviz">
         <div class="vl">Сон · 7 ночей</div>
@@ -380,27 +398,31 @@
         </svg>
       </div>
       <div class="trow">
-        <span class="k">Пульс покоя</span>
+        <span class="k">❤️ Пульс покоя</span>
         <span class="v">52 <span class="up">▲</span><small>обычно 48</small></span>
       </div>
+      <div class="trow">
+        <span class="k">🔋 Готовность</span>
+        <span class="v">54<small>/100 · средняя</small></span>
+      </div>
       <div class="tviz">
-        <div class="vl">Пульс по зонам · 7 дней</div>
+        <div class="vl">Нагрузка · 7 дней</div>
         <svg width="100%" height="48" viewBox="0 0 220 48" preserveAspectRatio="none" fill="none" aria-hidden="true">
           <rect x="0" y="11" width="39" height="29" fill="#C8261A"/>
           <rect x="45" y="19" width="39" height="21" fill="#1A1A1A" opacity=".86"/>
           <rect x="90" y="26" width="39" height="14" fill="#1A1A1A" opacity=".72"/>
           <rect x="135" y="32" width="39" height="8" fill="#1A1A1A" opacity=".58"/>
           <rect x="181" y="36" width="39" height="4" fill="#1A1A1A" opacity=".44"/>
-          <text x="19" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">Z1</text>
-          <text x="64" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">Z2</text>
-          <text x="109" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">Z3</text>
-          <text x="154" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">Z4</text>
-          <text x="200" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">Z5</text>
+          <text x="19" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">ПН</text>
+          <text x="64" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">ВТ</text>
+          <text x="109" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">СР</text>
+          <text x="154" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">ЧТ</text>
+          <text x="200" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">ПТ</text>
         </svg>
       </div>
       <div class="hatch" aria-hidden="true"></div>
       <div class="verdict">
-        <div class="vk">Решение на сегодня</div>
+        <div class="vk">Что делать сегодня</div>
         <div class="vt">Лёгкий кросс ≤ 50′.<br><em>Интервалы 5×3′ → четверг</em></div>
       </div>
     </div>
@@ -409,32 +431,33 @@
 
 <div class="marquee" aria-hidden="true">
   <div class="track">
-    <span class="mq-item"><span class="sq"></span>Физкульт. Но с цифрами.<span class="sq"></span>Garmin-native<span class="sq"></span>Сон · Пульс · Нагрузка · Восстановление<span class="sq"></span>Решения, а не цифры<span class="sq"></span>Бег · Вело · Плавание<span class="sq"></span>Est. 2026&nbsp;&nbsp;</span>
+    <span class="mq-item"><span class="sq"></span>Утро — каждое утро<span class="sq"></span>Разбор тренировки<span class="sq"></span>Итоги недели<span class="sq"></span>Тренер в том же чате<span class="sq"></span>Тренерская<span class="sq"></span>Клубы<span class="sq"></span>Garmin-native&nbsp;&nbsp;</span>
   </div>
   <div class="track">
-    <span class="mq-item"><span class="sq"></span>Физкульт. Но с цифрами.<span class="sq"></span>Garmin-native<span class="sq"></span>Сон · Пульс · Нагрузка · Восстановление<span class="sq"></span>Решения, а не цифры<span class="sq"></span>Бег · Вело · Плавание<span class="sq"></span>Est. 2026&nbsp;&nbsp;</span>
+    <span class="mq-item"><span class="sq"></span>Утро — каждое утро<span class="sq"></span>Разбор тренировки<span class="sq"></span>Итоги недели<span class="sq"></span>Тренер в том же чате<span class="sq"></span>Тренерская<span class="sq"></span>Клубы<span class="sq"></span>Garmin-native&nbsp;&nbsp;</span>
   </div>
 </div>
 
 <section id="how">
   <div class="wrap">
-    <div class="kicker"><span class="knum">01</span> Как это работает</div>
-    <h2 class="rv">Две минуты — <span class="red">и тренер на связи</span></h2>
+    <div class="kicker rv"><span class="knum">01</span> Как это работает</div>
+    <h2 class="rv">Две минуты —<br>и тренер на связи</h2>
+    <p class="sub rv">Ничего не вносить руками, ничего не настраивать. Дальше он говорит сам.</p>
     <div class="steps rv">
       <div class="step">
         <span class="n">01</span>
         <h3>Подключи часы Garmin</h3>
-        <p>Две минуты в боте. Тренировки, сон и пульс подтягиваются сами — руками ничего вносить не нужно.</p>
+        <p>Две минуты в боте: жмёшь ссылку, разрешаешь доступ — всё. Только оставь включённой галочку <b>Historical Data</b>: с ней приедет вся прошлая история, и тренер знает твою норму с первого дня.</p>
       </div>
       <div class="step">
         <span class="n">02</span>
-        <h3>Тренер узнаёт тебя</h3>
-        <p>Не только вчерашнюю тренировку — твой сон, твою норму пульса, план и то, что было раньше. Сравнивает с твоей историей, а не со «средним атлетом».</p>
+        <h3>Он считает твою норму</h3>
+        <p>Сколько ты обычно спишь, какой у тебя обычно пульс покоя, сколько ты обычно тренируешься. Дальше он сравнивает тебя с тобой — и говорит, где сегодня ушло от твоего обычного, а не от чужой таблицы норм.</p>
       </div>
       <div class="step">
         <span class="n">03</span>
-        <h3>Получай решения, не цифры</h3>
-        <p>Каждое утро — что делать сегодня. После тренировки — что она значит. Когда что-то не так — он напишет сам.</p>
+        <h3>Дальше он пишет сам</h3>
+        <p>Каждое утро — как прошла ночь и что делать сегодня. После тренировки — разбор. По воскресеньям — итоги недели. Спросить можно в любой момент: он в том же чате.</p>
       </div>
     </div>
   </div>
@@ -442,20 +465,20 @@
 
 <section id="chat" class="dark">
   <div class="wrap">
-    <div class="kicker"><span class="knum">02</span> Так это выглядит в чате</div>
-    <h2 class="rv">Утро. Тренер уже <span class="red">посмотрел твою ночь</span></h2>
-    <p class="sub">Не дашборд, который надо расшифровывать. Обычный диалог — как с тренером, который в курсе.</p>
+    <div class="kicker rv"><span class="knum">02</span> Так это выглядит в чате</div>
+    <h2 class="rv">Утро. Тренер уже<br>посмотрел твою <span class="red">ночь</span></h2>
+    <p class="sub rv">Не дашборд, который надо расшифровывать. Обычный диалог — как с тренером, который в курсе.</p>
 
     <div class="tg rv">
       <div class="tg-head">
-        <svg width="20" height="20" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="29" stroke="#C8261A" stroke-width="13"/><rect x="44" y="6" width="12" height="88" fill="#EFE6D6"/></svg>
+        <svg width="26" height="26" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="29" stroke="#C8261A" stroke-width="13"/><rect x="44" y="6" width="12" height="88" fill="#EFE6D6"/></svg>
         <span class="tname">Физкульт</span>
         <span class="tstat">тренер · на связи</span>
       </div>
       <div class="tg-body">
         <div class="msg coach">
           <span class="mt">Физкульт · 07:12</span>
-          Доброе утро. Сон <b>6:10</b> — третья ночь подряд ниже твоей нормы 7:20. Пульс покоя <b>52</b>, обычно у тебя 48. По плану сегодня интервалы <b>5×3′</b>, но на таком фоне я бы их не трогал — переносим на четверг. Сегодня лёгкий кросс до 50 минут, разговорный темп.
+          Доброе утро. Сон <b>6:10</b> — третья ночь подряд ниже твоей нормы <b>7:20</b>. Пульс покоя <b>52</b>, обычно у тебя 48. По плану сегодня интервалы <b>5×3′</b>, но на таком фоне я бы их не трогал — переносим на четверг. Сегодня лёгкий кросс до 50 минут, разговорный темп.
         </div>
         <div class="msg user">
           <span class="mt">Ты · 07:15</span>
@@ -471,71 +494,173 @@
         </div>
       </div>
     </div>
-    <p class="tg-note">Диалог — пример. Твой будет по твоим цифрам. <b>В Pro тренер пишет первым</b> и помнит, что было раньше.</p>
+    <p class="tg-note rv">Диалог — пример. Твой будет по твоим цифрам.<br><b>В чате отвечает Claude Opus 5</b> — тренер говорит по твоей ситуации, и с ним можно спорить.</p>
   </div>
 </section>
 
 <section id="scenarios">
   <div class="wrap">
-    <div class="kicker"><span class="knum">03</span> Что умеет</div>
-    <h2 class="rv">Восемь вещей, <span class="red">которые делает тренер</span></h2>
+    <div class="kicker rv"><span class="knum">03</span> Что умеет</div>
+    <h2 class="rv">Весь тренер —<br>в одном чате</h2>
+    <p class="sub rv">Каждая карточка ниже — команда в Telegram или сообщение, которое приходит само. Плана подготовки он не сочиняет: свой присылаешь ты или твой тренер, а он ведёт тебя по нему день за днём.</p>
     <div class="grid rv">
-      <article class="card"><div class="chead"><span class="tag">Каждое утро</span><span class="cn">01</span></div><h3>Утренний разбор</h3><p>Как ты восстановился и что это значит для сегодняшней тренировки.</p></article>
-      <article class="card"><div class="chead"><span class="tag">/today</span><span class="cn">02</span></div><h3>Сегодня</h3><p>Одно решение на день: работать, полегче или день отдыха.</p></article>
-      <article class="card"><div class="chead"><span class="tag">/coach</span><span class="cn">03</span></div><h3>Тренер</h3><p>Задай вопрос — ответит по твоей ситуации, а не общими словами.</p></article>
-      <article class="card"><div class="chead"><span class="tag">После финиша</span><span class="cn">04</span></div><h3>Разбор тренировки</h3><p>Закончил — получил: что получилось, где перегруз, что дальше.</p></article>
-      <article class="card"><div class="chead"><span class="tag">Воскресенье</span><span class="cn">05</span></div><h3>Недельный обзор</h3><p>Что произошло за неделю и с чем идёшь в следующую.</p></article>
-      <article class="card"><div class="chead"><span class="tag">/portrait</span><span class="cn">06</span></div><h3>Спортпортрет</h3><p>Кто ты как атлет: сильное, слабое и на чём стоит твоя форма.</p></article>
-      <article class="card"><div class="chead"><span class="tag">/plan</span><span class="cn">07</span></div><h3>План</h3><p>Твой план всегда под рукой — и подстраивается, когда жизнь вносит правки.</p></article>
-      <article class="card"><div class="chead"><span class="tag">Сам напишет</span><span class="cn">08</span></div><h3>Сигналы тренера</h3><p>Недосып копится, нагрузка скачет, пора притормозить — он заметит первым и напишет сам.</p></article>
+      <div class="card">
+        <div class="chead"><span class="tag">Каждое утро</span><span class="cn">01</span></div>
+        <h3>Утро</h3>
+        <p>Приходит само. Сон с оценкой ночи, восстановление и готовность, тренировки недели, вчерашний день — и слова тренера о том, что со всем этим делать. В конце он спрашивает, как ты себя чувствуешь.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">/today</span><span class="cn">02</span></div>
+        <h3>🏠 Сегодня</h3>
+        <p>Утреннее письмо, к которому можно вернуться в любой момент дня. Ничего не пересчитывает заново — показывает то самое утро, которое ты читал.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">/coach</span><span class="cn">03</span></div>
+        <h3>💬 Тренер</h3>
+        <p>Спроси что угодно — он отвечает, зная твою историю, твой сон и твой план. Не поисковая выдача, а разговор про тебя.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">После финиша</span><span class="cn">04</span></div>
+        <h3>Разбор тренировки</h3>
+        <p>Закончил — получил: что это была за работа, как её перенесло тело, к чему она в твоей неделе. С цифрами тренировки и разбивкой по кругам, если круги были.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">/weekly_review</span><span class="cn">05</span></div>
+        <h3>📅 Итоги недели</h3>
+        <p>По воскресеньям — что произошло за неделю и с чем идёшь в следующую. Тариф Pro.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">/profile</span><span class="cn">06</span></div>
+        <h3>🧬 Спортивный профиль</h3>
+        <p>Что ты набегал, наездил и наплавал — и как тело это переносит.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">/plan</span><span class="cn">07</span></div>
+        <h3>🎯 Мой план</h3>
+        <p>Пришли свой план текстом — хоть списком из заметок. Тренер держит его перед глазами каждый день и отмечает, что сделано. Есть живой тренер — он может прислать план прямо тебе.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">/memory</span><span class="cn">08</span></div>
+        <h3>🧠 Память</h3>
+        <p>Цели, ограничения, обстоятельства — всё, на что он опирается, лежит открыто. Можно дописать, поправить, выключить или удалить. Ничего не запоминается за твоей спиной.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">/team</span><span class="cn">09</span></div>
+        <h3>👥 Команда</h3>
+        <p>Кто видит твои данные. Открыл доступ тренеру — здесь же и отзываешь, в один тап, без объяснений.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">/data</span><span class="cn">10</span></div>
+        <h3>🔌 Что ты про меня знаешь</h3>
+        <p>Полный список того, что приехало с твоих часов, и состояние связи. Видно, за какие дни данные есть, а где часы молчали, — и почему.</p>
+      </div>
     </div>
-    <div class="rv" style="margin-top:38px">
-      <a class="btn" href="https://t.me/fizkult_ai_bot">Попробовать все восемь →</a>
+    <div style="margin-top:38px">
+      <a class="btn" href="https://t.me/fizkult_ai_bot">Открыть тренера в Telegram →</a>
       <div class="btn-note">Первые 7 дней — всё включено, бесплатно</div>
     </div>
   </div>
 </section>
 
-<section class="alt" id="decisions">
+<section id="trainers" class="dark">
   <div class="wrap">
-    <div class="kicker"><span class="knum">04</span> Решения, а не цифры</div>
-    <h2 class="rv">Часы показывают. <span class="red">Физкульт говорит</span></h2>
-    <p class="sub">Графики ты и так видишь в приложении. Вопрос, на который они не отвечают: что со всем этим делать сегодня.</p>
+    <div class="kicker rv"><span class="knum">04</span> Тренерам</div>
+    <h2 class="rv">Ведёшь людей?<br>Есть <span class="red">Тренерская</span></h2>
+    <p class="sub rv">Ты видишь своих спортсменов каждое утро — не раз в неделю на тренировке. Одним письмом, без опросов «ну как ты сегодня».</p>
+    <div class="two rv">
+      <div class="feat">
+        <h3>Утренняя сводка по всей группе</h3>
+        <p>Одно письмо каждое утро: сон и пульс за ночь у каждого, тренировки, о которых ты ещё не знал, а по тем, у кого сегодня чисел нет, — дата последних данных. «Данных нет» и «ничего не делал» — разные строки.</p>
+      </div>
+      <div class="feat">
+        <h3>Приглашение — ссылкой</h3>
+        <p>Отправляешь ссылку тем, кого тренируешь. Каждый сам решает, открывать доступ или нет, и может отозвать его в любой момент — тогда он просто пропадёт из сводки.</p>
+      </div>
+      <div class="feat">
+        <h3>План — прямо спортсмену</h3>
+        <p>Отправляешь план из Тренерской — он приходит спортсмену в чат, тот принимает или отказывается. В карточке видно состояние: ждёт ответа, принят, отклонён.</p>
+      </div>
+      <div class="feat">
+        <h3>Граница, которую видят оба</h3>
+        <p>Ты получаешь числа: состояние и факты тренировок. Ты <b>не видишь</b> его Утро, Разборы и переписку с коучем — они остаются между ним и тренером в чате. Спортсмен читает это же на экране согласия, до того как согласится.</p>
+      </div>
+    </div>
+    <div style="margin-top:36px">
+      <a class="btn inv" href="https://t.me/fizkult_ai_bot">Написать про статус тренера →</a>
+      <div class="btn-note" style="color:var(--muted-d)">Статус тренера открываем руками — расскажи, кого и сколько ты тренируешь</div>
+    </div>
+  </div>
+</section>
 
+<section id="clubs" class="alt">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">05</span> Клубам и командам</div>
+    <h2 class="rv">Бот в вашей группе<br>считает <span class="red">постоянство</span></h2>
+    <p class="sub rv">Беговой клуб, вело-команда, чат друзей, которые обещали друг другу не сдуться в ноябре.</p>
+    <div class="steps rv">
+      <div class="step">
+        <span class="n">01</span>
+        <h3>Правило одно</h3>
+        <p>День, в который была тренировка, идёт в зачёт сезона. Не километры и не темп — дни. Быстрый и медленный в этом чате равны, и это осознанно: постоянство держится не скоростью.</p>
+      </div>
+      <div class="step">
+        <span class="n">02</span>
+        <h3>Сезон и ступени</h3>
+        <p>Сезон идёт до своей даты, у каждого — своя ступень: Старт, Ритм, Ход. Не пьедестал: мы отмечаем приход, а не место. Таблицу можно попросить в чате в любой момент.</p>
+      </div>
+      <div class="step">
+        <span class="n">03</span>
+        <h3>Никто не появляется молча</h3>
+        <p>Пока человек сам не выбрал, как его показывать, его в таблице нет — ни именем, ни строкой. Клуб не выносит в общий чат ничьи данные без разрешения.</p>
+      </div>
+    </div>
+    <div style="margin-top:36px">
+      <div class="btn-row">
+        <a class="btn" href="https://t.me/fizkult_ai_bot">Хочу бота в свою группу →</a>
+        <a class="btn ghost" href="https://t.me/fizkult_ai_bot">Сначала попробовать самому →</a>
+      </div>
+      <div class="btn-note">Клубы открываем руками, по заявке</div>
+    </div>
+  </div>
+</section>
+
+<section id="decisions">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">06</span> Решения, а не цифры</div>
+    <h2 class="rv">Он не только тормозит.<br>Он ещё говорит <span class="red">«жми»</span></h2>
+    <p class="sub rv">Сказать «сегодня полегче» умеет любой счётчик готовности. Тренер нужен, чтобы ещё и назвать день, когда можно добавить, — и объяснить, ради чего. Это тот же четверг, на который в среду переехали интервалы.</p>
     <div class="duo rv">
       <div class="panel">
-        <div class="ph">Часы показывают</div>
-        <div class="trow"><span class="k">Сон</span><span class="v">6:10 <span class="dn">▼</span></span></div>
-        <div class="trow"><span class="k">Пульс покоя</span><span class="v">52 <span class="up">▲</span></span></div>
-        <div class="trow"><span class="k">Нагрузка · 7 дней</span><span class="v">+18%</span></div>
-        <div class="tviz" style="margin-top:14px">
+        <div class="ph">Четверг · те же три числа</div>
+        <div class="trow"><span class="k">Сон</span><span class="v">7:40 <span class="up">▲</span></span></div>
+        <div class="trow"><span class="k">Пульс покоя</span><span class="v">47 <span class="dn">▼</span></span></div>
+        <div class="trow"><span class="k">Нагрузка · 7 дней</span><span class="v">−9%</span></div>
+        <div class="tviz">
           <div class="vl">Сон · тренд</div>
-          <svg width="100%" height="44" viewBox="0 0 220 44" preserveAspectRatio="none" fill="none" aria-hidden="true">
-            <line x1="0" y1="39" x2="220" y2="39" stroke="#1A1A1A" stroke-width="1" opacity=".22"/>
-            <path d="M0,10 L37,17 L73,13 L110,20 L147,16 L183,24 L214,34" stroke="#1A1A1A" stroke-width="2.4" fill="none"/>
-            <rect x="210" y="30" width="8" height="8" fill="#C8261A"/>
+          <svg width="100%" height="40" viewBox="0 0 220 40" preserveAspectRatio="none" fill="none" aria-hidden="true">
+            <line x1="0" y1="36" x2="220" y2="36" stroke="#1A1A1A" stroke-width="1" opacity=".22"/>
+            <path d="M0,31 L37,25 L73,27 L110,19 L147,16 L183,11 L214,7" stroke="#1A1A1A" stroke-width="2.4" fill="none"/>
           </svg>
         </div>
       </div>
       <div class="arrow" aria-hidden="true">
-        <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-          <path d="M2 22 H34 M24 10 L38 22 L24 34" stroke="#C8261A" stroke-width="5"/>
-        </svg>
+        <svg width="42" height="42" viewBox="0 0 42 42" fill="none"><path d="M4 21H36M36 21L25 10M36 21L25 32" stroke="#1A1A1A" stroke-width="3"/></svg>
       </div>
       <div class="panel inkp">
         <div class="ph">Физкульт говорит</div>
-        <div class="big">Сегодня — полегче.<br><span class="red">Интервалы — на четверг.</span></div>
-        <p class="small">Одно решение на день — из твоего сна, твоей нагрузки, твоей истории. Не из таблицы «средних норм». И без чувства вины за пропуск.</p>
+        <div class="big"><span class="red">Зелёный свет</span>.<br>Интервалы 5×3′ — сегодня.</div>
+        <p class="small">«Две нормальные ночи, пульс покоя вернулся к твоим 47. До твоего старта шесть недель, и эта работа в них ещё как влезает. Неделя не потеряна — она переложена.»</p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="pricing">
+<section id="pricing" class="alt">
   <div class="wrap">
-    <div class="kicker"><span class="knum">05</span> Тарифы</div>
-    <h2 class="rv">Сначала — <span class="red">7 дней бесплатно</span></h2>
-    <p class="sub">Первая неделя — полный Pro, бесплатно и без карты. Дальше сам решаешь, каким тренером он останется.</p>
+    <div class="kicker rv"><span class="knum">07</span> Тарифы</div>
+    <h2 class="rv">Сначала —<br>7 дней <span class="red">бесплатно</span></h2>
+    <p class="sub rv">Первая неделя — полный Pro, бесплатно и без карты. Дальше — 499 или 999 ₽ в месяц: <b>месяц Pro стоит меньше одной тренировки с живым тренером</b>.</p>
+
     <div class="plans rv">
       <div class="plan">
         <div class="name">Пробный период</div>
@@ -544,90 +669,136 @@
         <div class="per">7 дней · всё из Pro</div>
         <ul>
           <li>Все функции Pro без ограничений</li>
-          <li>Подключение часов Garmin за две минуты</li>
+          <li>Неделя начинает идти с подключения часов, а не с нажатия «Старт»</li>
           <li>Без карты — платишь, только если решишь остаться</li>
         </ul>
-        <a class="btn ghost" href="https://t.me/fizkult_ai_bot">Включить пробную неделю →</a>
       </div>
+
       <div class="plan">
         <div class="name">Basic</div>
-        <div class="who">Тренер отвечает, когда спросишь</div>
+        <div class="who">Тренер, который приходит каждое утро</div>
         <div class="price">499 ₽</div>
         <div class="per">за 30 дней · ≈17 ₽ в день</div>
         <ul>
-          <li>Утро и «Сегодня» — по сегодняшним цифрам</li>
-          <li>Короткий итог после тренировки</li>
-          <li>Итог недели и спортпортрет</li>
-          <li>Просмотр плана</li>
-          <li>Пара вопросов тренеру в день</li>
-          <li>Предупреждения безопасности</li>
+          <li>Утро каждый день и экран «Сегодня»</li>
+          <li>Три разбора тренировок в неделю</li>
+          <li>Три вопроса тренеру в день</li>
+          <li>Спортивный профиль, план, память, «Команда»</li>
+          <li class="no">Итогов недели нет — они в Pro</li>
         </ul>
-        <a class="btn ghost" href="https://t.me/fizkult_ai_bot">Выбрать Basic →</a>
       </div>
+
       <div class="plan hot">
-        <span class="badge">Полная версия тренера</span>
+        <div class="badge">Полная версия тренера</div>
         <div class="name">Pro</div>
-        <div class="who">Тренер держит руку на пульсе — и пишет первым</div>
+        <div class="who">Тренер, которого можно спрашивать сколько угодно</div>
         <div class="price">999 ₽</div>
         <div class="per">за 30 дней · ≈33 ₽ в день</div>
         <ul>
-          <li>Всё из Basic — в полную силу</li>
-          <li>Тренер с памятью: помнит, что было раньше</li>
-          <li>Сравнение с твоей историей и планом</li>
-          <li>План, который подстраивается</li>
-          <li>Тренерский обзор недели</li>
-          <li>Сам пишет, когда замечает важное</li>
+          <li>Всё из Basic</li>
+          <li>Разбор каждой тренировки, сколько бы их ни было</li>
+          <li>Вопросы тренеру без счёта</li>
+          <li>Итоги недели по воскресеньям</li>
         </ul>
-        <a class="btn" href="https://t.me/fizkult_ai_bot">Попробовать Pro бесплатно →</a>
-        <div class="note">Месяц Pro стоит меньше одной тренировки с живым тренером. Отмена в любой момент командой /cancel. <a href="oferta.html" style="color:inherit">Условия и возврат</a>.</div>
       </div>
     </div>
+    <div class="btn-row rv" style="margin-top:30px">
+      <a class="btn" href="https://t.me/fizkult_ai_bot">Начать с бесплатной недели →</a>
+      <span class="btn-note">Выбирать сейчас не надо · тарифы бот покажет, когда неделя кончится</span>
+    </div>
+    <p class="sub rv" style="margin-top:22px; max-width:760px"><b>Автосписаний мы не подключаем:</b> доступ кончается в свою дату, деньги сами не уходят — отменять нечего. <a href="oferta.html" style="color:var(--ink)">Условия и возврат</a>.</p>
   </div>
 </section>
 
 <section class="dark honest">
   <div class="wrap">
-    <div class="kicker"><span class="knum">06</span> Честно</div>
-    <h2 class="rv">Что Физкульт — <span class="red">и что нет</span></h2>
+    <div class="kicker rv"><span class="knum">08</span> Честно</div>
+    <h2 class="rv">Что Физкульт —<br>и чего он <span class="red">не делает</span></h2>
     <div class="box rv">
-      <p><b>Физкульт — <span class="red">это</span></b> тренер, который всегда в курсе твоих цифр, помнит, что было раньше, и говорит простым языком, что делать.</p>
-      <p><b>Физкульт — <span class="red">это не</span></b> врач и не замена живому тренеру. Медицинских рекомендаций он не даёт, а если у тебя есть тренер — Физкульт работает с его планом, а не против него.</p>
+      <p><b>Физкульт — <span class="red">это</span></b> тренер, который каждый день в курсе твоих цифр, помнит то, что ты сам разрешил помнить, и говорит простым языком, что делать.</p>
+      <p><b>Физкульт — <span class="red">это не</span></b> врач и не замена живому тренеру. Диагнозов он не ставит и медицинских рекомендаций не даёт. Есть свой тренер — Физкульт работает с его планом, а не против него.</p>
+      <p><b>И <span class="red">не выдумывает</span>.</b> Если данных за ночь не пришло — он скажет, что сравнивать сегодня не с чем, а не подставит красивое число. Метки в письме об этом и говорят: 🟢 как обычно · 🟡 заметно ушло · 🔴 сильно ушло · ⚪ сегодня не сравниваю.</p>
     </div>
   </div>
 </section>
 
-<section id="faq" class="alt">
+<section id="faq">
   <div class="wrap">
-    <div class="kicker"><span class="knum">07</span> Вопросы</div>
-    <h2 class="rv">Что спрашивают <span class="red">перед стартом</span></h2>
+    <div class="kicker rv"><span class="knum">09</span> Вопросы</div>
+    <h2 class="rv">Что спрашивают<br>перед стартом</h2>
     <div class="faq rv">
       <details>
-        <summary>Нужны ли часы Garmin?</summary>
-        <div class="a"><p>Да, на них всё и стоит: тренировки, сон и пульс Физкульт берёт прямо из часов, руками вносить ничего не надо. Если Garmin уже на руке — подключение займёт две минуты, и первый утренний разбор придёт в первое же утро после синхронизации.</p></div>
+        <summary>Нужны ли часы Garmin?<span></span></summary>
+        <div class="a">
+          <p>Да, на них всё и стоит: тренировки, сон и пульс Физкульт берёт прямо из часов, руками вносить ничего не надо. Подключение — две минуты, и в нём есть ровно одно место, где стоит быть внимательным.</p>
+          <p><b>Галочка Historical Data</b> на странице подключения. С ней приедет вся твоя прошлая история — и тренер с первого дня знает твою норму. Без неё — только новые тренировки, и сравнивать тебя будет не с чем. И синхронизируй часы в Garmin Connect до подключения: если они давно не отдавали данные в приложение, забирать будет нечего.</p>
+        </div>
       </details>
       <details>
-        <summary>У меня Polar, Suunto или Apple Watch</summary>
-        <div class="a"><p>Пока Физкульт работает только с Garmin — говорим честно, без «скоро всё будет». Другие часы в планах: открой <a href="https://t.me/fizkult_ai_bot">бота</a>, нажми /start и оставь его в контактах — он сам напишет, когда добавим твои.</p></div>
+        <summary>В часах уже есть готовность и совет на день. Зачем ещё и это?<span></span></summary>
+        <div class="a">
+          <p>Число в часах — хорошая вещь, и мы его не отменяем. Но оно посчитано одним алгоритмом для всех и живёт внутри приложения: оно не знает, что у тебя старт через шесть недель, что вчера ты писал про больное колено, что твой тренер прислал на эту неделю и что ты уже переносил интервалы в прошлую.</p>
+          <p>Физкульт держит это в голове и говорит не числом, а решением — почему сегодня так, что это даст и когда вернёмся к работе. И с ним можно спорить: ответить «жалко ломать неделю» и получить объяснение, а не то же самое число ещё раз.</p>
+        </div>
       </details>
       <details>
-        <summary>Я любитель, а не спортсмен. Мне подойдёт?</summary>
-        <div class="a"><p>Физкульт сделан ровно для этого: ты тренируешься несколько раз в неделю, сам себе составляешь неделю и не всегда понимаешь, когда жать, а когда отдыхать. Про-атлету с командой тренеров он не нужен. А вот тому, кого никто не поддерживает между тренировками, — очень.</p></div>
+        <summary>Он составит мне план подготовки?<span></span></summary>
+        <div class="a">
+          <p>Нет, и это честнее сказать до оплаты. План пишешь ты сам или твой тренер. Физкульт берёт его текстом — хоть списком из заметок, хоть таблицей из мессенджера, — держит перед глазами каждый день, отмечает сделанное и говорит, когда по твоему состоянию день стоит подвинуть.</p>
+          <p>Плана нет вовсе — он всё равно работает: смотрит на твою неделю и говорит, что делать сегодня. Но недельную раскладку до старта за тебя не напишет.</p>
+        </div>
       </details>
       <details>
-        <summary>У меня уже есть тренер. Зачем мне это?</summary>
-        <div class="a"><p>Тренер видит тебя раз в неделю — Физкульт смотрит на твоё утро каждый день между вашими встречами. Он работает с планом твоего тренера, а не против него: заметит недовосстановление раньше, чем оно попадёт в переписку, и подскажет, что стоит обсудить.</p></div>
+        <summary>У меня Polar, Suunto или Apple Watch<span></span></summary>
+        <div class="a">
+          <p>Пока Физкульт подключает только Garmin — говорим честно, без «скоро всё будет» и без дат, которых у нас нет. Появятся другие часы — объявим в <a href="https://t.me/fizkult_ai_bot">боте</a> и здесь, на этой странице.</p>
+        </div>
       </details>
       <details>
-        <summary>Это врач?</summary>
-        <div class="a"><p>Нет. Физкульт не ставит диагнозы и не даёт медицинских рекомендаций. Если что-то болит или беспокоит — сначала к врачу. Зато он умеет вовремя сказать «притормози».</p></div>
+        <summary>Что придёт в первое же утро?<span></span></summary>
+        <div class="a">
+          <p>Первое утро после того, как история доедет и пройдёт первая ночь с часами на руке: сон с оценкой ночи, восстановление и готовность, тренировки недели, вчерашний день и слова тренера о том, что со всем этим делать сегодня. И вопрос, как ты себя чувствуешь, — ответ он тоже учитывает.</p>
+          <p>Пока ночей мало, он так и говорит: норму считать не на чем. Норма набирается за первые недели — и дальше сравнение идёт с ней.</p>
+        </div>
       </details>
       <details>
-        <summary>Как отменить подписку?</summary>
-        <div class="a"><p>Одной командой /cancel прямо в боте — в любой момент, без писем, звонков и «менеджер вам перезвонит». А пробная неделя вообще ни к чему не обязывает: карту на старте не спрашиваем. Условия оплаты и возврата — в <a href="oferta.html">оферте</a>.</p></div>
+        <summary>Я любитель, а не спортсмен. Мне подойдёт?<span></span></summary>
+        <div class="a">
+          <p>Физкульт сделан ровно для этого: ты тренируешься несколько раз в неделю, сам себе составляешь неделю и не всегда понимаешь, когда жать, а когда отдыхать. Про-атлету с командой тренеров он не нужен. А вот тому, кого никто не поддерживает между тренировками, — очень.</p>
+        </div>
       </details>
       <details>
-        <summary>Что с приватностью?</summary>
-        <div class="a"><p>Цифры из твоих часов работают только на твои рекомендации. Мы не продаём их и не передаём третьим лицам. Подробно — в <a href="privacy.html">политике обработки ПДн</a>.</p></div>
+        <summary>У меня уже есть тренер. Зачем мне это?<span></span></summary>
+        <div class="a">
+          <p>Тренер видит тебя раз в неделю — Физкульт смотрит на твоё утро каждый день между вашими встречами. Он работает с планом твоего тренера, а не против него.</p>
+          <p>А если твой тренер тоже в Физкульте, он может открыть <b>Тренерскую</b>: прислать тебе план прямо в чат и каждое утро видеть сводку по всем своим спортсменам. Доступ открываешь ты сам и отзываешь в любой момент — <a href="#trainers">подробнее выше</a>.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Я тренер / у меня клуб<span></span></summary>
+        <div class="a">
+          <p>Статус тренера и клуб в телеграм-группе мы открываем руками, по заявке — так мы знаем, кто за ней стоит. Напиши <a href="https://t.me/fizkult_ai_bot">в бот</a>, кого и сколько ты тренируешь или что у вас за группа, — ответим в том же чате.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Как отменить подписку?<span></span></summary>
+        <div class="a">
+          <p>Никак — и это не отговорка. Автосписания мы не подключаем: оплата действует свои 30 дней и просто заканчивается. Не продлил — доступ закрылся, и никто не снял с карты «на всякий случай». Пробная неделя тем более ни к чему не обязывает: карту на старте мы не спрашиваем.</p>
+          <p>Условия оплаты и возврата — в <a href="oferta.html">оферте</a>.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Это врач?<span></span></summary>
+        <div class="a">
+          <p>Нет. Физкульт не ставит диагнозы и не даёт медицинских рекомендаций. Он делает тренерские выводы — «перегрузился, пора разгружаться» — и, когда вывод серьёзный, сам говорит, сколько ждать и по какому признаку идти к врачу. Если что-то болит или не восстанавливается — сначала к врачу.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Что с приватностью?<span></span></summary>
+        <div class="a">
+          <p>Цифры из твоих часов работают только на твои рекомендации. Мы не продаём их и не передаём третьим лицам.</p>
+          <p>Внутри бота всё открыто: <b>/data</b> — что именно приехало с часов, <b>/memory</b> — что тренер про тебя помнит и что можно стереть, <b>/team</b> — кто видит твои данные и как отозвать доступ. Подробно — в <a href="privacy.html">политике обработки ПДн</a>.</p>
+        </div>
       </details>
     </div>
   </div>
@@ -636,10 +807,10 @@
 <section class="final">
   <div class="wedge" aria-hidden="true"></div>
   <div class="wrap inner">
-    <h2 class="rv">Твои часы уже всё знают.<br>Пусть кто-то это прочитает.</h2>
-    <p>Две минуты на подключение — и первым же утром тебя ждёт разбор. Неделя полного Pro бесплатно. Не твоё — /cancel, и никто не перезвонит.</p>
+    <h2>Твои часы уже всё знают.<br>Пусть кто-то это прочитает.</h2>
+    <p>Две минуты на подключение — и первым же утром тебя ждёт письмо. Неделя полного Pro бесплатно, без карты. Не твоё — просто не продлевай.</p>
     <a class="btn inv" href="https://t.me/fizkult_ai_bot">Начать бесплатную неделю →</a>
-    <div class="btn-note">Без карты · Полный Pro · Отмена одной командой</div>
+    <div class="btn-note">Без карты · Полный Pro · Без автосписаний</div>
     <div class="tagline" aria-hidden="true">Физкульт. Но с цифрами. · Est. 2026</div>
   </div>
 </section>
@@ -658,7 +829,13 @@
         <svg width="22" height="22" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="29" stroke="#C8261A" stroke-width="13"/><rect x="44" y="6" width="12" height="88" fill="#EFE6D6"/></svg>
         ФИЗКУЛЬТ
       </div>
-      <p>Личный тренер, который читает твои цифры.</p>
+      <p>Личный тренер, который следит за тобой каждый день.</p>
+    </div>
+    <div>
+      <div class="col-h">Разделы</div>
+      <a href="#scenarios">Что умеет</a>
+      <a href="#trainers">Тренерам</a>
+      <a href="#clubs">Клубам и командам</a>
     </div>
     <div>
       <div class="col-h">Работает с</div>
@@ -683,24 +860,16 @@
       hero = document.querySelector('.hero'),
       fin = document.querySelector('.final');
   if (bar && hero && fin && 'IntersectionObserver' in window) {
-    var pastHero = false, atFinal = false;
+    var pastHero = false, atFinal = false, atFoot = false;
     var upd = function () {
-      var on = pastHero && !atFinal;
+      var on = pastHero && !atFinal && !atFoot;
       bar.classList.toggle('on', on);
       bar.setAttribute('aria-hidden', String(!on));
     };
     new IntersectionObserver(function (e) { pastHero = !e[0].isIntersecting; upd(); }).observe(hero);
     new IntersectionObserver(function (e) { atFinal = e[0].isIntersecting; upd(); }).observe(fin);
     var foot = document.querySelector('footer');
-    if (foot) {
-      var atFoot = false;
-      upd = function () {
-        var on = pastHero && !atFinal && !atFoot;
-        bar.classList.toggle('on', on);
-        bar.setAttribute('aria-hidden', String(!on));
-      };
-      new IntersectionObserver(function (e) { atFoot = e[0].isIntersecting; upd(); }).observe(foot);
-    }
+    if (foot) { new IntersectionObserver(function (e) { atFoot = e[0].isIntersecting; upd(); }).observe(foot); }
   }
   if (!('IntersectionObserver' in window) ||
       window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
