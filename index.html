@@ -228,6 +228,10 @@
   .plan .price { font-size:42px; font-weight:900; letter-spacing:-.03em; margin:12px 0 2px; line-height:1; }
   .plan .per { font-family:"Geist Mono",monospace; font-size:11px; color:var(--muted); letter-spacing:.06em; }
   .plan.hot .per { color:var(--muted-d); }
+  .plan .year { font-family:"Geist Mono",monospace; font-size:11px; color:var(--muted); letter-spacing:.06em; margin-top:7px; }
+  .plan .year b { color:var(--ink); font-weight:700; }
+  .plan.hot .year { color:var(--muted-d); }
+  .plan.hot .year b { color:var(--bg); }
   .plan ul { list-style:none; padding:0; margin:20px 0 24px; flex:1; }
   .plan li { font-size:13.5px; padding:8px 0 8px 22px; position:relative; border-top:1px dashed rgba(0,0,0,.2); }
   .plan.hot li { border-top:1px dashed rgba(255,255,255,.22); }
@@ -659,7 +663,7 @@
   <div class="wrap">
     <div class="kicker rv"><span class="knum">07</span> Тарифы</div>
     <h2 class="rv">Сначала —<br>7 дней <span class="red">бесплатно</span></h2>
-    <p class="sub rv">Первая неделя — полный Pro, бесплатно и без карты. Дальше — 499 или 999 ₽ в месяц: <b>месяц Pro стоит меньше одной тренировки с живым тренером</b>.</p>
+    <p class="sub rv">Первая неделя — полный Pro, бесплатно и без карты. Дальше — 499 или 999 ₽ в месяц: <b>месяц Pro стоит меньше одной тренировки с живым тренером</b>. Есть год — он выходит как десять месяцев вместо двенадцати.</p>
 
     <div class="plans rv">
       <div class="plan">
@@ -679,6 +683,7 @@
         <div class="who">Тренер, который приходит каждое утро</div>
         <div class="price">499 ₽</div>
         <div class="per">за 30 дней · ≈17 ₽ в день</div>
+        <div class="year">или <b>4 990 ₽ за год</b> · ≈13 ₽ в день</div>
         <ul>
           <li>Утро каждый день и экран «Сегодня»</li>
           <li>Три разбора тренировок в неделю</li>
@@ -694,6 +699,7 @@
         <div class="who">Тренер, которого можно спрашивать сколько угодно</div>
         <div class="price">999 ₽</div>
         <div class="per">за 30 дней · ≈33 ₽ в день</div>
+        <div class="year">или <b>9 990 ₽ за год</b> · ≈27 ₽ в день</div>
         <ul>
           <li>Всё из Basic</li>
           <li>Разбор каждой тренировки, сколько бы их ни было</li>
@@ -783,7 +789,7 @@
       <details>
         <summary>Как отменить подписку?<span></span></summary>
         <div class="a">
-          <p>Никак — и это не отговорка. Автосписания мы не подключаем: оплата действует свои 30 дней и просто заканчивается. Не продлил — доступ закрылся, и никто не снял с карты «на всякий случай». Пробная неделя тем более ни к чему не обязывает: карту на старте мы не спрашиваем.</p>
+          <p>Никак — и это не отговорка. Автосписания мы не подключаем: оплата действует свой срок — месяц или год, какой выбрал, — и просто заканчивается. Не продлил — доступ закрылся, и никто не снял с карты «на всякий случай». Пробная неделя тем более ни к чему не обязывает: карту на старте мы не спрашиваем.</p>
           <p>Условия оплаты и возврата — в <a href="oferta.html">оферте</a>.</p>
         </div>
       </details>
