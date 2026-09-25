@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fizkult — a personal coach in Telegram: reads your Garmin and tells you what to do today</title>
+<meta name="description" content="Your Garmin piles up numbers — Fizkult reads them. Every morning it writes first: how the night went and what to do today. Workout breakdowns, a coach in the same chat. There's a Coach's room for coaches and clubs for groups. 7 days free, no card.">
+<meta property="og:title" content="Your watch sees everything. Fizkult reads it and tells you what to do">
+<meta property="og:description" content="A personal coach in Telegram for people who run, ride and swim with a Garmin. Writes first every morning, remembers your history, breaks down your workouts. 7 days free.">
+<meta property="og:url" content="https://fizkult.ai/en/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#EFE6D6; --bg-alt:#E5D9C3; --panel:#FFFFFF; --ink:#1A1A1A;
+    --muted:#5B5347; --muted-d:#C9C2B5; --accent:#C8261A; --accent-ink:#EFE6D6; --line:#1A1A1A;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Geist",system-ui,sans-serif; line-height:1.55;
+    font-variant-numeric:tabular-nums; }
+  ::selection { background:var(--accent); color:var(--accent-ink); }
+  .wrap { max-width:1120px; margin:0 auto; padding:0 20px; }
+  .mono { font-family:"Geist Mono",monospace; }
+  a { color:inherit; }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline:3px solid var(--accent); outline-offset:3px; }
+  .dark a:focus-visible, .dark summary:focus-visible, footer a:focus-visible { outline-color:var(--bg); }
+  .skip { position:absolute; left:-9999px; top:0; background:var(--ink); color:var(--bg);
+    padding:10px 16px; z-index:100; font-weight:700; }
+  .skip:focus { left:0; }
+
+  /* kicker with section number chip */
+  .kicker { display:flex; align-items:center; gap:10px; font-family:"Geist Mono",monospace;
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase; margin-bottom:16px; }
+  .kicker .knum { background:var(--accent); color:var(--accent-ink); padding:2px 8px;
+    font-weight:700; letter-spacing:.1em; }
+  .dark .kicker { color:var(--bg); }
+
+  h1,h2,h3 { letter-spacing:-.03em; text-transform:uppercase; font-weight:900; margin:0; }
+  h2 { font-size:clamp(28px,4.6vw,46px); line-height:.96; margin-bottom:12px; }
+  h2 .red { color:var(--accent); }
+  .sub { color:var(--muted); font-size:16px; max-width:580px; margin:0; }
+  .dark .sub { color:var(--muted-d); }
+  section { padding:76px 0; }
+
+  .btn { display:inline-block; background:var(--accent); color:var(--accent-ink);
+    border:1.5px solid var(--line); padding:16px 28px; font-weight:800; font-size:15px;
+    text-decoration:none; text-transform:uppercase; letter-spacing:.02em;
+    box-shadow:4px 4px 0 var(--line); transition:transform .1s, box-shadow .1s; }
+  .btn:hover { transform:translate(2px,2px); box-shadow:2px 2px 0 var(--line); }
+  .btn.ghost { background:var(--panel); color:var(--ink); }
+  .btn.inv { background:var(--ink); color:var(--bg); box-shadow:4px 4px 0 var(--accent-ink); border-color:var(--accent-ink); }
+  .btn.inv:hover { box-shadow:2px 2px 0 var(--accent-ink); }
+  .btn-note { margin-top:12px; font-family:"Geist Mono",monospace; font-size:10px;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+  .final .btn-note { color:var(--accent-ink); opacity:.85; }
+
+  /* sticky mobile CTA (appears via JS after hero scrolls out; page works without JS) */
+  .sticky-cta { position:fixed; left:0; right:0; bottom:0; z-index:40; display:none;
+    align-items:center; justify-content:space-between; gap:14px;
+    background:var(--ink); color:var(--bg); border-top:1.5px solid var(--line);
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom)); }
+  .sticky-cta .sc-note { font-family:"Geist Mono",monospace; font-size:10px;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--muted-d); line-height:1.5; }
+  .sticky-cta .btn { padding:12px 18px; font-size:13px; box-shadow:3px 3px 0 var(--accent);
+    border-color:var(--bg); white-space:nowrap; }
+  .sticky-cta .btn:hover { box-shadow:2px 2px 0 var(--accent); }
+  @media (max-width:700px) { .js .sticky-cta.on { display:flex; } }
+
+  /* header */
+  header { border-bottom:1.5px solid var(--line); background:var(--bg); position:sticky; top:0; z-index:10; }
+  .nav { display:flex; align-items:center; justify-content:space-between; padding:14px 0; gap:16px; }
+  .logo { display:flex; align-items:center; gap:10px; font-weight:900; font-size:18px;
+    text-transform:uppercase; letter-spacing:-.02em; }
+  .logo svg { flex-shrink:0; display:block; }
+  .nav-links { display:flex; align-items:center; gap:22px; font-family:"Geist Mono",monospace;
+    font-size:11px; letter-spacing:.1em; text-transform:uppercase; }
+  .nav-links a { text-decoration:none; }
+  .nav-links a:hover { color:var(--accent); }
+  .nav a.cta { font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em;
+    color:var(--accent-ink); background:var(--ink); padding:9px 14px; text-decoration:none;
+    box-shadow:3px 3px 0 var(--accent); white-space:nowrap; }
+  .nav a.cta:hover { transform:translate(1px,1px); box-shadow:2px 2px 0 var(--accent); }
+  .est { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em;
+    color:var(--muted); border:1.5px solid var(--line); padding:4px 9px; }
+  /* Переключатель языка. В отличие от `.est`, на узком экране НЕ прячется:
+     на телефоне прячется и `.nav-links`, и если спрятать ещё и его, человек,
+     пришедший на чужом для себя языке, не найдёт свой вовсе. */
+  .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em;
+    font-weight:700; text-decoration:none; color:var(--ink);
+    border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .lang:hover { background:var(--ink); color:var(--bg); }
+
+  /* hero */
+  .hero { position:relative; overflow:hidden; padding:84px 0 88px; border-bottom:1.5px solid var(--line); }
+  .hero .wedge { position:absolute; right:-170px; bottom:-300px; width:480px; height:480px;
+    background:var(--accent); transform:rotate(-14deg); }
+  .hero .beam { position:absolute; right:330px; top:-60px; width:8px; height:460px;
+    background:var(--ink); transform:rotate(16deg); }
+  .hero .inner { position:relative; z-index:1; display:grid; grid-template-columns:1.15fr .85fr;
+    gap:48px; align-items:center; }
+  .hero h1 { font-size:clamp(40px,6.4vw,76px); line-height:.94; letter-spacing:-.04em; }
+  .hero h1 .red { color:var(--accent); }
+  .hero p.lead { font-size:18px; color:var(--muted); max-width:520px; margin:24px 0 32px; }
+  .hero .tagline { font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--ink); margin-top:20px; font-weight:600; }
+  .stamps { display:flex; flex-wrap:wrap; gap:8px; margin-top:26px; }
+  .stamp { font-family:"Geist Mono",monospace; font-size:10px; font-weight:600; letter-spacing:.14em;
+    text-transform:uppercase; border:1.5px solid var(--line); padding:5px 10px; background:var(--bg); }
+  .stamp.red { background:var(--accent); color:var(--accent-ink); border-color:var(--line); }
+
+  /* morning ticket card */
+  .ticket { background:var(--panel); border:1.5px solid var(--line); box-shadow:6px 6px 0 var(--line);
+    padding:22px 22px 20px; max-width:400px; width:100%; justify-self:center; position:relative;
+    transform:rotate(-1.4deg); }
+  .ticket .thead { display:flex; justify-content:space-between; align-items:center;
+    font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); padding-bottom:12px; margin-bottom:14px; }
+  .ticket .thead .live { display:inline-flex; align-items:center; gap:7px; color:var(--accent); font-weight:700; }
+  .ticket .thead .live i { width:7px; height:7px; background:var(--accent); display:inline-block; }
+  .trow { display:flex; justify-content:space-between; align-items:baseline; padding:7px 0; }
+  .trow .k { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--muted); }
+  .trow .v { font-weight:900; font-size:20px; letter-spacing:-.02em; }
+  .trow .v small { font-family:"Geist Mono",monospace; font-size:10px; font-weight:600; color:var(--muted); margin-left:6px; letter-spacing:.04em; }
+  .trow .v .dn, .trow .v .up { color:var(--accent); }
+  .tviz { margin:10px 0 4px; }
+  .tviz .vl { font-family:"Geist Mono",monospace; font-size:9px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .hatch { height:12px; margin:16px 0 14px; border-top:1.5px solid var(--line); border-bottom:1.5px solid var(--line);
+    background:repeating-linear-gradient(-45deg, var(--ink) 0 2px, transparent 2px 9px); }
+  .verdict { background:var(--ink); color:var(--bg); padding:14px 16px; }
+  .verdict .vk { font-family:"Geist Mono",monospace; font-size:9px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--muted-d); margin-bottom:5px; }
+  .verdict .vt { font-weight:900; text-transform:uppercase; letter-spacing:-.01em; font-size:16px; line-height:1.25; }
+  .verdict .vt em { font-style:normal; color:#F0A79F; }
+  .ticket .corner { position:absolute; top:-13px; right:-12px; transform:rotate(6deg);
+    background:var(--accent); color:var(--accent-ink); font-family:"Geist Mono",monospace;
+    font-size:9px; font-weight:700; letter-spacing:.16em; padding:5px 10px; border:1.5px solid var(--line); }
+
+  /* marquee */
+  .marquee { background:var(--ink); border-bottom:1.5px solid var(--line); overflow:hidden;
+    display:flex; padding:13px 0; }
+  .marquee .track { display:flex; flex-shrink:0; min-width:100%; animation:mq 30s linear infinite; }
+  .mq-item { color:var(--bg); font-family:"Geist Mono",monospace; font-size:12px; font-weight:600;
+    letter-spacing:.16em; text-transform:uppercase; white-space:nowrap; padding:0 14px;
+    display:inline-flex; align-items:center; gap:28px; }
+  .mq-item .sq { width:9px; height:9px; background:var(--accent); display:inline-block; flex-shrink:0; }
+  @keyframes mq { to { transform:translateX(-100%); } }
+  @media (prefers-reduced-motion: reduce) { .marquee .track { animation:none; } }
+
+  /* steps */
+  .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1.5px solid var(--line);
+    background:var(--panel); box-shadow:6px 6px 0 var(--line); margin-top:38px; }
+  .step { padding:28px 26px 30px; border-right:1.5px solid var(--line); position:relative; }
+  .step:last-child { border-right:none; }
+  .step .n { font-family:"Geist Mono",monospace; font-size:12px; font-weight:700; color:var(--accent-ink);
+    background:var(--accent); display:inline-block; padding:3px 9px; letter-spacing:.1em; }
+  .step h3 { font-size:19px; margin:16px 0 10px; line-height:1.05; }
+  .step p { margin:0; font-size:14px; color:var(--muted); }
+
+  /* dark sections */
+  .dark { background:var(--ink); color:var(--bg); border-top:1.5px solid var(--line); border-bottom:1.5px solid var(--line); }
+  .dark h2 { color:var(--bg); }
+  .dark h2 .red { color:var(--accent); }
+
+  /* telegram chat */
+  .tg { max-width:660px; margin-top:40px; border:1.5px solid var(--bg); box-shadow:8px 8px 0 var(--accent); }
+  .tg-head { display:flex; align-items:center; gap:12px; padding:13px 18px;
+    border-bottom:1.5px solid var(--bg); background:var(--ink); }
+  .tg-head .tname { font-weight:900; text-transform:uppercase; letter-spacing:-.01em; font-size:14px; }
+  .tg-head .tstat { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--muted-d); margin-left:auto; }
+  .tg-body { padding:22px 18px 24px; display:flex; flex-direction:column; gap:16px; }
+  .msg { max-width:82%; padding:14px 16px; font-size:14.5px; line-height:1.55; border:1.5px solid var(--line); }
+  .msg .mt { display:block; font-family:"Geist Mono",monospace; font-size:9px; letter-spacing:.14em;
+    text-transform:uppercase; margin-bottom:7px; }
+  .msg.coach { background:var(--panel); color:var(--ink); align-self:flex-start;
+    box-shadow:4px 4px 0 var(--accent); }
+  .msg.coach .mt { color:var(--accent); font-weight:700; }
+  .msg.user { background:var(--bg-alt); color:var(--ink); align-self:flex-end;
+    box-shadow:-4px 4px 0 var(--accent); }
+  .msg.user .mt { color:var(--muted); text-align:right; }
+  .msg b { font-weight:800; }
+  .tg-note { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.08em;
+    color:var(--muted-d); margin-top:18px; max-width:660px; line-height:1.7; text-transform:uppercase; }
+  .tg-note b { color:var(--bg); }
+
+  /* scenario grid */
+  .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:38px; }
+  .card { background:var(--panel); border:1.5px solid var(--line); padding:20px;
+    box-shadow:4px 4px 0 var(--line); position:relative; transition:transform .12s, box-shadow .12s; }
+  .card:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--line); }
+  .card::before { content:""; position:absolute; top:0; left:0; width:34px; height:5px; background:var(--accent); }
+  .card .chead { display:flex; justify-content:space-between; align-items:baseline; margin-top:6px; }
+  .card .tag { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--accent); font-weight:600; }
+  .card .cn { font-family:"Geist Mono",monospace; font-size:10px; color:var(--muted); letter-spacing:.1em; }
+  .card h3 { font-size:15.5px; margin:9px 0 8px; }
+  .card p { margin:0; font-size:13px; color:var(--muted); line-height:1.5; }
+
+  /* decisions: numbers -> verdict */
+  .alt { background:var(--bg-alt); border-top:1.5px solid var(--line); }
+  .duo { display:grid; grid-template-columns:1fr 64px 1fr; gap:20px; align-items:stretch; margin-top:40px; }
+  .duo .panel { background:var(--panel); border:1.5px solid var(--line); box-shadow:6px 6px 0 var(--line); padding:24px; }
+  .duo .panel.inkp { background:var(--ink); color:var(--bg); box-shadow:6px 6px 0 var(--accent);
+    display:flex; flex-direction:column; justify-content:center; }
+  .duo .ph { font-family:"Geist Mono",monospace; font-size:10px; font-weight:700; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+  .duo .inkp .ph { color:var(--muted-d); }
+  .duo .arrow { display:flex; align-items:center; justify-content:center; }
+  .duo .arrow svg { display:block; }
+  .duo .big { font-size:clamp(22px,2.6vw,30px); font-weight:900; text-transform:uppercase;
+    letter-spacing:-.02em; line-height:1.08; }
+  .duo .big .red { color:#F0A79F; }
+  .duo .small { margin:14px 0 0; font-size:14px; color:var(--muted-d); }
+
+  /* pricing */
+  .plans { display:grid; grid-template-columns:1fr 1fr 1.08fr; gap:18px; margin-top:44px; align-items:stretch; }
+  .plan { background:var(--panel); border:1.5px solid var(--line); padding:28px 26px;
+    box-shadow:4px 4px 0 var(--line); position:relative; display:flex; flex-direction:column; }
+  .plan.hot { background:var(--ink); color:var(--bg); box-shadow:8px 8px 0 var(--accent); }
+  .plan .badge { position:absolute; top:-14px; left:22px; background:var(--accent); color:var(--accent-ink);
+    font-family:"Geist Mono",monospace; font-size:10px; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; padding:4px 11px; border:1.5px solid var(--line); white-space:nowrap; }
+  .plan .name { font-family:"Geist Mono",monospace; font-size:11px; font-weight:700; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--accent); }
+  .plan .who { font-size:13.5px; font-weight:600; color:var(--muted); margin-top:9px; }
+  .plan.hot .who { color:var(--muted-d); }
+  .plan .price { font-size:42px; font-weight:900; letter-spacing:-.03em; margin:12px 0 2px; line-height:1; }
+  .plan .per { font-family:"Geist Mono",monospace; font-size:11px; color:var(--muted); letter-spacing:.06em; }
+  .plan.hot .per { color:var(--muted-d); }
+  .plan .year { font-family:"Geist Mono",monospace; font-size:11px; color:var(--muted); letter-spacing:.06em; margin-top:7px; }
+  .plan .year b { color:var(--ink); font-weight:700; }
+  .plan.hot .year { color:var(--muted-d); }
+  .plan.hot .year b { color:var(--bg); }
+  .plan ul { list-style:none; padding:0; margin:20px 0 24px; flex:1; }
+  .plan li { font-size:13.5px; padding:8px 0 8px 22px; position:relative; border-top:1px dashed rgba(0,0,0,.2); }
+  .plan.hot li { border-top:1px dashed rgba(255,255,255,.22); }
+  .plan li::before { content:"→"; position:absolute; left:0; color:var(--accent); font-weight:700; }
+  .plan.hot li::before { color:#F0A79F; }
+  .plan .btn { width:100%; text-align:center; padding:14px 10px; font-size:13px; }
+  .plan.hot .btn { box-shadow:4px 4px 0 var(--accent-ink); border-color:var(--accent-ink); }
+  .plan.hot .btn:hover { box-shadow:2px 2px 0 var(--accent-ink); }
+  .plan .note { font-size:12px; color:var(--muted); margin-top:14px; }
+  .plan.hot .note { color:var(--muted-d); }
+
+  /* honest */
+  .honest .box { border:1.5px solid var(--bg); background:var(--panel); color:var(--ink);
+    padding:28px 30px; max-width:760px; margin-top:34px; box-shadow:8px 8px 0 var(--accent); }
+  .honest .box p { margin:0 0 12px; font-size:15px; }
+  .honest .box p:last-child { margin:0; }
+  .honest .box b { text-transform:uppercase; letter-spacing:-.01em; }
+  .honest .box b .red { color:var(--accent); }
+
+  /* faq */
+  .faq { max-width:760px; margin-top:38px; border:1.5px solid var(--line); background:var(--panel);
+    box-shadow:6px 6px 0 var(--line); }
+  .faq details { border-bottom:1.5px solid var(--line); }
+  .faq details:last-child { border-bottom:none; }
+  .faq summary { list-style:none; cursor:pointer; display:flex; justify-content:space-between;
+    align-items:center; gap:16px; padding:19px 22px; font-weight:800; font-size:15.5px;
+    text-transform:uppercase; letter-spacing:-.01em; }
+  .faq summary::-webkit-details-marker { display:none; }
+  .faq summary::after { content:"+"; font-family:"Geist Mono",monospace; font-size:20px; font-weight:600;
+    color:var(--accent); flex-shrink:0; line-height:1; transition:transform .15s; }
+  .faq details[open] summary::after { transform:rotate(45deg); }
+  .faq details[open] summary { background:var(--bg); }
+  .faq .a { padding:0 22px 20px; font-size:14px; color:var(--muted); max-width:640px; }
+  .faq .a p { margin:12px 0 0; }
+  .faq .a a { color:var(--ink); }
+
+  /* final CTA */
+  .final { background:var(--accent); color:var(--accent-ink); text-align:center;
+    position:relative; overflow:hidden; border-top:1.5px solid var(--line); padding:96px 0; }
+  .final .wedge { position:absolute; left:-120px; top:-140px; width:340px; height:340px;
+    background:var(--ink); transform:rotate(18deg); opacity:.16; }
+  .final .inner { position:relative; z-index:1; }
+  .final h2 { color:var(--accent-ink); font-size:clamp(30px,5.4vw,54px); }
+  .final p { color:var(--accent-ink); margin:18px auto 34px; max-width:500px; font-weight:600; }
+  .final .tagline { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.16em;
+    text-transform:uppercase; margin-top:26px; opacity:.85; }
+
+  /* footer */
+  footer { background:var(--ink); color:var(--bg); }
+  .foot { display:flex; justify-content:space-between; flex-wrap:wrap; gap:32px; padding:48px 0; }
+  .foot .about p { margin:10px 0 0; font-size:13px; color:var(--muted-d); max-width:300px; }
+  .foot .col-h { font-family:"Geist Mono",monospace; font-size:10px; color:var(--muted-d);
+    letter-spacing:.16em; text-transform:uppercase; margin-bottom:10px; }
+  .foot a { color:var(--bg); font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; display:block; padding:4px 0; }
+  .legal { border-top:1px solid rgba(255,255,255,.14); padding:20px 0; }
+  .legal p { margin:0; font-family:"Geist Mono",monospace; font-size:10px; color:var(--muted-d);
+    letter-spacing:.06em; line-height:1.7; }
+
+  /* reveal on scroll (JS progressive enhancement, motion-safe only) */
+  @media (prefers-reduced-motion: no-preference) {
+    .js .rv { opacity:0; transform:translateY(16px); transition:opacity .5s ease, transform .5s ease; }
+    .js .rv.in { opacity:1; transform:none; }
+  }
+
+  /* responsive */
+  @media (max-width:1000px) {
+    .grid { grid-template-columns:repeat(2,1fr); }
+    .hero .inner { grid-template-columns:1fr; gap:44px; }
+    .hero .beam { display:none; }
+    .ticket { transform:none; justify-self:start; }
+    .duo { grid-template-columns:1fr; gap:16px; }
+    .duo .arrow svg { transform:rotate(90deg); }
+    .nav-links { display:none; }
+  }
+  @media (max-width:900px) {
+    .steps { grid-template-columns:1fr; }
+    .step { border-right:none; border-bottom:1.5px solid var(--line); }
+    .step:last-child { border-bottom:none; }
+    .plans { grid-template-columns:1fr; gap:26px; }
+    .msg { max-width:92%; }
+  }
+  @media (max-width:560px) {
+    .grid { grid-template-columns:1fr; }
+    section { padding:60px 0; }
+    .hero { padding:64px 0 72px; }
+    .hero .wedge { right:-220px; bottom:-360px; }
+    .est { display:none; }
+  }
+
+  /* audience blocks (trainers / clubs) */
+  .two { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:38px; }
+  .feat { background:var(--panel); color:var(--ink); border:1.5px solid var(--line);
+    padding:22px 24px; box-shadow:4px 4px 0 var(--accent); }
+  .dark .feat { border-color:var(--bg); }
+  .feat h3 { font-size:16px; margin:0 0 9px; line-height:1.1; }
+  .feat p { margin:0; font-size:13.5px; color:var(--muted); line-height:1.55; }
+  .feat b { color:var(--ink); font-weight:800; }
+  .dark .btn-note { color:var(--muted-d); }
+  .btn-row { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+  .plan li.no { color:var(--muted); }
+  .plan li.no::before { content:"\2715"; color:var(--muted); font-weight:700; }
+  .plan.hot li.no { color:var(--muted-d); }
+  .plan.hot li.no::before { color:var(--muted-d); }
+  @media (max-width:900px) { .two { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="wrap nav">
+    <div class="logo">
+      <svg width="22" height="22" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="29" stroke="#C8261A" stroke-width="13"/><rect x="44" y="6" width="12" height="88" fill="#1A1A1A"/></svg>
+      FIZKULT
+    </div>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#chat">Dialogue</a>
+      <a href="#scenarios">What it does</a>
+      <a href="#trainers">For coaches</a>
+      <a href="#clubs">For clubs</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">Questions</a>
+    </nav>
+    <span class="est mono" aria-hidden="true">EST. 2026</span>
+    <a class="lang" href="/" hreflang="ru" lang="ru" aria-label="Переключиться на русский">RU</a>
+    <a class="cta" href="https://t.me/fizkult_ai_bot">7 days free →</a>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero" aria-label="Main">
+  <div class="wedge" aria-hidden="true"></div>
+  <div class="beam" aria-hidden="true"></div>
+  <div class="wrap inner">
+    <div>
+      <div class="kicker"><span class="knum">EN</span> For people who run, ride and swim</div>
+      <h1>The coach who keeps an eye on you <span class="red">every day</span></h1>
+      <p class="lead">Your Garmin piles up numbers — workouts, sleep, heart rate — and nobody reads them. Fizkult reads them and writes first every morning: how the night went, what it means for your training load and what to do today. It compares you not with the average athlete but with your own baseline.</p>
+      <a class="btn" href="https://t.me/fizkult_ai_bot">Try 7 days free →</a>
+      <div class="btn-note">Free · No card · 2 minutes to connect</div>
+      <div class="tagline">Fizkult. But with numbers.</div>
+      <div class="stamps" aria-hidden="true">
+        <span class="stamp red">Garmin-native</span>
+        <span class="stamp">Telegram</span>
+        <span class="stamp">Run · Ride · Swim</span>
+        <span class="stamp">Claude Opus 5</span>
+      </div>
+    </div>
+
+    <div class="ticket" role="img" aria-label="An example morning letter: sleep 6 hours 10 minutes against a baseline of 7 hours 20 minutes, resting heart rate 52 against a usual 48, readiness moderate at 54 out of 100, the call — an easy run of up to 50 minutes, intervals moved to Thursday">
+      <span class="corner">Morning · 07:12</span>
+      <div class="thead">
+        <span>Morning · TUE</span>
+        <span class="live"><i></i>Online</span>
+      </div>
+      <div class="trow">
+        <span class="k">😴 Sleep</span>
+        <span class="v">6:10 <span class="dn">▼</span><small>usually 7:20</small></span>
+      </div>
+      <div class="tviz">
+        <div class="vl">Sleep · 7 nights</div>
+        <svg width="100%" height="44" viewBox="0 0 220 44" preserveAspectRatio="none" fill="none" aria-hidden="true">
+          <line x1="0" y1="39" x2="220" y2="39" stroke="#1A1A1A" stroke-width="1" opacity=".22"/>
+          <path d="M0,10 L37,17 L73,13 L110,20 L147,16 L183,24 L214,34" stroke="#1A1A1A" stroke-width="2.4" fill="none"/>
+          <rect x="210" y="30" width="8" height="8" fill="#C8261A"/>
+        </svg>
+      </div>
+      <div class="trow">
+        <span class="k">❤️ Resting heart rate</span>
+        <span class="v">52 <span class="up">▲</span><small>usually 48</small></span>
+      </div>
+      <div class="trow">
+        <span class="k">🔋 Readiness</span>
+        <span class="v">54<small>/100 · moderate</small></span>
+      </div>
+      <div class="tviz">
+        <div class="vl">Load · 7 days</div>
+        <svg width="100%" height="48" viewBox="0 0 220 48" preserveAspectRatio="none" fill="none" aria-hidden="true">
+          <rect x="0" y="11" width="39" height="29" fill="#C8261A"/>
+          <rect x="45" y="19" width="39" height="21" fill="#1A1A1A" opacity=".86"/>
+          <rect x="90" y="26" width="39" height="14" fill="#1A1A1A" opacity=".72"/>
+          <rect x="135" y="32" width="39" height="8" fill="#1A1A1A" opacity=".58"/>
+          <rect x="181" y="36" width="39" height="4" fill="#1A1A1A" opacity=".44"/>
+          <text x="19" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">MON</text>
+          <text x="64" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">TUE</text>
+          <text x="109" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">WED</text>
+          <text x="154" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">THU</text>
+          <text x="200" y="47" text-anchor="middle" font-family="Geist Mono,monospace" font-size="7" font-weight="700" fill="#1A1A1A" opacity=".65">FRI</text>
+        </svg>
+      </div>
+      <div class="hatch" aria-hidden="true"></div>
+      <div class="verdict">
+        <div class="vk">What to do today</div>
+        <div class="vt">Easy run ≤ 50′.<br><em>Intervals 5×3′ → Thursday</em></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span class="mq-item"><span class="sq"></span>Morning — every morning<span class="sq"></span>Workout breakdown<span class="sq"></span>Weekly breakdown<span class="sq"></span>A coach in the same chat<span class="sq"></span>Coach's room<span class="sq"></span>Clubs<span class="sq"></span>Garmin-native&nbsp;&nbsp;</span>
+  </div>
+  <div class="track">
+    <span class="mq-item"><span class="sq"></span>Morning — every morning<span class="sq"></span>Workout breakdown<span class="sq"></span>Weekly breakdown<span class="sq"></span>A coach in the same chat<span class="sq"></span>Coach's room<span class="sq"></span>Clubs<span class="sq"></span>Garmin-native&nbsp;&nbsp;</span>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">01</span> How it works</div>
+    <h2 class="rv">Two minutes —<br>and your coach is online</h2>
+    <p class="sub rv">Nothing to enter by hand, nothing to set up. From there it speaks first.</p>
+    <div class="steps rv">
+      <div class="step">
+        <span class="n">01</span>
+        <h3>Connect your Garmin</h3>
+        <p>Two minutes in the bot: tap the link, allow access — done. Just leave the <b>Historical Data</b> box ticked: with it your whole past history comes across, and your coach knows your baseline from day one.</p>
+      </div>
+      <div class="step">
+        <span class="n">02</span>
+        <h3>It works out your baseline</h3>
+        <p>How much you usually sleep, what your resting heart rate usually is, how much you usually train. From there it compares you with yourself — and tells you where today has drifted from your own usual, not from somebody else's table of norms.</p>
+      </div>
+      <div class="step">
+        <span class="n">03</span>
+        <h3>Then it writes first</h3>
+        <p>Every morning — how the night went and what to do today. After a workout — a breakdown. On Sundays — the week. You can ask at any moment: it's in the same chat.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="chat" class="dark">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">02</span> How it looks in the chat</div>
+    <h2 class="rv">Morning. Your coach has<br>already looked at your <span class="red">night</span></h2>
+    <p class="sub rv">No dashboard to decode. An ordinary conversation — like one with a coach who already knows.</p>
+
+    <div class="tg rv">
+      <div class="tg-head">
+        <svg width="26" height="26" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="29" stroke="#C8261A" stroke-width="13"/><rect x="44" y="6" width="12" height="88" fill="#EFE6D6"/></svg>
+        <span class="tname">Fizkult</span>
+        <span class="tstat">coach · online</span>
+      </div>
+      <div class="tg-body">
+        <div class="msg coach">
+          <span class="mt">Fizkult · 07:12</span>
+          Good morning. Sleep <b>6:10</b> — third night running below your baseline of <b>7:20</b>. Resting heart rate <b>52</b>, usually you're at 48. Your plan says intervals <b>5×3′</b> today, but against that background I'd leave them alone — let's move them to Thursday. Today an easy run of up to 50 minutes, conversational pace.
+        </div>
+        <div class="msg user">
+          <span class="mt">You · 07:15</span>
+          And if I do the intervals anyway? Hate to wreck the week.
+        </div>
+        <div class="msg coach">
+          <span class="mt">Fizkult · 07:16</span>
+          The week won't break — the session will. Under-recovered you won't hold the pace through the last two reps, and instead of progress you'll just get tired. On Thursday, after two decent nights, the same <b>5×3′</b> will give you the full effect. So today a run, and we move the intervals — agreed?
+        </div>
+        <div class="msg user">
+          <span class="mt">You · 07:17</span>
+          Do it. Agreed.
+        </div>
+      </div>
+    </div>
+    <p class="tg-note rv">This dialogue is an example. Yours will run on your numbers.<br><b>Claude Opus 5 answers in the chat</b> — the coach speaks to your situation, and you can argue with it.</p>
+  </div>
+</section>
+
+<section id="scenarios">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">03</span> What it does</div>
+    <h2 class="rv">The whole coach —<br>in one chat</h2>
+    <p class="sub rv">Every card below is either a command in Telegram or a message that arrives on its own. It doesn't invent a training plan: you or your coach send yours, and it walks you through it day by day.</p>
+    <div class="grid rv">
+      <div class="card">
+        <div class="chead"><span class="tag">Every morning</span><span class="cn">01</span></div>
+        <h3>Morning</h3>
+        <p>Arrives on its own. Sleep with a verdict on the night, recovery and readiness, the week's workouts, yesterday — and the coach's words on what to do with all of it. At the end it asks how you feel.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">/today</span><span class="cn">02</span></div>
+        <h3>🏠 Today</h3>
+        <p>The morning letter, there to come back to at any point in the day. It recalculates nothing — it shows you the very morning you read.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">/coach</span><span class="cn">03</span></div>
+        <h3>💬 AI coach</h3>
+        <p>Ask anything — it answers knowing your history, your sleep and your plan. Not a page of search results: a conversation about you.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">After the finish</span><span class="cn">04</span></div>
+        <h3>Workout breakdown</h3>
+        <p>Finish and it lands: what kind of work that was, how your body took it, where it sits in your week. With the workout's numbers and a split by lap, if there were laps.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">/weekly_review</span><span class="cn">05</span></div>
+        <h3>📅 Weekly breakdown</h3>
+        <p>On Sundays — what happened over the week and what you carry into the next one. Pro plan.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">/profile</span><span class="cn">06</span></div>
+        <h3>🧬 Sport profile</h3>
+        <p>What you've run, ridden and swum — and how your body is taking it.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">/plan</span><span class="cn">07</span></div>
+        <h3>🎯 My plan</h3>
+        <p>Send your plan as text — a list from your notes will do. Your coach keeps it in front of it every day and marks off what's done. If you have a human coach, they can send the plan straight to you.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">/memory</span><span class="cn">08</span></div>
+        <h3>🧠 Memory</h3>
+        <p>Goals, limits, circumstances — everything it leans on is out in the open. You can add to it, correct it, switch it off or delete it. Nothing is remembered behind your back.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">/team</span><span class="cn">09</span></div>
+        <h3>👥 Team</h3>
+        <p>Who can see your data. Opened access to a coach — you revoke it right here, in one tap, no explanations.</p>
+      </div>
+      <div class="card">
+        <div class="chead"><span class="tag">/data</span><span class="cn">10</span></div>
+        <h3>🔌 Watch and data</h3>
+        <p>The full list of what came across from your watch, and the state of the connection. You can see which days have data and where the watch went quiet — and why.</p>
+      </div>
+    </div>
+    <div style="margin-top:38px">
+      <a class="btn" href="https://t.me/fizkult_ai_bot">Open the coach in Telegram →</a>
+      <div class="btn-note">First 7 days — everything included, free</div>
+    </div>
+  </div>
+</section>
+
+<section id="trainers" class="dark">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">04</span> For coaches</div>
+    <h2 class="rv">Coaching people?<br>There's the <span class="red">Coach's room</span></h2>
+    <p class="sub rv">You see your athletes every morning — not once a week at a session. In one letter, without the "so how are you feeling today" round.</p>
+    <div class="two rv">
+      <div class="feat">
+        <h3>A morning summary for the whole group</h3>
+        <p>One letter every morning: each athlete's sleep and heart rate for the night, workouts you hadn't heard about yet, and for anyone with no numbers today — the date of their last data. "No data" and "did nothing" are different lines.</p>
+      </div>
+      <div class="feat">
+        <h3>Invitations by link</h3>
+        <p>You send a link to the people you coach. Each of them decides whether to open access, and can revoke it at any moment — at which point they simply drop out of the summary.</p>
+      </div>
+      <div class="feat">
+        <h3>Plans straight to the athlete</h3>
+        <p>You send a plan from the Coach's room — it arrives in the athlete's chat and they accept or decline. The card shows the state: awaiting an answer, accepted, declined.</p>
+      </div>
+      <div class="feat">
+        <h3>A boundary both of you can see</h3>
+        <p>You get the numbers: their state and the facts of their workouts. You <b>do not see</b> their Morning, their breakdowns or their conversations with the coach — those stay between them and the coach in the chat. The athlete reads this same text on the consent screen, before they agree.</p>
+      </div>
+    </div>
+    <div style="margin-top:36px">
+      <a class="btn inv" href="https://t.me/fizkult_ai_bot">Ask about coach status →</a>
+      <div class="btn-note" style="color:var(--muted-d)">We open coach status by hand — tell us who you coach and how many</div>
+    </div>
+  </div>
+</section>
+
+<section id="clubs" class="alt">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">05</span> For clubs and teams</div>
+    <h2 class="rv">A bot in your group<br>that counts <span class="red">consistency</span></h2>
+    <p class="sub rv">A running club, a cycling team, a chat of friends who promised each other they wouldn't fade out in November.</p>
+    <div class="steps rv">
+      <div class="step">
+        <span class="n">01</span>
+        <h3>One rule</h3>
+        <p>A day with a workout in it counts towards the season. Not kilometres and not pace — days. The fast and the slow are equal in this chat, and that's deliberate: consistency isn't held together by speed.</p>
+      </div>
+      <div class="step">
+        <span class="n">02</span>
+        <h3>Season and tiers</h3>
+        <p>A season runs to its own date, and everyone has their own tier: Start, Rhythm, Stride. It's not a podium — we mark turning up, not placing. You can ask for the table in the chat at any moment.</p>
+      </div>
+      <div class="step">
+        <span class="n">03</span>
+        <h3>Nobody appears without saying so</h3>
+        <p>Until a person has chosen how they want to be shown, they aren't in the table at all — not by name, not as a line. The club puts nobody's data into the group chat without permission.</p>
+      </div>
+    </div>
+    <div style="margin-top:36px">
+      <div class="btn-row">
+        <a class="btn" href="https://t.me/fizkult_ai_bot">I want the bot in my group →</a>
+        <a class="btn ghost" href="https://t.me/fizkult_ai_bot">Try it myself first →</a>
+      </div>
+      <div class="btn-note">We open clubs by hand, on request</div>
+    </div>
+  </div>
+</section>
+
+<section id="decisions">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">06</span> Calls, not numbers</div>
+    <h2 class="rv">It doesn't only hit the brakes.<br>It also says <span class="red">"go"</span></h2>
+    <p class="sub rv">Any readiness score can tell you to take it easy today. You need a coach to also name the day you can add — and explain what it's for. It's the same Thursday the intervals moved to on Wednesday.</p>
+    <div class="duo rv">
+      <div class="panel">
+        <div class="ph">Thursday · the same three numbers</div>
+        <div class="trow"><span class="k">Sleep</span><span class="v">7:40 <span class="up">▲</span></span></div>
+        <div class="trow"><span class="k">Resting heart rate</span><span class="v">47 <span class="dn">▼</span></span></div>
+        <div class="trow"><span class="k">Load · 7 days</span><span class="v">−9%</span></div>
+        <div class="tviz">
+          <div class="vl">Sleep · trend</div>
+          <svg width="100%" height="40" viewBox="0 0 220 40" preserveAspectRatio="none" fill="none" aria-hidden="true">
+            <line x1="0" y1="36" x2="220" y2="36" stroke="#1A1A1A" stroke-width="1" opacity=".22"/>
+            <path d="M0,31 L37,25 L73,27 L110,19 L147,16 L183,11 L214,7" stroke="#1A1A1A" stroke-width="2.4" fill="none"/>
+          </svg>
+        </div>
+      </div>
+      <div class="arrow" aria-hidden="true">
+        <svg width="42" height="42" viewBox="0 0 42 42" fill="none"><path d="M4 21H36M36 21L25 10M36 21L25 32" stroke="#1A1A1A" stroke-width="3"/></svg>
+      </div>
+      <div class="panel inkp">
+        <div class="ph">Fizkult says</div>
+        <div class="big"><span class="red">Green light</span>.<br>Intervals 5×3′ — today.</div>
+        <p class="small">"Two decent nights, resting heart rate back to your 47. Your race is six weeks out, and this work still fits inside them comfortably. The week isn't lost — it's been reshuffled."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="alt">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">07</span> Pricing</div>
+    <h2 class="rv">First —<br>7 days <span class="red">free</span></h2>
+    <p class="sub rv">The first week is full Pro, free and without a card. After that — 499 or 999 ₽ a month: <b>a month of Pro costs less than a single session with a human coach</b>. There's a yearly option — it works out like ten months instead of twelve.</p>
+
+    <div class="plans rv">
+      <div class="plan">
+        <div class="name">Trial period</div>
+        <div class="who">Full Pro — try everything</div>
+        <div class="price">0 ₽</div>
+        <div class="per">7 days · everything in Pro</div>
+        <ul>
+          <li>Every Pro feature, no limits</li>
+          <li>The week starts when you connect your watch, not when you press "Start"</li>
+          <li>No card — you pay only if you decide to stay</li>
+        </ul>
+      </div>
+
+      <div class="plan">
+        <div class="name">Basic</div>
+        <div class="who">A coach who turns up every morning</div>
+        <div class="price">499 ₽</div>
+        <div class="per">for 30 days · ≈17 ₽ a day</div>
+        <div class="year">or <b>4,990 ₽ a year</b> · ≈13 ₽ a day</div>
+        <ul>
+          <li>Morning every day and the "Today" screen</li>
+          <li>Three workout breakdowns a week</li>
+          <li>Three questions to the coach a day</li>
+          <li>Sport profile, plan, memory, "Team"</li>
+          <li class="no">No weekly breakdown — that's in Pro</li>
+        </ul>
+      </div>
+
+      <div class="plan hot">
+        <div class="badge">The coach in full</div>
+        <div class="name">Pro</div>
+        <div class="who">A coach you can ask as much as you like</div>
+        <div class="price">999 ₽</div>
+        <div class="per">for 30 days · ≈33 ₽ a day</div>
+        <div class="year">or <b>9,990 ₽ a year</b> · ≈27 ₽ a day</div>
+        <ul>
+          <li>Everything in Basic</li>
+          <li>A breakdown of every workout, however many there are</li>
+          <li>Questions to the coach without a count</li>
+          <li>The weekly breakdown on Sundays</li>
+        </ul>
+      </div>
+    </div>
+    <div class="btn-row rv" style="margin-top:30px">
+      <a class="btn" href="https://t.me/fizkult_ai_bot">Start with the free week →</a>
+      <span class="btn-note">No need to choose now · the bot shows the plans when the week ends</span>
+    </div>
+    <p class="sub rv" style="margin-top:22px; max-width:760px"><b>Paying — by card through YooKassa or Robokassa:</b> the bot sends the payment link itself, and it asks which card you have — one from a Russian bank or a foreign one. The payment page belongs to the provider; there is nowhere to pay on this site. <b>We don't set up recurring charges:</b> access ends on its own date, the money doesn't leave by itself — there's nothing to cancel. <a href="/oferta.html" style="color:var(--ink)">Terms and refunds</a> (in Russian).</p>
+  </div>
+</section>
+
+<section class="dark honest">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">08</span> Straight up</div>
+    <h2 class="rv">What Fizkult is —<br>and what it <span class="red">doesn't do</span></h2>
+    <div class="box rv">
+      <p><b>Fizkult <span class="red">is</span></b> a coach that knows your numbers every day, remembers what you allowed it to remember, and tells you in plain words what to do.</p>
+      <p><b>Fizkult <span class="red">is not</span></b> a doctor or a replacement for a human coach. It makes no diagnoses and gives no medical advice. If you have your own coach, Fizkult works with their plan, not against it.</p>
+      <p><b>And it <span class="red">doesn't make things up</span>.</b> If no data came in for the night, it will say there's nothing to compare today against rather than slot in a nice-looking number. The marks in the letter say exactly that: 🟢 as usual · 🟡 noticeably off · 🔴 well off · ⚪ not comparing today.</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">09</span> Questions</div>
+    <h2 class="rv">What people ask<br>before starting</h2>
+    <div class="faq rv">
+      <details>
+        <summary>Do I need a Garmin?<span></span></summary>
+        <div class="a">
+          <p>Yes, everything rests on it: Fizkult takes workouts, sleep and heart rate straight from the watch, with nothing to enter by hand. Connecting takes two minutes, and there's exactly one place in it worth paying attention to.</p>
+          <p><b>The Historical Data box</b> on the connection page. With it your whole past history comes across — and your coach knows your baseline from day one. Without it, only new workouts, and there'll be nothing to compare you against. Also sync your watch in Garmin Connect before connecting: if it hasn't handed data to the app in a while, there'll be nothing to collect.</p>
+        </div>
+      </details>
+      <details>
+        <summary>My watch already has readiness and a suggestion for the day. Why this as well?<span></span></summary>
+        <div class="a">
+          <p>The number on your watch is a good thing, and we're not arguing with it. But it's calculated by one algorithm for everybody and it lives inside an app: it doesn't know you have a race in six weeks, that yesterday you wrote about a sore knee, what your coach sent for this week, or that you already moved your intervals last week.</p>
+          <p>Fizkult holds all of that in mind and speaks in decisions rather than numbers — why today looks like this, what it will give you and when you go back to the work. And you can argue with it: say "hate to wreck the week" and get an explanation instead of the same number again.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Will it write me a training plan?<span></span></summary>
+        <div class="a">
+          <p>No, and it's fairer to say so before you pay. The plan is written by you or your coach. Fizkult takes it as text — a list from your notes, a table from a messenger — keeps it in front of it every day, marks off what's done and tells you when your state says a day is worth shifting.</p>
+          <p>If you have no plan at all, it still works: it looks at your week and tells you what to do today. But it won't write the week-by-week build-up to your race for you.</p>
+        </div>
+      </details>
+      <details>
+        <summary>I have a Polar, a Suunto or an Apple Watch<span></span></summary>
+        <div class="a">
+          <p>For now Fizkult connects only to Garmin — said plainly, without "it's all coming soon" and without dates we don't have. When other watches arrive, we'll announce it in the <a href="https://t.me/fizkult_ai_bot">bot</a> and here, on this page.</p>
+        </div>
+      </details>
+      <details>
+        <summary>What arrives on the very first morning?<span></span></summary>
+        <div class="a">
+          <p>The first morning after your history has come across and you've had a first night with the watch on: sleep with a verdict on the night, recovery and readiness, the week's workouts, yesterday, and the coach's words on what to do with all of it today. Plus the question of how you feel — it takes your answer into account too.</p>
+          <p>While there are still few nights, it says so: there isn't enough to work out a baseline from. The baseline builds up over the first weeks — and from then on the comparison runs against it.</p>
+        </div>
+      </details>
+      <details>
+        <summary>I'm an amateur, not an athlete. Is this for me?<span></span></summary>
+        <div class="a">
+          <p>Fizkult is built for exactly this: you train a few times a week, you put your own week together and you don't always know when to push and when to rest. A pro with a team of coaches doesn't need it. Someone with nobody supporting them between sessions — very much does.</p>
+        </div>
+      </details>
+      <details>
+        <summary>I already have a coach. Why would I need this?<span></span></summary>
+        <div class="a">
+          <p>Your coach sees you once a week — Fizkult looks at your morning every day in between. It works with your coach's plan, not against it.</p>
+          <p>And if your coach is on Fizkult too, they can open the <b>Coach's room</b>: send you a plan straight into the chat and see a summary of all their athletes every morning. You open the access yourself and revoke it whenever you like — <a href="#trainers">more on that above</a>.</p>
+        </div>
+      </details>
+      <details>
+        <summary>I'm a coach / I have a club<span></span></summary>
+        <div class="a">
+          <p>We open coach status and clubs in Telegram groups by hand, on request — that way we know who's behind it. Write <a href="https://t.me/fizkult_ai_bot">to the bot</a> and tell us who and how many you coach, or what your group is, and we'll answer in the same chat.</p>
+        </div>
+      </details>
+      <details>
+        <summary>How do I cancel the subscription?<span></span></summary>
+        <div class="a">
+          <p>You don't — and that isn't a dodge. We don't set up recurring charges: a payment runs for its term, a month or a year, whichever you chose, and then simply ends. Don't renew and access closes, with nobody taking money off your card just in case. The trial week commits you to even less: we don't ask for a card at the start.</p>
+          <p>Payment and refund terms are in the <a href="/oferta.html">offer agreement</a> (in Russian).</p>
+        </div>
+      </details>
+      <details>
+        <summary>Is this a doctor?<span></span></summary>
+        <div class="a">
+          <p>No. Fizkult makes no diagnoses and gives no medical advice. It draws coaching conclusions — "you've overloaded, time to back off" — and when a conclusion is serious it tells you itself how long to wait and what sign to take to a doctor. If something hurts or isn't recovering, see a doctor first.</p>
+        </div>
+      </details>
+      <details>
+        <summary>What about privacy?<span></span></summary>
+        <div class="a">
+          <p>The numbers from your watch work only on your recommendations. We don't sell them and don't pass them to third parties.</p>
+          <p>Inside the bot everything is open: <b>/data</b> — exactly what came across from the watch, <b>/memory</b> — what the coach remembers about you and what can be erased, <b>/team</b> — who sees your data and how to revoke access. In detail — in the <a href="/privacy.html">personal data policy</a> (in Russian).</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wedge" aria-hidden="true"></div>
+  <div class="wrap inner">
+    <h2>Your watch already knows.<br>Let somebody read it.</h2>
+    <p>Two minutes to connect — and a letter is waiting for you the very first morning. A week of full Pro free, no card. Not for you — just don't renew.</p>
+    <a class="btn inv" href="https://t.me/fizkult_ai_bot">Start the free week →</a>
+    <div class="btn-note">No card · Full Pro · No recurring charges</div>
+    <div class="tagline" aria-hidden="true">Fizkult. But with numbers. · Est. 2026</div>
+  </div>
+</section>
+
+</main>
+
+<div class="sticky-cta" id="stickyCta" aria-hidden="true">
+  <span class="sc-note">7 days free<br>No card · 2 minutes</span>
+  <a class="btn" href="https://t.me/fizkult_ai_bot">Try it →</a>
+</div>
+
+<footer>
+  <div class="wrap foot">
+    <div class="about">
+      <div class="logo" style="color:var(--bg)">
+        <svg width="22" height="22" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="29" stroke="#C8261A" stroke-width="13"/><rect x="44" y="6" width="12" height="88" fill="#EFE6D6"/></svg>
+        FIZKULT
+      </div>
+      <p>A personal coach who keeps an eye on you every day.</p>
+    </div>
+    <div>
+      <div class="col-h">Sections</div>
+      <a href="#scenarios">What it does</a>
+      <a href="#trainers">For coaches</a>
+      <a href="#clubs">For clubs and teams</a>
+    </div>
+    <div>
+      <div class="col-h">Works with</div>
+      <p style="margin:0; font-size:13px; color:var(--muted-d)">Garmin · Telegram</p>
+    </div>
+    <div>
+      <div class="col-h">Documents</div>
+      <a href="/oferta.html">Terms, payment and refunds</a>
+      <a href="/privacy.html">Personal data policy</a>
+      <a href="mailto:hello@fizkult.ai">hello@fizkult.ai</a>
+    </div>
+  </div>
+  <div class="wrap legal">
+    <p>The service does not replace a doctor or a coach and is not a medical service. Provider: Eldar Gomilevich Faizullin, self-employed, TIN 027710621544. © 2026 FIZKULT.AI</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  document.documentElement.classList.add('js');
+  var bar = document.getElementById('stickyCta'),
+      hero = document.querySelector('.hero'),
+      fin = document.querySelector('.final');
+  if (bar && hero && fin && 'IntersectionObserver' in window) {
+    var pastHero = false, atFinal = false, atFoot = false;
+    var upd = function () {
+      var on = pastHero && !atFinal && !atFoot;
+      bar.classList.toggle('on', on);
+      bar.setAttribute('aria-hidden', String(!on));
+    };
+    new IntersectionObserver(function (e) { pastHero = !e[0].isIntersecting; upd(); }).observe(hero);
+    new IntersectionObserver(function (e) { atFinal = e[0].isIntersecting; upd(); }).observe(fin);
+    var foot = document.querySelector('footer');
+    if (foot) { new IntersectionObserver(function (e) { atFoot = e[0].isIntersecting; upd(); }).observe(foot); }
+  }
+  if (!('IntersectionObserver' in window) ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+  document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+})();
+</script>
+
+</body>
+</html>

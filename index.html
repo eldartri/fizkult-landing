@@ -9,6 +9,11 @@
 <meta property="og:description" content="Личный тренер в Telegram для тех, кто бегает, крутит и плавает с Garmin. Каждое утро пишет сам, помнит твою историю, разбирает тренировки. 7 дней бесплатно.">
 <meta property="og:url" content="https://fizkult.ai">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/">
 <link rel="icon" href="assets/favicon/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -88,6 +93,13 @@
   .nav a.cta:hover { transform:translate(1px,1px); box-shadow:2px 2px 0 var(--accent); }
   .est { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em;
     color:var(--muted); border:1.5px solid var(--line); padding:4px 9px; }
+  /* Переключатель языка. В отличие от `.est`, на узком экране НЕ прячется:
+     на телефоне прячется и `.nav-links`, и если спрятать ещё и его, человек,
+     пришедший на чужом для себя языке, не найдёт свой вовсе. */
+  .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em;
+    font-weight:700; text-decoration:none; color:var(--ink);
+    border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .lang:hover { background:var(--ink); color:var(--bg); }
 
   /* hero */
   .hero { position:relative; overflow:hidden; padding:84px 0 88px; border-bottom:1.5px solid var(--line); }
@@ -358,6 +370,7 @@
       <a href="#faq">Вопросы</a>
     </nav>
     <span class="est mono" aria-hidden="true">EST. 2026</span>
+    <a class="lang" href="/en/" hreflang="en" lang="en" aria-label="Switch to English">EN</a>
     <a class="cta" href="https://t.me/fizkult_ai_bot">7 дней бесплатно →</a>
   </div>
 </header>
