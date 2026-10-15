@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fizkult pricing — what it costs and what actually arrives</title>
+<meta name="description" content="Every Fizkult plan on one page: a free week of full Pro, Basic at 499 ₽ and Pro at 999 ₽ for 30 days. An honest breakdown of each level, how the counters work, payment, switching and refunds.">
+<meta property="og:title" content="Fizkult pricing — what it costs and what actually arrives">
+<meta property="og:description" content="A free week of full Pro, then 499 or 999 ₽ a month. What each level includes, with no fine print and no 'and much more'.">
+<meta property="og:url" content="https://fizkult.ai/en/pricing">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/tarify">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/pricing">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/tarify">
+<link rel="canonical" href="https://fizkult.ai/en/pricing">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#EFE6D6; --bg-alt:#E5D9C3; --panel:#FFFFFF; --ink:#1A1A1A;
+    --muted:#5B5347; --muted-d:#C9C2B5; --accent:#C8261A; --accent-ink:#EFE6D6; --line:#1A1A1A;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Geist",system-ui,sans-serif; line-height:1.55;
+    font-variant-numeric:tabular-nums; }
+  ::selection { background:var(--accent); color:var(--accent-ink); }
+  .wrap { max-width:1120px; margin:0 auto; padding:0 20px; }
+  .mono { font-family:"Geist Mono",monospace; }
+  a { color:inherit; }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline:3px solid var(--accent); outline-offset:3px; }
+  .dark a:focus-visible, .dark summary:focus-visible, footer a:focus-visible { outline-color:var(--bg); }
+  .skip { position:absolute; left:-9999px; top:0; background:var(--ink); color:var(--bg);
+    padding:10px 16px; z-index:100; font-weight:700; }
+  .skip:focus { left:0; }
+
+  .kicker { display:flex; align-items:center; gap:10px; font-family:"Geist Mono",monospace;
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase; margin-bottom:16px; }
+  .kicker .knum { background:var(--accent); color:var(--accent-ink); padding:2px 8px;
+    font-weight:700; letter-spacing:.1em; }
+  .dark .kicker { color:var(--bg); }
+
+  h1,h2,h3 { letter-spacing:-.03em; text-transform:uppercase; font-weight:900; margin:0; }
+  h2 { font-size:clamp(28px,4.6vw,46px); line-height:.96; margin-bottom:12px; }
+  h2 .red { color:var(--accent); }
+  .sub { color:var(--muted); font-size:16px; max-width:620px; margin:0; }
+  .dark .sub { color:var(--muted-d); }
+  section { padding:72px 0; }
+
+  .btn { display:inline-block; background:var(--accent); color:var(--accent-ink);
+    border:1.5px solid var(--line); padding:16px 28px; font-weight:800; font-size:15px;
+    text-decoration:none; text-transform:uppercase; letter-spacing:.02em;
+    box-shadow:4px 4px 0 var(--line); transition:transform .1s, box-shadow .1s; }
+  .btn:hover { transform:translate(2px,2px); box-shadow:2px 2px 0 var(--line); }
+  .btn.inv { background:var(--ink); color:var(--bg); box-shadow:4px 4px 0 var(--accent-ink); border-color:var(--accent-ink); }
+  .btn.inv:hover { box-shadow:2px 2px 0 var(--accent-ink); }
+  .btn-note { margin-top:12px; font-family:"Geist Mono",monospace; font-size:10px;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+  .final .btn-note { color:var(--accent-ink); opacity:.85; }
+  .btn-row { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+
+  /* header */
+  header { border-bottom:1.5px solid var(--line); background:var(--bg); position:sticky; top:0; z-index:10; }
+  .nav { display:flex; align-items:center; justify-content:space-between; padding:14px 0; gap:16px; }
+  .logo { display:flex; align-items:center; gap:10px; font-weight:900; font-size:18px;
+    text-transform:uppercase; letter-spacing:-.02em; text-decoration:none; }
+  .logo svg { flex-shrink:0; display:block; }
+  .nav-links { display:flex; align-items:center; gap:22px; font-family:"Geist Mono",monospace;
+    font-size:11px; letter-spacing:.1em; text-transform:uppercase; }
+  .nav-links a { text-decoration:none; }
+  .nav-links a:hover { color:var(--accent); }
+  .nav-links a[aria-current="page"] { color:var(--accent); font-weight:700; }
+  .nav a.cta { font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em;
+    color:var(--accent-ink); background:var(--ink); padding:9px 14px; text-decoration:none;
+    box-shadow:3px 3px 0 var(--accent); white-space:nowrap; }
+  .nav a.cta:hover { transform:translate(1px,1px); box-shadow:2px 2px 0 var(--accent); }
+  .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em;
+    font-weight:700; text-decoration:none; color:var(--ink);
+    border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .lang:hover { background:var(--ink); color:var(--bg); }
+
+  /* hero */
+  .hero { position:relative; overflow:hidden; padding:66px 0 60px; border-bottom:1.5px solid var(--line); }
+  .hero .wedge { position:absolute; right:-180px; bottom:-320px; width:480px; height:480px;
+    background:var(--accent); transform:rotate(-14deg); }
+  .hero .inner { position:relative; z-index:1; max-width:760px; }
+  .hero h1 { font-size:clamp(34px,5.6vw,62px); line-height:.96; letter-spacing:-.04em; }
+  .hero h1 .red { color:var(--accent); }
+  .hero p.lead { font-size:18px; color:var(--muted); max-width:600px; margin:22px 0 0; }
+  .stamps { display:flex; flex-wrap:wrap; gap:8px; margin-top:26px; }
+  .stamp { font-family:"Geist Mono",monospace; font-size:10px; font-weight:600; letter-spacing:.14em;
+    text-transform:uppercase; border:1.5px solid var(--line); padding:5px 10px; background:var(--bg); }
+  .stamp.red { background:var(--accent); color:var(--accent-ink); border-color:var(--line); }
+
+  /* plans */
+  .plans { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:18px; margin-top:40px; align-items:stretch; }
+  .plan { background:var(--panel); border:1.5px solid var(--line); padding:28px 26px;
+    box-shadow:4px 4px 0 var(--line); position:relative; display:flex; flex-direction:column; }
+  .plan.hot { background:var(--ink); color:var(--bg); box-shadow:8px 8px 0 var(--accent); }
+  .plan .badge { position:absolute; top:-14px; left:22px; background:var(--accent); color:var(--accent-ink);
+    font-family:"Geist Mono",monospace; font-size:10px; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; padding:4px 11px; border:1.5px solid var(--line); white-space:nowrap; }
+  .plan .name { font-family:"Geist Mono",monospace; font-size:11px; font-weight:700; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--accent); }
+  .plan .who { font-size:13.5px; font-weight:600; color:var(--muted); margin-top:9px; }
+  .plan.hot .who { color:var(--muted-d); }
+  .plan .price { font-size:42px; font-weight:900; letter-spacing:-.03em; margin:12px 0 2px; line-height:1; }
+  .plan .per { font-family:"Geist Mono",monospace; font-size:11px; color:var(--muted); letter-spacing:.06em; }
+  .plan.hot .per { color:var(--muted-d); }
+  .plan .year { font-family:"Geist Mono",monospace; font-size:11px; color:var(--muted); letter-spacing:.06em; margin-top:7px; }
+  .plan .year b { color:var(--ink); font-weight:700; }
+  .plan.hot .year { color:var(--muted-d); }
+  .plan.hot .year b { color:var(--bg); }
+  .plan ul { list-style:none; padding:0; margin:20px 0 24px; flex:1; }
+  .plan li { font-size:13.5px; padding:8px 0 8px 22px; position:relative; border-top:1px dashed rgba(0,0,0,.2); }
+  .plan.hot li { border-top:1px dashed rgba(255,255,255,.22); }
+  .plan li::before { content:"→"; position:absolute; left:0; color:var(--accent); font-weight:700; }
+  .plan.hot li::before { color:#F0A79F; }
+  .plan li.no { color:var(--muted); }
+  .plan li.no::before { content:"\2715"; color:var(--muted); font-weight:700; }
+  .plan.hot li.no { color:var(--muted-d); }
+  .plan.hot li.no::before { color:var(--muted-d); }
+  .plan .btn { width:100%; text-align:center; padding:14px 10px; font-size:13px; }
+  .plan.hot .btn { box-shadow:4px 4px 0 var(--accent-ink); border-color:var(--accent-ink); }
+  .plan.hot .btn:hover { box-shadow:2px 2px 0 var(--accent-ink); }
+
+  /* matrix */
+  .alt { background:var(--bg-alt); border-top:1.5px solid var(--line); border-bottom:1.5px solid var(--line); }
+  .mxwrap { margin-top:40px; overflow-x:auto; border:1.5px solid var(--line); box-shadow:6px 6px 0 var(--line); }
+  table.mx { border-collapse:collapse; width:100%; min-width:0; background:var(--panel); }
+  table.mx th, table.mx td { border-right:1.5px solid var(--line); border-bottom:1.5px solid var(--line);
+    padding:13px 16px; font-size:14px; text-align:left; vertical-align:top; }
+  table.mx th:last-child, table.mx td:last-child { border-right:none; }
+  table.mx tr:last-child td { border-bottom:none; }
+  table.mx thead th { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.12em;
+    text-transform:uppercase; background:var(--ink); color:var(--bg); font-weight:700; white-space:nowrap; }
+  table.mx thead th.pro { background:var(--accent); color:var(--accent-ink); }
+  table.mx tbody th { font-weight:700; font-size:14px; background:var(--bg); white-space:normal; }
+  table.mx td.yes { font-weight:700; }
+  table.mx td.yes::before { content:"→ "; color:var(--accent); }
+  table.mx td.no { color:var(--muted); }
+  table.mx td.no::before { content:"\2715 "; color:var(--muted); }
+  table.mx thead th .thp { font-family:"Geist",sans-serif; font-size:13px; letter-spacing:0;
+    font-weight:900; opacity:.75; }
+  table.mx tr.grp th { background:var(--ink); color:var(--bg); font-family:"Geist Mono",monospace;
+    font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:400; text-align:left; }
+  .mxnote { font-size:13px; color:var(--muted); margin-top:16px; max-width:760px; }
+  .quick { display:flex; flex-wrap:wrap; gap:10px; margin-top:26px;
+    font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; }
+  .quick a { text-decoration:none; border:1.5px solid var(--line); background:var(--panel);
+    padding:7px 11px; box-shadow:3px 3px 0 var(--line); }
+  .quick a:hover { background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+
+  /* glossary */
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:40px; }
+  .card { background:var(--panel); border:1.5px solid var(--line); padding:20px 22px;
+    box-shadow:4px 4px 0 var(--line); position:relative; }
+  .card::before { content:""; position:absolute; top:0; left:0; width:34px; height:5px; background:var(--accent); }
+  .card h3 { font-size:15.5px; margin:10px 0 8px; }
+  .card p { margin:0; font-size:13.5px; color:var(--muted); line-height:1.55; }
+  .card p.warn { margin-top:10px; padding-left:11px; border-left:3px solid var(--accent); color:var(--ink); }
+  .card .tag { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--accent); font-weight:600; }
+
+  /* dark rules block */
+  .dark { background:var(--ink); color:var(--bg); border-top:1.5px solid var(--line); border-bottom:1.5px solid var(--line); }
+  .dark h2 { color:var(--bg); }
+  .dark h2 .red { color:var(--accent); }
+  .rules { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:38px; }
+  .rule { background:var(--panel); color:var(--ink); border:1.5px solid var(--bg);
+    padding:22px 24px; box-shadow:4px 4px 0 var(--accent); }
+  .rule h3 { font-size:16px; margin:0 0 9px; line-height:1.1; }
+  .rule p { margin:0 0 10px; font-size:13.5px; color:var(--muted); line-height:1.55; }
+  .rule p:last-child { margin:0; }
+  .rule b { color:var(--ink); font-weight:800; }
+  .rule a { color:var(--accent); }
+
+  /* faq */
+  .faq { max-width:800px; margin-top:38px; border:1.5px solid var(--line); background:var(--panel);
+    box-shadow:6px 6px 0 var(--line); }
+  .faq details { border-bottom:1.5px solid var(--line); }
+  .faq details:last-child { border-bottom:none; }
+  .faq summary { list-style:none; cursor:pointer; display:flex; justify-content:space-between;
+    align-items:center; gap:16px; padding:19px 22px; font-weight:800; font-size:15.5px;
+    text-transform:uppercase; letter-spacing:-.01em; }
+  .faq summary::-webkit-details-marker { display:none; }
+  .faq summary::after { content:"+"; font-family:"Geist Mono",monospace; font-size:20px; font-weight:600;
+    color:var(--accent); flex-shrink:0; line-height:1; transition:transform .15s; }
+  .faq details[open] summary::after { transform:rotate(45deg); }
+  .faq details[open] summary { background:var(--bg); }
+  .faq .a { padding:0 22px 20px; font-size:14px; color:var(--muted); max-width:680px; }
+  .faq .a p { margin:12px 0 0; }
+  .faq .a a { color:var(--ink); }
+
+  /* final CTA */
+  .final { background:var(--accent); color:var(--accent-ink); text-align:center;
+    position:relative; overflow:hidden; border-top:1.5px solid var(--line); padding:88px 0; }
+  .final .wedge { position:absolute; left:-120px; top:-140px; width:340px; height:340px;
+    background:var(--ink); transform:rotate(18deg); opacity:.16; }
+  .final .inner { position:relative; z-index:1; }
+  .final h2 { color:var(--accent-ink); font-size:clamp(28px,5vw,50px); }
+  .final p { color:var(--accent-ink); margin:18px auto 32px; max-width:520px; font-weight:600; }
+  .final p.again { margin:34px auto 0; max-width:620px; font-weight:400; font-size:13.5px;
+    opacity:.9; border-top:1.5px solid var(--accent-ink); padding-top:20px; }
+
+  /* footer */
+  footer { background:var(--ink); color:var(--bg); }
+  .foot { display:flex; justify-content:space-between; flex-wrap:wrap; gap:32px; padding:48px 0; }
+  .foot .about p { margin:10px 0 0; font-size:13px; color:var(--muted-d); max-width:300px; }
+  .foot .col-h { font-family:"Geist Mono",monospace; font-size:10px; color:var(--muted-d);
+    letter-spacing:.16em; text-transform:uppercase; margin-bottom:10px; }
+  .foot a { color:var(--bg); font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; display:block; padding:4px 0; }
+  .legal { border-top:1px solid rgba(255,255,255,.14); padding:20px 0; }
+  .legal p { margin:0; font-family:"Geist Mono",monospace; font-size:10px; color:var(--muted-d);
+    letter-spacing:.06em; line-height:1.7; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .js .rv { opacity:0; transform:translateY(16px); transition:opacity .5s ease, transform .5s ease; }
+    .js .rv.in { opacity:1; transform:none; }
+  }
+
+  @media (max-width:1000px) {
+    .grid { grid-template-columns:repeat(2,1fr); }
+    .nav-links { display:none; }
+  }
+  @media (max-width:900px) {
+    .rules { grid-template-columns:1fr; }
+  }
+  @media (max-width:560px) {
+    .grid { grid-template-columns:1fr; }
+    section { padding:56px 0; }
+    .hero { padding:52px 0 48px; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="/en/">
+      <svg width="22" height="22" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="29" stroke="#C8261A" stroke-width="13"/><rect x="44" y="6" width="12" height="88" fill="#1A1A1A"/></svg>
+      FIZKULT
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="/en/#chat">The chat</a>
+      <a href="/en/#scenarios">What it does</a>
+      <a href="/en/#trainers">For coaches</a>
+      <a href="/en/pricing" aria-current="page">Pricing</a>
+      <a href="#faq">Questions</a>
+    </nav>
+    <a class="lang" href="/tarify" hreflang="ru" lang="ru" aria-label="Перейти на русский">RU</a>
+    <a class="cta" href="https://t.me/fizkult_ai_bot">7 days free →</a>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero" aria-label="Overview">
+  <div class="wedge" aria-hidden="true"></div>
+  <div class="wrap inner">
+    <div class="kicker"><span class="knum">EN</span> Pricing · fizkult.ai</div>
+    <h1>What it costs and <span class="red">what arrives for it</span></h1>
+    <p class="lead">The first week is full Pro, free and without a card. After that there are two levels, and what separates them isn't the length of a feature list — almost everything is in both, except the weekly wrap-up, which is Pro only. The rest of the difference is counted: how many times a week the breakdown arrives with the coach's words, and how many questions a day you can ask.</p>
+    <nav class="quick" aria-label="Quick links">
+      <a href="#sostav">What's included</a>
+      <a href="#oplata">How to pay</a>
+      <a href="#perehod">Switching levels</a>
+      <a href="#vozvrat">Refunds</a>
+      <a href="#faq">Questions</a>
+    </nav>
+    <div class="stamps">
+      <span class="stamp red">7 days free</span>
+      <span class="stamp">No card to start</span>
+      <span class="stamp">No auto-charges</span>
+      <span class="stamp">Unused days refundable</span>
+    </div>
+  </div>
+</section>
+
+<section id="plans">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">01</span> Prices</div>
+    <h2 class="rv">Every price,<br>no fine print</h2>
+    <p class="sub rv">A month of Pro costs less than a single session with a human coach. Prices are in roubles and final: the payment processor's fee is ours to pay. A year works out to ten months instead of twelve.</p>
+
+    <div class="plans rv">
+      <div class="plan">
+        <div class="name">Free week</div>
+        <div class="who">Full Pro — so you can see it, not take our word for it</div>
+        <div class="price">0 ₽</div>
+        <div class="per">7 days · everything in Pro</div>
+        <ul>
+          <li>Everything Pro has, uncounted</li>
+          <li>The week runs from the moment you register in the bot</li>
+          <li>We don't ask for a card to start</li>
+          <li>Given once</li>
+        </ul>
+        <a class="btn" href="https://t.me/fizkult_ai_bot">Start the week →</a>
+      </div>
+
+      <!-- The third level is deliberately switched off on this page: while it
+           can't be paid for, naming its price would be a lie. The finished
+           card, the finished table column and the full switch-on condition
+           live in COPY.md, in the pricing-page section. Edit there first and
+           carry the change here — a price named on one language version and
+           missing on the other is the same lie told twice. -->
+
+      <div class="plan">
+        <div class="name">Basic</div>
+        <div class="who">A coach who shows up every morning</div>
+        <div class="price">499 ₽</div>
+        <div class="per">for 30 days · ≈17 ₽ a day</div>
+        <div class="year">or <b>4,990 ₽ a year</b> · ≈14 ₽ a day · 998 ₽ less</div>
+        <ul>
+          <li>Three breakdowns a week come with the coach's words</li>
+          <li>Three questions to the coach per day</li>
+          <li>Morning every day, and "Today" at any hour</li>
+          <li>A breakdown after every workout: past the three, numbers and calculations without the words</li>
+          <li>"My plan" — your plan, which the coach takes into account; memory, sport profile, "Team"</li>
+          <li class="no">No weekly wrap-up — that's in Pro</li>
+        </ul>
+        <a class="btn" href="https://t.me/fizkult_ai_bot">Choose in the bot →</a>
+      </div>
+
+      <div class="plan hot">
+        <div class="badge">The coach in full</div>
+        <div class="name">Pro</div>
+        <div class="who">A coach you can ask without a daily count</div>
+        <div class="price">999 ₽</div>
+        <div class="per">for 30 days · ≈33 ₽ a day</div>
+        <div class="year">or <b>9,990 ₽ a year</b> · ≈27 ₽ a day · 1,998 ₽ less</div>
+        <ul>
+          <li>The coach's words in every breakdown, however many workouts there are</li>
+          <li>Questions to the coach without a daily count</li>
+          <li>The weekly wrap-up — Sunday evening</li>
+          <li>Everything in Basic, with no counters</li>
+        </ul>
+        <a class="btn" href="https://t.me/fizkult_ai_bot">Choose in the bot →</a>
+      </div>
+    </div>
+
+    <div class="btn-row rv" style="margin-top:30px">
+      <a class="btn" href="https://t.me/fizkult_ai_bot">Start with the free week →</a>
+      <span class="btn-note">Haven't tried it yet? No need to choose now — the bot shows the plans when the week ends.</span>
+    </div>
+    <div class="btn-row rv" style="margin-top:14px">
+      <a class="btn ghost" href="https://t.me/fizkult_ai_bot">Already in the bot? Go back and choose →</a>
+      <span class="btn-note">The <b>/access</b> command opens the plan screen — it always shows the current make-up.</span>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="sostav">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">02</span> What's included</div>
+    <h2 class="rv">What each level<br>actually gives you</h2>
+    <p class="sub rv">This is the whole make-up by level — nothing hidden behind "and much more". The free week isn't in the table on purpose: <b>the first seven days are full Pro</b>, the right-hand column in its entirety.</p>
+
+    <div class="mxwrap rv">
+      <table class="mx">
+        <thead>
+          <tr>
+            <th scope="col">What it is</th>
+            <th scope="col">Basic<br><span class="thp">499 ₽</span></th>
+            <th scope="col" class="pro">Pro<br><span class="thp">999 ₽</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="grp"><th scope="colgroup" colspan="3">Where they differ</th></tr>
+          <tr>
+            <th scope="row">The coach's words in a workout breakdown</th>
+            <td class="yes">three times per calendar week</td>
+            <td class="yes">in every breakdown</td>
+          </tr>
+          <tr>
+            <th scope="row">Questions to the coach in chat</th>
+            <td class="yes">three a day</td>
+            <td class="yes">no daily count</td>
+          </tr>
+          <tr>
+            <th scope="row">Weekly wrap-up</th>
+            <td class="no">no</td>
+            <td class="yes">Sunday, evening</td>
+          </tr>
+          <tr class="grp"><th scope="colgroup" colspan="3">The same on both levels</th></tr>
+          <tr>
+            <th scope="row">Morning</th>
+            <td class="yes">every day</td>
+            <td class="yes">every day</td>
+          </tr>
+          <tr>
+            <th scope="row">"Today" — the morning, reopened at any hour</th>
+            <td class="yes">yes</td>
+            <td class="yes">yes</td>
+          </tr>
+          <tr>
+            <th scope="row">Workout breakdown — numbers and calculations</th>
+            <td class="yes">after every one</td>
+            <td class="yes">after every one</td>
+          </tr>
+          <tr>
+            <th scope="row">"My plan", the coach's memory, sport profile, "Team"</th>
+            <td class="yes">yes</td>
+            <td class="yes">yes</td>
+          </tr>
+          <tr>
+            <th scope="row">"My numbers" — what came off the watch</th>
+            <td class="yes">yes</td>
+            <td class="yes">yes</td>
+          </tr>
+          <tr>
+            <th scope="row">Alerts when the watch goes quiet</th>
+            <td class="yes">yes</td>
+            <td class="yes">yes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mxnote rv">"My numbers" stays open always — including after a paid period ends: the data is yours.</p>
+  </div>
+</section>
+
+<section id="slova">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">03</span> Glossary</div>
+    <h2 class="rv">What these<br>words mean</h2>
+    <p class="sub rv">What actually lands in the chat under each name from the table.</p>
+
+    <div class="grid rv">
+      <div class="card">
+        <div class="tag">Every morning</div>
+        <h3>Morning</h3>
+        <p>A message the bot writes on its own, without being asked: how the night went, where recovery stands, what the training week has looked like and what follows from that for today. The comparison runs against your own norm, built from your past weeks — not against an average athlete.</p>
+      </div>
+      <div class="card">
+        <div class="tag">Any hour</div>
+        <h3>"Today"</h3>
+        <p>The same morning, reopened with a button in the afternoon or evening. Nothing is recalculated — you see exactly the message that arrived in the morning, with all its numbers and the coach's words.</p>
+      </div>
+      <div class="card">
+        <div class="tag">After a workout</div>
+        <h3>Breakdown</h3>
+        <p>Arrives on its own, as soon as the workout comes off the watch. Numbers and calculations always: pace, heart rate by zone, how the work held up from start to finish. The coach's words — what those numbers mean for you specifically — three times a week on Basic, in every breakdown on Pro.</p>
+        <p class="warn">On Basic the words go to the first three workouts of the week, whichever they happen to be. Train five or six times and the Sunday long run arrives as bare numbers. If the long work is the one that matters most in your week, that's the argument for Pro.</p>
+      </div>
+      <div class="card">
+        <div class="tag">Your question</div>
+        <h3>Questions to the coach</h3>
+        <p>An ordinary chat: "I'd hate to break the week — intervals anyway?" — and an answer with reasoning, not the same number restated. The coach remembers your history, your plan and your past conversations.</p>
+      </div>
+      <div class="card">
+        <div class="tag">Sunday</div>
+        <h3>Weekly wrap-up</h3>
+        <p>Sunday evening — what the seven days came to: how much of what was done, how it sits against previous weeks, where the load is heading. It arrives on your local time, not on Moscow's.</p>
+      </div>
+      <div class="card">
+        <div class="tag">Always open</div>
+        <h3>"My numbers"</h3>
+        <p>The <b>/data</b> command: everything that came off the watch, as it is. Next to it <b>/memory</b> — what the coach remembers about you and what you can erase — and <b>/team</b>, who can see your data and how to revoke that.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark" id="pravila">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">04</span> The rules</div>
+    <h2 class="rv">Payment, renewal<br>and <span class="red">switching</span></h2>
+    <p class="sub rv">In plain words. In full and in legal form — in the <a href="/oferta.html" style="color:var(--bg)">terms of service</a> (in Russian).</p>
+
+    <div class="rules rv">
+      <div class="rule" id="oplata">
+        <h3>How to pay</h3>
+        <p>The bot sends the payment link itself — and asks first which card you have: issued by a Russian bank or a foreign one. The first goes through <b>YooKassa</b>, the second through <b>Robokassa</b>. The payment page belongs to the processor; there is nowhere to pay on the site, and we never see your card details.</p>
+        <p>The period counts from the moment access opens, not from the charge: time spent sorting something out isn't time you lose.</p>
+      </div>
+      <div class="rule">
+        <h3>No auto-charges</h3>
+        <p>Money is taken once, for the period you chose. We have no right to charge the card again, and nothing "renews itself": the period ends, access closes. <b>There is nothing to cancel.</b></p>
+        <p>So it doesn't come as a surprise, the bot reminds you twice — three days before and one day before.</p>
+      </div>
+      <div class="rule" id="schet">
+        <h3>How the counters work</h3>
+        <p>The week is a calendar one, Monday through Sunday; the day runs midnight to midnight. Both <b>in your own time zone</b>, not Moscow's.</p>
+        <p>They are spent in order: the coach's words go to the first three workouts of the week, not the best three. When the count runs out the bot says so plainly and names when it resets. The breakdown still arrives — without the coach's words, but with the numbers and the calculations.</p>
+      </div>
+      <div class="rule" id="perehod">
+        <h3>Switching levels</h3>
+        <p><b>Paid days never burn, in any case.</b> Same plan — the new period is added to what's left. Upgrading — it turns on at once, and the remainder is converted into days of the new level by the ratio of the monthly prices: 20 days of Basic cost the same as 10 days of Pro, so a month of Pro becomes forty days — 10 converted plus 30 new.</p>
+        <p>Downgrading — the old level lives out everything paid for, the new one starts after. Nothing to pay on top.</p>
+      </div>
+      <div class="rule" id="vozvrat">
+        <h3>Refunds</h3>
+        <p>You can stop at any point. The refund is proportional to unused days: amount paid ÷ days in the period × full days remaining. Ten days into a 999 ₽ month of Pro — 666 ₽ back. Two months into a 9,990 ₽ year of Pro — about 8,320 ₽ back.</p>
+        <p>An email to <a href="mailto:hello@fizkult.ai">hello@fizkult.ai</a> with your @username and the payment date is enough. The refund takes up to 10 days, and processing fees are not deducted from it.</p>
+      </div>
+      <div class="rule" id="sboy">
+        <h3>If the watch goes quiet</h3>
+        <p>The bot will say so itself, rather than pretend everything is fine. The period keeps running — but if what you paid for was unavailable for more than two days in a row through our fault or Garmin's, write to us: we extend it by the length of the gap.</p>
+        <p>Two caveats, both from the terms: write within the paid period or within 14 days after it, and a gap doesn't count as ours if the watch simply didn't sync or if you revoked the connection yourself.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">05</span> Questions</div>
+    <h2 class="rv">What people ask<br>about the plans</h2>
+    <div class="faq rv">
+      <details>
+        <summary>Which one should I take if I don't know?<span></span></summary>
+        <div class="a">
+          <p>Don't choose now — the week is free and complete. Two numbers decide it, and you'll know both within seven days: how often you train, and on which days you write to the coach.</p>
+          <p><b>Three or four workouts a week</b> — the Basic count covers them, every one gets its words. <b>Five or more</b> — two or three workouts won't get them, and that's the real argument for Pro, not the unlimited chat. Questions are simpler: three a day doesn't catch the people who write a lot, it catches the people who take one day apart in pieces — sleep in the morning, pace after the workout, tomorrow in the evening. If that's you, Pro too.</p>
+        </div>
+      </details>
+      <details>
+        <summary>What exactly do I lose on Basic?<span></span></summary>
+        <div class="a">
+          <p>Two things. The first is the weekly wrap-up: Basic doesn't have it at all. The second isn't a feature but a frequency: the coach's words arrive three times a week rather than in every breakdown, and chat questions are three a day.</p>
+          <p>The breakdowns themselves arrive after every workout on both levels, with numbers and calculations. On Basic, past the count, they simply have no living text in them.</p>
+        </div>
+      </details>
+      <details>
+        <summary>If I pay for a year and it isn't for me a month later?<span></span></summary>
+        <div class="a">
+          <p>We refund what you haven't used. The rule is the same for a month and for a year: amount ÷ days in the period × full days remaining. Two months into a 9,990 ₽ year of Pro, about 8,320 ₽ comes back; six months in, about 5,000 ₽. Fees aren't deducted, and the transfer takes up to 10 days.</p>
+          <p>So a year isn't a blind bet: paying monthly instead costs 1,998 ₽ more on Pro and 998 ₽ more on Basic, and the risk is limited to the days you actually lived through.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Does the week start at registration or when I connect the watch?<span></span></summary>
+        <div class="a">
+          <p>At registration in the bot. So it's worth connecting the watch straight away — and with the <b>Historical Data</b> box ticked on the connection page: your past history comes across with it, and the norm is built from that rather than from zero starting today.</p>
+        </div>
+      </details>
+      <details>
+        <summary>What happens when the week ends?<span></span></summary>
+        <div class="a">
+          <p>Morning stops arriving, and the bot says so — along with the prices and a button. Nothing is charged: we don't have your card.</p>
+          <p>"My numbers" stays open after the period ends — the data is yours.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Is the price locked? If it goes up, what about my period?<span></span></summary>
+        <div class="a">
+          <p>A new price doesn't touch a period already paid for: changes apply from the date of the new edition of the terms and don't extend to access that is already open. A year bought today lives out at today's price.</p>
+          <p>Every edition stays at its own address with its date — the one you paid under can always be reopened and reread.</p>
+        </div>
+      </details>
+      <details>
+        <summary>I don't run in winter. If I leave for three months and come back?<span></span></summary>
+        <div class="a">
+          <p>Nothing is lost: there are no auto-charges, so simply don't renew. Your history, sport profile and the coach's memory stay, and "My numbers" is open without payment.</p>
+          <p>What does change is the norm. It's built from recent weeks rather than from your whole life, so after a long gap the coach rebuilds it as you come back. If you kept wearing the watch through it, there'll be plenty to rebuild from.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Can I pay from outside Russia?<span></span></summary>
+        <div class="a">
+          <p>Yes. The bot asks about the card before issuing the invoice: a foreign-bank card goes through Robokassa. Prices are in roubles and final either way — the processor's fee is ours to pay.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Where are the official terms?<span></span></summary>
+        <div class="a">
+          <p>In the <a href="/oferta.html">terms of service</a> — a public offer, in Russian, with the prices, the make-up of each plan, and the order of payment, switching and refunds. Every edition stays available at its own address with its date, and changes don't affect a period already paid for. Data handling is in the <a href="/privacy.html">privacy policy</a>.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wedge" aria-hidden="true"></div>
+  <div class="wrap inner">
+    <h2>Seven days, so you<br>don't choose blind</h2>
+    <p>Full Pro, no card. Two minutes to connect — and the first message arrives in the morning. Not for you — just don't renew.</p>
+    <a class="btn inv" href="https://t.me/fizkult_ai_bot">Start the free week →</a>
+    <div class="btn-note">No card · Full Pro · No auto-charges</div>
+    <p class="again">Already done the week and choosing? Short answer: <b>three or four workouts a week — Basic, five or more — Pro</b>. The <b>/access</b> command opens the plan screen in the bot.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="about">
+      <a class="logo" href="/en/" style="color:var(--bg)">
+        <svg width="22" height="22" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="29" stroke="#C8261A" stroke-width="13"/><rect x="44" y="6" width="12" height="88" fill="#EFE6D6"/></svg>
+        FIZKULT
+      </a>
+      <p>A personal coach who keeps an eye on you every day.</p>
+    </div>
+    <div>
+      <div class="col-h">Sections</div>
+      <a href="/en/#scenarios">What it does</a>
+      <a href="/en/#trainers">For coaches</a>
+      <a href="/en/pricing">Pricing and what's in it</a>
+    </div>
+    <div>
+      <div class="col-h">Works with</div>
+      <p style="margin:0; font-size:13px; color:var(--muted-d)">Garmin · Telegram</p>
+    </div>
+    <div>
+      <div class="col-h">Legal</div>
+      <a href="/oferta.html">Terms of service</a>
+      <a href="/privacy.html">Privacy policy</a>
+      <a href="mailto:hello@fizkult.ai">hello@fizkult.ai</a>
+    </div>
+  </div>
+  <div class="wrap legal">
+    <p>Fizkult is a coaching tool, not a medical service. It doesn't diagnose and doesn't replace a doctor. If how you feel doesn't come back — see one.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  document.documentElement.classList.add('js');
+  if (!('IntersectionObserver' in window) ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+  document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+})();
+</script>
+
+</body>
+</html>

@@ -22,8 +22,15 @@ import sys
 from html.parser import HTMLParser
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-RU = ROOT / "index.html"
-EN = ROOT / "en" / "index.html"
+
+# Пары страниц. Четвёртое и пятое поле — куда обязан вести переключатель
+# языка с каждой стороны: у главной это корни разделов, у страницы тарифов —
+# её собственный адрес на другом языке, иначе переключатель уводит человека
+# с тарифов на главную и теряет его вопрос.
+PAIRS = [
+    ("index.html", "en/index.html", "/en/", "/"),
+    ("tarify.html", "en/pricing.html", "/en/pricing", "/tarify"),
+]
 
 
 class Skeleton(HTMLParser):
@@ -64,7 +71,9 @@ def one_block(text: str, tag: str, where: str) -> str:
     return hits[0]
 
 
-def main() -> int:
+def check_pair(ru_rel: str, en_rel: str, ru_switch: str, en_switch: str) -> list[str]:
+    RU = ROOT / ru_rel
+    EN = ROOT / en_rel
     for path in (RU, EN):
         if not path.exists():
             sys.exit(f"нет файла {path}")
@@ -76,8 +85,8 @@ def main() -> int:
     # 1. Оформление и поведение — побайтно. Разошлись — английская страница
     #    приедет с чужим видом или с мёртвыми кнопками.
     for tag in ("style", "script"):
-        ru_block = one_block(ru_text, tag, "index.html")
-        en_block = one_block(en_text, tag, "en/index.html")
+        ru_block = one_block(ru_text, tag, ru_rel)
+        en_block = one_block(en_text, tag, en_rel)
         if ru_block != en_block:
             problems.append(
                 f"<{tag}> разъехался: {len(ru_block)} байт в русской против "
@@ -156,7 +165,7 @@ def main() -> int:
                 problems.append(f"{path.name}: ссылка {href!r} ведёт в несуществующий раздел")
 
     # 6. Переключатель языка — ровно один на странице, и ведёт на другую сторону.
-    for path, text, expect in ((RU, ru_text, "/en/"), (EN, en_text, "/")):
+    for path, text, expect in ((RU, ru_text, ru_switch), (EN, en_text, en_switch)):
         found = re.findall(r'<a class="lang" href="([^"]+)"', text)
         if found != [expect]:
             problems.append(
@@ -185,7 +194,7 @@ def main() -> int:
     #    ровно то, что человек читает глазами.
     page = en_text
     for tag in ("style", "script"):
-        page = page.replace(one_block(en_text, tag, "en/index.html"), f"<{tag}/>")
+        page = page.replace(one_block(en_text, tag, en_rel), f"<{tag}/>")
 
     # Кириллица законна ровно в одном месте — у переключателя языка, где
     # человек ищет свой язык глазами и обязан увидеть именно «RU».
@@ -194,19 +203,28 @@ def main() -> int:
         if 'class="lang"' in chunk or 'lang="ru"' in chunk:
             continue
         line = page[: m.start()].count("\n") + 1
-        problems.append(f"en/index.html: непереведённый текст {m.group()!r} (строка ~{line})")
+        problems.append(f"{en_rel}: непереведённый текст {m.group()!r} (строка ~{line})")
+
+    if not problems:
+        print(
+            f"{ru_rel} ↔ {en_rel}: сходятся — {len(ru_s.tags)} тегов, "
+            f"{len(ru_s.ids)} якорей, {len(set(ru_out))} внешних ссылок; "
+            f"оформление и скрипт побайтно равны"
+        )
+    return [f"{ru_rel} ↔ {en_rel}: {p}" for p in problems]
+
+
+def main() -> int:
+    problems: list[str] = []
+    for ru_rel, en_rel, ru_switch, en_switch in PAIRS:
+        problems += check_pair(ru_rel, en_rel, ru_switch, en_switch)
 
     if problems:
-        print("РАСХОЖДЕНИЯ:\n")
+        print("\nРАСХОЖДЕНИЯ:\n")
         for p in problems:
             print(f"  • {p}")
         print(f"\nвсего: {len(problems)}")
         return 1
-
-    print(
-        f"страницы сходятся: {len(ru_s.tags)} тегов, {len(ru_s.ids)} якорей, "
-        f"{len(set(ru_out))} внешних ссылок; оформление и скрипт побайтно равны"
-    )
     return 0
 
 

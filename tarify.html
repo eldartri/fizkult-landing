@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тарифы Физкульт — что стоит и что за это приходит</title>
+<meta name="description" content="Все тарифы Физкульта на одной странице: бесплатная неделя полного Pro, Basic 499 ₽ и Pro 999 ₽ за 30 дней. Честный состав каждого уровня, как считаются лимиты, оплата, переходы и возврат.">
+<meta property="og:title" content="Тарифы Физкульт — что стоит и что за это приходит">
+<meta property="og:description" content="Бесплатная неделя полного Pro, дальше 499 или 999 ₽ в месяц. Состав каждого уровня без мелкого шрифта: что приходит каждый день, что по счёту, чего нет.">
+<meta property="og:url" content="https://fizkult.ai/tarify">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/tarify">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/pricing">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/tarify">
+<link rel="canonical" href="https://fizkult.ai/tarify">
+<link rel="icon" href="assets/favicon/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#EFE6D6; --bg-alt:#E5D9C3; --panel:#FFFFFF; --ink:#1A1A1A;
+    --muted:#5B5347; --muted-d:#C9C2B5; --accent:#C8261A; --accent-ink:#EFE6D6; --line:#1A1A1A;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Geist",system-ui,sans-serif; line-height:1.55;
+    font-variant-numeric:tabular-nums; }
+  ::selection { background:var(--accent); color:var(--accent-ink); }
+  .wrap { max-width:1120px; margin:0 auto; padding:0 20px; }
+  .mono { font-family:"Geist Mono",monospace; }
+  a { color:inherit; }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline:3px solid var(--accent); outline-offset:3px; }
+  .dark a:focus-visible, .dark summary:focus-visible, footer a:focus-visible { outline-color:var(--bg); }
+  .skip { position:absolute; left:-9999px; top:0; background:var(--ink); color:var(--bg);
+    padding:10px 16px; z-index:100; font-weight:700; }
+  .skip:focus { left:0; }
+
+  .kicker { display:flex; align-items:center; gap:10px; font-family:"Geist Mono",monospace;
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase; margin-bottom:16px; }
+  .kicker .knum { background:var(--accent); color:var(--accent-ink); padding:2px 8px;
+    font-weight:700; letter-spacing:.1em; }
+  .dark .kicker { color:var(--bg); }
+
+  h1,h2,h3 { letter-spacing:-.03em; text-transform:uppercase; font-weight:900; margin:0; }
+  h2 { font-size:clamp(28px,4.6vw,46px); line-height:.96; margin-bottom:12px; }
+  h2 .red { color:var(--accent); }
+  .sub { color:var(--muted); font-size:16px; max-width:620px; margin:0; }
+  .dark .sub { color:var(--muted-d); }
+  section { padding:72px 0; }
+
+  .btn { display:inline-block; background:var(--accent); color:var(--accent-ink);
+    border:1.5px solid var(--line); padding:16px 28px; font-weight:800; font-size:15px;
+    text-decoration:none; text-transform:uppercase; letter-spacing:.02em;
+    box-shadow:4px 4px 0 var(--line); transition:transform .1s, box-shadow .1s; }
+  .btn:hover { transform:translate(2px,2px); box-shadow:2px 2px 0 var(--line); }
+  .btn.inv { background:var(--ink); color:var(--bg); box-shadow:4px 4px 0 var(--accent-ink); border-color:var(--accent-ink); }
+  .btn.inv:hover { box-shadow:2px 2px 0 var(--accent-ink); }
+  .btn-note { margin-top:12px; font-family:"Geist Mono",monospace; font-size:10px;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+  .final .btn-note { color:var(--accent-ink); opacity:.85; }
+  .btn-row { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+
+  /* header */
+  header { border-bottom:1.5px solid var(--line); background:var(--bg); position:sticky; top:0; z-index:10; }
+  .nav { display:flex; align-items:center; justify-content:space-between; padding:14px 0; gap:16px; }
+  .logo { display:flex; align-items:center; gap:10px; font-weight:900; font-size:18px;
+    text-transform:uppercase; letter-spacing:-.02em; text-decoration:none; }
+  .logo svg { flex-shrink:0; display:block; }
+  .nav-links { display:flex; align-items:center; gap:22px; font-family:"Geist Mono",monospace;
+    font-size:11px; letter-spacing:.1em; text-transform:uppercase; }
+  .nav-links a { text-decoration:none; }
+  .nav-links a:hover { color:var(--accent); }
+  .nav-links a[aria-current="page"] { color:var(--accent); font-weight:700; }
+  .nav a.cta { font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em;
+    color:var(--accent-ink); background:var(--ink); padding:9px 14px; text-decoration:none;
+    box-shadow:3px 3px 0 var(--accent); white-space:nowrap; }
+  .nav a.cta:hover { transform:translate(1px,1px); box-shadow:2px 2px 0 var(--accent); }
+  .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em;
+    font-weight:700; text-decoration:none; color:var(--ink);
+    border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .lang:hover { background:var(--ink); color:var(--bg); }
+
+  /* hero */
+  .hero { position:relative; overflow:hidden; padding:66px 0 60px; border-bottom:1.5px solid var(--line); }
+  .hero .wedge { position:absolute; right:-180px; bottom:-320px; width:480px; height:480px;
+    background:var(--accent); transform:rotate(-14deg); }
+  .hero .inner { position:relative; z-index:1; max-width:760px; }
+  .hero h1 { font-size:clamp(34px,5.6vw,62px); line-height:.96; letter-spacing:-.04em; }
+  .hero h1 .red { color:var(--accent); }
+  .hero p.lead { font-size:18px; color:var(--muted); max-width:600px; margin:22px 0 0; }
+  .stamps { display:flex; flex-wrap:wrap; gap:8px; margin-top:26px; }
+  .stamp { font-family:"Geist Mono",monospace; font-size:10px; font-weight:600; letter-spacing:.14em;
+    text-transform:uppercase; border:1.5px solid var(--line); padding:5px 10px; background:var(--bg); }
+  .stamp.red { background:var(--accent); color:var(--accent-ink); border-color:var(--line); }
+
+  /* plans */
+  .plans { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:18px; margin-top:40px; align-items:stretch; }
+  .plan { background:var(--panel); border:1.5px solid var(--line); padding:28px 26px;
+    box-shadow:4px 4px 0 var(--line); position:relative; display:flex; flex-direction:column; }
+  .plan.hot { background:var(--ink); color:var(--bg); box-shadow:8px 8px 0 var(--accent); }
+  .plan .badge { position:absolute; top:-14px; left:22px; background:var(--accent); color:var(--accent-ink);
+    font-family:"Geist Mono",monospace; font-size:10px; font-weight:700; letter-spacing:.14em;
+    text-transform:uppercase; padding:4px 11px; border:1.5px solid var(--line); white-space:nowrap; }
+  .plan .name { font-family:"Geist Mono",monospace; font-size:11px; font-weight:700; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--accent); }
+  .plan .who { font-size:13.5px; font-weight:600; color:var(--muted); margin-top:9px; }
+  .plan.hot .who { color:var(--muted-d); }
+  .plan .price { font-size:42px; font-weight:900; letter-spacing:-.03em; margin:12px 0 2px; line-height:1; }
+  .plan .per { font-family:"Geist Mono",monospace; font-size:11px; color:var(--muted); letter-spacing:.06em; }
+  .plan.hot .per { color:var(--muted-d); }
+  .plan .year { font-family:"Geist Mono",monospace; font-size:11px; color:var(--muted); letter-spacing:.06em; margin-top:7px; }
+  .plan .year b { color:var(--ink); font-weight:700; }
+  .plan.hot .year { color:var(--muted-d); }
+  .plan.hot .year b { color:var(--bg); }
+  .plan ul { list-style:none; padding:0; margin:20px 0 24px; flex:1; }
+  .plan li { font-size:13.5px; padding:8px 0 8px 22px; position:relative; border-top:1px dashed rgba(0,0,0,.2); }
+  .plan.hot li { border-top:1px dashed rgba(255,255,255,.22); }
+  .plan li::before { content:"→"; position:absolute; left:0; color:var(--accent); font-weight:700; }
+  .plan.hot li::before { color:#F0A79F; }
+  .plan li.no { color:var(--muted); }
+  .plan li.no::before { content:"\2715"; color:var(--muted); font-weight:700; }
+  .plan.hot li.no { color:var(--muted-d); }
+  .plan.hot li.no::before { color:var(--muted-d); }
+  .plan .btn { width:100%; text-align:center; padding:14px 10px; font-size:13px; }
+  .plan.hot .btn { box-shadow:4px 4px 0 var(--accent-ink); border-color:var(--accent-ink); }
+  .plan.hot .btn:hover { box-shadow:2px 2px 0 var(--accent-ink); }
+
+  /* matrix */
+  .alt { background:var(--bg-alt); border-top:1.5px solid var(--line); border-bottom:1.5px solid var(--line); }
+  .mxwrap { margin-top:40px; overflow-x:auto; border:1.5px solid var(--line); box-shadow:6px 6px 0 var(--line); }
+  table.mx { border-collapse:collapse; width:100%; min-width:0; background:var(--panel); }
+  table.mx th, table.mx td { border-right:1.5px solid var(--line); border-bottom:1.5px solid var(--line);
+    padding:13px 16px; font-size:14px; text-align:left; vertical-align:top; }
+  table.mx th:last-child, table.mx td:last-child { border-right:none; }
+  table.mx tr:last-child td { border-bottom:none; }
+  table.mx thead th { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.12em;
+    text-transform:uppercase; background:var(--ink); color:var(--bg); font-weight:700; white-space:nowrap; }
+  table.mx thead th.pro { background:var(--accent); color:var(--accent-ink); }
+  table.mx tbody th { font-weight:700; font-size:14px; background:var(--bg); white-space:normal; }
+  table.mx td.yes { font-weight:700; }
+  table.mx td.yes::before { content:"→ "; color:var(--accent); }
+  table.mx td.no { color:var(--muted); }
+  table.mx td.no::before { content:"\2715 "; color:var(--muted); }
+  table.mx thead th .thp { font-family:"Geist",sans-serif; font-size:13px; letter-spacing:0;
+    font-weight:900; opacity:.75; }
+  table.mx tr.grp th { background:var(--ink); color:var(--bg); font-family:"Geist Mono",monospace;
+    font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:400; text-align:left; }
+  .mxnote { font-size:13px; color:var(--muted); margin-top:16px; max-width:760px; }
+  .quick { display:flex; flex-wrap:wrap; gap:10px; margin-top:26px;
+    font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; }
+  .quick a { text-decoration:none; border:1.5px solid var(--line); background:var(--panel);
+    padding:7px 11px; box-shadow:3px 3px 0 var(--line); }
+  .quick a:hover { background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+
+  /* glossary */
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:40px; }
+  .card { background:var(--panel); border:1.5px solid var(--line); padding:20px 22px;
+    box-shadow:4px 4px 0 var(--line); position:relative; }
+  .card::before { content:""; position:absolute; top:0; left:0; width:34px; height:5px; background:var(--accent); }
+  .card h3 { font-size:15.5px; margin:10px 0 8px; }
+  .card p { margin:0; font-size:13.5px; color:var(--muted); line-height:1.55; }
+  .card p.warn { margin-top:10px; padding-left:11px; border-left:3px solid var(--accent); color:var(--ink); }
+  .card .tag { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--accent); font-weight:600; }
+
+  /* dark rules block */
+  .dark { background:var(--ink); color:var(--bg); border-top:1.5px solid var(--line); border-bottom:1.5px solid var(--line); }
+  .dark h2 { color:var(--bg); }
+  .dark h2 .red { color:var(--accent); }
+  .rules { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:38px; }
+  .rule { background:var(--panel); color:var(--ink); border:1.5px solid var(--bg);
+    padding:22px 24px; box-shadow:4px 4px 0 var(--accent); }
+  .rule h3 { font-size:16px; margin:0 0 9px; line-height:1.1; }
+  .rule p { margin:0 0 10px; font-size:13.5px; color:var(--muted); line-height:1.55; }
+  .rule p:last-child { margin:0; }
+  .rule b { color:var(--ink); font-weight:800; }
+  .rule a { color:var(--accent); }
+
+  /* faq */
+  .faq { max-width:800px; margin-top:38px; border:1.5px solid var(--line); background:var(--panel);
+    box-shadow:6px 6px 0 var(--line); }
+  .faq details { border-bottom:1.5px solid var(--line); }
+  .faq details:last-child { border-bottom:none; }
+  .faq summary { list-style:none; cursor:pointer; display:flex; justify-content:space-between;
+    align-items:center; gap:16px; padding:19px 22px; font-weight:800; font-size:15.5px;
+    text-transform:uppercase; letter-spacing:-.01em; }
+  .faq summary::-webkit-details-marker { display:none; }
+  .faq summary::after { content:"+"; font-family:"Geist Mono",monospace; font-size:20px; font-weight:600;
+    color:var(--accent); flex-shrink:0; line-height:1; transition:transform .15s; }
+  .faq details[open] summary::after { transform:rotate(45deg); }
+  .faq details[open] summary { background:var(--bg); }
+  .faq .a { padding:0 22px 20px; font-size:14px; color:var(--muted); max-width:680px; }
+  .faq .a p { margin:12px 0 0; }
+  .faq .a a { color:var(--ink); }
+
+  /* final CTA */
+  .final { background:var(--accent); color:var(--accent-ink); text-align:center;
+    position:relative; overflow:hidden; border-top:1.5px solid var(--line); padding:88px 0; }
+  .final .wedge { position:absolute; left:-120px; top:-140px; width:340px; height:340px;
+    background:var(--ink); transform:rotate(18deg); opacity:.16; }
+  .final .inner { position:relative; z-index:1; }
+  .final h2 { color:var(--accent-ink); font-size:clamp(28px,5vw,50px); }
+  .final p { color:var(--accent-ink); margin:18px auto 32px; max-width:520px; font-weight:600; }
+  .final p.again { margin:34px auto 0; max-width:620px; font-weight:400; font-size:13.5px;
+    opacity:.9; border-top:1.5px solid var(--accent-ink); padding-top:20px; }
+
+  /* footer */
+  footer { background:var(--ink); color:var(--bg); }
+  .foot { display:flex; justify-content:space-between; flex-wrap:wrap; gap:32px; padding:48px 0; }
+  .foot .about p { margin:10px 0 0; font-size:13px; color:var(--muted-d); max-width:300px; }
+  .foot .col-h { font-family:"Geist Mono",monospace; font-size:10px; color:var(--muted-d);
+    letter-spacing:.16em; text-transform:uppercase; margin-bottom:10px; }
+  .foot a { color:var(--bg); font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; display:block; padding:4px 0; }
+  .legal { border-top:1px solid rgba(255,255,255,.14); padding:20px 0; }
+  .legal p { margin:0; font-family:"Geist Mono",monospace; font-size:10px; color:var(--muted-d);
+    letter-spacing:.06em; line-height:1.7; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .js .rv { opacity:0; transform:translateY(16px); transition:opacity .5s ease, transform .5s ease; }
+    .js .rv.in { opacity:1; transform:none; }
+  }
+
+  @media (max-width:1000px) {
+    .grid { grid-template-columns:repeat(2,1fr); }
+    .nav-links { display:none; }
+  }
+  @media (max-width:900px) {
+    .rules { grid-template-columns:1fr; }
+  }
+  @media (max-width:560px) {
+    .grid { grid-template-columns:1fr; }
+    section { padding:56px 0; }
+    .hero { padding:52px 0 48px; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">К содержанию</a>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="/">
+      <svg width="22" height="22" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="29" stroke="#C8261A" stroke-width="13"/><rect x="44" y="6" width="12" height="88" fill="#1A1A1A"/></svg>
+      ФИЗКУЛЬТ
+    </a>
+    <nav class="nav-links" aria-label="Разделы">
+      <a href="/#chat">Диалог</a>
+      <a href="/#scenarios">Что умеет</a>
+      <a href="/#trainers">Тренерам</a>
+      <a href="/tarify" aria-current="page">Тарифы</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <a class="lang" href="/en/pricing" hreflang="en" lang="en" aria-label="Switch to English">EN</a>
+    <a class="cta" href="https://t.me/fizkult_ai_bot">7 дней бесплатно →</a>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero" aria-label="Главное">
+  <div class="wedge" aria-hidden="true"></div>
+  <div class="wrap inner">
+    <div class="kicker"><span class="knum">RU</span> Тарифы · fizkult.ai</div>
+    <h1>Сколько стоит и что <span class="red">за это приходит</span></h1>
+    <p class="lead">Первая неделя — полный Pro, бесплатно и без карты. Дальше два уровня, и отличаются они не длиной списка функций. Состав у них почти один и тот же — кроме итогов недели, они только в Pro. Вся остальная разница в счёте: сколько раз в неделю разбор приходит со словами тренера и сколько вопросов в сутки ты можешь задать.</p>
+    <nav class="quick" aria-label="Быстрые ссылки">
+      <a href="#sostav">Что входит</a>
+      <a href="#oplata">Как платить</a>
+      <a href="#perehod">Переход между уровнями</a>
+      <a href="#vozvrat">Возврат</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <div class="stamps">
+      <span class="stamp red">7 дней бесплатно</span>
+      <span class="stamp">Без карты на старте</span>
+      <span class="stamp">Без автосписаний</span>
+      <span class="stamp">Можно вернуть остаток</span>
+    </div>
+  </div>
+</section>
+
+<section id="plans">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">01</span> Цены</div>
+    <h2 class="rv">Цены целиком,<br>без мелкого шрифта</h2>
+    <p class="sub rv">Месяц Pro стоит меньше одной тренировки с живым тренером. Цены в рублях и окончательные: комиссию кассы платим мы. Год выходит как десять месяцев вместо двенадцати.</p>
+
+    <div class="plans rv">
+      <div class="plan">
+        <div class="name">Пробная неделя</div>
+        <div class="who">Полный Pro — чтобы увидеть, а не поверить на слово</div>
+        <div class="price">0 ₽</div>
+        <div class="per">7 дней · всё из Pro</div>
+        <ul>
+          <li>Всё, что есть в Pro, без счёта</li>
+          <li>Неделя идёт с момента регистрации в боте</li>
+          <li>Карту на старте не спрашиваем</li>
+          <li>Даётся один раз</li>
+        </ul>
+        <a class="btn" href="https://t.me/fizkult_ai_bot">Начать неделю →</a>
+      </div>
+
+      <!-- Третий уровень на этой странице выключен намеренно: пока его нельзя
+           оплатить, называть цену нельзя. Готовая карточка, готовая колонка
+           таблицы и условие включения целиком — COPY.md, раздел «Страница
+           тарифов». Правка делается там и переносится сюда, не наоборот. -->
+
+      <div class="plan">
+        <div class="name">Basic</div>
+        <div class="who">Тренер, который приходит каждое утро</div>
+        <div class="price">499 ₽</div>
+        <div class="per">за 30 дней · ≈17 ₽ в день</div>
+        <div class="year">или <b>4 990 ₽ за год</b> · ≈14 ₽ в день · на 998 ₽ меньше</div>
+        <ul>
+          <li>Три раза в неделю разбор — со словами тренера</li>
+          <li>Три вопроса тренеру в сутки</li>
+          <li>Утро каждый день и «Сегодня» — в любой момент суток</li>
+          <li>Разбор приходит после каждой тренировки: сверх трёх — цифры и расчёты, без слов</li>
+          <li>«Мой план» — твой план, который учитывает тренер; память, спортивный профиль, «Команда»</li>
+          <li class="no">Итогов недели нет — они в Pro</li>
+        </ul>
+        <a class="btn" href="https://t.me/fizkult_ai_bot">Выбрать в боте →</a>
+      </div>
+
+      <div class="plan hot">
+        <div class="badge">Полная версия тренера</div>
+        <div class="name">Pro</div>
+        <div class="who">Тренер, которого можно спрашивать без дневного счётчика</div>
+        <div class="price">999 ₽</div>
+        <div class="per">за 30 дней · ≈33 ₽ в день</div>
+        <div class="year">или <b>9 990 ₽ за год</b> · ≈27 ₽ в день · на 1 998 ₽ меньше</div>
+        <ul>
+          <li>Слова тренера в каждом разборе, сколько бы тренировок ни было</li>
+          <li>Вопросы тренеру без дневного счётчика</li>
+          <li>Итоги недели — в воскресенье вечером</li>
+          <li>Всё из Basic, без счётчиков</li>
+        </ul>
+        <a class="btn" href="https://t.me/fizkult_ai_bot">Выбрать в боте →</a>
+      </div>
+    </div>
+
+    <div class="btn-row rv" style="margin-top:30px">
+      <a class="btn" href="https://t.me/fizkult_ai_bot">Начать с бесплатной недели →</a>
+      <span class="btn-note">Ещё не пробовал? Выбирать сейчас не надо — тарифы бот покажет, когда неделя кончится.</span>
+    </div>
+    <div class="btn-row rv" style="margin-top:14px">
+      <a class="btn ghost" href="https://t.me/fizkult_ai_bot">Уже в боте? Вернуться и выбрать →</a>
+      <span class="btn-note">Экран выбора открывает команда <b>/access</b> — там же всегда показан действующий состав.</span>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="sostav">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">02</span> Состав</div>
+    <h2 class="rv">Что входит<br>в каждый уровень</h2>
+    <p class="sub rv">Это весь состав по уровням — ничего не спрятано за «и многое другое». Пробной недели в таблице нет нарочно: <b>первые семь дней — это полный Pro</b>, правая колонка целиком.</p>
+
+    <div class="mxwrap rv">
+      <table class="mx">
+        <thead>
+          <tr>
+            <th scope="col">Что это</th>
+            <th scope="col">Basic<br><span class="thp">499 ₽</span></th>
+            <th scope="col" class="pro">Pro<br><span class="thp">999 ₽</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="grp"><th scope="colgroup" colspan="3">В чём разница</th></tr>
+          <tr>
+            <th scope="row">Слова тренера в разборе тренировки</th>
+            <td class="yes">три раза в календарную неделю</td>
+            <td class="yes">в каждом разборе</td>
+          </tr>
+          <tr>
+            <th scope="row">Вопросы тренеру в чате</th>
+            <td class="yes">три в сутки</td>
+            <td class="yes">без дневного счётчика</td>
+          </tr>
+          <tr>
+            <th scope="row">Итоги недели</th>
+            <td class="no">нет</td>
+            <td class="yes">воскресенье, вечер</td>
+          </tr>
+          <tr class="grp"><th scope="colgroup" colspan="3">Одинаково на обоих уровнях</th></tr>
+          <tr>
+            <th scope="row">Утро</th>
+            <td class="yes">каждый день</td>
+            <td class="yes">каждый день</td>
+          </tr>
+          <tr>
+            <th scope="row">«Сегодня» — вернуться к утру в любой час</th>
+            <td class="yes">да</td>
+            <td class="yes">да</td>
+          </tr>
+          <tr>
+            <th scope="row">Разбор тренировки — цифры и расчёты</th>
+            <td class="yes">после каждой</td>
+            <td class="yes">после каждой</td>
+          </tr>
+          <tr>
+            <th scope="row">«Мой план», память тренера, спортивный профиль, «Команда»</th>
+            <td class="yes">да</td>
+            <td class="yes">да</td>
+          </tr>
+          <tr>
+            <th scope="row">«Мои цифры» — что приехало с часов</th>
+            <td class="yes">да</td>
+            <td class="yes">да</td>
+          </tr>
+          <tr>
+            <th scope="row">Сообщения о том, что часы замолчали</th>
+            <td class="yes">да</td>
+            <td class="yes">да</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mxnote rv">«Мои цифры» открыты всегда — даже когда оплаченный срок кончился: это твои данные.</p>
+  </div>
+</section>
+
+<section id="slova">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">03</span> Словарь</div>
+    <h2 class="rv">Что стоит<br>за этими словами</h2>
+    <p class="sub rv">Что реально приходит в чат под каждым названием из таблицы.</p>
+
+    <div class="grid rv">
+      <div class="card">
+        <div class="tag">Каждое утро</div>
+        <h3>Утро</h3>
+        <p>Письмо, которое бот пишет сам, без твоего запроса: как прошла ночь, что с восстановлением, какая была неделя по нагрузке и что из этого следует на сегодня. Сравнение идёт с твоей собственной нормой, набранной за прошлые недели, а не со средним атлетом.</p>
+      </div>
+      <div class="card">
+        <div class="tag">В любой час</div>
+        <h3>«Сегодня»</h3>
+        <p>То же утро, но открытое кнопкой днём или вечером. Ничего не пересчитывается заново — ты видишь ровно то письмо, которое пришло утром, со всеми цифрами и словами тренера.</p>
+      </div>
+      <div class="card">
+        <div class="tag">После тренировки</div>
+        <h3>Разбор</h3>
+        <p>Приходит сам, как только тренировка доехала с часов. Цифры и расчёты — всегда: темп, пульс по зонам, как держалась работа от начала к концу. Слова тренера — то, что эти цифры значат именно для тебя, — на Basic три раза в неделю, на Pro в каждом разборе.</p>
+        <p class="warn">На Basic слова уходят на первые три тренировки недели, какими бы они ни были. Тренируешься пять-шесть раз — воскресный лонг придёт голыми цифрами. Если длинная работа у тебя главная в неделе, это тот самый довод за Pro.</p>
+      </div>
+      <div class="card">
+        <div class="tag">Твой вопрос</div>
+        <h3>Вопросы тренеру</h3>
+        <p>Обычный чат: «жалко ломать неделю, может всё-таки интервалы?» — и ответ с доводами, а не то же число ещё раз. Тренер помнит твою историю, план и прошлые разговоры.</p>
+      </div>
+      <div class="card">
+        <div class="tag">Воскресенье</div>
+        <h3>Итоги недели</h3>
+        <p>Вечером в воскресенье — что вышло за семь дней: сколько и чего сделано, как это легло на предыдущие недели, куда идёт нагрузка. Приходит по твоему местному времени, а не по московскому.</p>
+      </div>
+      <div class="card">
+        <div class="tag">Всегда открыто</div>
+        <h3>«Мои цифры»</h3>
+        <p>Команда <b>/data</b>: всё, что приехало с часов, как есть. Рядом <b>/memory</b> — что тренер про тебя помнит и что можно стереть, и <b>/team</b> — кто видит твои данные и как отозвать доступ.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark" id="pravila">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">04</span> Правила</div>
+    <h2 class="rv">Оплата, продление<br>и <span class="red">переходы</span></h2>
+    <p class="sub rv">Человеческими словами. Полностью и юридически — в <a href="oferta.html" style="color:var(--bg)">условиях оказания услуг</a>.</p>
+
+    <div class="rules rv">
+      <div class="rule" id="oplata">
+        <h3>Как платить</h3>
+        <p>Ссылку на оплату присылает сам бот — он же спросит, какая у тебя карта: российского банка или зарубежного. Первая идёт через <b>ЮKassa</b>, вторая через <b>Robokassa</b>. Платёжная страница принадлежит кассе; на сайте платить негде, и данные карты мы не видим.</p>
+        <p>Срок считается от момента, когда доступ открылся, а не от списания: время на разбирательство у тебя не пропадает.</p>
+      </div>
+      <div class="rule">
+        <h3>Автосписаний нет</h3>
+        <p>Деньги списываются один раз — за выбранный срок. Права списать с карты повторно у нас нет, подписка не «продлевается сама»: срок кончается, доступ закрывается. <b>Отменять нечего.</b></p>
+        <p>Чтобы это не стало неожиданностью, бот напомнит дважды — за три дня и за день.</p>
+      </div>
+      <div class="rule" id="schet">
+        <h3>Как считаются счётчики</h3>
+        <p>Неделя — календарная, с понедельника по воскресенье; сутки — от полуночи до полуночи. И то и другое <b>по твоему часовому поясу</b>, не по московскому.</p>
+        <p>Счёт идёт по порядку: слова тренера достаются первым трём тренировкам недели, а не лучшим трём. Когда счёт исчерпан, бот говорит об этом прямо и называет, когда счётчик обнулится. Разбор при этом всё равно придёт — без слов тренера, но с цифрами и расчётами.</p>
+      </div>
+      <div class="rule" id="perehod">
+        <h3>Переход между уровнями</h3>
+        <p><b>Оплаченные дни не сгорают ни в одном случае.</b> Тот же тариф — новый срок прибавляется к остатку. Наверх — включается сразу, а остаток пересчитывается в дни нового уровня по отношению месячных цен: 20 дней Basic стоили столько же, сколько 10 дней Pro, — значит оплаченный месяц Pro станет сорока днями: 10 пересчитанных плюс 30 новых.</p>
+        <p>Вниз — прежний уровень доживает оплаченное целиком, новый включается следом. Доплачивать ничего не нужно.</p>
+      </div>
+      <div class="rule" id="vozvrat">
+        <h3>Возврат</h3>
+        <p>Отказаться можно в любой момент. Возврат — пропорционально неиспользованным дням: оплаченная сумма ÷ дни срока × оставшиеся полные дни. Из месяца Pro за 999 ₽ прошло десять дней — назад 666 ₽. Из года Pro за 9 990 ₽ прошло два месяца — назад около 8 320 ₽.</p>
+        <p>Достаточно письма на <a href="mailto:hello@fizkult.ai">hello@fizkult.ai</a> с твоим @username и датой оплаты. Срок возврата — 10 дней, комиссии из суммы не удерживаются.</p>
+      </div>
+      <div class="rule" id="sboy">
+        <h3>Если часы замолчали</h3>
+        <p>Бот скажет об этом сам, а не сделает вид, что всё в порядке. Срок при этом идёт — но если оплаченное было недоступно больше двух суток подряд по нашей вине или по вине Garmin, напиши: продлим на число суток перерыва.</p>
+        <p>Две оговорки, обе из условий: написать нужно в оплаченный срок или в течение 14 дней после него, и перерыв не считается нашим, если часы просто не синхронизировались или связь с ними отозвал сам пользователь.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="kicker rv"><span class="knum">05</span> Вопросы</div>
+    <h2 class="rv">Что спрашивают<br>про тарифы</h2>
+    <div class="faq rv">
+      <details>
+        <summary>Какой выбрать, если я не знаю?<span></span></summary>
+        <div class="a">
+          <p>Не выбирай сейчас — неделя бесплатная и полная. Решают два числа, и оба ты узнаешь за семь дней: сколько раз в неделю ты тренируешься и в какие дни пишешь тренеру.</p>
+          <p><b>Три-четыре тренировки в неделю</b> — счёта Basic хватает, слова придут ко всем. <b>Пять и больше</b> — двум-трём тренировкам слов уже не достанется, и это главный довод за Pro, а не безлимит в чате. Про вопросы проще: три в сутки упираются не в тех, кто пишет много, а в тех, кто разбирает один день по частям — утром про сон, после тренировки про темп, вечером про завтра. Если это про тебя — тоже Pro.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Что именно я теряю на Basic?<span></span></summary>
+        <div class="a">
+          <p>Две вещи. Первая — итоги недели: на Basic их нет совсем. Вторая — не функции, а частота: слова тренера приходят три раза в неделю, а не в каждом разборе, и вопросов в чате три в сутки.</p>
+          <p>Сами разборы приходят после каждой тренировки на обоих уровнях — с цифрами и расчётами. На Basic сверх счёта в них просто нет живого текста.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Заплачу за год вперёд — а если через месяц не моё?<span></span></summary>
+        <div class="a">
+          <p>Вернём неиспользованное. Правило одно и то же для месяца и для года: сумма ÷ дни срока × оставшиеся полные дни. Из года Pro за 9 990 ₽ через два месяца назад придёт около 8 320 ₽, через полгода — около 5 000 ₽. Комиссии из этого не удерживаются, срок перевода — 10 дней.</p>
+          <p>Поэтому год — это не ставка вслепую: переплата за месяц к году — 1 998 ₽ у Pro и 998 ₽ у Basic, а риск ограничен днями, которые ты реально прожил.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Неделя начинается с регистрации или с подключения часов?<span></span></summary>
+        <div class="a">
+          <p>С регистрации в боте. Поэтому часы стоит подключить сразу — и с галочкой <b>Historical Data</b> на странице подключения: с ней приедет прошлая история, и норма соберётся по ней, а не с нуля с сегодняшнего дня.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Что будет, когда неделя кончится?<span></span></summary>
+        <div class="a">
+          <p>Утро перестанет приходить, и бот об этом скажет — вместе с ценами и кнопкой. Ничего не спишется: карты у нас нет.</p>
+          <p>«Мои цифры» останутся открытыми и после окончания срока — данные твои.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Цена зафиксирована? Если подорожает — что с моим сроком?<span></span></summary>
+        <div class="a">
+          <p>Оплаченный срок новая цена не трогает: изменения действуют с даты новой редакции условий и на уже открытый доступ не распространяются. Год, купленный сегодня, доживает до конца по сегодняшней цене.</p>
+          <p>Каждая редакция остаётся лежать по своему адресу с датой — ту, по которой ты платил, всегда можно открыть и перечитать.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Зимой не бегаю. Если уйду на три месяца и вернусь?<span></span></summary>
+        <div class="a">
+          <p>Ничего не пропадает: автосписаний нет, так что просто не продлевай. История, спортивный профиль и память тренера остаются, «Мои цифры» открыты и без оплаты.</p>
+          <p>Что действительно меняется — норма. Она считается по последним неделям, а не по всей жизни, так что после долгой паузы тренер собирает её заново, по мере того как ты возвращаешься. Если часы ты всё это время носил, собирать будет из чего.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Можно оплатить не из России?<span></span></summary>
+        <div class="a">
+          <p>Да. Бот спрашивает про карту до выставления счёта: карта зарубежного банка идёт через Robokassa. Цены в обоих случаях рублёвые и окончательные — комиссию кассы платим мы.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Где официальные условия?<span></span></summary>
+        <div class="a">
+          <p>В <a href="oferta.html">условиях оказания услуг</a> — это публичная оферта с ценами, составом, порядком оплаты, переходов и возврата. Каждая редакция остаётся доступной по своему адресу с датой, и изменения не затрагивают уже оплаченный срок. Обработка данных — в <a href="privacy.html">политике</a>.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wedge" aria-hidden="true"></div>
+  <div class="wrap inner">
+    <h2>Семь дней, чтобы<br>не выбирать вслепую</h2>
+    <p>Полный Pro, без карты. Две минуты на подключение — и первое письмо придёт утром. Не твоё — просто не продлевай.</p>
+    <a class="btn inv" href="https://t.me/fizkult_ai_bot">Начать бесплатную неделю →</a>
+    <div class="btn-note">Без карты · Полный Pro · Без автосписаний</div>
+    <p class="again">Уже прошёл неделю и выбираешь? Короткий ответ: <b>три-четыре тренировки в неделю — Basic, пять и больше — Pro</b>. Экран выбора открывает команда <b>/access</b> в боте.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="about">
+      <a class="logo" href="/" style="color:var(--bg)">
+        <svg width="22" height="22" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="29" stroke="#C8261A" stroke-width="13"/><rect x="44" y="6" width="12" height="88" fill="#EFE6D6"/></svg>
+        ФИЗКУЛЬТ
+      </a>
+      <p>Личный тренер, который следит за тобой каждый день.</p>
+    </div>
+    <div>
+      <div class="col-h">Разделы</div>
+      <a href="/#scenarios">Что умеет</a>
+      <a href="/#trainers">Тренерам</a>
+      <a href="/#clubs">Клубам и командам</a>
+    </div>
+    <div>
+      <div class="col-h">Работает с</div>
+      <p style="margin:0; font-size:13px; color:var(--muted-d)">Garmin · Telegram</p>
+    </div>
+    <div>
+      <div class="col-h">Документы</div>
+      <a href="oferta.html">Условия, оплата и возврат</a>
+      <a href="privacy.html">Политика обработки ПДн</a>
+      <a href="mailto:hello@fizkult.ai">hello@fizkult.ai</a>
+    </div>
+  </div>
+  <div class="wrap legal">
+    <p>Сервис не заменяет врача и тренера, не является медицинской услугой. Исполнитель: самозанятый Файзуллин Эльдар Гомилевич, ИНН 027710621544. © 2026 FIZKULT.AI</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  document.documentElement.classList.add('js');
+  if (!('IntersectionObserver' in window) ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+  document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+})();
+</script>
+
+</body>
+</html>
