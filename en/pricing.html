@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fizkult pricing — what it costs and what actually arrives</title>
-<meta name="description" content="Every Fizkult plan on one page: a free week of full Pro, Basic at 499 ₽ and Pro at 999 ₽ for 30 days. An honest breakdown of each level, how the counters work, payment, switching and refunds.">
+<meta name="description" content="Every Fizkult plan on one page: a free week of full Pro, then Light at 299 ₽, Basic at 499 ₽ and Pro at 999 ₽ for 30 days. An honest breakdown of each level, how the counters work, payment, switching and refunds.">
 <meta property="og:title" content="Fizkult pricing — what it costs and what actually arrives">
-<meta property="og:description" content="A free week of full Pro, then 499 or 999 ₽ a month. What each level includes, with no fine print and no 'and much more'.">
+<meta property="og:description" content="A free week of full Pro, then 299, 499 or 999 ₽ a month. What each level includes, with no fine print and no 'and much more'.">
 <meta property="og:url" content="https://fizkult.ai/en/pricing">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -60,6 +60,7 @@
   .btn:hover { transform:translate(2px,2px); box-shadow:2px 2px 0 var(--line); }
   .btn.inv { background:var(--ink); color:var(--bg); box-shadow:4px 4px 0 var(--accent-ink); border-color:var(--accent-ink); }
   .btn.inv:hover { box-shadow:2px 2px 0 var(--accent-ink); }
+  .btn.ghost { background:var(--panel); color:var(--ink); }
   .btn-note { margin-top:12px; font-family:"Geist Mono",monospace; font-size:10px;
     letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
   .final .btn-note { color:var(--accent-ink); opacity:.85; }
@@ -99,7 +100,9 @@
   .stamp.red { background:var(--accent); color:var(--accent-ink); border-color:var(--line); }
 
   /* plans */
-  .plans { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  /* Колонок ровно столько, сколько карточек. `auto-fit` при четырёх карточках
+     давал 3+1 на широком десктопе: Pro уезжал один во второй ряд. */
+  .plans { display:grid; grid-template-columns:repeat(4,1fr);
     gap:18px; margin-top:40px; align-items:stretch; }
   .plan { background:var(--panel); border:1.5px solid var(--line); padding:28px 26px;
     box-shadow:4px 4px 0 var(--line); position:relative; display:flex; flex-direction:column; }
@@ -134,7 +137,9 @@
   /* matrix */
   .alt { background:var(--bg-alt); border-top:1.5px solid var(--line); border-bottom:1.5px solid var(--line); }
   .mxwrap { margin-top:40px; overflow-x:auto; border:1.5px solid var(--line); box-shadow:6px 6px 0 var(--line); }
-  table.mx { border-collapse:collapse; width:100%; min-width:0; background:var(--panel); }
+  /* min-width: четвёртая колонка (Light) не даёт ячейкам схлопнуться на узком
+     экране — .mxwrap прокручивается вбок, а не крошит текст по букве */
+  table.mx { border-collapse:collapse; width:100%; min-width:720px; background:var(--panel); }
   table.mx th, table.mx td { border-right:1.5px solid var(--line); border-bottom:1.5px solid var(--line);
     padding:13px 16px; font-size:14px; text-align:left; vertical-align:top; }
   table.mx th:last-child, table.mx td:last-child { border-right:none; }
@@ -227,6 +232,9 @@
     .js .rv.in { opacity:1; transform:none; }
   }
 
+  @media (max-width:1120px) {
+    .plans { grid-template-columns:1fr 1fr; }
+  }
   @media (max-width:1000px) {
     .grid { grid-template-columns:repeat(2,1fr); }
     .nav-links { display:none; }
@@ -234,8 +242,28 @@
   @media (max-width:900px) {
     .rules { grid-template-columns:1fr; }
   }
+  /* ≤700px таблица состава раскладывается стопками по тарифам: боковой скролл
+     в мессенджере пальцем не находят, а за правым краем оставался Pro —
+     колонка, ради которой таблицу и открывают. Подпись колонки приезжает из
+     data-label самой ячейки, разметка одна на оба вида. */
+  @media (max-width:700px) {
+    .mxwrap { overflow-x:visible; }
+    table.mx { min-width:0; display:block; }
+    table.mx thead { display:none; }
+    table.mx tbody, table.mx tr, table.mx th, table.mx td { display:block; }
+    table.mx tr { border-bottom:1.5px solid var(--line); }
+    table.mx tr:last-child { border-bottom:none; }
+    table.mx th, table.mx td { border-right:none; border-bottom:none; }
+    table.mx tbody th[scope="row"] { padding:13px 16px 6px; }
+    table.mx td { display:flex; gap:12px; align-items:baseline; padding:3px 16px; }
+    table.mx tr td:last-child { padding-bottom:13px; }
+    table.mx td::before, table.mx td.yes::before {
+      content:attr(data-label); flex:0 0 52px; color:var(--muted); font-weight:700;
+      font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.1em; }
+  }
   @media (max-width:560px) {
     .grid { grid-template-columns:1fr; }
+    .plans { grid-template-columns:1fr; }
     section { padding:56px 0; }
     .hero { padding:52px 0 48px; }
   }
@@ -269,8 +297,8 @@
   <div class="wedge" aria-hidden="true"></div>
   <div class="wrap inner">
     <div class="kicker"><span class="knum">EN</span> Pricing · fizkult.ai</div>
-    <h1>What it costs and <span class="red">what arrives for it</span></h1>
-    <p class="lead">The first week is full Pro, free and without a card. After that there are two levels, and what separates them isn't the length of a feature list — almost everything is in both, except the weekly breakdown, which is Pro only. The rest of the difference is counted: how many times a week the breakdown arrives with the coach's words, and how many questions a day you can ask.</p>
+    <h1>What you pay and <span class="red">what shows up</span></h1>
+    <p class="lead">The first week is full Pro, free and without a card. After that there are three levels, and one line divides them: whether the coach speaks or only counts. <b>Light</b> — the morning numbers without the coach's words: readiness, sleep, heart rate, this week's load. <b>Basic</b> and <b>Pro</b> — the coach who explains those numbers. Between those two the difference isn't in what's included but in the caps: how many breakdowns a week arrive with words, and how many questions a day you can ask. Plus the weekly breakdown — that one is Pro only.</p>
     <nav class="quick" aria-label="Quick links">
       <a href="#sostav">What's included</a>
       <a href="#oplata">How to pay</a>
@@ -291,7 +319,7 @@
   <div class="wrap">
     <div class="kicker rv"><span class="knum">01</span> Prices</div>
     <h2 class="rv">Every price,<br>no fine print</h2>
-    <p class="sub rv">A month of Pro costs less than a single session with a human coach. Prices are in roubles and final: the payment processor's fee is ours to pay. A year works out to ten months instead of twelve.</p>
+    <p class="sub rv">A month of Pro costs less than a single session with a human coach. Prices are in roubles and final: the payment processor's fee is ours to pay. Basic and Pro have a yearly price — it works out to ten months instead of twelve.</p>
 
     <div class="plans rv">
       <div class="plan">
@@ -300,7 +328,7 @@
         <div class="price">0 ₽</div>
         <div class="per">7 days · everything in Pro</div>
         <ul>
-          <li>Everything Pro has, uncounted</li>
+          <li>Everything Pro has, with no caps</li>
           <li>The week runs from the moment you register in the bot</li>
           <li>We don't ask for a card to start</li>
           <li>Given once</li>
@@ -308,12 +336,22 @@
         <a class="btn" href="https://t.me/fizkult_ai_bot">Start the week →</a>
       </div>
 
-      <!-- The third level is deliberately switched off on this page: while it
-           can't be paid for, naming its price would be a lie. The finished
-           card, the finished table column and the full switch-on condition
-           live in COPY.md, in the pricing-page section. Edit there first and
-           carry the change here — a price named on one language version and
-           missing on the other is the same lie told twice. -->
+      <div class="plan">
+        <div class="name">Light</div>
+        <div class="who">Numbers without words — for those who read them themselves</div>
+        <div class="price">299 ₽</div>
+        <div class="per">for 30 days · ≈10 ₽ a day</div>
+        <div class="year">monthly only · this level has no yearly price</div>
+        <ul>
+          <li>Readiness — one number from 0 to 100: I build it myself from five values and measure it against your own baseline, not an age table</li>
+          <li>Morning every day: sleep, resting heart rate, HRV, yesterday, this week's sessions</li>
+          <li>"Today" — reopen the morning message at any hour</li>
+          <li>"My data" — everything that came off the watch</li>
+          <li class="no">No coach's words at all — nobody comments on the numbers</li>
+          <li class="no">No questions to the coach and no workout breakdown</li>
+        </ul>
+        <a class="btn" href="https://t.me/fizkult_ai_bot">Choose in the bot →</a>
+      </div>
 
       <div class="plan">
         <div class="name">Basic</div>
@@ -335,13 +373,13 @@
       <div class="plan hot">
         <div class="badge">The coach in full</div>
         <div class="name">Pro</div>
-        <div class="who">A coach you can ask without a daily count</div>
+        <div class="who">A coach you can ask with no daily cap</div>
         <div class="price">999 ₽</div>
         <div class="per">for 30 days · ≈33 ₽ a day</div>
         <div class="year">or <b>9,990 ₽ a year</b> · ≈27 ₽ a day · 1,998 ₽ less</div>
         <ul>
           <li>The coach's words in every breakdown, however many workouts there are</li>
-          <li>Questions to the coach without a daily count</li>
+          <li>Questions to the coach with no daily cap</li>
           <li>The weekly breakdown — Sunday evening</li>
           <li>Everything in Basic, with no counters</li>
         </ul>
@@ -355,7 +393,7 @@
     </div>
     <div class="btn-row rv" style="margin-top:14px">
       <a class="btn ghost" href="https://t.me/fizkult_ai_bot">Already in the bot? Go back and choose →</a>
-      <span class="btn-note">The <b>/access</b> command opens the plan screen — it always shows the current make-up.</span>
+      <span class="btn-note">The <b>/access</b> command opens the plan screen — it always shows what you have right now.</span>
     </div>
   </div>
 </section>
@@ -364,69 +402,97 @@
   <div class="wrap">
     <div class="kicker rv"><span class="knum">02</span> What's included</div>
     <h2 class="rv">What each level<br>actually gives you</h2>
-    <p class="sub rv">This is the whole make-up by level — nothing hidden behind "and much more". The free week isn't in the table on purpose: <b>the first seven days are full Pro</b>, the right-hand column in its entirety.</p>
+    <p class="sub rv">This is everything each level includes — nothing hidden behind "and much more". The free week isn't in the table on purpose: <b>the first seven days are full Pro</b>, the right-hand column in its entirety.</p>
 
     <div class="mxwrap rv">
       <table class="mx">
         <thead>
           <tr>
             <th scope="col">What it is</th>
+            <th scope="col">Light<br><span class="thp">299 ₽</span></th>
             <th scope="col">Basic<br><span class="thp">499 ₽</span></th>
             <th scope="col" class="pro">Pro<br><span class="thp">999 ₽</span></th>
           </tr>
         </thead>
         <tbody>
-          <tr class="grp"><th scope="colgroup" colspan="3">Where they differ</th></tr>
+          <tr class="grp"><th scope="colgroup" colspan="4">Where they differ</th></tr>
           <tr>
             <th scope="row">The coach's words in a workout breakdown</th>
-            <td class="yes">three times per calendar week</td>
-            <td class="yes">in every breakdown</td>
+            <td class="no" data-label="Light">no</td>
+            <td class="yes" data-label="Basic">three times per calendar week</td>
+            <td class="yes" data-label="Pro">in every breakdown</td>
           </tr>
           <tr>
             <th scope="row">Questions to the coach in chat</th>
-            <td class="yes">three a day</td>
-            <td class="yes">no daily count</td>
-          </tr>
-          <tr>
-            <th scope="row">Weekly breakdown</th>
-            <td class="no">no</td>
-            <td class="yes">Sunday, evening</td>
-          </tr>
-          <tr class="grp"><th scope="colgroup" colspan="3">The same on both levels</th></tr>
-          <tr>
-            <th scope="row">Morning</th>
-            <td class="yes">every day</td>
-            <td class="yes">every day</td>
-          </tr>
-          <tr>
-            <th scope="row">"Today" — the morning, reopened at any hour</th>
-            <td class="yes">yes</td>
-            <td class="yes">yes</td>
+            <td class="no" data-label="Light">no</td>
+            <td class="yes" data-label="Basic">three a day</td>
+            <td class="yes" data-label="Pro">no daily cap</td>
           </tr>
           <tr>
             <th scope="row">Workout breakdown — numbers and calculations</th>
-            <td class="yes">after every one</td>
-            <td class="yes">after every one</td>
+            <td class="no" data-label="Light">no</td>
+            <td class="yes" data-label="Basic">after every one</td>
+            <td class="yes" data-label="Pro">after every one</td>
           </tr>
           <tr>
-            <th scope="row">"My plan", the coach's memory, sport profile, "Team"</th>
-            <td class="yes">yes</td>
-            <td class="yes">yes</td>
+            <th scope="row">Weekly breakdown</th>
+            <td class="no" data-label="Light">no</td>
+            <td class="no" data-label="Basic">no</td>
+            <td class="yes" data-label="Pro">Sunday, evening</td>
           </tr>
           <tr>
-            <th scope="row">"My numbers" — what came off the watch</th>
-            <td class="yes">yes</td>
-            <td class="yes">yes</td>
+            <th scope="row">Colour marks 🟢🟡🔴 and "usual" notes on sleep and heart rate</th>
+            <td class="no" data-label="Light">no, numbers only</td>
+            <td class="yes" data-label="Basic">yes</td>
+            <td class="yes" data-label="Pro">yes</td>
+          </tr>
+          <tr>
+            <th scope="row">"My plan" — send your plan in words</th>
+            <td class="no" data-label="Light">no</td>
+            <td class="yes" data-label="Basic">yes</td>
+            <td class="yes" data-label="Pro">yes</td>
+          </tr>
+          <tr>
+            <th scope="row">The coach's memory — what you told me about yourself</th>
+            <td class="no" data-label="Light">no</td>
+            <td class="yes" data-label="Basic">yes</td>
+            <td class="yes" data-label="Pro">yes</td>
+          </tr>
+          <tr class="grp"><th scope="colgroup" colspan="4">The same on every level</th></tr>
+          <tr>
+            <th scope="row">Morning</th>
+            <td class="yes" data-label="Light">every day</td>
+            <td class="yes" data-label="Basic">every day</td>
+            <td class="yes" data-label="Pro">every day</td>
+          </tr>
+          <tr>
+            <th scope="row">"Today" — the morning, reopened at any hour</th>
+            <td class="yes" data-label="Light">yes</td>
+            <td class="yes" data-label="Basic">yes</td>
+            <td class="yes" data-label="Pro">yes</td>
+          </tr>
+          <tr>
+            <th scope="row">"My data" — what came off the watch</th>
+            <td class="yes" data-label="Light">yes, without the marks</td>
+            <td class="yes" data-label="Basic">yes</td>
+            <td class="yes" data-label="Pro">yes</td>
+          </tr>
+          <tr>
+            <th scope="row">Sport profile and "Team"</th>
+            <td class="yes" data-label="Light">yes</td>
+            <td class="yes" data-label="Basic">yes</td>
+            <td class="yes" data-label="Pro">yes</td>
           </tr>
           <tr>
             <th scope="row">Alerts when the watch goes quiet</th>
-            <td class="yes">yes</td>
-            <td class="yes">yes</td>
+            <td class="yes" data-label="Light">yes</td>
+            <td class="yes" data-label="Basic">yes</td>
+            <td class="yes" data-label="Pro">yes</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p class="mxnote rv">"My numbers" stays open always — including after a paid period ends: the data is yours.</p>
+    <p class="mxnote rv">"My data" stays open always — including after a paid period ends: the data is yours.</p>
   </div>
 </section>
 
@@ -441,16 +507,18 @@
         <div class="tag">Every morning</div>
         <h3>Morning</h3>
         <p>A message the bot writes on its own, without being asked: how the night went, where recovery stands, what the training week has looked like and what follows from that for today. The comparison runs against your own norm, built from your past weeks — not against an average athlete.</p>
+        <p>On Light the message arrives at the same hour with the same numbers, only without the coach's words: what follows from them is yours to decide.</p>
       </div>
       <div class="card">
         <div class="tag">Any hour</div>
         <h3>"Today"</h3>
-        <p>The same morning, reopened with a button in the afternoon or evening. Nothing is recalculated — you see exactly the message that arrived in the morning, with all its numbers and the coach's words.</p>
+        <p>The same morning, reopened with a button in the afternoon or evening. Nothing is recalculated — you see exactly the message that arrived in the morning, with all its numbers — and, on Basic and Pro, the coach's words.</p>
       </div>
       <div class="card">
         <div class="tag">After a workout</div>
         <h3>Breakdown</h3>
         <p>Arrives on its own, as soon as the workout comes off the watch. Numbers and calculations always: pace, heart rate by zone, how the work held up from start to finish. The coach's words — what those numbers mean for you specifically — three times a week on Basic, in every breakdown on Pro.</p>
+        <p class="warn">On Light there is no breakdown at all — no words and no numbers. The workout still lands in "My data", but nothing arrives as a message after it: the next thing you read about it is the weekly volume line in tomorrow's morning. If you open your phone right after the work, that's the real argument against Light.</p>
         <p class="warn">On Basic the words go to the first three workouts of the week, whichever they happen to be. Train five or six times and the Sunday long run arrives as bare numbers. If the long work is the one that matters most in your week, that's the argument for Pro.</p>
       </div>
       <div class="card">
@@ -465,7 +533,7 @@
       </div>
       <div class="card">
         <div class="tag">Always open</div>
-        <h3>"My numbers"</h3>
+        <h3>"My data"</h3>
         <p>The <b>/data</b> command: everything that came off the watch, as it is. Next to it <b>/memory</b> — what the coach remembers about you and what you can erase — and <b>/team</b>, who can see your data and how to revoke that.</p>
       </div>
     </div>
@@ -521,15 +589,30 @@
       <details>
         <summary>Which one should I take if I don't know?<span></span></summary>
         <div class="a">
-          <p>Don't choose now — the week is free and complete. Two numbers decide it, and you'll know both within seven days: how often you train, and on which days you write to the coach.</p>
-          <p><b>Three or four workouts a week</b> — the Basic count covers them, every one gets its words. <b>Five or more</b> — two or three workouts won't get them, and that's the real argument for Pro, not the unlimited chat. Questions are simpler: three a day doesn't catch the people who write a lot, it catches the people who take one day apart in pieces — sleep in the morning, pace after the workout, tomorrow in the evening. If that's you, Pro too.</p>
+          <p>Don't choose now — the week is free and complete. One question first, then two numbers, and you'll know all of it within seven days.</p>
+          <p><b>The question:</b> over that week, did you write to the bot even once, and did you wait for the breakdown after a workout? That one you remember exactly, unlike "did I read or scroll past". Not once and never waited — <b>Light</b> is enough: the same numbers arrive every morning, just silently. Wrote or waited — then the two numbers.</p>
+          <p><b>Three or four workouts a week</b> — the Basic cap covers them, every one gets its words. <b>Five or more</b> — two or three workouts won't get them, and that's the real argument for Pro, not the unlimited chat. Questions are simpler: three a day doesn't catch the people who write a lot, it catches the people who take one day apart in pieces — sleep in the morning, pace after the workout, tomorrow in the evening. If that's you, Pro too.</p>
         </div>
       </details>
       <details>
-        <summary>What exactly do I lose on Basic?<span></span></summary>
+        <summary>Is Light just a cut-down Basic?<span></span></summary>
+        <div class="a">
+          <p>No, it's a different thing. The line isn't drawn by quantity but by whether I speak or only count. On Light the morning arrives every day and brings the same numbers: readiness from 0 to 100, sleep, resting heart rate, HRV, this week's load. The numbers are the real ones — the same readiness as on Pro, built from five values and measured against your own baseline.</p>
+          <p>What's missing is the words. I don't comment on the numbers, don't break down workouts and don't answer in chat; the message carries no colour marks 🟢🟡🔴 and no "usual" notes beside the sleep and heart-rate lines. Your baseline still works: readiness is measured against it — and that readiness number is what you see. This is the level for someone who reads the numbers themselves.</p>
+        </div>
+      </details>
+      <details>
+        <summary>If I take Light and then want the words, does the money burn?<span></span></summary>
+        <div class="a">
+          <p>No. You can move up any day, and the days you paid for on Light don't vanish: the remainder is converted into days of the new level by the ratio of the monthly prices. Twenty days of Light left means twelve days of Basic, and they go ahead of the new period.</p>
+          <p>So Light isn't a dead end or a blind bet. It's a way to test one thing for 299 ₽: whether the numbers are enough for you without the words. If they aren't, you pay the difference when that becomes clear — not in advance.</p>
+        </div>
+      </details>
+      <details>
+        <summary>What exactly do I lose on Basic compared with Pro?<span></span></summary>
         <div class="a">
           <p>Two things. The first is the weekly breakdown: Basic doesn't have it at all. The second isn't a feature but a frequency: the coach's words arrive three times a week rather than in every breakdown, and chat questions are three a day.</p>
-          <p>The breakdowns themselves arrive after every workout on both levels, with numbers and calculations. On Basic, past the count, they simply have no living text in them.</p>
+          <p>The breakdowns themselves arrive after every workout on both of those levels, with numbers and calculations. On Basic, past the count, they simply have no living text in them.</p>
         </div>
       </details>
       <details>
@@ -549,7 +632,7 @@
         <summary>What happens when the week ends?<span></span></summary>
         <div class="a">
           <p>Morning stops arriving, and the bot says so — along with the prices and a button. Nothing is charged: we don't have your card.</p>
-          <p>"My numbers" stays open after the period ends — the data is yours.</p>
+          <p>"My data" stays open after the period ends — the data is yours.</p>
         </div>
       </details>
       <details>
@@ -562,7 +645,7 @@
       <details>
         <summary>I don't run in winter. If I leave for three months and come back?<span></span></summary>
         <div class="a">
-          <p>Nothing is lost: there are no auto-charges, so simply don't renew. Your history, sport profile and the coach's memory stay, and "My numbers" is open without payment.</p>
+          <p>Nothing is lost: there are no auto-charges, so simply don't renew. Your history, sport profile and the coach's memory stay, and "My data" is open without payment.</p>
           <p>What does change is the norm. It's built from recent weeks rather than from your whole life, so after a long gap the coach rebuilds it as you come back. If you kept wearing the watch through it, there'll be plenty to rebuild from.</p>
         </div>
       </details>
@@ -575,7 +658,7 @@
       <details>
         <summary>Where are the official terms?<span></span></summary>
         <div class="a">
-          <p>In the <a href="/oferta.html">terms of service</a> — a public offer, in Russian, with the prices, the make-up of each plan, and the order of payment, switching and refunds. Every edition stays available at its own address with its date, and changes don't affect a period already paid for. Data handling is in the <a href="/privacy.html">privacy policy</a>.</p>
+          <p>In the <a href="/oferta.html">terms of service</a> — a public offer, in Russian, with the prices, what each plan includes, and the order of payment, switching and refunds. Every edition stays available at its own address with its date, and changes don't affect a period already paid for. Data handling is in the <a href="/privacy.html">privacy policy</a>.</p>
         </div>
       </details>
     </div>
@@ -589,7 +672,7 @@
     <p>Full Pro, no card. Two minutes to connect — and the first message arrives in the morning. Not for you — just don't renew.</p>
     <a class="btn inv" href="https://t.me/fizkult_ai_bot">Start the free week →</a>
     <div class="btn-note">No card · Full Pro · No auto-charges</div>
-    <p class="again">Already done the week and choosing? Short answer: <b>three or four workouts a week — Basic, five or more — Pro</b>. The <b>/access</b> command opens the plan screen in the bot.</p>
+    <p class="again">Already done the week and choosing? Short answer: <b>three or four workouts a week — Basic, five or more — Pro</b>. <b>Light</b> — if over that week you never wrote to the bot and only waited for the morning numbers. The <b>/access</b> command opens the plan screen in the bot.</p>
   </div>
 </section>
 

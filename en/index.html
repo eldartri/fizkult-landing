@@ -226,7 +226,9 @@
   .duo .small { margin:14px 0 0; font-size:14px; color:var(--muted-d); }
 
   /* pricing */
-  .plans { display:grid; grid-template-columns:1fr 1fr 1.08fr; gap:18px; margin-top:44px; align-items:stretch; }
+  /* Колонок ровно столько, сколько карточек: три трека при четырёх карточках
+     роняли Pro один во второй ряд. */
+  .plans { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:44px; align-items:stretch; }
   .plan { background:var(--panel); border:1.5px solid var(--line); padding:28px 26px;
     box-shadow:4px 4px 0 var(--line); position:relative; display:flex; flex-direction:column; }
   .plan.hot { background:var(--ink); color:var(--bg); box-shadow:8px 8px 0 var(--accent); }
@@ -310,6 +312,9 @@
   }
 
   /* responsive */
+  @media (max-width:1120px) {
+    .plans { grid-template-columns:1fr 1fr; }
+  }
   @media (max-width:1000px) {
     .grid { grid-template-columns:repeat(2,1fr); }
     .hero .inner { grid-template-columns:1fr; gap:44px; }
@@ -676,7 +681,7 @@
   <div class="wrap">
     <div class="kicker rv"><span class="knum">07</span> Pricing</div>
     <h2 class="rv">First —<br>7 days <span class="red">free</span></h2>
-    <p class="sub rv">The first week is full Pro, free and without a card. After that — 499 or 999 ₽ a month: <b>a month of Pro costs less than a single session with a human coach</b>. There's a yearly option — it works out like ten months instead of twelve.</p>
+    <p class="sub rv">The first week is full Pro, free and without a card. After that — 299, 499 or 999 ₽ a month: <b>a month of Pro costs less than a single session with a human coach</b>. Basic and Pro have a yearly option — it works out like ten months instead of twelve.</p>
 
     <div class="plans rv">
       <div class="plan">
@@ -692,14 +697,29 @@
       </div>
 
       <div class="plan">
+        <div class="name">Light</div>
+        <div class="who">Numbers without words — for those who read them themselves</div>
+        <div class="price">299 ₽</div>
+        <div class="per">for 30 days · ≈10 ₽ a day</div>
+        <div class="year">monthly only · this level has no yearly price</div>
+        <ul>
+          <li>Readiness from 0 to 100 — I build it from five values and measure it against your own baseline, not an age table</li>
+          <li>Morning every day: sleep, heart rate, this week's load</li>
+          <li>The "Today" screen and "My data"</li>
+          <li class="no">No coach's words — nobody comments on the numbers</li>
+          <li class="no">No workout breakdown and no questions in chat</li>
+        </ul>
+      </div>
+
+      <div class="plan">
         <div class="name">Basic</div>
-        <div class="who">A coach who turns up every morning</div>
+        <div class="who">A coach who shows up every morning</div>
         <div class="price">499 ₽</div>
         <div class="per">for 30 days · ≈17 ₽ a day</div>
         <div class="year">or <b>4,990 ₽ a year</b> · ≈14 ₽ a day</div>
         <ul>
           <li>Morning every day and the "Today" screen</li>
-          <li>A breakdown after every workout, three a week with the coach’s words</li>
+          <li>A breakdown after every workout, three a week with the coach's words</li>
           <li>Three questions to the coach a day</li>
           <li>Sport profile, plan, memory, "Team"</li>
           <li class="no">No weekly breakdown — that's in Pro</li>

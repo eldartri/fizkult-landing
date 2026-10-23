@@ -226,7 +226,9 @@
   .duo .small { margin:14px 0 0; font-size:14px; color:var(--muted-d); }
 
   /* pricing */
-  .plans { display:grid; grid-template-columns:1fr 1fr 1.08fr; gap:18px; margin-top:44px; align-items:stretch; }
+  /* Колонок ровно столько, сколько карточек: три трека при четырёх карточках
+     роняли Pro один во второй ряд. */
+  .plans { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:44px; align-items:stretch; }
   .plan { background:var(--panel); border:1.5px solid var(--line); padding:28px 26px;
     box-shadow:4px 4px 0 var(--line); position:relative; display:flex; flex-direction:column; }
   .plan.hot { background:var(--ink); color:var(--bg); box-shadow:8px 8px 0 var(--accent); }
@@ -310,6 +312,9 @@
   }
 
   /* responsive */
+  @media (max-width:1120px) {
+    .plans { grid-template-columns:1fr 1fr; }
+  }
   @media (max-width:1000px) {
     .grid { grid-template-columns:repeat(2,1fr); }
     .hero .inner { grid-template-columns:1fr; gap:44px; }
@@ -474,7 +479,7 @@
       <div class="step">
         <span class="n">03</span>
         <h3>Дальше он пишет сам</h3>
-        <p>Каждое утро — как прошла ночь и что делать сегодня. После тренировки — разбор. По воскресеньям — итоги недели. Спросить можно в любой момент: он в том же чате.</p>
+        <p>Каждое утро — как прошла ночь и что делать сегодня. После тренировки — разбор. По воскресеньям — разбор недели. Спросить можно в любой момент: он в том же чате.</p>
       </div>
     </div>
   </div>
@@ -676,7 +681,7 @@
   <div class="wrap">
     <div class="kicker rv"><span class="knum">07</span> Тарифы</div>
     <h2 class="rv">Сначала —<br>7 дней <span class="red">бесплатно</span></h2>
-    <p class="sub rv">Первая неделя — полный Pro, бесплатно и без карты. Дальше — 499 или 999 ₽ в месяц: <b>месяц Pro стоит меньше одной тренировки с живым тренером</b>. Есть год — он выходит как десять месяцев вместо двенадцати.</p>
+    <p class="sub rv">Первая неделя — полный Pro, бесплатно и без карты. Дальше — 299, 499 или 999 ₽ в месяц: <b>месяц Pro стоит меньше одной тренировки с живым тренером</b>. У Basic и Pro есть год — он выходит как десять месяцев вместо двенадцати.</p>
 
     <div class="plans rv">
       <div class="plan">
@@ -692,6 +697,21 @@
       </div>
 
       <div class="plan">
+        <div class="name">Light</div>
+        <div class="who">Цифры без слов — для тех, кто читает их сам</div>
+        <div class="price">299 ₽</div>
+        <div class="per">за 30 дней · ≈10 ₽ в день</div>
+        <div class="year">только месяц · года у этого уровня нет</div>
+        <ul>
+          <li>Готовность от 0 до 100 — собираю её из пяти величин и считаю от твоей нормы, а не от таблицы по возрасту</li>
+          <li>Утро каждый день: сон, пульс, нагрузка недели</li>
+          <li>Экран «Сегодня» и «Мои данные»</li>
+          <li class="no">Слов тренера нет — числа никто не комментирует</li>
+          <li class="no">Разбора тренировки и вопросов в чате нет</li>
+        </ul>
+      </div>
+
+      <div class="plan">
         <div class="name">Basic</div>
         <div class="who">Тренер, который приходит каждое утро</div>
         <div class="price">499 ₽</div>
@@ -702,7 +722,7 @@
           <li>Разбор после каждой тренировки, три в неделю — со словами тренера</li>
           <li>Три вопроса тренеру в день</li>
           <li>Спортивный профиль, план, память, «Команда»</li>
-          <li class="no">Итогов недели нет — они в Pro</li>
+          <li class="no">Разбора недели нет — он в Pro</li>
         </ul>
       </div>
 

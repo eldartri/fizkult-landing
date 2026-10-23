@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Тарифы Физкульт — что стоит и что за это приходит</title>
-<meta name="description" content="Все тарифы Физкульта на одной странице: бесплатная неделя полного Pro, Basic 499 ₽ и Pro 999 ₽ за 30 дней. Честный состав каждого уровня, как считаются лимиты, оплата, переходы и возврат.">
+<meta name="description" content="Все тарифы Физкульта на одной странице: бесплатная неделя полного Pro, Light 299 ₽, Basic 499 ₽ и Pro 999 ₽ за 30 дней. Честный состав каждого уровня, как считаются лимиты, оплата, переходы и возврат.">
 <meta property="og:title" content="Тарифы Физкульт — что стоит и что за это приходит">
-<meta property="og:description" content="Бесплатная неделя полного Pro, дальше 499 или 999 ₽ в месяц. Состав каждого уровня без мелкого шрифта: что приходит каждый день, что по счёту, чего нет.">
+<meta property="og:description" content="Бесплатная неделя полного Pro, дальше 299, 499 или 999 ₽ в месяц. Состав каждого уровня без мелкого шрифта: что приходит каждый день, что по счёту, чего нет.">
 <meta property="og:url" content="https://fizkult.ai/tarify">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
@@ -60,6 +60,7 @@
   .btn:hover { transform:translate(2px,2px); box-shadow:2px 2px 0 var(--line); }
   .btn.inv { background:var(--ink); color:var(--bg); box-shadow:4px 4px 0 var(--accent-ink); border-color:var(--accent-ink); }
   .btn.inv:hover { box-shadow:2px 2px 0 var(--accent-ink); }
+  .btn.ghost { background:var(--panel); color:var(--ink); }
   .btn-note { margin-top:12px; font-family:"Geist Mono",monospace; font-size:10px;
     letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
   .final .btn-note { color:var(--accent-ink); opacity:.85; }
@@ -99,7 +100,9 @@
   .stamp.red { background:var(--accent); color:var(--accent-ink); border-color:var(--line); }
 
   /* plans */
-  .plans { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  /* Колонок ровно столько, сколько карточек. `auto-fit` при четырёх карточках
+     давал 3+1 на широком десктопе: Pro уезжал один во второй ряд. */
+  .plans { display:grid; grid-template-columns:repeat(4,1fr);
     gap:18px; margin-top:40px; align-items:stretch; }
   .plan { background:var(--panel); border:1.5px solid var(--line); padding:28px 26px;
     box-shadow:4px 4px 0 var(--line); position:relative; display:flex; flex-direction:column; }
@@ -134,7 +137,9 @@
   /* matrix */
   .alt { background:var(--bg-alt); border-top:1.5px solid var(--line); border-bottom:1.5px solid var(--line); }
   .mxwrap { margin-top:40px; overflow-x:auto; border:1.5px solid var(--line); box-shadow:6px 6px 0 var(--line); }
-  table.mx { border-collapse:collapse; width:100%; min-width:0; background:var(--panel); }
+  /* min-width: четвёртая колонка (Light) не даёт ячейкам схлопнуться на узком
+     экране — .mxwrap прокручивается вбок, а не крошит текст по букве */
+  table.mx { border-collapse:collapse; width:100%; min-width:720px; background:var(--panel); }
   table.mx th, table.mx td { border-right:1.5px solid var(--line); border-bottom:1.5px solid var(--line);
     padding:13px 16px; font-size:14px; text-align:left; vertical-align:top; }
   table.mx th:last-child, table.mx td:last-child { border-right:none; }
@@ -227,6 +232,9 @@
     .js .rv.in { opacity:1; transform:none; }
   }
 
+  @media (max-width:1120px) {
+    .plans { grid-template-columns:1fr 1fr; }
+  }
   @media (max-width:1000px) {
     .grid { grid-template-columns:repeat(2,1fr); }
     .nav-links { display:none; }
@@ -234,8 +242,28 @@
   @media (max-width:900px) {
     .rules { grid-template-columns:1fr; }
   }
+  /* ≤700px таблица состава раскладывается стопками по тарифам: боковой скролл
+     в мессенджере пальцем не находят, а за правым краем оставался Pro —
+     колонка, ради которой таблицу и открывают. Подпись колонки приезжает из
+     data-label самой ячейки, разметка одна на оба вида. */
+  @media (max-width:700px) {
+    .mxwrap { overflow-x:visible; }
+    table.mx { min-width:0; display:block; }
+    table.mx thead { display:none; }
+    table.mx tbody, table.mx tr, table.mx th, table.mx td { display:block; }
+    table.mx tr { border-bottom:1.5px solid var(--line); }
+    table.mx tr:last-child { border-bottom:none; }
+    table.mx th, table.mx td { border-right:none; border-bottom:none; }
+    table.mx tbody th[scope="row"] { padding:13px 16px 6px; }
+    table.mx td { display:flex; gap:12px; align-items:baseline; padding:3px 16px; }
+    table.mx tr td:last-child { padding-bottom:13px; }
+    table.mx td::before, table.mx td.yes::before {
+      content:attr(data-label); flex:0 0 52px; color:var(--muted); font-weight:700;
+      font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.1em; }
+  }
   @media (max-width:560px) {
     .grid { grid-template-columns:1fr; }
+    .plans { grid-template-columns:1fr; }
     section { padding:56px 0; }
     .hero { padding:52px 0 48px; }
   }
@@ -270,7 +298,7 @@
   <div class="wrap inner">
     <div class="kicker"><span class="knum">RU</span> Тарифы · fizkult.ai</div>
     <h1>Сколько стоит и что <span class="red">за это приходит</span></h1>
-    <p class="lead">Первая неделя — полный Pro, бесплатно и без карты. Дальше два уровня, и отличаются они не длиной списка функций. Состав у них почти один и тот же — кроме итогов недели, они только в Pro. Вся остальная разница в счёте: сколько раз в неделю разбор приходит со словами тренера и сколько вопросов в сутки ты можешь задать.</p>
+    <p class="lead">Первая неделя — полный Pro, бесплатно и без карты. Дальше три уровня, и делятся они по одной границе: говорит тренер или только считает. <b>Light</b> — утренние числа без слов тренера: готовность, сон, пульс, нагрузка недели. <b>Basic</b> и <b>Pro</b> — тренер, который эти числа объясняет. Между этими двумя разница не в составе, а в счёте: сколько разборов в неделю приходит со словами и сколько вопросов в сутки можно задать. Плюс разбор недели — он только в Pro.</p>
     <nav class="quick" aria-label="Быстрые ссылки">
       <a href="#sostav">Что входит</a>
       <a href="#oplata">Как платить</a>
@@ -291,7 +319,7 @@
   <div class="wrap">
     <div class="kicker rv"><span class="knum">01</span> Цены</div>
     <h2 class="rv">Цены целиком,<br>без мелкого шрифта</h2>
-    <p class="sub rv">Месяц Pro стоит меньше одной тренировки с живым тренером. Цены в рублях и окончательные: комиссию кассы платим мы. Год выходит как десять месяцев вместо двенадцати.</p>
+    <p class="sub rv">Месяц Pro стоит меньше одной тренировки с живым тренером. Цены в рублях и окончательные: комиссию кассы платим мы. У Basic и Pro есть год — он выходит как десять месяцев вместо двенадцати.</p>
 
     <div class="plans rv">
       <div class="plan">
@@ -308,10 +336,22 @@
         <a class="btn" href="https://t.me/fizkult_ai_bot">Начать неделю →</a>
       </div>
 
-      <!-- Третий уровень на этой странице выключен намеренно: пока его нельзя
-           оплатить, называть цену нельзя. Готовая карточка, готовая колонка
-           таблицы и условие включения целиком — COPY.md, раздел «Страница
-           тарифов». Правка делается там и переносится сюда, не наоборот. -->
+      <div class="plan">
+        <div class="name">Light</div>
+        <div class="who">Цифры без слов — для тех, кто читает их сам</div>
+        <div class="price">299 ₽</div>
+        <div class="per">за 30 дней · ≈10 ₽ в день</div>
+        <div class="year">только месяц · года у этого уровня нет</div>
+        <ul>
+          <li>Готовность — одно число от 0 до 100: собираю его сам из пяти величин и считаю от твоей личной нормы, а не от таблицы по возрасту</li>
+          <li>Утро каждый день: сон, пульс покоя, вариабельность, вчерашний день, тренировки недели</li>
+          <li>«Сегодня» — вернуться к утреннему письму в любой час</li>
+          <li>«Мои данные» — всё, что приехало с часов</li>
+          <li class="no">Слов тренера нет совсем — числа никто не комментирует</li>
+          <li class="no">Вопросов тренеру и разбора тренировки нет</li>
+        </ul>
+        <a class="btn" href="https://t.me/fizkult_ai_bot">Выбрать в боте →</a>
+      </div>
 
       <div class="plan">
         <div class="name">Basic</div>
@@ -325,7 +365,7 @@
           <li>Утро каждый день и «Сегодня» — в любой момент суток</li>
           <li>Разбор приходит после каждой тренировки: сверх трёх — цифры и расчёты, без слов</li>
           <li>«Мой план» — твой план, который учитывает тренер; память, спортивный профиль, «Команда»</li>
-          <li class="no">Итогов недели нет — они в Pro</li>
+          <li class="no">Разбора недели нет — он в Pro</li>
         </ul>
         <a class="btn" href="https://t.me/fizkult_ai_bot">Выбрать в боте →</a>
       </div>
@@ -369,62 +409,90 @@
         <thead>
           <tr>
             <th scope="col">Что это</th>
+            <th scope="col">Light<br><span class="thp">299 ₽</span></th>
             <th scope="col">Basic<br><span class="thp">499 ₽</span></th>
             <th scope="col" class="pro">Pro<br><span class="thp">999 ₽</span></th>
           </tr>
         </thead>
         <tbody>
-          <tr class="grp"><th scope="colgroup" colspan="3">В чём разница</th></tr>
+          <tr class="grp"><th scope="colgroup" colspan="4">В чём разница</th></tr>
           <tr>
             <th scope="row">Слова тренера в разборе тренировки</th>
-            <td class="yes">три раза в календарную неделю</td>
-            <td class="yes">в каждом разборе</td>
+            <td class="no" data-label="Light">нет</td>
+            <td class="yes" data-label="Basic">три раза в календарную неделю</td>
+            <td class="yes" data-label="Pro">в каждом разборе</td>
           </tr>
           <tr>
             <th scope="row">Вопросы тренеру в чате</th>
-            <td class="yes">три в сутки</td>
-            <td class="yes">без дневного счётчика</td>
-          </tr>
-          <tr>
-            <th scope="row">Разбор недели</th>
-            <td class="no">нет</td>
-            <td class="yes">воскресенье, вечер</td>
-          </tr>
-          <tr class="grp"><th scope="colgroup" colspan="3">Одинаково на обоих уровнях</th></tr>
-          <tr>
-            <th scope="row">Утро</th>
-            <td class="yes">каждый день</td>
-            <td class="yes">каждый день</td>
-          </tr>
-          <tr>
-            <th scope="row">«Сегодня» — вернуться к утру в любой час</th>
-            <td class="yes">да</td>
-            <td class="yes">да</td>
+            <td class="no" data-label="Light">нет</td>
+            <td class="yes" data-label="Basic">три в сутки</td>
+            <td class="yes" data-label="Pro">без дневного счётчика</td>
           </tr>
           <tr>
             <th scope="row">Разбор тренировки — цифры и расчёты</th>
-            <td class="yes">после каждой</td>
-            <td class="yes">после каждой</td>
+            <td class="no" data-label="Light">нет</td>
+            <td class="yes" data-label="Basic">после каждой</td>
+            <td class="yes" data-label="Pro">после каждой</td>
           </tr>
           <tr>
-            <th scope="row">«Мой план», память тренера, спортивный профиль, «Команда»</th>
-            <td class="yes">да</td>
-            <td class="yes">да</td>
+            <th scope="row">Разбор недели</th>
+            <td class="no" data-label="Light">нет</td>
+            <td class="no" data-label="Basic">нет</td>
+            <td class="yes" data-label="Pro">воскресенье, вечер</td>
           </tr>
           <tr>
-            <th scope="row">«Мои цифры» — что приехало с часов</th>
-            <td class="yes">да</td>
-            <td class="yes">да</td>
+            <th scope="row">Метки 🟢🟡🔴 и приписка «обычно» у сна и пульса</th>
+            <td class="no" data-label="Light">нет, только числа</td>
+            <td class="yes" data-label="Basic">да</td>
+            <td class="yes" data-label="Pro">да</td>
+          </tr>
+          <tr>
+            <th scope="row">«Мой план» — прислать план словами</th>
+            <td class="no" data-label="Light">нет</td>
+            <td class="yes" data-label="Basic">да</td>
+            <td class="yes" data-label="Pro">да</td>
+          </tr>
+          <tr>
+            <th scope="row">Память тренера — что ты о себе рассказал</th>
+            <td class="no" data-label="Light">нет</td>
+            <td class="yes" data-label="Basic">да</td>
+            <td class="yes" data-label="Pro">да</td>
+          </tr>
+          <tr class="grp"><th scope="colgroup" colspan="4">Одинаково на всех уровнях</th></tr>
+          <tr>
+            <th scope="row">Утро</th>
+            <td class="yes" data-label="Light">каждый день</td>
+            <td class="yes" data-label="Basic">каждый день</td>
+            <td class="yes" data-label="Pro">каждый день</td>
+          </tr>
+          <tr>
+            <th scope="row">«Сегодня» — вернуться к утру в любой час</th>
+            <td class="yes" data-label="Light">да</td>
+            <td class="yes" data-label="Basic">да</td>
+            <td class="yes" data-label="Pro">да</td>
+          </tr>
+          <tr>
+            <th scope="row">«Мои данные» — что приехало с часов</th>
+            <td class="yes" data-label="Light">да, без пометок</td>
+            <td class="yes" data-label="Basic">да</td>
+            <td class="yes" data-label="Pro">да</td>
+          </tr>
+          <tr>
+            <th scope="row">Спортивный профиль и «Команда»</th>
+            <td class="yes" data-label="Light">да</td>
+            <td class="yes" data-label="Basic">да</td>
+            <td class="yes" data-label="Pro">да</td>
           </tr>
           <tr>
             <th scope="row">Сообщения о том, что часы замолчали</th>
-            <td class="yes">да</td>
-            <td class="yes">да</td>
+            <td class="yes" data-label="Light">да</td>
+            <td class="yes" data-label="Basic">да</td>
+            <td class="yes" data-label="Pro">да</td>
           </tr>
         </tbody>
       </table>
     </div>
-    <p class="mxnote rv">«Мои цифры» открыты всегда — даже когда оплаченный срок кончился: это твои данные.</p>
+    <p class="mxnote rv">«Мои данные» открыты всегда — даже когда оплаченный срок кончился: это твои данные.</p>
   </div>
 </section>
 
@@ -439,16 +507,18 @@
         <div class="tag">Каждое утро</div>
         <h3>Утро</h3>
         <p>Письмо, которое бот пишет сам, без твоего запроса: как прошла ночь, что с восстановлением, какая была неделя по нагрузке и что из этого следует на сегодня. Сравнение идёт с твоей собственной нормой, набранной за прошлые недели, а не со средним атлетом.</p>
+        <p>На Light письмо приходит в тот же час и с теми же числами, только без слов тренера: что из них следует, решаешь сам.</p>
       </div>
       <div class="card">
         <div class="tag">В любой час</div>
         <h3>«Сегодня»</h3>
-        <p>То же утро, но открытое кнопкой днём или вечером. Ничего не пересчитывается заново — ты видишь ровно то письмо, которое пришло утром, со всеми цифрами и словами тренера.</p>
+        <p>То же утро, но открытое кнопкой днём или вечером. Ничего не пересчитывается заново — ты видишь ровно то письмо, которое пришло утром: со всеми цифрами, а на Basic и Pro — и со словами тренера.</p>
       </div>
       <div class="card">
         <div class="tag">После тренировки</div>
         <h3>Разбор</h3>
         <p>Приходит сам, как только тренировка доехала с часов. Цифры и расчёты — всегда: темп, пульс по зонам, как держалась работа от начала к концу. Слова тренера — то, что эти цифры значат именно для тебя, — на Basic три раза в неделю, на Pro в каждом разборе.</p>
+        <p class="warn">На Light разбора нет совсем — ни слов, ни цифр. Тренировка доедет в «Мои данные», но отдельным сообщением после неё не придёт ничего: следующее, что ты про неё прочитаешь, — строка недельного объёма в завтрашнем утре. Если ты открываешь телефон сразу после работы, это и есть главный довод против Light.</p>
         <p class="warn">На Basic слова уходят на первые три тренировки недели, какими бы они ни были. Тренируешься пять-шесть раз — воскресный лонг придёт голыми цифрами. Если длинная работа у тебя главная в неделе, это тот самый довод за Pro.</p>
       </div>
       <div class="card">
@@ -463,7 +533,7 @@
       </div>
       <div class="card">
         <div class="tag">Всегда открыто</div>
-        <h3>«Мои цифры»</h3>
+        <h3>«Мои данные»</h3>
         <p>Команда <b>/data</b>: всё, что приехало с часов, как есть. Рядом <b>/memory</b> — что тренер про тебя помнит и что можно стереть, и <b>/team</b> — кто видит твои данные и как отозвать доступ.</p>
       </div>
     </div>
@@ -519,15 +589,30 @@
       <details>
         <summary>Какой выбрать, если я не знаю?<span></span></summary>
         <div class="a">
-          <p>Не выбирай сейчас — неделя бесплатная и полная. Решают два числа, и оба ты узнаешь за семь дней: сколько раз в неделю ты тренируешься и в какие дни пишешь тренеру.</p>
+          <p>Не выбирай сейчас — неделя бесплатная и полная. Сначала один вопрос, потом два числа, и всё это ты узнаешь за семь дней.</p>
+          <p><b>Вопрос:</b> за эту неделю ты написал боту хоть раз и ждал ли разбора после тренировки? Это проверяется по памяти точно, в отличие от «читал или пролистывал». Ни одного вопроса и ни одного ожидания — тебе хватит <b>Light</b>: утром приходят те же числа, просто молча. Писал или ждал — дальше два числа.</p>
           <p><b>Три-четыре тренировки в неделю</b> — счёта Basic хватает, слова придут ко всем. <b>Пять и больше</b> — двум-трём тренировкам слов уже не достанется, и это главный довод за Pro, а не безлимит в чате. Про вопросы проще: три в сутки упираются не в тех, кто пишет много, а в тех, кто разбирает один день по частям — утром про сон, после тренировки про темп, вечером про завтра. Если это про тебя — тоже Pro.</p>
         </div>
       </details>
       <details>
-        <summary>Что именно я теряю на Basic?<span></span></summary>
+        <summary>Light — это урезанный Basic?<span></span></summary>
         <div class="a">
-          <p>Две вещи. Первая — итоги недели: на Basic их нет совсем. Вторая — не функции, а частота: слова тренера приходят три раза в неделю, а не в каждом разборе, и вопросов в чате три в сутки.</p>
-          <p>Сами разборы приходят после каждой тренировки на обоих уровнях — с цифрами и расчётами. На Basic сверх счёта в них просто нет живого текста.</p>
+          <p>Нет, это другая вещь. Граница не в количестве, а в том, говорю я или считаю. На Light утро приходит каждый день и приносит те же числа: готовность от 0 до 100, сон, пульс покоя, вариабельность, нагрузка недели. Числа настоящие — та же готовность, что и на Pro, собранная из пяти величин и считанная от твоей личной нормы.</p>
+          <p>Чего нет — слов. Я не комментирую числа, не разбираю тренировки и не отвечаю в чате; в письме нет цветных меток 🟢🟡🔴 и приписок «обычно» у строк сна и пульса. Норма при этом работает: готовность считается от неё — её ты и видишь числом. Это уровень для того, кто читает цифры сам.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Взял Light, захотел слова — деньги сгорят?<span></span></summary>
+        <div class="a">
+          <p>Нет. Перейти наверх можно в любой день, и оплаченные дни Light не пропадают: остаток пересчитывается в дни нового уровня по отношению месячных цен. Осталось 20 дней Light — это 12 дней Basic, они встанут перед новым сроком.</p>
+          <p>Поэтому Light — не тупик и не ставка вслепую. Это способ за 299 ₽ проверить одну вещь: хватает ли тебе чисел без слов. Если нет — доплатишь разницу тогда, когда это станет понятно, а не заранее.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Что именно я теряю на Basic против Pro?<span></span></summary>
+        <div class="a">
+          <p>Две вещи. Первая — разбор недели: на Basic его нет совсем. Вторая — не функции, а частота: слова тренера приходят три раза в неделю, а не в каждом разборе, и вопросов в чате три в сутки.</p>
+          <p>Сами разборы приходят после каждой тренировки и там и там — с цифрами и расчётами. На Basic сверх счёта в них просто нет живого текста.</p>
         </div>
       </details>
       <details>
@@ -547,7 +632,7 @@
         <summary>Что будет, когда неделя кончится?<span></span></summary>
         <div class="a">
           <p>Утро перестанет приходить, и бот об этом скажет — вместе с ценами и кнопкой. Ничего не спишется: карты у нас нет.</p>
-          <p>«Мои цифры» останутся открытыми и после окончания срока — данные твои.</p>
+          <p>«Мои данные» останутся открытыми и после окончания срока — данные твои.</p>
         </div>
       </details>
       <details>
@@ -560,7 +645,7 @@
       <details>
         <summary>Зимой не бегаю. Если уйду на три месяца и вернусь?<span></span></summary>
         <div class="a">
-          <p>Ничего не пропадает: автосписаний нет, так что просто не продлевай. История, спортивный профиль и память тренера остаются, «Мои цифры» открыты и без оплаты.</p>
+          <p>Ничего не пропадает: автосписаний нет, так что просто не продлевай. История, спортивный профиль и память тренера остаются, «Мои данные» открыты и без оплаты.</p>
           <p>Что действительно меняется — норма. Она считается по последним неделям, а не по всей жизни, так что после долгой паузы тренер собирает её заново, по мере того как ты возвращаешься. Если часы ты всё это время носил, собирать будет из чего.</p>
         </div>
       </details>
@@ -587,7 +672,7 @@
     <p>Полный Pro, без карты. Две минуты на подключение — и первое письмо придёт утром. Не твоё — просто не продлевай.</p>
     <a class="btn inv" href="https://t.me/fizkult_ai_bot">Начать бесплатную неделю →</a>
     <div class="btn-note">Без карты · Полный Pro · Без автосписаний</div>
-    <p class="again">Уже прошёл неделю и выбираешь? Короткий ответ: <b>три-четыре тренировки в неделю — Basic, пять и больше — Pro</b>. Экран выбора открывает команда <b>/access</b> в боте.</p>
+    <p class="again">Уже прошёл неделю и выбираешь? Короткий ответ: <b>три-четыре тренировки в неделю — Basic, пять и больше — Pro</b>. <b>Light</b> — если за неделю ты ни разу не написал боту и ждал только утренних чисел. Экран выбора открывает команда <b>/access</b> в боте.</p>
   </div>
 </section>
 
