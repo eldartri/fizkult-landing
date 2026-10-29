@@ -8,6 +8,11 @@
 #
 # Новый разбор серии — новая пара строк здесь, в `sitemap.xml` и в
 # `SITEMAP_FILES` сторожа `scripts/check-structured-data.py`.
+#
+# Проверять живым запросом ТОЛЬКО с ключом обхода кеша:
+# `curl -sI 'https://fizkult.ai/garmin/training-effect.pdf?cb=1'`. Без него
+# файл отдаётся из кеша Cloudflare (до четырёх часов) в том виде, в каком
+# лежал до этой правки, — заголовка не будет, хотя всё работает.
 
 /garmin/training-effect.pdf
   Link: <https://fizkult.ai/garmin/training-effect>; rel="canonical"
