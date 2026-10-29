@@ -67,6 +67,15 @@ PUBLIC=(
   en/privacy
 )
 
+# Публичные ФАЙЛЫ (не страницы): разборы серии «Метрики Garmin» и прочее, что
+# отдаётся с домена скачиванием. Проверяются по `content-type`, а не по коду:
+# на несуществующий адрес Pages отвечает 200 с главной страницей, то есть
+# «200» одинаково значит «файл лежит» и «файла нет». Формат строки:
+# `адрес ожидаемый-тип`.
+PUBLIC_FILES=(
+  "garmin/training-effect.pdf application/pdf"
+)
+
 fail=0
 
 for p in "${PATHS[@]}"; do
@@ -116,6 +125,21 @@ for p in "${PUBLIC[@]}"; do
   else
     echo "открыт:  /${p} (200)"
   fi
+done
+
+for row in "${PUBLIC_FILES[@]}"; do
+  p="${row%% *}"
+  want="${row##* }"
+  ctype=$(curl -s -o /dev/null -w "%{content_type}" "$BASE/$p")
+  case "$ctype" in
+    "$want"*)
+      echo "открыт:  /$p ($ctype)"
+      ;;
+    *)
+      echo "СЛОМАН:  $BASE/$p отдаёт '$ctype' вместо $want — публичный файл не отдаётся"
+      fail=1
+      ;;
+  esac
 done
 
 if [ "$fail" = "1" ]; then
