@@ -64,6 +64,7 @@ PUBLIC=(
   whitepaper
   en/
   en/pricing
+  en/privacy
 )
 
 fail=0
