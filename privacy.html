@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Политика обработки персональных данных — Физкульт</title>
 <meta name="description" content="Политика обработки персональных данных сервиса Физкульт (fizkult.ai).">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/privacy">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/privacy">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/privacy">
+<link rel="canonical" href="https://fizkult.ai/privacy">
 <link rel="icon" href="assets/favicon/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +18,12 @@
   * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.6; }
   .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
-  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin-bottom:8px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em;
+    font-weight:700; text-decoration:none; color:var(--ink);
+    border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .lang:hover { background:var(--ink); color:var(--bg); }
   h1 { font-size:clamp(24px,5vw,34px); font-weight:900; letter-spacing:-.03em; text-transform:uppercase; margin:0 0 6px; }
   .updated { font-family:"Geist Mono",monospace; font-size:11px; color:var(--muted); margin-bottom:36px; }
   h2 { font-size:18px; font-weight:800; text-transform:uppercase; margin:40px 0 12px; padding-top:14px; border-top:2px solid var(--line); }
@@ -29,9 +38,13 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="kicker">Физкульт · fizkult.ai</div>
+  <div class="topbar">
+    <div class="kicker">Физкульт · fizkult.ai</div>
+    <a class="lang" href="/en/privacy" hreflang="en" lang="en" aria-label="Switch to English">EN</a>
+  </div>
   <h1>Политика обработки персональных данных</h1>
   <div class="updated">Редакция от 06.09.2026 · Действует в соответствии с 152-ФЗ «О персональных данных»</div>
+  <p class="note">Эта страница есть и <a href="/en/privacy" hreflang="en" lang="en">по-английски</a>. Английский текст — перевод для удобства чтения; юридическую силу имеет русская редакция на этой странице, и при расхождении применяется русский текст.</p>
 
   <h2>1. Оператор</h2>
   <div class="card">

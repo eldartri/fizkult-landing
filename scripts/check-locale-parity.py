@@ -30,6 +30,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 PAIRS = [
     ("index.html", "en/index.html", "/en/", "/"),
     ("tarify.html", "en/pricing.html", "/en/pricing", "/tarify"),
+    ("privacy.html", "en/privacy.html", "/en/privacy", "/privacy"),
 ]
 
 
@@ -64,11 +65,19 @@ def skeleton(text: str) -> Skeleton:
     return p
 
 
-def one_block(text: str, tag: str, where: str) -> str:
+def one_block(text: str, tag: str, where: str) -> str | None:
+    """Единственный блок <tag> — или None, если его нет вовсе.
+
+    Ноль блоков законен: политика и оферта — страницы без поведения, у них
+    нет <script>, и требовать его значило бы требовать пустой тег ради
+    прибора. Ноль обязан быть нулём с ОБЕИХ сторон — это проверяет
+    вызывающий. Два и больше — всегда ошибка: сверять побайтно нечего,
+    пока не сказано, какой из них главный.
+    """
     hits = re.findall(rf"<{tag}\b[^>]*>.*?</{tag}>", text, re.S)
-    if len(hits) != 1:
-        sys.exit(f"{where}: ожидали ровно один блок <{tag}>, нашли {len(hits)}")
-    return hits[0]
+    if len(hits) > 1:
+        sys.exit(f"{where}: ожидали не больше одного блока <{tag}>, нашли {len(hits)}")
+    return hits[0] if hits else None
 
 
 def check_pair(ru_rel: str, en_rel: str, ru_switch: str, en_switch: str) -> list[str]:
@@ -89,8 +98,9 @@ def check_pair(ru_rel: str, en_rel: str, ru_switch: str, en_switch: str) -> list
         en_block = one_block(en_text, tag, en_rel)
         if ru_block != en_block:
             problems.append(
-                f"<{tag}> разъехался: {len(ru_block)} байт в русской против "
-                f"{len(en_block)} в английской. Переносить блок целиком, а не правку."
+                f"<{tag}> разъехался: {len(ru_block) if ru_block else 'нет блока'} "
+                f"в русской против {len(en_block) if en_block else 'нет блока'} "
+                "в английской. Переносить блок целиком, а не правку."
             )
 
     ru_s, en_s = skeleton(ru_text), skeleton(en_text)
@@ -158,31 +168,31 @@ def check_pair(ru_rel: str, en_rel: str, ru_switch: str, en_switch: str) -> list
     # 5b. Каждый якорь ведёт в существующий раздел. Прибор 3 ловит
     #     переименованный id, но ссылку на него он не видит: переименуй раздел
     #     на обеих страницах разом — и обе молча получат мёртвое меню.
-    for path, s in ((RU, ru_s), (EN, en_s)):
+    for rel, s in ((ru_rel, ru_s), (en_rel, en_s)):
         known = set(s.ids)
         for href in s.links:
             if href.startswith("#") and href[1:] not in known:
-                problems.append(f"{path.name}: ссылка {href!r} ведёт в несуществующий раздел")
+                problems.append(f"{rel}: ссылка {href!r} ведёт в несуществующий раздел")
 
     # 6. Переключатель языка — ровно один на странице, и ведёт на другую сторону.
-    for path, text, expect in ((RU, ru_text, ru_switch), (EN, en_text, en_switch)):
+    for rel, text, expect in ((ru_rel, ru_text, ru_switch), (en_rel, en_text, en_switch)):
         found = re.findall(r'<a class="lang" href="([^"]+)"', text)
         if found != [expect]:
             problems.append(
-                f"{path.name}: переключатель языка должен быть один и вести на {expect!r}, "
+                f"{rel}: переключатель языка должен быть один и вести на {expect!r}, "
                 f"нашли {found}"
             )
 
     # 7. Карта hreflang: обе страницы называют оба языка и умолчание.
-    for path, text in ((RU, ru_text), (EN, en_text)):
+    for rel, text in ((ru_rel, ru_text), (en_rel, en_text)):
         for lang in ("ru", "en", "x-default"):
             if f'hreflang="{lang}"' not in text:
-                problems.append(f"{path.name}: нет строки hreflang={lang!r}")
+                problems.append(f"{rel}: нет строки hreflang={lang!r}")
 
     # 8. Язык страницы объявлен, и он разный.
-    for path, text, expect in ((RU, ru_text, "ru"), (EN, en_text, "en")):
+    for rel, text, expect in ((ru_rel, ru_text, "ru"), (en_rel, en_text, "en")):
         if f'<html lang="{expect}">' not in text:
-            problems.append(f'{path.name}: ожидали <html lang="{expect}">')
+            problems.append(f'{rel}: ожидали <html lang="{expect}">')
 
     # 9. Непереведённый кусок на английской странице.
     #
@@ -194,7 +204,9 @@ def check_pair(ru_rel: str, en_rel: str, ru_switch: str, en_switch: str) -> list
     #    ровно то, что человек читает глазами.
     page = en_text
     for tag in ("style", "script"):
-        page = page.replace(one_block(en_text, tag, en_rel), f"<{tag}/>")
+        block = one_block(en_text, tag, en_rel)
+        if block is not None:
+            page = page.replace(block, f"<{tag}/>")
 
     # Кириллица законна ровно в одном месте — у переключателя языка, где
     # человек ищет свой язык глазами и обязан увидеть именно «RU».
