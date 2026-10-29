@@ -74,6 +74,9 @@ PUBLIC=(
 # `адрес ожидаемый-тип`.
 PUBLIC_FILES=(
   "garmin/training-effect.pdf application/pdf"
+  "robots.txt text/plain"
+  "sitemap.xml application/xml"
+  "llms.txt text/plain"
 )
 
 fail=0

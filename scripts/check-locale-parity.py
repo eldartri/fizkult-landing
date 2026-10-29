@@ -65,6 +65,18 @@ def skeleton(text: str) -> Skeleton:
     return p
 
 
+#: Разметка для поисковиков (`application/ld+json`) — не скрипт поведения.
+#  Она обязана РАЗЛИЧАТЬСЯ на двух языках: внутри неё лежат те же слова,
+#  что человек читает на странице. Поэтому из побайтной сверки она
+#  исключена, но её число на двух сторонах сверяется отдельно: пропавший
+#  блок на английской — это молча потерянная видимость, а не косметика.
+LDJSON = re.compile(r'<script\b[^>]*type="application/ld\+json"[^>]*>.*?</script>', re.S)
+
+
+def blocks(text: str, tag: str) -> list[str]:
+    return re.findall(rf"<{tag}\b[^>]*>.*?</{tag}>", text, re.S)
+
+
 def one_block(text: str, tag: str, where: str) -> str | None:
     """Единственный блок <tag> — или None, если его нет вовсе.
 
@@ -74,7 +86,7 @@ def one_block(text: str, tag: str, where: str) -> str | None:
     вызывающий. Два и больше — всегда ошибка: сверять побайтно нечего,
     пока не сказано, какой из них главный.
     """
-    hits = re.findall(rf"<{tag}\b[^>]*>.*?</{tag}>", text, re.S)
+    hits = [h for h in blocks(text, tag) if not LDJSON.fullmatch(h)]
     if len(hits) > 1:
         sys.exit(f"{where}: ожидали не больше одного блока <{tag}>, нашли {len(hits)}")
     return hits[0] if hits else None
@@ -102,6 +114,15 @@ def check_pair(ru_rel: str, en_rel: str, ru_switch: str, en_switch: str) -> list
                 f"в русской против {len(en_block) if en_block else 'нет блока'} "
                 "в английской. Переносить блок целиком, а не правку."
             )
+
+    # 1a. Разметка для поисковиков: сверяем НЕ содержимое, а наличие.
+    ru_ld, en_ld = LDJSON.findall(ru_text), LDJSON.findall(en_text)
+    if len(ru_ld) != len(en_ld):
+        problems.append(
+            f"блоков разметки ld+json разное число: {len(ru_ld)} в русской против "
+            f"{len(en_ld)} в английской. Цена и ответы в разметке — то, что поисковик "
+            "и ИИ показывают до перехода; пропал блок — пропала страница из их ответов."
+        )
 
     ru_s, en_s = skeleton(ru_text), skeleton(en_text)
 
@@ -202,11 +223,14 @@ def check_pair(ru_rel: str, en_rel: str, ru_switch: str, en_switch: str) -> list
     #    проверено прибором 1, и второй раз мерить их этим прибором значит
     #    получать красное на том, что нарочно одинаково. Вырезаем их и смотрим
     #    ровно то, что человек читает глазами.
+    #    Разметку ld+json при этом НЕ вырезаем: в ней лежат те же слова, что
+    #    читает человек, и русский ответ, забытый в английской разметке,
+    #    уедет в выдачу так же, как русский абзац на странице.
     page = en_text
-    for tag in ("style", "script"):
-        block = one_block(en_text, tag, en_rel)
-        if block is not None:
-            page = page.replace(block, f"<{tag}/>")
+    for block in blocks(en_text, "style") + blocks(en_text, "script"):
+        if LDJSON.fullmatch(block):
+            continue
+        page = page.replace(block, "<block/>")
 
     # Кириллица законна ровно в одном месте — у переключателя языка, где
     # человек ищет свой язык глазами и обязан увидеть именно «RU».

@@ -1,0 +1,88 @@
+# fizkult.ai — правила обхода.
+#
+# Заведено 29.10.2026. До этого файла не было вовсе: сайт обходили по
+# умолчанию, карту адресов никто не отдавал, а роботы поисковых ИИ не имели
+# ни одного явного разрешения.
+#
+# Политика простая: пускаем всех. Внутренние файлы репозитория закрыты не
+# здесь, а правилами в `_redirects` (robots.txt — просьба, редирект —
+# запрет); строки Disallow ниже стоят для тех роботов, которые читают
+# robots.txt раньше, чем получают редирект.
+#
+# Новый каталог с внутренним содержимым — строка здесь И строка в
+# `_redirects`. Новая публичная страница — строка в `sitemap.xml`.
+
+User-agent: *
+Allow: /
+Disallow: /drafts/
+Disallow: /source/
+Disallow: /scripts/
+
+# Яндекс читает ТОЛЬКО свою секцию, если она есть, — поэтому запреты
+# повторены. Clean-param склеивает адреса с метками кампаний в один:
+# без него /tarify?utm_source=tg живёт в индексе отдельной страницей.
+User-agent: Yandex
+Allow: /
+Disallow: /drafts/
+Disallow: /source/
+Disallow: /scripts/
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&ysclid&gclid&fbclid
+
+# Роботы поисковых ИИ. Имена сверены 29.10.2026 по документации самих
+# компаний, а не по подборкам в блогах: developers.openai.com/api/docs/bots ·
+# support.claude.com (статья 8896518) · docs.perplexity.ai/guides/bots ·
+# developers.google.com/search/docs/crawling-indexing/google-common-crawlers ·
+# support.apple.com/119829 · yandex.ru/support/webmaster (роботы в логах).
+# Разрешение явное нарочно — чтобы очередная правка этого файла не закрыла
+# нас от ответов ИИ молча.
+
+# OpenAI: поиск в ChatGPT.
+User-agent: OAI-SearchBot
+Allow: /
+
+# OpenAI: обучение моделей.
+User-agent: GPTBot
+Allow: /
+
+# OpenAI: заход по прямой просьбе человека в чате.
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic: поиск.
+User-agent: Claude-SearchBot
+Allow: /
+
+# Anthropic: обучение моделей.
+User-agent: ClaudeBot
+Allow: /
+
+# Anthropic: заход по просьбе человека в чате.
+User-agent: Claude-User
+Allow: /
+
+# Perplexity.
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Google: отдельное согласие на обучение моделей и ответы ИИ.
+User-agent: Google-Extended
+Allow: /
+
+# Apple: отдельное согласие на обучение моделей.
+User-agent: Applebot-Extended
+Allow: /
+
+# Яндекс: быстрые ответы с YandexGPT и ответы Поиска с Алисой. Этот робот
+# общие правила НЕ учитывает (поле «Учитывает общие правила: Нет» в таблице
+# роботов) — то есть без собственной секции наше разрешение до него не
+# доходит. Имён два, оба из той же таблицы.
+User-agent: YandexAdditional
+Allow: /
+
+User-agent: YandexAdditionalBot
+Allow: /
+
+Sitemap: https://fizkult.ai/sitemap.xml

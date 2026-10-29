@@ -9,8 +9,16 @@
 <meta property="og:description" content="Бесплатная неделя полного Pro, дальше 299, 499 или 999 ₽ в месяц. Состав каждого уровня без мелкого шрифта: что приходит каждый день, что по счёту, чего нет.">
 <meta property="og:url" content="https://fizkult.ai/tarify">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Физкульт">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:locale:alternate" content="en_US">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Тарифы Физкульт — что стоит и что за это приходит">
+<meta name="twitter:description" content="Бесплатная неделя полного Pro, дальше 299, 499 или 999 ₽ в месяц. Состав каждого уровня без мелкого шрифта.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
 <link rel="alternate" hreflang="ru" href="https://fizkult.ai/tarify">
 <link rel="alternate" hreflang="en" href="https://fizkult.ai/en/pricing">
 <link rel="alternate" hreflang="x-default" href="https://fizkult.ai/tarify">
@@ -268,6 +276,76 @@
     .hero { padding:52px 0 48px; }
   }
 </style>
+<!--
+  Разметка цен (29.10.2026). Числа здесь обязаны совпадать с карточками
+  на странице: цена в разметке — то, что поисковик и ИИ покажут человеку
+  до перехода. Меняется цена — меняются ОБА места.
+  Годовой цены у Light нет нарочно — уровень продаётся только помесячно.
+-->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": "https://fizkult.ai/#app",
+  "name": "Физкульт",
+  "alternateName": "FIZKULT.AI",
+  "url": "https://fizkult.ai/",
+  "applicationCategory": "HealthApplication",
+  "applicationSubCategory": "Тренировки и восстановление",
+  "operatingSystem": "Telegram",
+  "inLanguage": "ru-RU",
+  "description": "Личный тренер в Telegram для бегунов, велосипедистов и пловцов с часами Garmin: читает тренировки, сон и пульс из часов, каждое утро пишет сам и говорит, что делать сегодня. Первые семь дней — полный Pro бесплатно, карта на старте не спрашивается.",
+  "image": "https://fizkult.ai/assets/og/og-share.png",
+  "publisher": { "@id": "https://fizkult.ai/#org" },
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "RUB",
+    "lowPrice": "299",
+    "highPrice": "9990",
+    "offerCount": "5",
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Light — 30 дней",
+        "description": "Только числа: утро и «Сегодня» без слов тренера, без вопросов тренеру и без разбора тренировки.",
+        "price": "299",
+        "priceCurrency": "RUB",
+        "url": "https://fizkult.ai/tarify"
+      },
+      {
+        "@type": "Offer",
+        "name": "Basic — 30 дней",
+        "description": "Слова тренера у трёх тренировок в календарную неделю, три вопроса тренеру в сутки, разбор каждой тренировки, метки и личная норма.",
+        "price": "499",
+        "priceCurrency": "RUB",
+        "url": "https://fizkult.ai/tarify"
+      },
+      {
+        "@type": "Offer",
+        "name": "Basic — год",
+        "price": "4990",
+        "priceCurrency": "RUB",
+        "url": "https://fizkult.ai/tarify"
+      },
+      {
+        "@type": "Offer",
+        "name": "Pro — 30 дней",
+        "description": "Слова тренера в каждом разборе, вопросы тренеру без дневного счёта, разбор недели по воскресеньям вечером.",
+        "price": "999",
+        "priceCurrency": "RUB",
+        "url": "https://fizkult.ai/tarify"
+      },
+      {
+        "@type": "Offer",
+        "name": "Pro — год",
+        "price": "9990",
+        "priceCurrency": "RUB",
+        "url": "https://fizkult.ai/tarify"
+      }
+    ]
+  }
+}
+</script>
 </head>
 <body>
 

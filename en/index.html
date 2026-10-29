@@ -9,11 +9,21 @@
 <meta property="og:description" content="A personal coach in Telegram for people who run, ride and swim with a Garmin. Writes first every morning, remembers your history, breaks down your workouts. 7 days free.">
 <meta property="og:url" content="https://fizkult.ai/en/">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Fizkult">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fizkult — a personal coach in Telegram that reads your Garmin">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Your watch sees everything. Fizkult reads it and tells you what to do">
+<meta name="twitter:description" content="A personal coach in Telegram for people who run, ride and swim with a Garmin. Writes first every morning, remembers your history, breaks down your workouts. 7 days free.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
 <link rel="alternate" hreflang="ru" href="https://fizkult.ai/">
 <link rel="alternate" hreflang="en" href="https://fizkult.ai/en/">
 <link rel="alternate" hreflang="x-default" href="https://fizkult.ai/">
+<link rel="canonical" href="https://fizkult.ai/en/">
 <link rel="icon" href="/assets/favicon/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -355,6 +365,152 @@
   .plan.hot li.no::before { color:var(--muted-d); }
   @media (max-width:900px) { .two { grid-template-columns:1fr; } }
 </style>
+<!--
+  Markup for search engines and AI answers (29.10.2026).
+  The FAQPage answers are the same ones a reader sees in the Questions
+  section below, stripped of HTML and links. Edit a question on the page
+  — edit it here too: markup that has drifted from the visible text counts
+  as deception in both Google and Yandex, not as a typo.
+-->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://fizkult.ai/#org",
+      "name": "Fizkult",
+      "alternateName": "FIZKULT.AI",
+      "url": "https://fizkult.ai/",
+      "logo": "https://fizkult.ai/assets/favicon/favicon-512.png",
+      "image": "https://fizkult.ai/assets/og/og-share.png",
+      "email": "hello@fizkult.ai",
+      "foundingDate": "2026",
+      "sameAs": [
+        "https://t.me/fizkult_ai_bot"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://fizkult.ai/en/#website",
+      "url": "https://fizkult.ai/en/",
+      "name": "Fizkult",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://fizkult.ai/#org"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://fizkult.ai/en/#webpage",
+      "url": "https://fizkult.ai/en/",
+      "name": "Fizkult — a personal coach in Telegram: reads your Garmin and tells you what to do today",
+      "description": "Your Garmin piles up numbers — Fizkult reads them. Every morning it writes first: how the night went and what to do today. Workout breakdowns, a coach in the same chat. There's a Coach's room for coaches and clubs for groups. 7 days free, no card.",
+      "isPartOf": {
+        "@id": "https://fizkult.ai/en/#website"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://fizkult.ai/en/#faq",
+      "isPartOf": {
+        "@id": "https://fizkult.ai/en/#webpage"
+      },
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do I need a Garmin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, everything rests on it: Fizkult takes workouts, sleep and heart rate straight from the watch, with nothing to enter by hand. Connecting takes two minutes, and there's exactly one place in it worth paying attention to. The Historical Data box on the connection page. With it your whole past history comes across — and your coach knows your baseline from day one. Without it, only new workouts, and there'll be nothing to compare you against. Also sync your watch in Garmin Connect before connecting: if it hasn't handed data to the app in a while, there'll be nothing to collect."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "My watch already has readiness and a suggestion for the day. Why this as well?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The number on your watch is a good thing, and we're not arguing with it. But it's calculated by one algorithm for everybody and it lives inside an app: it doesn't know you have a race in six weeks, that yesterday you wrote about a sore knee, what your coach sent for this week, or that you already moved your intervals last week. Fizkult holds all of that in mind and speaks in decisions rather than numbers — why today looks like this, what it will give you and when you go back to the work. And you can argue with it: say \"hate to wreck the week\" and get an explanation instead of the same number again."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will it write me a training plan?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, and it's fairer to say so before you pay. The plan is written by you or your coach. Fizkult takes it as text — a list from your notes, a table from a messenger — keeps it in front of it every day, marks off what's done and tells you when your state says a day is worth shifting. If you have no plan at all, it still works: it looks at your week and tells you what to do today. But it won't write the week-by-week build-up to your race for you."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I have a Polar, a Suunto or an Apple Watch",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For now Fizkult connects only to Garmin — said plainly, without \"it's all coming soon\" and without dates we don't have. When other watches arrive, we'll announce it in the bot and here, on this page."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What arrives on the very first morning?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The first morning after your history has come across and you've had a first night with the watch on: sleep with a verdict on the night, recovery and readiness, the week's workouts, yesterday, and the coach's words on what to do with all of it today. Plus the question of how you feel — it takes your answer into account too. While there are still few nights, it says so: there isn't enough to work out a baseline from. The baseline builds up over the first weeks — and from then on the comparison runs against it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I'm an amateur, not an athlete. Is this for me?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Fizkult is built for exactly this: you train a few times a week, you put your own week together and you don't always know when to push and when to rest. A pro with a team of coaches doesn't need it. Someone with nobody supporting them between sessions — very much does."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I already have a coach. Why would I need this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Your coach sees you once a week — Fizkult looks at your morning every day in between. It works with your coach's plan, not against it. And if your coach is on Fizkult too, they can open the Coach's room: send you a plan straight into the chat and see a summary of all their athletes every morning. You open the access yourself and revoke it whenever you like — more on that above."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I'm a coach / I have a club",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We open coach status and clubs in Telegram groups by hand, on request — that way we know who's behind it. Write to the bot and tell us who and how many you coach, or what your group is, and we'll answer in the same chat."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I cancel the subscription?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You don't — and that isn't a dodge. We don't set up recurring charges: a payment runs for its term, a month or a year, whichever you chose, and then simply ends. Don't renew and access closes, with nobody taking money off your card just in case. The trial week commits you to even less: we don't ask for a card at the start. Payment and refund terms are in the offer agreement (in Russian)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this a doctor?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Fizkult makes no diagnoses and gives no medical advice. It draws coaching conclusions — \"you've overloaded, time to back off\" — and when a conclusion is serious it tells you itself how long to wait and what sign to take to a doctor. If something hurts or isn't recovering, see a doctor first."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What about privacy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The numbers from your watch work only on your recommendations. We don't sell them and don't pass them to third parties. Inside the bot everything is open: /data — exactly what came across from the watch, /memory — what the coach remembers about you and what can be erased, /team — who sees your data and how to revoke access. In detail — in the personal data policy."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 

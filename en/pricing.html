@@ -9,8 +9,16 @@
 <meta property="og:description" content="A free week of full Pro, then 299, 499 or 999 ₽ a month. What each level includes, with no fine print and no 'and much more'.">
 <meta property="og:url" content="https://fizkult.ai/en/pricing">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Fizkult">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fizkult pricing — what it costs and what actually arrives">
+<meta name="twitter:description" content="A free week of full Pro, then 299, 499 or 999 ₽ a month. What each level includes, with no fine print.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
 <link rel="alternate" hreflang="ru" href="https://fizkult.ai/tarify">
 <link rel="alternate" hreflang="en" href="https://fizkult.ai/en/pricing">
 <link rel="alternate" hreflang="x-default" href="https://fizkult.ai/tarify">
@@ -268,6 +276,73 @@
     .hero { padding:52px 0 48px; }
   }
 </style>
+<!--
+  Pricing markup (29.10.2026). The numbers here must match the cards on the
+  page: the price in the markup is what a search engine or an AI answer shows
+  before anyone clicks. Change a price — change both places.
+  Light has no annual price on purpose: that level is monthly only.
+-->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "@id": "https://fizkult.ai/en/#app",
+  "name": "Fizkult",
+  "url": "https://fizkult.ai/en/",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "Telegram",
+  "inLanguage": "en",
+  "description": "A personal coach in Telegram for runners, cyclists and swimmers with a Garmin watch: it reads workouts, sleep and heart rate straight from the watch, writes first every morning and says what to do today. The first seven days are full Pro, free, with no card asked.",
+  "image": "https://fizkult.ai/assets/og/og-share.png",
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "RUB",
+    "lowPrice": "299",
+    "highPrice": "9990",
+    "offerCount": "5",
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Light — 30 days",
+        "description": "Numbers only: the morning letter and Today without a coach's words, no questions to the coach and no workout breakdown.",
+        "price": "299",
+        "priceCurrency": "RUB",
+        "url": "https://fizkult.ai/en/pricing"
+      },
+      {
+        "@type": "Offer",
+        "name": "Basic — 30 days",
+        "description": "A coach's words on three workouts a calendar week, three questions to the coach a day, a breakdown of every workout, marks and your personal norm.",
+        "price": "499",
+        "priceCurrency": "RUB",
+        "url": "https://fizkult.ai/en/pricing"
+      },
+      {
+        "@type": "Offer",
+        "name": "Basic — year",
+        "price": "4990",
+        "priceCurrency": "RUB",
+        "url": "https://fizkult.ai/en/pricing"
+      },
+      {
+        "@type": "Offer",
+        "name": "Pro — 30 days",
+        "description": "A coach's words in every breakdown, questions with no daily counter, a week in review on Sunday evening.",
+        "price": "999",
+        "priceCurrency": "RUB",
+        "url": "https://fizkult.ai/en/pricing"
+      },
+      {
+        "@type": "Offer",
+        "name": "Pro — year",
+        "price": "9990",
+        "priceCurrency": "RUB",
+        "url": "https://fizkult.ai/en/pricing"
+      }
+    ]
+  }
+}
+</script>
 </head>
 <body>
 

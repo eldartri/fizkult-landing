@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Карта сайта fizkult.ai. Заведена 29.10.2026 вместе с robots.txt.
+
+  Адреса БЕЗ `.html`: Cloudflare Pages уводит `/tarify.html` на `/tarify`
+  постоянным редиректом, и в карте должен стоять тот адрес, который
+  открывает человек, — иначе поисковик индексирует цепочку из редиректа.
+
+  Языковые пары перечислены через `xhtml:link` у КАЖДОГО адреса, включая
+  сам себя: так требует и Яндекс, и Google — пара, объявленная в одну
+  сторону, игнорируется целиком.
+
+  Чего здесь нет нарочно: `/whitepaper` (закрыт `noindex` — документ для
+  тестеров, его утверждения о продукте не сверялись с кодом с сентября) и
+  архивные редакции оферты `oferta-2026-*.html` (у них `noindex` и
+  `canonical` на действующую).
+
+  Новая публичная страница — строка здесь. Карта отдаётся роботам строкой
+  `Sitemap:` в robots.txt.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <url>
+    <loc>https://fizkult.ai/</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/"/>
+  </url>
+
+  <url>
+    <loc>https://fizkult.ai/tarify</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/tarify"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/pricing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/tarify"/>
+  </url>
+
+  <url>
+    <loc>https://fizkult.ai/en/</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/"/>
+  </url>
+
+  <url>
+    <loc>https://fizkult.ai/en/pricing</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/tarify"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/pricing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/tarify"/>
+  </url>
+
+  <url>
+    <loc>https://fizkult.ai/garmin/training-effect.pdf</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://fizkult.ai/oferta</loc>
+    <lastmod>2026-09-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
+  <url>
+    <loc>https://fizkult.ai/privacy</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/privacy"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/privacy"/>
+  </url>
+
+  <url>
+    <loc>https://fizkult.ai/en/privacy</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/privacy"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/privacy"/>
+  </url>
+
+</urlset>
