@@ -61,11 +61,17 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/tarify"/>
   </url>
 
+  <!--
+    Разбор 01 серии «Метрики Garmin». В карте стоит СТРАНИЦА, а не PDF с тем
+    же текстом: один текст — один адрес, иначе две версии конкурируют друг с
+    другом в выдаче. PDF остаётся живым и скачивается со страницы, а в
+    `_headers` ему проставлен заголовок `Link: rel="canonical"` на неё.
+  -->
   <url>
-    <loc>https://fizkult.ai/garmin/training-effect.pdf</loc>
+    <loc>https://fizkult.ai/garmin/training-effect</loc>
     <lastmod>2026-10-29</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <url>

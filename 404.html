@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Страница не найдена — Физкульт</title>
+<meta name="robots" content="noindex, follow">
+<meta name="description" content="Такой страницы на fizkult.ai нет.">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!--
+  Этот файл существует не ради красоты. Без него Cloudflare Pages отдаёт на
+  любой несуществующий адрес ГЛАВНУЮ страницу со статусом 200 (проверено
+  живыми запросами 29.10.2026: /zzz-nope, /garmin/zzz — 200 и текст главной).
+  Для поисковика это бесконечный склад дублей главной, а для человека —
+  молчаливая подмена: он просил одно, получил другое и не узнал об этом.
+  При наличии 404.html Pages отдаёт его и настоящий код 404.
+-->
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif;
+    line-height:1.6; display:flex; min-height:100vh; align-items:center; }
+  .wrap { max-width:620px; margin:0 auto; padding:48px 20px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
+  h1 { font-size:clamp(26px,5.4vw,38px); font-weight:900; letter-spacing:-.03em; line-height:1.14; margin:0 0 14px; }
+  p { font-size:16px; color:var(--muted); margin:0 0 22px; }
+  .links { display:flex; flex-wrap:wrap; gap:10px; }
+  .links a { display:inline-block; padding:11px 18px; border:1.5px solid var(--line); background:var(--panel);
+    color:var(--ink); text-decoration:none; font-weight:600; font-size:15px; }
+  .links a:hover { background:var(--ink); color:var(--bg); }
+  .links a.main { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .links a.main:hover { background:#A81E14; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">404 · fizkult.ai</div>
+  <h1>Такой страницы нет</h1>
+  <p>Адрес набран с ошибкой или страница переехала. Вот то, что точно на месте.</p>
+  <div class="links">
+    <a class="main" href="/">На главную</a>
+    <a href="/tarify">Тарифы</a>
+    <a href="/garmin/training-effect">Разбор: тренировочный эффект Garmin</a>
+    <a href="https://t.me/fizkult_ai_bot">Открыть бота</a>
+  </div>
+</div>
+</body>
+</html>

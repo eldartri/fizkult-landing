@@ -49,7 +49,12 @@ SITEMAP_FILES = {
     "https://fizkult.ai/en/": "en/index.html",
     "https://fizkult.ai/en/pricing": "en/pricing.html",
     "https://fizkult.ai/en/privacy": "en/privacy.html",
+    "https://fizkult.ai/garmin/training-effect": "garmin/training-effect.html",
 }
+
+# Страницы, которые сверяются на canonical/noindex: корень, английская версия
+# и разборы. Каталог `drafts/` сюда не входит — он закрыт редиректом.
+PAGE_GLOBS = ["*.html", "en/*.html", "garmin/*.html"]
 
 
 def nodes(text: str) -> list[dict]:
@@ -172,9 +177,27 @@ def main() -> int:
         if re.search(r'<meta name="robots" content="[^"]*noindex', text):
             problems.append(f"{rel}: закрыт noindex, но стоит в карте сайта")
 
-    for path in sorted(ROOT.glob("*.html")) + sorted(ROOT.glob("en/*.html")):
+    # У PDF нет шапки, в которую можно положить `canonical`, — есть только
+    # заголовок ответа. Если тот же текст лежит ещё и страницей, без этой
+    # строки две версии одного разбора конкурируют в выдаче друг с другом.
+    headers = (ROOT / "_headers").read_text(encoding="utf-8")
+    for pdf in sorted(ROOT.glob("garmin/*.pdf")):
+        addr = "/" + str(pdf.relative_to(ROOT))
+        block = re.search(rf"^{re.escape(addr)}$(.*?)(?=^\S|\Z)", headers, re.M | re.S)
+        if not block or "rel=\"canonical\"" not in block.group(1):
+            problems.append(
+                f"{addr}: PDF лежит рядом со страницей того же разбора, а "
+                "строки `Link: rel=\"canonical\"` в `_headers` у него нет"
+            )
+
+    for path in sorted(sum((list(ROOT.glob(g)) for g in PAGE_GLOBS), [])):
         rel = str(path.relative_to(ROOT))
         text = path.read_text(encoding="utf-8")
+        for raw in LDJSON.findall(text):
+            try:
+                json.loads(raw)
+            except json.JSONDecodeError as e:
+                problems.append(f"{rel}: блок ld+json не разбирается как JSON — {e}")
         has_canon = '<link rel="canonical"' in text
         noindex = re.search(r'<meta name="robots" content="[^"]*noindex', text)
         if not has_canon and not noindex:

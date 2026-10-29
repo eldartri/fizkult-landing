@@ -67,16 +67,28 @@ PUBLIC=(
   en/privacy
 )
 
-# Публичные ФАЙЛЫ (не страницы): разборы серии «Метрики Garmin» и прочее, что
-# отдаётся с домена скачиванием. Проверяются по `content-type`, а не по коду:
-# на несуществующий адрес Pages отвечает 200 с главной страницей, то есть
-# «200» одинаково значит «файл лежит» и «файла нет». Формат строки:
-# `адрес ожидаемый-тип`.
+# Публичное, что обязано отдаваться: разборы серии «Метрики Garmin» и
+# служебные файлы. Формат строки: `адрес ожидаемый-тип [маркер в теле]`.
+#
+# Почему мало кода ответа. До 29.10.2026 Pages отвечал 200 с текстом ГЛАВНОЙ
+# на любой несуществующий адрес, то есть «200» одинаково значило «лежит» и
+# «нет». Заведён `404.html` — теперь отсутствующее отдаётся как 404 (это и
+# проверяется ниже отдельным блоком). Но у страницы того же типа, что
+# главная, совпадения типа всё равно мало: маркер в теле — третье поле —
+# отличает нашу страницу от любой другой, отданной вместо неё.
 PUBLIC_FILES=(
   "garmin/training-effect.pdf application/pdf"
+  "garmin/training-effect text/html https://fizkult.ai/garmin/training-effect"
   "robots.txt text/plain"
   "sitemap.xml application/xml"
   "llms.txt text/plain"
+)
+
+# Несуществующие адреса: обязаны отвечать 404, а не 200 с главной. Второй —
+# внутри каталога разборов: там ошибка в адресе вероятнее всего.
+MISSING_PATHS=(
+  "zzz-such-page-never-existed"
+  "garmin/zzz-such-page-never-existed"
 )
 
 fail=0
@@ -131,18 +143,40 @@ for p in "${PUBLIC[@]}"; do
 done
 
 for row in "${PUBLIC_FILES[@]}"; do
-  p="${row%% *}"
-  want="${row##* }"
-  ctype=$(curl -s -o /dev/null -w "%{content_type}" "$BASE/$p")
+  read -r p want marker <<<"$row"
+  read -r code ctype <<<"$(curl -s -o /dev/null -w "%{http_code} %{content_type}" "$BASE/$p")"
   case "$ctype" in
-    "$want"*)
-      echo "открыт:  /$p ($ctype)"
-      ;;
-    *)
-      echo "СЛОМАН:  $BASE/$p отдаёт '$ctype' вместо $want — публичный файл не отдаётся"
-      fail=1
-      ;;
+    "$want"*) typeok=1 ;;
+    *)        typeok=0 ;;
   esac
+  markerok=1
+  if [ -n "$marker" ] && ! curl -s "$BASE/$p" | grep -qF "$marker"; then
+    markerok=0
+  fi
+  if [ "$code" != "200" ]; then
+    echo "СЛОМАН:  $BASE/$p отвечает $code — публичный файл не отдаётся"
+    fail=1
+  elif [ "$typeok" = "0" ]; then
+    echo "СЛОМАН:  $BASE/$p отдаёт '$ctype' вместо $want — публичный файл не отдаётся"
+    fail=1
+  elif [ "$markerok" = "0" ]; then
+    echo "СЛОМАН:  $BASE/$p отдан, но без '$marker' — по адресу лежит не та страница"
+    fail=1
+  else
+    echo "открыт:  /$p ($ctype)"
+  fi
+done
+
+for p in "${MISSING_PATHS[@]}"; do
+  code=$(curl -s -o /dev/null -w "%{http_code}" "$BASE/$p")
+  if [ "$code" = "404" ]; then
+    echo "404:     /$p (как и должно)"
+  else
+    echo "СЛОМАН:  $BASE/$p отвечает $code вместо 404 — несуществующий адрес выдаёт"
+    echo "         страницу, и поисковик складывает такие адреса как дубли. Проверь,"
+    echo "         что 404.html лежит в корне репозитория и доехал в сеть."
+    fail=1
+  fi
 done
 
 if [ "$fail" = "1" ]; then

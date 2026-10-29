@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Почему Garmin неправильно оценивает тренировки: тренировочный эффект и максимальный пульс</title>
+<meta name="description" content="Тяжёлая работа получила «Поддержание», а спокойный кросс — «Значительное улучшение». Разбор по документам Firstbeat: как считается тренировочный эффект, почему неверный максимальный пульс смещает все оценки и что проверить в настройках Garmin.">
+<link rel="canonical" href="https://fizkult.ai/garmin/training-effect">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Физкульт">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Почему Garmin может неправильно оценивать твои тренировки">
+<meta property="og:description" content="Тренировочный эффект — это расчёт, а не измерение. Его точка отсчёта — максимальный пульс из твоего профиля. Разбор по документам Firstbeat: куда уезжает оценка при неверной настройке и что проверить в часах.">
+<meta property="og:url" content="https://fizkult.ai/garmin/training-effect">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Физкульт — личный тренер в Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Почему Garmin может неправильно оценивать твои тренировки">
+<meta name="twitter:description" content="Тренировочный эффект — расчёт, а не измерение. Разбор по документам Firstbeat: как неверный максимальный пульс смещает каждую оценку.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .dl { display:inline-flex; align-items:center; gap:10px; margin:0 0 32px; padding:12px 18px;
+    background:var(--panel); border:1.5px solid var(--line); text-decoration:none; color:var(--ink);
+    font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; font-weight:500; }
+  .dl:hover { background:var(--ink); color:var(--bg); }
+  .dl span { color:var(--muted); }
+  .dl:hover span { color:var(--bg); }
+  .tcap { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; color:var(--muted);
+    text-transform:uppercase; margin:28px 0 8px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); min-width:440px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  blockquote { margin:24px 0; padding:18px 20px; background:var(--panel); border:1.5px solid var(--line); }
+  blockquote p { margin:0 0 10px; font-size:16px; }
+  blockquote cite { font-style:normal; font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; color:var(--muted); text-transform:uppercase; }
+  .note { font-size:13px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .src { font-size:13px; color:var(--muted); }
+  .src li { margin-bottom:10px; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Почему Garmin может неправильно оценивать твои тренировки",
+      "description": "Тренировочный эффект Garmin — это расчёт, а не измерение. Его точка отсчёта — максимальный пульс из профиля. Разбор по документам Firstbeat: куда смещается оценка при неверной настройке и что проверить в часах.",
+      "inLanguage": "ru",
+      "datePublished": "2026-10-29",
+      "dateModified": "2026-10-29",
+      "mainEntityOfPage": "https://fizkult.ai/garmin/training-effect",
+      "image": "https://fizkult.ai/assets/og/og-share.png",
+      "author": { "@type": "Organization", "name": "Физкульт", "url": "https://fizkult.ai/" },
+      "publisher": { "@type": "Organization", "name": "Физкульт", "url": "https://fizkult.ai/" },
+      "about": ["Тренировочный эффект", "Максимальный пульс", "Garmin", "Firstbeat", "EPOC"],
+      "citation": [
+        "Firstbeat Technologies. EPOC Based Training Effect Assessment, 2005/2012",
+        "Firstbeat Technologies. Automated Fitness Level (VO2max) Estimation with Heart Rate and Speed Data, 2014/2017"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Физкульт", "item": "https://fizkult.ai/" },
+        { "@type": "ListItem", "position": 2, "name": "Почему Garmin может неправильно оценивать твои тренировки", "item": "https://fizkult.ai/garmin/training-effect" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Разборы · Метрики Garmin · 01</div>
+    <a class="home" href="/" aria-label="На главную">FIZKULT.AI</a>
+  </div>
+
+  <h1>Почему Garmin может неправильно оценивать твои тренировки</h1>
+
+  <p class="lead">Ты закончил тяжёлую работу, а часы показали «Поддержание». Или наоборот: спокойный кросс получил «Значительное улучшение». Причин у такого расхождения несколько, и одна из них — неверный максимальный пульс в настройках: из-за него часы могут недооценивать или переоценивать нагрузку. Эту причину проще всего проверить самому.</p>
+
+  <a class="dl" href="/garmin/training-effect.pdf">Скачать разбор в PDF <span>· 5 полос</span></a>
+
+  <h2>Что именно оценивают часы</h2>
+
+  <p>После тренировки Garmin показывает <b>тренировочный эффект</b> — число от 0 до 5 с подписью. Это не измерение, а расчёт: часы берут твой пульс за время тренировки и сопоставляют его с тем, что знают о тебе из профиля.</p>
+
+  <p>Оценок на самом деле две. <b>Аэробный эффект</b> — насколько тренировка развивает выносливость, способность долго работать за счёт кислорода. <b>Анаэробный</b> — насколько она развивает короткие мощные усилия, когда кислород поступать не успевает: ускорения, подъёмы, финиш.</p>
+
+  <p class="tcap">Описания уровней — по документу Firstbeat, разработчика алгоритма; подписи — как они выглядят на экране Garmin</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Оценка</th><th>Подпись на экране</th><th>Что означает</th></tr></thead>
+    <tbody>
+      <tr><td class="num">0,0–0,9</td><td>Нет эффекта</td><td>Нагрузка слишком мала, чтобы что-то изменить</td></tr>
+      <tr><td class="num">1,0–1,9</td><td>Незначительный</td><td>Выносливость не растёт; такая работа помогает восстановлению, а длинная развивает базу</td></tr>
+      <tr><td class="num">2,0–2,9</td><td>Поддержание</td><td>Удерживает текущий уровень</td></tr>
+      <tr><td class="num">3,0–3,9</td><td>Улучшение</td><td>Повышает выносливость</td></tr>
+      <tr><td class="num">4,0–4,9</td><td>Значительное улучшение</td><td>Сильный развивающий эффект, требует внимания к восстановлению</td></tr>
+      <tr><td class="num">5,0</td><td>Перенапряжение</td><td>Чрезмерная нагрузка: требует долгого восстановления, при частом повторении повышает риск перетренированности</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Шкала у аэробного и анаэробного эффекта общая, а читаются они по-разному: 3,5 по аэробной — про развитие выносливости, по анаэробной — про способность держать короткие интенсивные усилия.</p>
+
+  <p>Главное, что стоит понять про эту шкалу: она оценивает не твои старания, а то, что тренировка даёт телу <b>относительно его нынешнего уровня</b>. Один и тот же кросс у новичка получит «Улучшение», а у подготовленного бегуна — «Поддержание»: подготовленному для того же эффекта нужна бо́льшая нагрузка. По той же причине оценка 5,0 — не цель каждого занятия: Firstbeat прямо предупреждает, что частые тренировки с оценкой 3–5 без достаточного восстановления ведут к перетренированности.</p>
+
+  <h2>Откуда берётся точка отсчёта</h2>
+
+  <p>Чтобы оценить тренировку, часам мало знать твой пульс. Сто шестьдесят ударов для одного человека — умеренная работа, для другого — почти предел. Нужна точка отсчёта, и ею служит <b>максимальный пульс</b> — наибольшая частота, которую твоё сердце способно выдать при предельной нагрузке.</p>
+
+  <p>Две вещи про эту величину стоит знать. Во-первых, это не показатель формы. Тренировки её почти не повышают; высокий максимум не означает, что ты хорошо готов, низкий — что плохо. Это индивидуальная характеристика: у двух бегунов одного возраста она может отличаться на пятнадцать-двадцать ударов.</p>
+
+  <p>Во-вторых, если ты не задал её сам, часы подставят оценку по возрасту — ту самую «220 минус возраст». Формула описывает среднее по большой группе людей, и для конкретного человека промахивается на десять-пятнадцать ударов легко.</p>
+
+  <p>Через долю от максимума модель и понимает, тяжело тебе было или легко. Но это не единственный её параметр: в расчёт идут ещё длительность работы и то, насколько ты натренирован. Связывает всё это <b>EPOC</b> — дополнительное потребление кислорода после нагрузки, пока организм возвращается в обычное состояние. Чем сильнее тренировка вывела тело из равновесия, тем EPOC выше. Напрямую его измеряют только в лаборатории; Firstbeat оценивает его по пульсу — и потому верная точка отсчёта так важна.</p>
+
+  <h2>Что происходит при ошибке</h2>
+
+  <p>Возьмём одну тренировку и посмотрим, какой её увидят часы при двух разных настройках профиля. Настоящий максимальный пульс спортсмена — 185 ударов, на тренировке пульс держится около 170.</p>
+
+  <p class="tcap">Одна и та же тренировка · пульс 170 уд/мин · настоящий максимум 185</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>В профиле стоит 200</th><th>В профиле стоит 185 — настоящий</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b class="num">85 %</b> — от максимума — так считают часы</td>
+        <td><b class="num">92 %</b> — от максимума — так было на самом деле</td>
+      </tr>
+      <tr>
+        <td>Работа выглядит умеренной. Оценка выйдет ниже реальной</td>
+        <td>Работа почти на пределе. Оценка соответствует нагрузке</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">Тренировка одна и та же. Разную оценку ей даёт число в настройках.</p>
+
+  <p>При заниженном максимуме всё зеркально. Настоящий — 195, в настройках 175, пульс на тренировке 160: часы видят 91 % вместо настоящих 82 % и показывают оценку выше заслуженной.</p>
+
+  <blockquote>
+    <p>Тренировочный эффект занижается, если максимальный пульс, максимальная частота дыхания или класс активности заданы слишком высокими. Эффект завышается, если они заданы слишком низкими.</p>
+    <cite>Firstbeat, «EPOC Based Training Effect Assessment», таблица 3. Английский оригинал — в источниках</cite>
+  </blockquote>
+
+  <p>Важно не переусердствовать с арифметикой. Проценты показывают размер ошибки на входе, а не готовую поправку к баллу: формулу перевода Firstbeat не публикует, а Garmin не раскрывает, насколько точно следует ей в своих прошивках. Правильный вывод из примеров — не «у меня должно быть 3,7 вместо 2,5», а «мои оценки смещены в одну сторону, и это стоит исправить».</p>
+
+  <p>И смещена не одна тренировка. Пока в профиле стоит неверное значение, с ним считается каждая новая оценка: при завышенном максимуме ты месяцами видишь заниженные числа и, ориентируясь на них, добавляешь нагрузку поверх той, с которой организм уже не справляется. После правки настройки новые оценки станут точнее.</p>
+
+  <h2>Что ещё сбивает оценку</h2>
+
+  <p>Максимальный пульс — главная причина расхождений, но Firstbeat называет ещё три.</p>
+
+  <p class="tcap">Таблица 3 документа Firstbeat о тренировочном эффекте</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Что происходит</th><th>Куда уходит оценка</th><th>Почему</th></tr></thead>
+    <tbody>
+      <tr><td>Болезнь, в том числе начинающаяся</td><td>вверх</td><td>Пульс и дыхание на привычной работе выше обычного</td></tr>
+      <tr><td>Жара, влажность, высота</td><td>вверх</td><td>Сердцу приходится работать чаще при том же темпе</td></tr>
+      <tr><td>Длительный период больших объёмов</td><td>вниз</td><td>Уставший организм отвечает на нагрузку слабее</td></tr>
+      <tr><td>Период высокой интенсивности</td><td>вверх</td><td>Реакции организма, наоборот, обострены</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Отсюда два практических вывода. В жару и на высоте стоит снижать темп — тот же эффект достанется меньшей ценой для сердца. А падение оценок после тяжёлого блока не доказывает перетренированность: Firstbeat отдельно подчёркивает, что главный признак — снижение работоспособности, а не цифры на часах.</p>
+
+  <h2>Что проверить в часах</h2>
+
+  <ol>
+    <li><b>Посмотри текущее значение.</b> В приложении Garmin Connect: меню → «Устройства Garmin» → твоё устройство → «Настройки пользователя» → «Пульсовые зоны»; на сайте Garmin Connect — те же «Настройки пользователя» в настройках устройства. Названия пунктов немного отличаются в разных версиях приложения и на разных моделях; на многих часах то же значение есть прямо в меню профиля пользователя. Если ты никогда не задавал максимум сам, там стоит значение по умолчанию — 220 минус возраст.</li>
+    <li><b>Сверь его с тем, что ты реально показывал.</b> Открой историю и найди две-три самые тяжёлые работы последних месяцев: интервалы, соревнование, затяжной подъём. Посмотри максимальный пульс в каждой. Наибольшее из этих чисел — уже нижняя граница твоего настоящего максимума, и если в профиле стоит меньше, значение точно неверное.</li>
+    <li><b>Если нужна точность — иди в лабораторию.</b> Нагрузочный тест под контролем специалиста даёт настоящее значение и заодно показывает, как сердце переносит предельную работу. Самостоятельные тесты до отказа — не универсальный способ: без подготовки и контроля они небезопасны, а большинству и не нужны, потому что максимум из истории тренировок уже даёт рабочее приближение.</li>
+    <li><b>Проверяй нагрудным датчиком.</b> На высоком пульсе и резких ускорениях запястный датчик ошибается чаще. Для повседневных тренировок его хватает, для поиска максимума — нет.</li>
+    <li><b>Впиши значение и смотри на новые тренировки.</b> После правки нужно синхронизировать часы с приложением. Если на твоей модели есть автоопределение максимального пульса, проверь, включено ли оно — тогда часы будут поднимать значение сами. Пересчитает ли Garmin уже записанную историю, зависит от модели и версии приложения, так что ориентируйся на занятия после правки.</li>
+  </ol>
+
+  <h2>Коротко</h2>
+
+  <ul>
+    <li>Тренировочный эффект вычисляется, а не измеряется, и максимальный пульс — одна из главных опор этого расчёта.</li>
+    <li>Это индивидуальная характеристика, а не показатель формы; формула по возрасту угадывает её плохо.</li>
+    <li>Завышенный максимум занижает оценки, заниженный — завышает, и так будет с каждой новой тренировкой, пока значение не исправлено.</li>
+    <li>Болезнь, жара, высота и накопленная усталость сдвигают оценку предсказуемо.</li>
+    <li>Пять минут в настройках делают осмысленными все последующие оценки.</li>
+  </ul>
+
+  <h2>Источники</h2>
+
+  <ol class="src">
+    <li>Firstbeat Technologies. EPOC Based Training Effect Assessment. Сентябрь 2005, обновление март 2012. Таблица 1 — уровни эффекта, таблица 3 — источники неточности. Документ описывает принципы метода; насколько точно им следуют современные прошивки Garmin, компания не раскрывает. Оригинал цитаты: «TE is underestimated if maximal heart rate, maximal respiration rate or activity class has been set too high. TE is overestimated if maximal heart rate, maximal respiration rate or activity class has been set too low.» <a href="https://www.firstbeat.com/wp-content/uploads/2015/10/white_paper_training_effect.pdf" rel="nofollow noopener" target="_blank">firstbeat.com</a></li>
+    <li>Firstbeat Technologies. Automated Fitness Level (VO2max) Estimation with Heart Rate and Speed Data. 2014, обновление 30.06.2017 — о влиянии неверного максимального пульса на расчёты. <a href="https://www.firstbeat.com/wp-content/uploads/2017/06/white_paper_VO2max_30.6.2017.pdf" rel="nofollow noopener" target="_blank">firstbeat.com</a></li>
+    <li>Руководство пользователя Garmin fēnix 8: «Тренировочный эффект», настройка пульсовых зон и максимального пульса. support.garmin.com</li>
+  </ol>
+
+  <p class="note">Серия разборов «Метрики Garmin» по первоисточникам. Опубликованные формулировки, пороги и границы — со ссылкой на руководство или на Firstbeat; наши объяснения помечены. Физкульт не связан с Garmin и Firstbeat; названия принадлежат их владельцам.</p>
+
+  <div class="cta">
+    <div class="kicker">Подключи Garmin к fizkult.ai</div>
+    <h2>Проверка максимального пульса закрывает одну ошибку из многих</h2>
+    <p>Часы собирают десятки показателей — сон, восстановление, пульс покоя, нагрузку за неделю. Что они означают именно для тебя, из таблицы не видно.</p>
+    <p>Физкульт читает данные Garmin сам и каждое утро присылает в Telegram понятный разбор: что происходит с организмом и на что обратить внимание сегодня. Норму он не спрашивает анкетой, а считает по твоей истории — и всегда говорит, по скольким дням она посчитана. Первая неделя — целиком и бесплатно.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot">Подключить часы в Telegram →</a>
+    <p class="note" style="margin-bottom:0">Это тренерский разбор, не медицинский. Если самочувствие не восстанавливается — покажись врачу.</p>
+  </div>
+
+  <a class="back" href="/">← На главную</a>
+</div>
+</body>
+</html>
