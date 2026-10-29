@@ -4,10 +4,12 @@
 # умолчанию, карту адресов никто не отдавал, а роботы поисковых ИИ не имели
 # ни одного явного разрешения.
 #
-# Политика простая: пускаем всех. Внутренние файлы репозитория закрыты не
-# здесь, а правилами в `_redirects` (robots.txt — просьба, редирект —
-# запрет); строки Disallow ниже стоят для тех роботов, которые читают
-# robots.txt раньше, чем получают редирект.
+# Политика: пускаем поиск — обычный и внутри ИИ. Обучение моделей закрыто
+# не нами, а блоком Cloudflare, который подставляется ПЕРЕД этим файлом,
+# см. красный блок ниже. Внутренние файлы репозитория закрыты не здесь, а
+# правилами в `_redirects` (robots.txt — просьба, редирект — запрет);
+# строки Disallow ниже стоят для тех роботов, которые читают robots.txt
+# раньше, чем получают редирект.
 #
 # Новый каталог с внутренним содержимым — строка здесь И строка в
 # `_redirects`. Новая публичная страница — строка в `sitemap.xml`.
@@ -28,20 +30,32 @@ Disallow: /source/
 Disallow: /scripts/
 Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&ysclid&gclid&fbclid
 
-# Роботы поисковых ИИ. Имена сверены 29.10.2026 по документации самих
-# компаний, а не по подборкам в блогах: developers.openai.com/api/docs/bots ·
-# support.claude.com (статья 8896518) · docs.perplexity.ai/guides/bots ·
-# developers.google.com/search/docs/crawling-indexing/google-common-crawlers ·
-# support.apple.com/119829 · yandex.ru/support/webmaster (роботы в логах).
-# Разрешение явное нарочно — чтобы очередная правка этого файла не закрыла
-# нас от ответов ИИ молча.
+# 🔴 ПЕРЕД этим файлом Cloudflare подставляет СВОЙ блок — «Cloudflare Managed
+# content» (проверено живым запросом 29.10.2026: наш текст начинается только
+# после строки `# END Cloudflare Managed Content`). Его политика:
+# `Content-Signal: search=yes,ai-train=no,use=reference` и `Disallow: /` для
+# роботов, которые собирают материал на обучение моделей, — GPTBot, ClaudeBot,
+# Google-Extended, Applebot-Extended, CCBot, Bytespider и ещё два десятка.
+# Роботы ПОИСКА среди ИИ там не закрыты, то есть в ответы ChatGPT, Claude и
+# Perplexity мы попадаем.
+#
+# Поэтому здесь разрешены ровно те, кого Cloudflare не закрывал. Писать
+# `Allow: /` напротив закрытого им робота нельзя: два правила на один адрес
+# разные роботы разбирают по-разному — одни берут менее строгое, другие
+# первую подошедшую секцию, — и файл начинает означать разное у разных
+# читателей. Один внятный ответ дороже спорного разрешения.
+#
+# Нужно пускать и обучающих (это согласие отдать тексты сайта в обучение
+# моделей) — это переключатель в панели Cloudflare, доступ к ней только у
+# владельца. Тогда же снять этот комментарий и дописать сюда их секции.
+#
+# Имена сверены 29.10.2026 по документации самих компаний, а не по подборкам
+# в блогах: developers.openai.com/api/docs/bots · support.claude.com
+# (статья 8896518) · docs.perplexity.ai/guides/bots · yandex.ru/support/
+# webmaster (роботы в логах).
 
 # OpenAI: поиск в ChatGPT.
 User-agent: OAI-SearchBot
-Allow: /
-
-# OpenAI: обучение моделей.
-User-agent: GPTBot
 Allow: /
 
 # OpenAI: заход по прямой просьбе человека в чате.
@@ -52,27 +66,15 @@ Allow: /
 User-agent: Claude-SearchBot
 Allow: /
 
-# Anthropic: обучение моделей.
-User-agent: ClaudeBot
-Allow: /
-
 # Anthropic: заход по просьбе человека в чате.
 User-agent: Claude-User
 Allow: /
 
-# Perplexity.
+# Perplexity: поиск и заход по просьбе человека.
 User-agent: PerplexityBot
 Allow: /
 
 User-agent: Perplexity-User
-Allow: /
-
-# Google: отдельное согласие на обучение моделей и ответы ИИ.
-User-agent: Google-Extended
-Allow: /
-
-# Apple: отдельное согласие на обучение моделей.
-User-agent: Applebot-Extended
 Allow: /
 
 # Яндекс: быстрые ответы с YandexGPT и ответы Поиска с Алисой. Этот робот
