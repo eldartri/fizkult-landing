@@ -50,7 +50,7 @@ SITEMAP_FILES = {
     "https://fizkult.ai/en/pricing": "en/pricing.html",
     "https://fizkult.ai/en/privacy": "en/privacy.html",
     "https://fizkult.ai/garmin/training-effect": "garmin/training-effect.html",
-    "https://fizkult.ai/garmin/sleep-efficiency": "garmin/sleep-efficiency.html",
+    "https://fizkult.ai/garmin/sleep-score": "garmin/sleep-score.html",
 }
 
 # Страницы, которые сверяются на canonical/noindex: корень, английская версия

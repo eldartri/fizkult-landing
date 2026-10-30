@@ -79,8 +79,8 @@ PUBLIC=(
 PUBLIC_FILES=(
   "garmin/training-effect.pdf application/pdf"
   "garmin/training-effect text/html https://fizkult.ai/garmin/training-effect"
-  "garmin/sleep-efficiency.pdf application/pdf"
-  "garmin/sleep-efficiency text/html https://fizkult.ai/garmin/sleep-efficiency"
+  "garmin/sleep-score.pdf application/pdf"
+  "garmin/sleep-score text/html https://fizkult.ai/garmin/sleep-score"
   "robots.txt text/plain"
   "sitemap.xml application/xml"
   "llms.txt text/plain"
