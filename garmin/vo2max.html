@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VO2max в Garmin: насколько точен и почему занижает у тренированных</title>
+<meta name="description" content="Две независимые проверки против газоанализатора: ниже 45 мл/кг/мин часы завышают VO2max примерно на 7%, выше 55 — занижают на 3–6 мл/кг/мин. Разбор по руководству Garmin и научным работам: откуда берётся число, почему зимой оно стоит, как читать таблицу уровней Cooper Institute.">
+<link rel="canonical" href="https://fizkult.ai/garmin/vo2max">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Физкульт">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="VO2max в Garmin: насколько точен и почему занижает у тренированных">
+<meta property="og:description" content="Часы тянут всех к середине: слабым завышают, сильным занижают. В таблице уровней это одна-две ступени. Разбор по первоисточникам и двум проверкам против газоанализатора.">
+<meta property="og:url" content="https://fizkult.ai/garmin/vo2max">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Физкульт — личный тренер в Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VO2max в Garmin: насколько точен и почему занижает у тренированных">
+<meta name="twitter:description" content="Ошибка оценки не ровная по шкале: она зависит от того, насколько ты силён. Две проверки против газоанализатора и что с таким числом делать.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .dl { display:inline-flex; align-items:center; gap:10px; margin:0 0 32px; padding:12px 18px;
+    background:var(--panel); border:1.5px solid var(--line); text-decoration:none; color:var(--ink);
+    font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; font-weight:500; }
+  .dl:hover { background:var(--ink); color:var(--bg); }
+  .dl span { color:var(--muted); }
+  .dl:hover span { color:var(--bg); }
+  .tcap { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; color:var(--muted);
+    text-transform:uppercase; margin:28px 0 8px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); min-width:440px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  blockquote { margin:24px 0; padding:18px 20px; background:var(--panel); border:1.5px solid var(--line); }
+  blockquote p { margin:0 0 10px; font-size:16px; }
+  blockquote cite { font-style:normal; font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; color:var(--muted); text-transform:uppercase; }
+  .note { font-size:13px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .src { font-size:13px; color:var(--muted); }
+  .src li { margin-bottom:10px; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "VO2max в Garmin: насколько точен и почему занижает у тренированных",
+      "description": "Оценка VO2max в часах Garmin считается моделью Firstbeat, уровни берутся из таблиц Cooper Institute. Две независимые проверки против газоанализатора показали, что ошибка зависит от уровня атлета: ниже 45 мл/кг/мин часы завышают, выше 55 — занижают.",
+      "inLanguage": "ru",
+      "datePublished": "2026-11-04",
+      "dateModified": "2026-11-04",
+      "mainEntityOfPage": "https://fizkult.ai/garmin/vo2max",
+      "image": "https://fizkult.ai/assets/og/og-share.png",
+      "author": { "@type": "Organization", "name": "Физкульт", "url": "https://fizkult.ai/" },
+      "publisher": { "@type": "Organization", "name": "Физкульт", "url": "https://fizkult.ai/" },
+      "about": ["VO2max", "МПК", "Garmin", "Firstbeat", "Cooper Institute", "Уровень формы"],
+      "citation": [
+        "Garmin. fēnix 8 Owner's Manual: VO2 max., Heat and Altitude Acclimation, Performance Measurements",
+        "Düking P., Van Hooren B., Sperlich B. Assessment of Peak Oxygen Uptake with a Smartwatch and its Usefulness for Training of Runners. Int J Sports Med, 2022;43(7):642-647",
+        "Engel F. A., Masur L., Sperlich B., Düking P. Validity of VO2max estimates from the forerunner 245 smartwatch in highly vs. moderately trained endurance athletes. Eur J Appl Physiol, 2026;126(1):591-603"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Физкульт", "item": "https://fizkult.ai/" },
+        { "@type": "ListItem", "position": 2, "name": "Разборы метрик Garmin", "item": "https://fizkult.ai/garmin/" },
+        { "@type": "ListItem", "position": 3, "name": "VO2max в Garmin: насколько точен и почему занижает у тренированных", "item": "https://fizkult.ai/garmin/vo2max" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Разборы · Метрики Garmin · 04</div>
+    <a class="home" href="/" aria-label="На главную">FIZKULT.AI</a>
+  </div>
+
+  <h1>VO2max в часах: сильным занижает, слабым завышает</h1>
+
+  <p class="lead">Две независимые проверки против газоанализатора сошлись на одной картине: часы тянут всех к середине. У кого настоящий VO2max ниже 45 — оценка завышена примерно на 7 %; у кого выше 55 — занижена на 3–6 мл/кг/мин. В таблице уровней это одна-две ступени в каждую сторону: человек из верхней строки читает про себя среднюю. Разбор: откуда берётся число, почему ошибка зависит от уровня и что делать с числом, которому нельзя верить в лоб.</p>
+
+  <a class="dl" href="/garmin/vo2max.pdf">Скачать разбор в PDF <span>· 7 полос</span></a>
+
+  <h2>Что это за число</h2>
+
+  <p>VO2max — максимальный объём кислорода, который человек способен потребить за минуту на килограмм своего веса на пределе работы. В лаборатории его измеряют напрямую: маска, газоанализатор, ступенчатый тест до отказа. В часах его <b>не измеряют, а оценивают</b> — по пульсу и темпу обычной пробежки, без всякого предела.</p>
+
+  <blockquote>
+    <p>VO2max — максимальный объём кислорода (в миллилитрах), который ты можешь потребить за минуту на килограмм массы тела при максимальной работе.</p>
+    <cite>Руководство fēnix 8, раздел VO2 max. Английский оригинал — в источниках</cite>
+  </blockquote>
+
+  <p>Считает это число не Garmin. Модель — Firstbeat, финской компании, которую Garmin купил в 2020 году; шкала уровней тоже чужая — таблица американского Cooper Institute, взятая с разрешения. Для метрик Garmin это редкий случай: про большинство остальных не сказано ни чья модель их считает, ни откуда взяты уровни.</p>
+
+  <blockquote>
+    <p>Данные VO2max предоставлены Firstbeat Analytics. Анализ VO2max публикуется с разрешения The Cooper Institute.</p>
+    <cite>Руководство fēnix 8, раздел товарных знаков. Английский оригинал — в источниках</cite>
+  </blockquote>
+
+  <h2>Насколько это близко к лаборатории</h2>
+
+  <p>Своей опубликованной проверки VO2max у Garmin нет — по крайней мере в том корпусе первоисточников, который мы просмотрели. Модельная документация Firstbeat, выходившая до 2020 года, оценку VO2max описывает, но это документы самой модели, а не независимая проверка. Зато есть две работы со стороны — обе против газоанализатора в лабораторном ступенчатом тесте, обе на Forerunner 245.</p>
+
+  <p class="tcap">У Düking — 23 бегуна-любителя и три уличных забега, средняя ошибка по всей группе 5,7 %. У Engel — 35 спортсменов (средний уровень 60,1) и два пятнадцатиминутных забега, средняя ошибка 7,9 % и 7,2 %</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Настоящий VO2max</th><th>Что показали часы</th><th>Работа</th></tr></thead>
+    <tbody>
+      <tr><td class="num">ниже 45</td><td><b>завышают</b> на 7,1 %</td><td>Düking, 2022</td></tr>
+      <tr><td class="num">от 45 до 55</td><td>ошибка 4,1 % — в этой выборке авторы назвали часы и лабораторию взаимозаменяемыми</td><td>Düking, 2022</td></tr>
+      <tr><td class="num">от 55 до 61</td><td><b>занижают</b> на 6,2 % — это 3,0 мл/кг/мин</td><td>Düking, 2022</td></tr>
+      <tr><td class="num">до 59,8</td><td>ошибка 4,1 % и 2,8 % на двух забегах</td><td>Engel, 2026</td></tr>
+      <tr><td class="num">выше 59,8</td><td><b>занижают</b> на 6,3 мл/кг/мин, ошибка 10,4 % и 9,4 %</td><td>Engel, 2026</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Две разные выборки, разные годы, разные авторы — картина одна. <b>Ошибка не ровная по шкале: она зависит от того, насколько ты силён.</b> Слабого часы подтягивают вверх, сильного тянут вниз, а точнее всего попадают в середине, около уровня обычного любителя. Авторы второй работы пишут прямо: у хорошо тренированных оценка менее достоверна, и там, где нужна точность, остаётся лаборатория.</p>
+
+  <blockquote>
+    <p><b>Почему три миллилитра — это две ступени.</b> Разница в три-шесть миллилитров выглядит мелочью, пока число не читают по таблице. У мужчин 20–29 лет верхний уровень начинается с 55,4, следующий — с 51,1, средний — с 45,4. Атлет с настоящими 55,4 при занижении на 3,0 увидит 52,4 и прочитает про себя уровень ниже; при занижении на 6,3 увидит 49,1 — это уже две ступени вниз. С другого конца шкала сжимается так же: бегун с настоящими 44 при завышении на 7 % увидит 47,1 и поднимется на ступень вверх. Арифметика наша, по опубликованным границам Cooper Institute: сами такого пересчёта ни Garmin, ни авторы работ не делали.</p>
+  </blockquote>
+
+  <p>Отсюда — осторожный вывод, и он тоже наш. Раз ошибка зависит от уровня, своё сегодняшнее число честнее сравнивать со своим прошлым, чем с чужой ступенькой. Но и этот ряд — линейка с подвохом: если ты растёшь, занижение растёт вместе с тобой, и подъём на экране выглядит меньше настоящего. Ни одна из двух работ динамику не проверяла — у них по два-три забега подряд.</p>
+
+  <h2>Как Garmin велит читать шкалу</h2>
+
+  <p>Трактовка у Garmin почти везде устроена одинаково: число объясняется не механизмом, а <b>местом в толпе</b>. У VO2max шкала — таблица Cooper Institute, разведённая по полу и по шести возрастным группам, от 20–29 до 70–79. Уровни привязаны к перцентилям, то есть к доле ровесников твоего пола, которых ты обходишь: 95 — значит выше, чем у девяноста пяти человек из ста.</p>
+
+  <p class="tcap">Одна группа из двенадцати, для примера. Полные таблицы — в приложении руководства</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Уровень</th><th>Перцентиль</th><th>Мужчины 20–29, мл/кг/мин</th></tr></thead>
+    <tbody>
+      <tr><td>Superior — превосходно</td><td class="num">95</td><td class="num">от 55,4</td></tr>
+      <tr><td>Excellent — отлично</td><td class="num">80</td><td class="num">от 51,1</td></tr>
+      <tr><td>Good — хорошо</td><td class="num">60</td><td class="num">от 45,4</td></tr>
+      <tr><td>Fair — удовлетворительно</td><td class="num">40</td><td class="num">от 41,7</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Рамку стоит прочитать буквально. Уровень отвечает на вопрос «где я среди людей моего пола и возраста» — и не отвечает на вопрос «что со мной происходит». Между двумя вопросами мостика нет.</p>
+
+  <h2>Что часы складывают в это число</h2>
+
+  <p>Расчёт опирается на два сигнала сразу: сколько работы сделано и какой ценой она далась. Цену даёт пульс — с запястья или с нагрудного датчика. Работу на улице даёт GPS: скорость там измерена независимо от того, кто её тратит. Это наше объяснение, а не цитата: как пульс и темп пересчитываются в миллилитры кислорода, Garmin не публикует.</p>
+
+  <p>Поправку на условия Garmin вносит сам. Названы два порога: <b>выше 22 °C</b> и <b>выше 800 м</b> над уровнем моря — за ними правится и оценка VO2max, и статус тренировок. Независимы пороги или работают только вместе, в какую сторону и на сколько сдвигается число — руководство не говорит. Сказано одно: для поправки нужна погода с телефона. Отметка «поправка применена» в руководстве не описана, так что судить можно только по порогам и по тому, был ли телефон рядом.</p>
+
+  <h2>Почему зимой число стоит</h2>
+
+  <blockquote>
+    <p>Бег в помещении не даёт оценку VO2max — чтобы сохранить точность того, как меняется уровень твоей формы.</p>
+    <cite>Руководство fēnix 8, раздел VO2 max. Английский оригинал — в источниках</cite>
+  </blockquote>
+
+  <p>Причина названа прямо, и она не про «дорожка хуже». <b>Дальше наше объяснение.</b> Дорожка называет скорость сама, и насколько честно — зависит от её калибровки; проверена ли она, часы не знают. Для одной тренировки это неважно. Для ряда, который копится годами, — важно: в него нельзя пускать измеренное другим способом. Garmin в этом месте говорит именно про точность тренда.</p>
+
+  <p>Следствие стоит проговорить вслух: <b>число, которое ты видишь на экране в марте после зальной зимы, снято с тебя осенью.</b> Часы его не пересчитывают и никак не помечают как устаревшее — им просто не из чего было его обновить.</p>
+
+  <p>Нагрузка и тренировочный эффект зал при этом считают. В списке исключений, который Garmin приводит отдельно, зальный бег стоит против оценки формы и экономичности бега — не против нагрузки.</p>
+
+  <h2>Что нужно, чтобы число обновилось</h2>
+
+  <p class="tcap">По руководству fēnix 8. Минимальная длительность названа в двух местах по-разному — планируй по большей. В обеих проверках выше забеги были как раз пятнадцатиминутными</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Что</th><th>Условие</th></tr></thead>
+    <tbody>
+      <tr><td>Бег</td><td>улица с GPS, <b>от 10 минут</b> — в другом месте руководства названо «от 15 минут»</td></tr>
+      <tr><td>Велосипед</td><td>измеритель мощности <b>и</b> датчик пульса, умеренная интенсивность</td></tr>
+      <tr><td>Условия точности на велозамере</td><td>заезд от 20 минут, пульс выше 70 % от максимального, ровная мощность</td></tr>
+      <tr><td>Чего избегать на велозамере</td><td>холмистый рельеф и езда в группе за чужим колесом: там мощность рваная, а пульс за ней не успевает</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>Что делать с таким числом</h2>
+
+  <ol>
+    <li><b>Собери свой ряд.</b> Это единственное, что превращает смещённое число в полезное. Одна уличная пробежка в неделю — по календарю, а не по погоде; за полтора месяца наберётся шесть значений. Записывай их в заметку с датой: цена вопроса — одна строка в неделю.</li>
+    <li><b>Проверь вес в профиле.</b> Метрика определена на килограмм массы тела, то есть вес входит в неё напрямую: ошибка в весе переезжает в число процент в процент, а похудевший на три килограмма увидит рост, которого в форме может и не быть. Это следствие из определения, а не отдельное правило Garmin.</li>
+    <li><b>Проверь максимальный пульс, пол и возраст.</b> От максимума считается «70 % от максимального» в условиях замера — завышенный максимум поднимает планку, которую надо перешагнуть. Пол и возраст не меняют число, но меняют слово рядом с ним: таблица разведена по шести возрастным группам.</li>
+    <li><b>Не бери уровень из таблицы как свой.</b> Если он нужен всерьёз — для отбора, для разряда, для разговора с тренером, — его даёт лабораторный тест, а не экран. На краях шкалы часы ошибаются на одну-две ступени, и в какую сторону именно у тебя, экран не скажет.</li>
+    <li><b>Зимой смотри на дату, а не на число.</b> Оно не упало и не выросло — оно просто не обновлялось с последней уличной пробежки.</li>
+  </ol>
+
+  <h2>Частые вопросы</h2>
+
+  <p><b>Бег и велосипед — это одно число или два?</b><br>
+  Руководство формулирует требование как «беги на улице с GPS либо крути с измерителем мощности», то есть говорит об одной оценке, которую может обновить любой из двух спортов. Разводит ли устройство беговое и велосипедное значение, оно прямо не сообщает — это открытый вопрос, а не наше утверждение.</p>
+
+  <p><b>На сколько число может прыгнуть за одну тренировку?</b><br>
+  Не опубликовано. Garmin не называет ни шаг изменения, ни то, с каким весом новая пробежка входит в оценку относительно прошлых. Практический вывод один: судить по одному замеру нельзя, нужен ряд.</p>
+
+  <p><b>Число упало после тяжёлого или жаркого забега — я потерял форму?</b><br>
+  Из экрана это не следует. Выше 22 °C и выше 800 м Garmin правит оценку сам, а величина правки не опубликована; к тому же замер на пределе — не те условия, для которых модель описана. Смотри на ряд, а не на последнюю точку.</p>
+
+  <p><b>Часы занижают — значит, я сильнее, чем показано?</b><br>
+  Если твой уровень выше 55 — у двух выборок так и вышло. Но это средние по группам, а не поправка, которую можно вычесть у себя: разброс внутри групп работы тоже показали. Правильное чтение — «моё настоящее число скорее выше экранного», а не «моё настоящее число равно экранному плюс шесть».</p>
+
+  <h2>Коротко</h2>
+
+  <ul>
+    <li>VO2max в часах — не измерение, а оценка. Модель Firstbeat (компания с 2020 года принадлежит Garmin), шкала уровней — чужая, Cooper Institute с разрешения. Garmin называет обоих, и для его метрик это редкость.</li>
+    <li>Две независимые проверки на Forerunner 245 сошлись: ниже 45 мл/кг/мин часы <b>завышают</b> (около 7 %), выше 55 — <b>занижают</b> (3,0–6,3 мл/кг/мин, ошибка до 10,4 %). В середине шкалы попадают точнее всего.</li>
+    <li>В таблице Cooper это одна-две ступени в каждую сторону: ошибка заметнее не в цифре, а в слове рядом с ней.</li>
+    <li>Чтобы число обновилось, нужна улица с GPS от 10 минут (в другом месте руководства — от 15); на велосипеде обязательны и пульс, и мощность. Зальный бег оценку не формирует — Garmin пишет, что ради точности тренда.</li>
+    <li>Выше 22 °C и выше 800 м Garmin правит оценку сам. Величина и направление правки не опубликованы, а погода для неё нужна с телефона.</li>
+  </ul>
+
+  <h2>Где проходит граница</h2>
+
+  <ul>
+    <li>Как пульс и темп превращаются в миллилитры кислорода, не раскрыто: ни окно усреднения, ни веса истории, ни то, как внутрь формулы входят температура и высота.</li>
+    <li>Обе проверки сделаны на Forerunner 245 и на людях сильнее среднего: у Düking уровень от 38 до 61, у Engel средний 60,1. Переносить их числа на другую модель или на новичка — наше допущение, а не результат работы.</li>
+    <li>Ни одна из работ не смотрела, как оценка ведёт себя во времени: у Düking три забега, у Engel два с промежутком в двое-трое суток. Поэтому «свой ряд полезнее чужой ступеньки» — наш вывод из формы ошибки, а не измеренный факт. У него есть обратная сторона: раз занижение растёт вместе с уровнем, реальный рост формы на экране может выглядеть меньше настоящего, а сезонная поправка на жару добавляет к ряду собственный сдвиг.</li>
+    <li>Garmin называет условия, при которых оценка точнее, но величину ошибки не публикует — ни своей проверки, ни обещания точности после выполнения условий у него нет.</li>
+  </ul>
+
+  <h2>Источники</h2>
+
+  <ol class="src">
+    <li>Руководство Garmin fēnix 8 (редакция v9), раздел VO2 max. Определение: «VO2 max. is the maximum volume of oxygen (in milliliters) you can consume per minute per kilogram of body weight at your maximum performance.» Про зал: «Indoor run activities do not generate a VO2 max. estimate in order to preserve the accuracy of your fitness level trend.» Требования: «You must run either outside with GPS or ride with a compatible power meter at a moderate level of intensity for several minutes»; обновление — после уличной активности от 15 минут, в разделе Performance Measurements названо «от 10 минут». <a href="https://www8.garmin.com/manuals/webhelp/GUID-9D6CF4BF-F8CB-40A6-91CC-E82E66B4F7BD/EN-US/GUID-12F8A35F-E6C5-4C63-9EF2-1A0A92F1C3BC.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Руководство Garmin fēnix 8, раздел товарных знаков: «VO2 max. data is provided by Firstbeat Analytics™. VO2 max. analysis is provided with permission from The Cooper Institute®.» Формулировка продублирована в нескольких местах руководств, включая страницу нормативных таблиц. Таблицы уровней по полу и шести возрастным группам опубликованы там же: для мужчин 20–29 Superior от 55,4; Excellent от 51,1; Good от 45,4; Fair от 41,7 (перцентили 95, 80, 60, 40). <a href="https://www8.garmin.com/manuals/webhelp/GUID-9D6CF4BF-F8CB-40A6-91CC-E82E66B4F7BD/EN-US/GUID-A1B0F4F4-1F4B-4F33-9A7E-9C4C66E2BB5C.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Руководство Garmin fēnix 8, раздел Heat and Altitude Acclimation: поправка включается выше 22 °C и выше 800 м над уровнем моря, правятся оценка VO2max и статус тренировок; для поправки нужны погодные данные с телефона. Величина и направление правки не опубликованы. <a href="https://support.garmin.com/en-US/?faq=NIYvZCEXbd0dDjVnhW7Pn7" rel="nofollow noopener" target="_blank">support.garmin.com</a></li>
+    <li>Düking P., Van Hooren B., Sperlich B. Assessment of Peak Oxygen Uptake with a Smartwatch and its Usefulness for Training of Runners. International Journal of Sports Medicine, 2022;43(7):642–647. 23 бегуна-любителя, три уличных забега, сравнение с газоанализатором в ступенчатом тесте. Дословно из реферата: «MAPE between the smartwatch and criterion measure was 7.1, 4.1 and −6.2 % when analyzing… ranging from 39–45 ml∙min⁻¹∙kg⁻¹, 45–55 ml∙min⁻¹∙kg⁻¹ or 55–61 ml∙min⁻¹∙kg⁻¹, respectively.» Общая ошибка по выборке — 5,7 %. В обсуждении: в нижней группе часы «tend to overestimate the runners' actual VO2peak», в верхней «values tend to be underestimated»; для диапазона 45–55 авторы пишут, что часы и лабораторию «can be employed interchangeably». <a href="https://doi.org/10.1055/a-1686-9068" rel="nofollow noopener" target="_blank">doi.org</a></li>
+    <li>Engel F. A., Masur L., Sperlich B., Düking P. Validity of V̇O2max estimates from the forerunner 245 smartwatch in highly vs. moderately trained endurance athletes. European Journal of Applied Physiology, 2026;126(1):591–603 (онлайн — август 2025). 35 спортсменов уровня Tier 2–3, VO2max 60,1 ± 8,2 мл/кг/мин, два пятнадцатиминутных забега при пульсе выше 70 % от максимального. По всей выборке часы занижали на 4,73 и 4,05 мл/кг/мин, MAPE 7,9 % и 7,2 %. В подгруппе до 59,8 — MAPE 4,1–2,8 %; выше 59,8 — занижение на 6,3 мл/кг/мин, MAPE 10,4–9,4 %. Вывод авторов: «Laboratory-based gas analysis remains the preferred method when precision is required.» <a href="https://doi.org/10.1007/s00421-025-05923-x" rel="nofollow noopener" target="_blank">doi.org</a></li>
+  </ol>
+
+  <p class="note">Серия разборов «Метрики Garmin» по первоисточникам. Опубликованные формулировки, пороги и границы — со ссылкой на руководство Garmin или на научную работу; наши объяснения, расчёты и примеры помечены. Физкульт не связан с Garmin, Firstbeat и The Cooper Institute; названия принадлежат их владельцам.</p>
+
+  <div class="cta">
+    <div class="kicker">Подключи Garmin к fizkult.ai</div>
+    <h2>Одно число раз в неделю — это ещё не картина</h2>
+    <p>Часы собирают десятки показателей — сон, восстановление, пульс покоя, нагрузку за неделю. Что они означают именно для тебя, из таблицы не видно.</p>
+    <p>Физкульт читает данные Garmin сам и каждое утро присылает в Telegram понятный разбор: что происходит с организмом и на что обратить внимание сегодня. Норму он не спрашивает анкетой, а считает по твоей истории — и всегда говорит, по скольким дням она посчитана. Первая неделя — целиком и бесплатно.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot">Подключить часы в Telegram →</a>
+    <p class="note" style="margin-bottom:0">Это тренерский разбор, не медицинский. Если самочувствие не восстанавливается — покажись врачу.</p>
+  </div>
+
+  <a class="back" href="/garmin/">← Все разборы метрик Garmin</a>
+  <a class="back" href="/" style="margin-left:18px">На главную</a>
+</div>
+</body>
+</html>

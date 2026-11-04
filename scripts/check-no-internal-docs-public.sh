@@ -77,10 +77,13 @@ PUBLIC=(
 # главная, совпадения типа всё равно мало: маркер в теле — третье поле —
 # отличает нашу страницу от любой другой, отданной вместо неё.
 PUBLIC_FILES=(
+  "garmin/ text/html https://fizkult.ai/garmin/"
   "garmin/training-effect.pdf application/pdf"
   "garmin/training-effect text/html https://fizkult.ai/garmin/training-effect"
   "garmin/sleep-score.pdf application/pdf"
   "garmin/sleep-score text/html https://fizkult.ai/garmin/sleep-score"
+  "garmin/vo2max.pdf application/pdf"
+  "garmin/vo2max text/html https://fizkult.ai/garmin/vo2max"
   "robots.txt text/plain"
   "sitemap.xml application/xml"
   "llms.txt text/plain"

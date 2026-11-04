@@ -49,8 +49,10 @@ SITEMAP_FILES = {
     "https://fizkult.ai/en/": "en/index.html",
     "https://fizkult.ai/en/pricing": "en/pricing.html",
     "https://fizkult.ai/en/privacy": "en/privacy.html",
+    "https://fizkult.ai/garmin/": "garmin/index.html",
     "https://fizkult.ai/garmin/training-effect": "garmin/training-effect.html",
     "https://fizkult.ai/garmin/sleep-score": "garmin/sleep-score.html",
+    "https://fizkult.ai/garmin/vo2max": "garmin/vo2max.html",
 }
 
 # Страницы, которые сверяются на canonical/noindex: корень, английская версия

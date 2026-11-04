@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Разборы метрик Garmin — по первоисточникам, с цитатами и границами</title>
+<meta name="description" content="Серия разборов о том, как на самом деле считаются метрики часов Garmin: тренировочный эффект, оценка и эффективность сна, VO2max. По руководствам Garmin и Firstbeat и по научным работам — с цитатами, с отметками, где кончается опубликованное и начинается наше объяснение.">
+<link rel="canonical" href="https://fizkult.ai/garmin/">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Физкульт">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Разборы метрик Garmin — по первоисточникам">
+<meta property="og:description" content="Как считаются метрики часов Garmin: тренировочный эффект, сон, VO2max. С цитатами из руководств и научных работ и с отметками, где кончается опубликованное.">
+<meta property="og:url" content="https://fizkult.ai/garmin/">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Физкульт — личный тренер в Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Разборы метрик Garmin — по первоисточникам">
+<meta name="twitter:description" content="Как считаются метрики часов Garmin: тренировочный эффект, сон, VO2max. С цитатами и границами утверждений.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 36px; }
+  p, li { font-size:16px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .item { background:var(--panel); border:1.5px solid var(--line); padding:22px 22px 18px; margin-bottom:18px; }
+  .item .no { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+  .item h2 { font-size:21px; font-weight:800; letter-spacing:-.02em; line-height:1.2; margin:0 0 10px; }
+  .item h2 a { color:var(--ink); text-decoration:none; }
+  .item h2 a:hover { color:var(--accent); }
+  .item p { margin:0 0 14px; font-size:15px; color:var(--muted); }
+  .links { display:flex; flex-wrap:wrap; gap:10px; }
+  .links a { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; font-weight:500;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:7px 12px; }
+  .links a:hover { background:var(--ink); color:var(--bg); }
+  .note { font-size:13px; color:var(--muted); }
+  .rule { margin:44px 0 0; padding-top:20px; border-top:2px solid var(--line); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:36px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); margin:10px 0 12px; font-size:22px; font-weight:800; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "name": "Разборы метрик Garmin",
+      "description": "Серия разборов о том, как считаются метрики часов Garmin — по руководствам производителя, документации Firstbeat и научным работам.",
+      "inLanguage": "ru",
+      "url": "https://fizkult.ai/garmin/",
+      "isPartOf": { "@type": "WebSite", "name": "Физкульт", "url": "https://fizkult.ai/" },
+      "publisher": { "@type": "Organization", "name": "Физкульт", "url": "https://fizkult.ai/" },
+      "hasPart": [
+        { "@type": "Article", "headline": "Почему Garmin может неправильно оценивать твои тренировки", "url": "https://fizkult.ai/garmin/training-effect", "inLanguage": "ru" },
+        { "@type": "Article", "headline": "Оценка сна и эффективность сна: два числа про одну ночь", "url": "https://fizkult.ai/garmin/sleep-score", "inLanguage": "ru" },
+        { "@type": "Article", "headline": "VO2max в часах: сильным занижает, слабым завышает", "url": "https://fizkult.ai/garmin/vo2max", "inLanguage": "ru" }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Физкульт", "item": "https://fizkult.ai/" },
+        { "@type": "ListItem", "position": 2, "name": "Разборы метрик Garmin", "item": "https://fizkult.ai/garmin/" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Разборы · Метрики Garmin</div>
+    <a class="home" href="/" aria-label="На главную">FIZKULT.AI</a>
+  </div>
+
+  <h1>Разборы метрик Garmin</h1>
+
+  <p class="lead">Часы показывают десятки чисел и почти ничего не говорят о том, откуда эти числа берутся. Мы разбираем их по первоисточникам: по руководствам Garmin, по документации Firstbeat и по научным работам, где метрику проверяли против лаборатории. С цитатами — и с отметками там, где опубликованное кончается и начинается наше объяснение.</p>
+
+  <div class="item">
+    <div class="no">Разбор 01 · Тренировочный эффект</div>
+    <h2><a href="/garmin/training-effect">Почему Garmin может неправильно оценивать твои тренировки</a></h2>
+    <p>Аэробный эффект считается не от темпа, а от пульса относительно твоего максимума. Максимум по умолчанию берётся из формулы по возрасту — и если он выставлен неверно, смещается каждая оценка. Что происходит с цифрой при ошибке в десять ударов и как проверить собственное значение.</p>
+    <div class="links">
+      <a href="/garmin/training-effect">Читать</a>
+      <a href="/garmin/training-effect.pdf">PDF · 5 полос</a>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="no">Разбор 04 · VO2max</div>
+    <h2><a href="/garmin/vo2max">VO2max в часах: сильным занижает, слабым завышает</a></h2>
+    <p>Две независимые проверки против газоанализатора сошлись на одной картине: часы тянут всех к середине. Ниже 45 мл/кг/мин оценка завышена примерно на 7 %, выше 55 — занижена на 3–6 мл/кг/мин. В таблице уровней это одна-две ступени. Откуда берётся число, почему зимой оно стоит и что с ним делать.</p>
+    <div class="links">
+      <a href="/garmin/vo2max">Читать</a>
+      <a href="/garmin/vo2max.pdf">PDF · 7 полос</a>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="no">Разбор 11 · Сон</div>
+    <h2><a href="/garmin/sleep-score">Оценка сна и эффективность сна: два числа про одну ночь</a></h2>
+    <p>Сводный балл 0–100 и доля сна от времени в постели — разные величины, и за одну ночь они расходятся. Из каких трёх частей собирается оценка, какое из двух чисел читать каждый день и почему доля на экране обычно выше настоящей.</p>
+    <div class="links">
+      <a href="/garmin/sleep-score">Читать</a>
+      <a href="/garmin/sleep-score.pdf">PDF · 8 полос</a>
+    </div>
+  </div>
+
+  <div class="rule">
+    <p class="note">Серия продолжается: статус тренировок, нагрузка за семь дней, статус вариабельности, стресс, беговая динамика, время восстановления, пульс покоя. Номера разборов постоянны — по ним адресуются уже выпущенные файлы, поэтому в списке они идут не подряд.</p>
+    <p class="note">Физкульт не связан с Garmin, Firstbeat и The Cooper Institute; названия принадлежат их владельцам.</p>
+  </div>
+
+  <div class="cta">
+    <div class="kicker">Подключи Garmin к fizkult.ai</div>
+    <h2>Знать, как считается число, — полдела</h2>
+    <p>Вторая половина — понимать, что оно означает сегодня именно для тебя. Физкульт читает данные часов сам и каждое утро присылает в Telegram разбор человеческими словами: что происходит с организмом и на что обратить внимание. Норму он не спрашивает анкетой, а считает по твоей истории. Первая неделя — целиком и бесплатно.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot">Подключить часы в Telegram →</a>
+    <p class="note" style="margin-bottom:0">Это тренерский разбор, не медицинский. Если самочувствие не восстанавливается — покажись врачу.</p>
+  </div>
+
+  <a class="back" href="/">← На главную</a>
+</div>
+</body>
+</html>
