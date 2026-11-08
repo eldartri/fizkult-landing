@@ -84,6 +84,8 @@ PUBLIC_FILES=(
   "garmin/sleep-score text/html https://fizkult.ai/garmin/sleep-score"
   "garmin/vo2max.pdf application/pdf"
   "garmin/vo2max text/html https://fizkult.ai/garmin/vo2max"
+  "garmin/training-status.pdf application/pdf"
+  "garmin/training-status text/html https://fizkult.ai/garmin/training-status"
   "robots.txt text/plain"
   "sitemap.xml application/xml"
   "llms.txt text/plain"
