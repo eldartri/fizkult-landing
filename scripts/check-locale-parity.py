@@ -87,6 +87,7 @@ ARTICLE_PAIRS = [
 # вынесены в объект T наверху файла, ниже него строк нет.
 CALC_PAIRS = [
     ("calc/pace.html", "en/calc/pace.html", "/en/calc/pace", "/calc/pace"),
+    ("calc/predict.html", "en/calc/predict.html", "/en/calc/predict", "/calc/predict"),
 ]
 
 #: Строковый литерал и строчный комментарий — всё, чем двум языкам разрешено

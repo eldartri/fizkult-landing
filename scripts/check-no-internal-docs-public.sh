@@ -107,6 +107,8 @@ PUBLIC_FILES=(
   # калькулятор, допиши сюда обе строки, русскую и английскую.
   "calc/pace text/html https://fizkult.ai/calc/pace"
   "en/calc/pace text/html https://fizkult.ai/en/calc/pace"
+  "calc/predict text/html https://fizkult.ai/calc/predict"
+  "en/calc/predict text/html https://fizkult.ai/en/calc/predict"
   "robots.txt text/plain"
   "sitemap.xml application/xml"
   "llms.txt text/plain"

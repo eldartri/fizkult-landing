@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Калькулятор прогноза времени на дистанции: от 1500 м до марафона</title>
+<meta name="description" content="Пересчитывает твой результат в прогноз на другие дистанции по формуле Ригеля. Дашь два своих результата — посчитает твой собственный показатель выносливости вместо книжного 1,06. Марафонскую строку помечает отдельно: там формула систематически завышает. Считается в браузере, введённые числа никуда не уходят.">
+<link rel="canonical" href="https://fizkult.ai/calc/predict">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/calc/predict">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/calc/predict">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/calc/predict">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Физкульт">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:title" content="Калькулятор прогноза времени на дистанции: от 1500 м до марафона">
+<meta property="og:description" content="Один результат — прогноз на все дистанции. Два результата — твой собственный показатель выносливости вместо книжного.">
+<meta property="og:url" content="https://fizkult.ai/calc/predict">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Физкульт — личный тренер в Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Калькулятор прогноза времени на дистанции: от 1500 м до марафона">
+<meta name="twitter:description" content="Один результат — прогноз на все дистанции. Два результата — твой собственный показатель выносливости.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .calc { background:var(--panel); border:1.5px solid var(--line); padding:22px 20px; margin:0 0 10px; }
+  .modes { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+  .modes button { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    font-weight:700; padding:8px 12px; border:1.5px solid var(--line); background:transparent; color:var(--ink); cursor:pointer; }
+  .modes button[aria-pressed="true"] { background:var(--ink); color:var(--bg); }
+  .fields { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:18px; }
+  .field label { display:block; font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .field input, .field select { width:100%; font-family:"Geist Mono",monospace; font-size:17px; padding:10px 12px;
+    border:1.5px solid var(--line); background:var(--bg); color:var(--ink); }
+  .field input:focus, .field select:focus { outline:2px solid var(--accent); outline-offset:-2px; }
+  .field input:disabled, .field select:disabled { opacity:.45; }
+  .hint { font-size:12px; color:var(--muted); margin:6px 0 0; }
+  .leg { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--muted); margin:22px 0 10px; padding-top:14px; border-top:1.5px solid var(--line); }
+  .out { display:flex; flex-wrap:wrap; gap:24px; margin-top:20px; padding-top:18px; border-top:1.5px solid var(--line); }
+  .out div { min-width:120px; }
+  .out span { display:block; font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--muted); }
+  .out strong { font-family:"Geist Mono",monospace; font-size:24px; font-weight:700; letter-spacing:-.02em; }
+  .out .big { font-size:34px; color:var(--accent); }
+  .out em { font-style:normal; font-size:14px; color:var(--muted); display:block; }
+  .err { color:var(--accent); font-weight:700; margin:14px 0 0; }
+  .nudge { background:var(--panel); border:1.5px dashed var(--line); padding:14px 18px; margin:0 0 10px;
+    display:flex; flex-wrap:wrap; align-items:center; gap:12px; font-size:15px; }
+  .nudge button { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    font-weight:700; padding:8px 12px; border:1.5px solid var(--line); background:var(--ink); color:var(--bg); cursor:pointer; }
+  .goalbox { background:var(--panel); border:1.5px solid var(--line); padding:16px 20px; margin:0 0 10px; max-width:340px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  tr.mark td { background:#F6EFE2; font-weight:700; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  .mk { font-family:"Geist",system-ui,sans-serif; font-size:12px; font-weight:400; color:var(--accent); white-space:nowrap; }
+  .note { font-size:13px; color:var(--muted); }
+  .src { font-size:14px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Калькулятор прогноза времени на дистанции",
+      "url": "https://fizkult.ai/calc/predict",
+      "applicationCategory": "SportsApplication",
+      "operatingSystem": "Любой браузер",
+      "inLanguage": "ru",
+      "description": "Пересчитывает результат на одной дистанции в прогноз на остальные по формуле Ригеля: время₂ = время₁ × (дистанция₂ / дистанция₁) в степени k. По двум результатам считает личный показатель выносливости вместо книжного 1,06 и помечает строки, где прогноз выходит за границы, в которых формула проверялась, или систематически завышает, как на марафоне. Всё считается в браузере, введённые величины никуда не отправляются.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" },
+      "publisher": { "@type": "Organization", "name": "Физкульт", "url": "https://fizkult.ai/" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Физкульт", "item": "https://fizkult.ai/" },
+        { "@type": "ListItem", "position": 2, "name": "Калькулятор прогноза времени на дистанции", "item": "https://fizkult.ai/calc/predict" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Как посчитать время марафона по результату на десятке?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Арифметика такая: время на длинной дистанции равно времени на короткой, умноженному на отношение дистанций в степени 1,06. Десятка из 50:00 даёт по этой формуле марафон 3:50:01 и половину 1:50:19. Калькулятор прогноза Физкульта считает это за тебя и тут же помечает марафонскую строку: в исследовании 2303 бегунов-любителей такой прогноз оказывался слишком быстрым на 10 минут и больше примерно у половины из них. Читай марафонскую строку как оптимистичный ориентир, а не как план. Чтобы прогноз стал ближе к тебе, добавь второй свой результат на другой дистанции — тогда показатель считается по тебе, а не берётся из таблицы рекордов."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Что такое показатель выносливости и почему он равен 1,06?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Это степень в формуле — цена удвоения дистанции. При показателе 1,00 темп не менялся бы совсем: удвоил дистанцию, ровно удвоил время. Значение 1,06 означает, что каждое удвоение добавляет к темпу примерно 4,2 %. Число пришло из работы Питера Ригеля 1981 года, где он вывел его из мировых рекордов. Рекорды на разных дистанциях ставят разные люди, каждый в своей лучшей, — и, применяя 1,06 к одному человеку, мы допускаем, что он одинаково готов на всех. У живого человека показатель свой, и калькулятор прогноза Физкульта считает его по двум твоим результатам."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Почему формула Ригеля завышает прогноз на марафон?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Формула считает по времени и дистанции, и больше в ней ничего нет — ни объёма, ни восстановления. Викерс и Вертосик в 2016 году собрали результаты 2303 бегунов-любителей и проверили на них формулу Ригеля: до половины марафона она ложилась на факт довольно хорошо, а марафон предсказывала слишком быстро — на 10 минут и больше примерно у половины из них. Почему разрыв вылезает именно на марафоне, авторы не разбирают. Поэтому калькулятор прогноза Физкульта помечает марафонскую строку отдельно, а не выдаёт её наравне с остальными."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Можно ли предсказать половину марафона по пятёрке, если половину никогда не бежал?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Посчитать можно, и калькулятор посчитает: до половины марафона формула в том же исследовании ложилась на факт довольно хорошо. Но отвечает она на один вопрос — что будет, если к длинной дистанции ты готов так же, как к короткой. Чем дальше прогноз уходит от того, что ты реально бегал, тем больше в нём этого допущения."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Что делает прогноз точнее?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Три вещи. Первая — второй результат: два своих забега на разных дистанциях дают личный показатель выносливости вместо книжного, то есть показатель станет твоим, а не общим для всех. Что даст один только второй забег без объёма, авторы не проверяли: в их лучшей модели рядом с двумя забегами стоял недельный объём. Вторая — свежесть: давний результат описывает того тебя, а не этого. Третья — похожие условия: жара, ветер и набор высоты могут сдвинуть время сильнее, чем разница между показателями 1,05 и 1,07 (на марафоне по десятке это около 3 %, почти семь минут). Всё, что лежит вне арифметики — сколько ты набегал за неделю, как спал, успел ли восстановиться, — калькулятору не видно, и это уже работа тренера."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Сервисы · Калькуляторы</div>
+    <div class="ends">
+      <a class="lang" href="/en/calc/predict" hreflang="en" lang="en" aria-label="Switch to English version">EN</a>
+      <a class="home" href="/" aria-label="На главную">FIZKULT.AI</a>
+    </div>
+  </div>
+
+  <h1>Калькулятор прогноза времени на дистанции</h1>
+
+  <p class="lead">Один твой результат — и остальные дистанции считаются от него. Два результата — и книжная степень 1,06 меняется на твою собственную: во что лично тебе обходится удвоение дистанции. Марафон и всё, что выходит за границы, в которых формулу проверяли, помечено прямо в таблице. Считается в браузере: введённые числа никуда не уходят.</p>
+
+  <div class="calc">
+    <div class="modes" role="group" aria-label="По скольким результатам считать">
+      <button type="button" id="m-one" aria-pressed="true">По одному результату</button>
+      <button type="button" id="m-two" aria-pressed="false">По двум — под тебя</button>
+    </div>
+
+    <div class="modes" role="group" aria-label="Единицы">
+      <button type="button" id="u-km" aria-pressed="true">Километры</button>
+      <button type="button" id="u-mi" aria-pressed="false">Мили</button>
+    </div>
+
+    <div class="fields">
+      <div class="field">
+        <label for="preset1">Твой результат — дистанция</label>
+        <select id="preset1">
+          <option value="">Своя дистанция</option>
+          <option value="1.5">1500 м</option>
+          <option value="1.609344">1 миля</option>
+          <option value="3">3 км</option>
+          <option value="5">5 км</option>
+          <option value="10" selected>10 км</option>
+          <option value="15">15 км</option>
+          <option value="21.0975">Половина марафона</option>
+          <option value="42.195">Марафон</option>
+        </select>
+        <input id="dist1" inputmode="decimal" aria-label="Дистанция первого результата в километрах" style="margin-top:8px">
+        <p class="hint" id="hint-d1">Километры, можно дробью: 7,5</p>
+      </div>
+
+      <div class="field">
+        <label for="time1">Твой результат — время</label>
+        <input id="time1" placeholder="50:00">
+        <p class="hint">Ч:ММ:СС или ММ:СС. Можно голыми цифрами: 5000 → 50:00</p>
+      </div>
+    </div>
+
+    <p class="leg" id="leg2">Второй результат — для личного показателя</p>
+
+    <div class="fields" id="block2">
+      <div class="field">
+        <label for="preset2">Второй результат — дистанция</label>
+        <select id="preset2">
+          <option value="">Своя дистанция</option>
+          <option value="1.5">1500 м</option>
+          <option value="1.609344">1 миля</option>
+          <option value="3">3 км</option>
+          <option value="5" selected>5 км</option>
+          <option value="10">10 км</option>
+          <option value="15">15 км</option>
+          <option value="21.0975">Половина марафона</option>
+          <option value="42.195">Марафон</option>
+        </select>
+        <input id="dist2" inputmode="decimal" aria-label="Дистанция второго результата в километрах" style="margin-top:8px">
+        <p class="hint" id="hint-d2">Обязательно другая дистанция: по одной точке наклон не построишь. Чем она дальше от первой, тем устойчивее показатель</p>
+      </div>
+
+      <div class="field">
+        <label for="time2">Второй результат — время</label>
+        <input id="time2" placeholder="24:00">
+        <p class="hint">Бери забеги одного сезона: давний результат описывает другую форму</p>
+      </div>
+    </div>
+
+    <div class="out" aria-live="polite">
+      <div><span>Прогноз</span><strong class="big" id="o-t">—</strong><em id="o-t-note">Марафон † оптимистично</em></div>
+      <div><span>Показатель выносливости</span><strong id="o-k">—</strong><em id="o-k-note">Книжный 1,06 из работы Ригеля</em></div>
+      <div><span>Цена удвоения дистанции</span><strong id="o-pct">—</strong><em id="o-pct-note">На столько темп становится медленнее</em></div>
+    </div>
+
+    <p class="err" id="err" hidden></p>
+    <p class="hint">В полях стоит пример — замени числа на свои. Как тронешь первый результат, пример во втором очистится: считать твой показатель по нашему забегу нельзя.</p>
+  </div>
+
+  <div class="nudge" id="nudge">
+    <div>Прогноз посчитан по книжной степени, общей для всех. Есть второй твой забег на другой дистанции — калькулятор пересчитает по тебе.</div>
+    <button type="button" id="to-two">Пересчитать по двум</button>
+  </div>
+
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Дистанция</th><th>Прогноз</th><th>Темп</th></tr></thead>
+    <tbody id="rows">
+      <tr><td>1500 м</td><td class="num">06:42</td><td class="num">4:28 /км</td></tr>
+      <tr><td>1 миля</td><td class="num">07:13</td><td class="num">4:29 /км</td></tr>
+      <tr><td>3 км</td><td class="num">13:57</td><td class="num">4:39 /км</td></tr>
+      <tr><td>5 км</td><td class="num">23:59</td><td class="num">4:48 /км</td></tr>
+      <tr class="mark"><td>10 км · Твой результат</td><td class="num">50:00</td><td class="num">5:00 /км</td></tr>
+      <tr><td>15 км</td><td class="num">1:16:51</td><td class="num">5:07 /км</td></tr>
+      <tr><td>Половина марафона</td><td class="num">1:50:19</td><td class="num">5:14 /км</td></tr>
+      <tr><td>Марафон</td><td class="num">3:50:01 <span class="mk">† оптимистично</span></td><td class="num">5:27 /км</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p class="note" id="leg-mar"><b>† оптимистично</b> — марафонская строка, посчитанная с более короткого результата. В исследовании 2303 бегунов-любителей такой прогноз оказывался слишком быстрым на 10 минут и больше примерно у половины из них. Это ориентир, а не план.</p>
+
+  <p class="note" id="leg-star"><b>✱ вне диапазона</b> — время выходит за границы, в которых формулу проверяли: усилия примерно от 3,5 до 230 минут. За ними она просто не проверена.</p>
+
+  <div class="goalbox">
+    <div class="field">
+      <label for="goal" id="goal-label">Своя дистанция, км</label>
+      <input id="goal" inputmode="decimal" value="">
+      <p class="hint">Добавит свою строку в таблицу и поставит её в прогноз сверху: 12, 30, 50 — что готовишь.</p>
+    </div>
+  </div>
+
+  <p class="note">То, что не войдёт ни в одну формулу — сколько ты набегал за неделю и успел ли восстановиться, — <a href="https://t.me/fizkult_ai_bot?start=site_calc_predict_out">Физкульт</a> видит сам, без ввода.</p>
+
+  <h2>Откуда берётся 1,06 и где формула врёт</h2>
+
+  <p><b>Формула, на которой стоит страница, выглядит так: время₂ = время₁ × (дистанция₂ / дистанция₁)<sup>k</sup>.</b> Питер Ригель вывел степень 1,06 из мировых рекордов, и там же, в статье 1981 года, стоят границы, в которых он её проверял: усилия примерно от 3,5 до 230 минут. Ни спринт, ни суточный бег ею не описываются. И главное — откуда взялось само число: рекорды на разных дистанциях ставят разные люди, каждый в своей лучшей. Применяя одну степень к одному человеку, мы допускаем, что он одинаково готов на всех дистанциях. У живого человека степень своя — её и считает режим двух результатов.</p>
+
+  <p><b>На марафоне формула завышает, и это измерено.</b> Викерс и Вертосик собрали результаты 2303 бегунов-любителей: до половины марафона формула Ригеля ложилась на факт довольно хорошо, а марафон предсказывала слишком быстро — на 10 минут и больше примерно у половины из них. Средний квадрат ошибки у их собственных моделей был на 40–45 % ниже, и лучшая смотрела на два прошлых забега и на недельный объём. Наш режим двух результатов — тот же ход, но без объёма, а значит с оговоркой: забеги в нём есть, объёма нет. Объём и восстановление в калькулятор не введёшь — их видно тому, кто смотрит на тебя каждый день.</p>
+
+  <h2>Частые вопросы</h2>
+
+  <p><b>Как посчитать время марафона по результату на десятке?</b><br>
+  Арифметика такая: время на длинной дистанции равно времени на короткой, умноженному на отношение дистанций в степени 1,06. Десятка из 50:00 даёт по этой формуле марафон 3:50:01 и половину 1:50:19. Калькулятор прогноза Физкульта считает это за тебя и тут же помечает марафонскую строку: в исследовании 2303 бегунов-любителей такой прогноз оказывался слишком быстрым на 10 минут и больше примерно у половины из них. Читай марафонскую строку как оптимистичный ориентир, а не как план. Чтобы прогноз стал ближе к тебе, добавь второй свой результат на другой дистанции — тогда показатель считается по тебе, а не берётся из таблицы рекордов.</p>
+
+  <p><b>Что такое показатель выносливости и почему он равен 1,06?</b><br>
+  Это степень в формуле — цена удвоения дистанции. При показателе 1,00 темп не менялся бы совсем: удвоил дистанцию, ровно удвоил время. Значение 1,06 означает, что каждое удвоение добавляет к темпу примерно 4,2 %. Число пришло из работы Питера Ригеля 1981 года, где он вывел его из мировых рекордов. Рекорды на разных дистанциях ставят разные люди, каждый в своей лучшей, — и, применяя 1,06 к одному человеку, мы допускаем, что он одинаково готов на всех. У живого человека показатель свой, и калькулятор прогноза Физкульта считает его по двум твоим результатам.</p>
+
+  <p><b>Почему формула Ригеля завышает прогноз на марафон?</b><br>
+  Формула считает по времени и дистанции, и больше в ней ничего нет — ни объёма, ни восстановления. Викерс и Вертосик в 2016 году собрали результаты 2303 бегунов-любителей и проверили на них формулу Ригеля: до половины марафона она ложилась на факт довольно хорошо, а марафон предсказывала слишком быстро — на 10 минут и больше примерно у половины из них. Почему разрыв вылезает именно на марафоне, авторы не разбирают. Поэтому калькулятор прогноза Физкульта помечает марафонскую строку отдельно, а не выдаёт её наравне с остальными.</p>
+
+  <p><b>Можно ли предсказать половину марафона по пятёрке, если половину никогда не бежал?</b><br>
+  Посчитать можно, и калькулятор посчитает: до половины марафона формула в том же исследовании ложилась на факт довольно хорошо. Но отвечает она на один вопрос — что будет, если к длинной дистанции ты готов так же, как к короткой. Чем дальше прогноз уходит от того, что ты реально бегал, тем больше в нём этого допущения.</p>
+
+  <p><b>Что делает прогноз точнее?</b><br>
+  Три вещи. Первая — второй результат: два своих забега на разных дистанциях дают личный показатель выносливости вместо книжного, то есть показатель станет твоим, а не общим для всех. Что даст один только второй забег без объёма, авторы не проверяли: в их лучшей модели рядом с двумя забегами стоял недельный объём. Вторая — свежесть: давний результат описывает того тебя, а не этого. Третья — похожие условия: жара, ветер и набор высоты могут сдвинуть время сильнее, чем разница между показателями 1,05 и 1,07 (на марафоне по десятке это около 3 %, почти семь минут). Всё, что лежит вне арифметики — сколько ты набегал за неделю, как спал, успел ли восстановиться, — калькулятору не видно, и это уже работа тренера.</p>
+
+  <h2>Источники</h2>
+
+  <p class="src">1. Riegel P. Athletic Records and Human Endurance. <i>American Scientist</i>, 1981, 69(3), 285–290. Из этой статьи — степень 1,06 и границы, в которых она проверена: усилия примерно от 3,5 до 230 минут.<br>
+  2. Vickers A. J., Vertosick E. A. An empirical study of race times in recreational endurance runners. <i>BMC Sports Science, Medicine and Rehabilitation</i>, 2016, 8:26. DOI 10.1186/s13102-016-0052-y. Полный текст: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5000509" rel="nofollow">pmc.ncbi.nlm.nih.gov/articles/PMC5000509</a>. Оттуда 2303 бегуна, совпадение формулы с фактом до половины марафона, «на 10 минут и больше примерно у половины бегунов» и средние квадраты ошибки моделей: 227,6 и 208,3 против 380,7 у Ригеля.</p>
+
+  <div class="cta">
+    <div class="kicker">Физкульт в Telegram</div>
+    <h2>Прогноз считается по двум числам. Результат складывается из всего остального</h2>
+    <p>В том самом исследовании лучший прогноз давала связка «прошлые забеги плюс недельный объём». Забеги ты только что ввёл руками. Объём вводить не придётся: Физкульт складывает его сам из твоих тренировок — километры за неделю по каждому виду стоят в разборе недели.</p>
+    <p>Дальше он читает сигналы часов — сон, пульс, нагрузку — и сравнивает их с твоей собственной нормой. После тренировки приходит разбор: во сколько ударов пульса обошлась эта скорость и что из этого следует для ближайших дней. Каждое утро — короткое письмо: сон короче обычного, вчера была тяжёлая работа, на что смотреть сегодня.</p>
+    <p>Часы подключаются один раз. Первая неделя бесплатно, всё включено.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_calc_predict">Подключить часы в Telegram →</a>
+    <p class="note" style="margin-bottom:0">Это тренерский разбор, не медицинский. Если самочувствие не восстанавливается — покажись врачу.</p>
+  </div>
+
+  <p style="margin-top:32px"><a href="/calc/pace">Калькулятор темпа</a> — чтобы разложить найденное время по дистанции.</p>
+
+  <a class="back" href="/">← На главную</a>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // Числа и логика у двух языков общие, различаются только строки: см.
+  // CALC_PAIRS в scripts/check-locale-parity.py. Сторож сравнивает этот блок
+  // со снятыми строковыми литералами и комментариями, поэтому правка
+  // арифметики обязана лечь на обе страницы, а правка слов — только на свою.
+  // Отсюда правило для списка дистанций ниже: километры на обеих страницах
+  // одинаковые, переводятся только имена.
+  var MILE = 1.609344;
+  var NEAR = 0.005;
+  // Книжная степень Ригеля и границы, на которых он её вывел: усилия
+  // примерно от 3,5 до 230 минут.
+  var K0 = 1.06;
+  var MIN_T = 210;
+  var MAX_T = 13800;
+  var MAR = 42.195;
+  var HALF = 21.0975;
+  // Мёртвая зона вокруг книжной степени. Разница в одну-две сотых меньше,
+  // чем сдвиг от жары или ветра, — вердикт «у тебя лучше среднего» на такой
+  // разнице был бы выдуманным. Внутри зоны печатается «ровно по книге».
+  var K_EPS = 0.01;
+  // Границы личного показателя. Не физиология, а защита от опечатки: пара
+  // вроде «5 км из 25:00 и марафон из 2:30» даёт степень, которая уводит
+  // короткие прогнозы в минуты.
+  var K_MIN = 0.8;
+  var K_MAX = 1.4;
+  var DEC = ",";
+  var UNIT0 = "km";
+  var DISTS = [
+    { km: 1.5, name: "1500 м" },
+    { km: 1.609344, name: "1 миля" },
+    { km: 3, name: "3 км" },
+    { km: 5, name: "5 км" },
+    { km: 10, name: "10 км" },
+    { km: 15, name: "15 км" },
+    { km: 21.0975, name: "Половина марафона" },
+    { km: 42.195, name: "Марафон" }
+  ];
+  var T = {
+    paceMi: " /миля",
+    paceKm: " /км",
+    unitMi: " миль",
+    unitKm: " км",
+    hintDistMi: "Мили, можно дробью: 7,5",
+    hintDistKm: "Километры, можно дробью: 7,5",
+    goalMi: "Своя дистанция, мили",
+    goalKm: "Своя дистанция, км",
+    ariaMi: "Дистанция первого результата в милях",
+    ariaKm: "Дистанция первого результата в километрах",
+    aria2Mi: "Дистанция второго результата в милях",
+    aria2Km: "Дистанция второго результата в километрах",
+    need1: "Нужны дистанция и время твоего результата.",
+    need2: "Нужны дистанция и время второго результата.",
+    same: "Оба результата на одной дистанции — по одной точке наклон не построишь.",
+    odd: "Эта пара не складывается в прогноз: проверь, что время и дистанции не перепутаны.",
+    tooFar: "Это за пределами того, что считает калькулятор — проверь, что ввёл.",
+    tooFast: "Это быстрее любого человеческого темпа — проверь, что ввёл.",
+    kBook: "Книжный 1,06 из работы Ригеля",
+    kSame: "Ровно по книге: 1,06",
+    kUnder: "Ниже книжного 1,06: длинное даётся тебе легче, чем предполагает книжная степень",
+    kOver: "Выше книжного 1,06: на длинном ты теряешь больше, чем предполагает книжная степень",
+    kWeird: "Длинную дистанцию ты пробежал быстрее по темпу, чем короткую, — похоже, короткий результат несвежий",
+    pctNote: "На столько темп становится медленнее",
+    yours: " · Твой результат",
+    starMark: " ✱ вне диапазона",
+    marMark: " † оптимистично",
+    empty: "Введи свой результат",
+    dash: "—",
+    time1: "50:00",
+    time2: "24:00"
+  };
+
+  var mode = "one";
+  var unit = UNIT0;
+  // Дистанции живут здесь, в километрах. Поля ввода — только показ: они
+  // округляются, и чтение дистанции обратно из поля сдвинуло бы отметки на
+  // метры.
+  var d1Km = NaN;
+  var d2Km = NaN;
+  // Второй результат введён человеком, а не нами. Пока флаг не поднят, во
+  // втором блоке стоит наш пример.
+  var ownB = false;
+  var el = {};
+  ["preset1", "dist1", "time1", "preset2", "dist2", "time2", "goal", "o-t", "o-t-note",
+   "o-k", "o-k-note", "o-pct", "o-pct-note", "err", "rows", "m-one", "m-two", "u-mi", "u-km",
+   "hint-d1", "hint-d2", "goal-label", "nudge", "to-two", "leg-star", "leg-mar", "leg2", "block2"]
+    .forEach(function (id) { el[id] = document.getElementById(id); });
+
+  function miles() { return unit === "mi"; }
+  function factor() { return miles() ? MILE : 1; }
+
+  // Пример в полях — демонстрация, а не данные человека. Как только он
+  // заменил своим хоть одно число первого результата, наш пример во втором
+  // перестаёт быть примером: страница посчитала бы личный показатель по
+  // забегу, которого не было, и напечатала о нём вердикт. Поэтому пример
+  // уходит при первой же правке, а пока второе число не своё, показатель не
+  // печатается вовсе.
+  function dropExampleB() {
+    if (ownB) return;
+    el.preset2.value = "";
+    el.dist2.value = "";
+    el.time2.value = "";
+    d2Km = NaN;
+  }
+
+  function num(v) {
+    v = String(v).replace(",", ".").trim();
+    if (!v) return NaN;
+    var n = Number(v);
+    return isFinite(n) && n > 0 ? n : NaN;
+  }
+
+  // "1:23:45" | "23:45" | "45" -> секунды. Голые цифры читаются парами
+  // справа налево: 5000 -> 50:00, 14500 -> 1:45:00. Это не удобство, а
+  // защита: двоеточие на телефоне набирать неудобно, и без правила 5000
+  // молча прочиталось бы как 5000 секунд и дало неверный прогноз без
+  // всякой ошибки.
+  function parseClock(v) {
+    v = String(v).trim();
+    if (/^\d+$/.test(v) && v.length > 2) {
+      var out = [], rest = v;
+      while (rest.length > 2) {
+        out.unshift(rest.slice(-2));
+        rest = rest.slice(0, -2);
+      }
+      out.unshift(rest);
+      v = out.join(":");
+    }
+    if (!v) return NaN;
+    var parts = v.split(":");
+    if (parts.length > 3) return NaN;
+    var mult = [1, 60, 3600], total = 0;
+    for (var i = 0; i < parts.length; i++) {
+      var p = parts[parts.length - 1 - i].trim();
+      if (p === "" || !/^\d+([.,]\d+)?$/.test(p)) return NaN;
+      var n = Number(p.replace(",", "."));
+      // Всё, кроме старшего поля, обязано быть меньше 60, иначе 5:75 молча
+      // станет 6:15.
+      if (i < parts.length - 1 && n >= 60) return NaN;
+      total += n * mult[i];
+    }
+    return total > 0 ? total : NaN;
+  }
+
+  function fmtClock(sec) {
+    if (!isFinite(sec) || sec <= 0) return T.dash;
+    sec = Math.round(sec);
+    var h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+    var mm = m < 10 ? "0" + m : String(m), ss = s < 10 ? "0" + s : String(s);
+    return h > 0 ? h + ":" + mm + ":" + ss : mm + ":" + ss;
+  }
+
+  function fmtPace(sec) {
+    if (!isFinite(sec) || sec <= 0) return T.dash;
+    sec = Math.round(sec);
+    var m = Math.floor(sec / 60), s = sec % 60;
+    return m + ":" + (s < 10 ? "0" + s : String(s));
+  }
+
+  function fmtDist(v) {
+    return String(Math.round(v * 1000) / 1000).replace(".", DEC);
+  }
+
+  // Два знака, а не три: метод не различает тысячные, и печатать их значило
+  // бы обещать точность, которой у него нет.
+  function fmtK(v) {
+    return v.toFixed(2).replace(".", DEC);
+  }
+
+  function fmtPct(v) {
+    return "+" + (v * 100).toFixed(1).replace(".", DEC) + " %";
+  }
+
+  // Дистанция без имени называется собой: «12 км», а не «Своя дистанция».
+  // Одно слово на три разные сущности — опция списка, подпись поля и строка
+  // таблицы — заставляло читателя разгадывать ребус вместо чтения.
+  function nameOf(km) {
+    for (var i = 0; i < DISTS.length; i++) {
+      if (Math.abs(DISTS[i].km - km) <= NEAR) return DISTS[i].name;
+    }
+    return fmtDist(km / factor()) + (miles() ? T.unitMi : T.unitKm);
+  }
+
+  // Пометка — одна функция на таблицу и на крупную цифру. Раньше её знала
+  // только таблица, и самое крупное число страницы оказывалось единственным
+  // местом без оговорки, ради которой страница написана.
+  //
+  // Марафонская пометка сильнее звёздочки: любительский марафон почти всегда
+  // выходит за верхнюю границу диапазона, и две пометки разом читались бы как
+  // две разные беды вместо одной.
+  function markOf(km, t, dKm, mine) {
+    if (mine) return "";
+    if (km >= MAR - NEAR && dKm < MAR - NEAR) return T.marMark;
+    if (t < MIN_T || t > MAX_T) return T.starMark;
+    return "";
+  }
+
+  function fail(msg) {
+    el.err.textContent = msg;
+    el.err.hidden = false;
+    el["o-t"].textContent = T.dash;
+    el["o-k"].textContent = T.dash;
+    el["o-pct"].textContent = T.dash;
+    el.rows.innerHTML = '<tr><td colspan="3">' + T.empty + "</td></tr>";
+    el["leg-star"].hidden = true;
+    el["leg-mar"].hidden = true;
+  }
+
+  function setMode(next) {
+    mode = next;
+    el["m-one"].setAttribute("aria-pressed", String(next === "one"));
+    el["m-two"].setAttribute("aria-pressed", String(next === "two"));
+    // В режиме одного результата второй блок убирается целиком, а не гасится.
+    // На узком экране поля схлопываются в колонку, и неработающий серый блок
+    // отодвигал крупную цифру — ответ, за которым пришли, — ниже экрана.
+    el.leg2.hidden = next === "one";
+    el.block2.hidden = next === "one";
+    el.nudge.hidden = next === "two";
+    calc();
+  }
+
+  // Единицы переключаются на лету: сами дистанции при этом не меняются,
+  // меняется только то, в чём они записаны, — иначе переключатель молча
+  // превратил бы 13 миль в 13 километров.
+  function setUnit(next) {
+    if (next === unit) return;
+    var goalKm = num(el.goal.value) * factor();
+    unit = next;
+    el["u-mi"].setAttribute("aria-pressed", String(miles()));
+    el["u-km"].setAttribute("aria-pressed", String(!miles()));
+    el["hint-d1"].textContent = miles() ? T.hintDistMi : T.hintDistKm;
+    el["goal-label"].textContent = miles() ? T.goalMi : T.goalKm;
+    el.dist1.setAttribute("aria-label", miles() ? T.ariaMi : T.ariaKm);
+    el.dist2.setAttribute("aria-label", miles() ? T.aria2Mi : T.aria2Km);
+    if (isFinite(d1Km)) el.dist1.value = fmtDist(d1Km / factor());
+    if (isFinite(d2Km)) el.dist2.value = fmtDist(d2Km / factor());
+    if (isFinite(goalKm)) el.goal.value = fmtDist(goalKm / factor());
+    calc();
+  }
+
+  function calc() {
+    el.err.hidden = true;
+
+    var t1 = parseClock(el.time1.value);
+    if (!isFinite(d1Km) || d1Km <= 0 || !isFinite(t1)) return fail(T.need1);
+    if (d1Km > 1000) return fail(T.tooFar);
+    if (t1 / d1Km < 60) return fail(T.tooFast);
+
+    var k = K0;
+    var note = T.kBook;
+
+    if (mode === "two") {
+      var t2 = parseClock(el.time2.value);
+      if (!isFinite(d2Km) || d2Km <= 0 || !isFinite(t2)) return fail(T.need2);
+      if (d2Km > 1000) return fail(T.tooFar);
+      if (t2 / d2Km < 60) return fail(T.tooFast);
+      var span = Math.log(d2Km / d1Km);
+      if (Math.abs(span) < 0.05) return fail(T.same);
+      k = Math.log(t2 / t1) / span;
+      if (!isFinite(k) || k < K_MIN || k > K_MAX) return fail(T.odd);
+      if (Math.abs(k - K0) <= K_EPS) note = T.kSame;
+      else if (k < 1) note = T.kWeird;
+      else note = k < K0 ? T.kUnder : T.kOver;
+    }
+
+    // Крупная цифра — ответ, за которым человек пришёл: время на той
+    // дистанции, которую он назвал. Не назвал — марафон, а для того, кто
+    // ввёл сам марафон, половина.
+    var tgt = num(el.goal.value) * factor();
+    if (!isFinite(tgt) || tgt <= 0) tgt = d1Km < MAR - NEAR ? MAR : HALF;
+    var tTgt = t1 * Math.pow(tgt / d1Km, k);
+    var tgtMine = Math.abs(tgt - d1Km) <= NEAR ||
+      (mode === "two" && Math.abs(tgt - d2Km) <= NEAR);
+    el["o-t"].textContent = fmtClock(tTgt);
+    el["o-t-note"].textContent = nameOf(tgt) + markOf(tgt, tTgt, d1Km, tgtMine);
+
+    el["o-k"].textContent = fmtK(k);
+    el["o-k-note"].textContent = note;
+    el["o-pct"].textContent = fmtPct(Math.pow(2, k - 1) - 1);
+    el["o-pct-note"].textContent = T.pctNote;
+
+    rows(d1Km, t1, k, mode === "two" ? d2Km : NaN);
+  }
+
+  // Дистанции в километрах, время в секундах. Прогноз — формула Ригеля с
+  // той степенью, что вышла выше: книжной или личной. mineB — дистанция
+  // второго введённого результата: эта строка тоже не прогноз, хотя формула
+  // по построению возвращает на ней ровно введённое время.
+  function rows(dKm, tSec, k, mineB) {
+    var list = [], i, j, star = false, mar = false;
+
+    function add(km, name, isMine) {
+      if (!isFinite(km) || km <= 0) return;
+      for (j = 0; j < list.length; j++) {
+        if (Math.abs(list[j].km - km) <= NEAR) {
+          if (isMine) {
+            list[j].name = list[j].name + T.yours;
+            list[j].mine = true;
+          }
+          return;
+        }
+      }
+      list.push({ km: km, name: name, mine: isMine });
+    }
+
+    for (i = 0; i < DISTS.length; i++) add(DISTS[i].km, DISTS[i].name, false);
+    var goalKm = num(el.goal.value) * factor();
+    add(goalKm, nameOf(goalKm), false);
+    add(dKm, nameOf(dKm), true);
+    add(mineB, nameOf(mineB), true);
+
+    list.sort(function (a, b) { return a.km - b.km; });
+
+    var html = "";
+    for (i = 0; i < list.length; i++) {
+      var r = list[i];
+      var t = tSec * Math.pow(r.km / dKm, k);
+      var mark = markOf(r.km, t, dKm, r.mine);
+      if (mark === T.marMark) mar = true;
+      else if (mark === T.starMark) star = true;
+      html += "<tr" + (r.mine ? ' class="mark"' : "") + "><td>" + r.name +
+        '</td><td class="num">' + fmtClock(t) +
+        (mark ? ' <span class="mk">' + mark.slice(1) + "</span>" : "") +
+        '</td><td class="num">' + fmtPace(t / (r.km / factor())) +
+        (miles() ? T.paceMi : T.paceKm) + "</td></tr>";
+    }
+    el.rows.innerHTML = html;
+    // Объяснение пометки показывается только тогда, когда пометка есть:
+    // иначе человек первым делом читает про знак, которого на экране нет.
+    el["leg-star"].hidden = !star;
+    el["leg-mar"].hidden = !mar;
+  }
+
+  el.preset1.addEventListener("change", function () {
+    if (el.preset1.value) {
+      d1Km = Number(el.preset1.value);
+      el.dist1.value = fmtDist(d1Km / factor());
+      dropExampleB();
+      calc();
+    }
+  });
+
+  el.preset2.addEventListener("change", function () {
+    if (el.preset2.value) {
+      ownB = true;
+      d2Km = Number(el.preset2.value);
+      el.dist2.value = fmtDist(d2Km / factor());
+      calc();
+    }
+  });
+
+  el.dist1.addEventListener("input", function () {
+    el.preset1.value = "";
+    d1Km = num(el.dist1.value) * factor();
+    dropExampleB();
+    calc();
+  });
+
+  el.dist2.addEventListener("input", function () {
+    ownB = true;
+    el.preset2.value = "";
+    d2Km = num(el.dist2.value) * factor();
+    calc();
+  });
+
+  el.time1.addEventListener("input", function () {
+    dropExampleB();
+    calc();
+  });
+
+  el.time2.addEventListener("input", function () {
+    ownB = true;
+    calc();
+  });
+
+  el.goal.addEventListener("input", calc);
+
+  // Показать человеку, как прочитан его ввод: набрал 5000, увидел 50:00.
+  ["time1", "time2"].forEach(function (id) {
+    el[id].addEventListener("change", function () {
+      var sec = parseClock(el[id].value);
+      if (isFinite(sec)) el[id].value = fmtClock(sec);
+    });
+  });
+
+  el["m-one"].addEventListener("click", function () { setMode("one"); });
+  el["m-two"].addEventListener("click", function () { setMode("two"); });
+  // Кнопка стоит ниже полей: без перевода фокуса макет прыгает, а поля,
+  // которые надо заполнить, оказываются выше экрана.
+  el["to-two"].addEventListener("click", function () {
+    setMode("two");
+    el.dist2.focus();
+  });
+  el["u-mi"].addEventListener("click", function () { setUnit("mi"); });
+  el["u-km"].addEventListener("click", function () { setUnit("km"); });
+
+  d1Km = Number(el.preset1.value);
+  d2Km = Number(el.preset2.value);
+  el.dist1.value = fmtDist(d1Km / factor());
+  el.dist2.value = fmtDist(d2Km / factor());
+  el.time1.value = T.time1;
+  el.time2.value = T.time2;
+  setMode("one");
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Race time predictor: from 1500 m to the marathon</title>
+<meta name="description" content="Turns one race result into predictions for the rest, using Riegel's formula. Give it two of your results and it works out your own endurance exponent instead of the textbook 1.06. The marathon row is flagged separately: that is where the formula runs systematically fast. Everything is computed in your browser — the numbers you type go nowhere.">
+<link rel="canonical" href="https://fizkult.ai/en/calc/predict">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/calc/predict">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/calc/predict">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/calc/predict">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Fizkult">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:title" content="Race time predictor: from 1500 m to the marathon">
+<meta property="og:description" content="One result gives you every distance. Two results give you your own endurance exponent instead of the textbook one.">
+<meta property="og:url" content="https://fizkult.ai/en/calc/predict">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fizkult — a personal coach in Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Race time predictor: from 1500 m to the marathon">
+<meta name="twitter:description" content="One result gives you every distance. Two results give you your own endurance exponent.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .calc { background:var(--panel); border:1.5px solid var(--line); padding:22px 20px; margin:0 0 10px; }
+  .modes { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+  .modes button { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    font-weight:700; padding:8px 12px; border:1.5px solid var(--line); background:transparent; color:var(--ink); cursor:pointer; }
+  .modes button[aria-pressed="true"] { background:var(--ink); color:var(--bg); }
+  .fields { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:18px; }
+  .field label { display:block; font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .field input, .field select { width:100%; font-family:"Geist Mono",monospace; font-size:17px; padding:10px 12px;
+    border:1.5px solid var(--line); background:var(--bg); color:var(--ink); }
+  .field input:focus, .field select:focus { outline:2px solid var(--accent); outline-offset:-2px; }
+  .field input:disabled, .field select:disabled { opacity:.45; }
+  .hint { font-size:12px; color:var(--muted); margin:6px 0 0; }
+  .leg { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--muted); margin:22px 0 10px; padding-top:14px; border-top:1.5px solid var(--line); }
+  .out { display:flex; flex-wrap:wrap; gap:24px; margin-top:20px; padding-top:18px; border-top:1.5px solid var(--line); }
+  .out div { min-width:120px; }
+  .out span { display:block; font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--muted); }
+  .out strong { font-family:"Geist Mono",monospace; font-size:24px; font-weight:700; letter-spacing:-.02em; }
+  .out .big { font-size:34px; color:var(--accent); }
+  .out em { font-style:normal; font-size:14px; color:var(--muted); display:block; }
+  .err { color:var(--accent); font-weight:700; margin:14px 0 0; }
+  .nudge { background:var(--panel); border:1.5px dashed var(--line); padding:14px 18px; margin:0 0 10px;
+    display:flex; flex-wrap:wrap; align-items:center; gap:12px; font-size:15px; }
+  .nudge button { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    font-weight:700; padding:8px 12px; border:1.5px solid var(--line); background:var(--ink); color:var(--bg); cursor:pointer; }
+  .goalbox { background:var(--panel); border:1.5px solid var(--line); padding:16px 20px; margin:0 0 10px; max-width:340px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  tr.mark td { background:#F6EFE2; font-weight:700; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  .mk { font-family:"Geist",system-ui,sans-serif; font-size:12px; font-weight:400; color:var(--accent); white-space:nowrap; }
+  .note { font-size:13px; color:var(--muted); }
+  .src { font-size:14px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Race time predictor",
+      "url": "https://fizkult.ai/en/calc/predict",
+      "applicationCategory": "SportsApplication",
+      "operatingSystem": "Any browser",
+      "inLanguage": "en",
+      "description": "Turns a result at one distance into predictions for the rest, using Riegel's formula: time₂ = time₁ × (distance₂ / distance₁) raised to the power k. From two results it works out a personal endurance exponent instead of the textbook 1.06, and it flags the rows where the prediction leaves the range the formula was tested on, or runs systematically fast, as it does at the marathon. Everything is computed in the browser; the values you type are never sent anywhere.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "publisher": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Fizkult", "item": "https://fizkult.ai/en/" },
+        { "@type": "ListItem", "position": 2, "name": "Race time predictor", "item": "https://fizkult.ai/en/calc/predict" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I work out a marathon time from a 10K result?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The arithmetic goes like this: the time at the longer distance equals the time at the shorter one multiplied by the ratio of the distances raised to the power of 1.06. A 10K of 50:00 gives a marathon of 3:50:01 and a half of 1:50:19. The Fizkult race time predictor does this for you and flags the marathon row on the spot: in a study of 2303 recreational runners, that prediction came out 10 minutes or more too fast for about half of them. Read the marathon row as an optimistic reference point, not as a plan. To bring the prediction closer to you, add a second result of your own at another distance — then the exponent is worked out from you instead of being taken from a table of records."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the endurance exponent and why is it 1.06?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is the power in the formula — the cost of doubling the distance. At an exponent of 1.00 the pace would not change at all: double the distance, exactly double the time. A value of 1.06 means every doubling adds about 4.2 % to the pace. The number comes from Peter Riegel's 1981 paper, where he derived it from world records. Records at different distances are set by different people, each at their own best one — and in applying 1.06 to a single person, we assume that person is equally prepared at all of them. A living runner has an exponent of their own, and the Fizkult race time predictor works it out from two of your results."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does Riegel's formula overpredict the marathon?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The formula works from time and distance, and there is nothing else in it — no mileage, no recovery. In 2016 Vickers and Vertosick collected the results of 2303 recreational runners and tested Riegel's formula on them: up to the half marathon it matched the facts reasonably well, while for the marathon it predicted too fast — by 10 minutes or more for about half of them. Why the gap shows up at the marathon in particular, the authors do not examine. That is why the Fizkult race time predictor flags the marathon row separately instead of serving it up alongside the rest."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I predict a half marathon from a 5K if I have never run one?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can work it out, and the calculator will: up to the half marathon the formula matched the facts reasonably well in that same study. But it answers one question — what happens if you are as ready for the longer distance as you are for the shorter one. The farther the prediction travels from what you have actually run, the more of that assumption is in it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What makes the prediction more accurate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Three things. First, a second result: two of your own races at different distances give a personal endurance exponent instead of a textbook one — the exponent becomes yours rather than everybody's. What a second race on its own does without mileage, the authors did not test: in their best model, weekly mileage stood next to the two races. Second, freshness: an old result describes the runner you were, not the one you are. Third, similar conditions — heat, wind and elevation gain can move the time more than the difference between exponents of 1.05 and 1.07 does (at the marathon off a 10K that is about 3 %, nearly seven minutes). Everything outside the arithmetic — how much you ran this week, how you slept, whether you recovered — is invisible to the calculator, and that part is a coach's job."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Tools · Calculators</div>
+    <div class="ends">
+      <a class="lang" href="/calc/predict" hreflang="ru" lang="ru" aria-label="Переключиться на русскую версию">RU</a>
+      <a class="home" href="/en/" aria-label="Home">FIZKULT.AI</a>
+    </div>
+  </div>
+
+  <h1>Race time predictor</h1>
+
+  <p class="lead">One result of yours, and the other distances follow from it. Two results, and the textbook exponent of 1.06 gives way to your own — what doubling the distance costs you personally. The marathon, and anything that leaves the range the formula was tested on, is flagged right in the table. It all runs in your browser: the numbers you type go nowhere.</p>
+
+  <div class="calc">
+    <div class="modes" role="group" aria-label="How many results to use">
+      <button type="button" id="m-one" aria-pressed="true">From one result</button>
+      <button type="button" id="m-two" aria-pressed="false">From two — fitted to you</button>
+    </div>
+
+    <div class="modes" role="group" aria-label="Units">
+      <button type="button" id="u-mi" aria-pressed="true">Miles</button>
+      <button type="button" id="u-km" aria-pressed="false">Kilometers</button>
+    </div>
+
+    <div class="fields">
+      <div class="field">
+        <label for="preset1">Your result — distance</label>
+        <select id="preset1">
+          <option value="">Own distance</option>
+          <option value="1.5">1500 m</option>
+          <option value="1.609344">1 mile</option>
+          <option value="3">3 km</option>
+          <option value="5">5 km</option>
+          <option value="10" selected>10 km</option>
+          <option value="15">15 km</option>
+          <option value="21.0975">Half marathon</option>
+          <option value="42.195">Marathon</option>
+        </select>
+        <input id="dist1" inputmode="decimal" aria-label="Distance of the first result, in miles" style="margin-top:8px">
+        <p class="hint" id="hint-d1">Miles, decimals are fine: 7.5</p>
+      </div>
+
+      <div class="field">
+        <label for="time1">Your result — time</label>
+        <input id="time1" placeholder="50:00">
+        <p class="hint">H:MM:SS or MM:SS. Bare digits work too: 5000 → 50:00</p>
+      </div>
+    </div>
+
+    <p class="leg" id="leg2">Second result — for a personal exponent</p>
+
+    <div class="fields" id="block2">
+      <div class="field">
+        <label for="preset2">Second result — distance</label>
+        <select id="preset2">
+          <option value="">Own distance</option>
+          <option value="1.5">1500 m</option>
+          <option value="1.609344">1 mile</option>
+          <option value="3">3 km</option>
+          <option value="5" selected>5 km</option>
+          <option value="10">10 km</option>
+          <option value="15">15 km</option>
+          <option value="21.0975">Half marathon</option>
+          <option value="42.195">Marathon</option>
+        </select>
+        <input id="dist2" inputmode="decimal" aria-label="Distance of the second result, in miles" style="margin-top:8px">
+        <p class="hint" id="hint-d2">It has to be a different distance: one point gives you no slope. The farther it sits from the first, the steadier the exponent</p>
+      </div>
+
+      <div class="field">
+        <label for="time2">Second result — time</label>
+        <input id="time2" placeholder="24:00">
+        <p class="hint">Take races from one season: an old result describes a different shape</p>
+      </div>
+    </div>
+
+    <div class="out" aria-live="polite">
+      <div><span>Prediction</span><strong class="big" id="o-t">—</strong><em id="o-t-note">Marathon † optimistic</em></div>
+      <div><span>Endurance exponent</span><strong id="o-k">—</strong><em id="o-k-note">Textbook 1.06, from Riegel's paper</em></div>
+      <div><span>Cost of doubling the distance</span><strong id="o-pct">—</strong><em id="o-pct-note">That is how much slower the pace gets</em></div>
+    </div>
+
+    <p class="err" id="err" hidden></p>
+    <p class="hint">The fields hold an example — put your own numbers in. The moment you touch the first result, the example in the second clears itself: your exponent cannot be worked out from our race.</p>
+  </div>
+
+  <div class="nudge" id="nudge">
+    <div>This prediction uses the textbook exponent, the same one for everybody. If you have a second race of your own at another distance, the calculator will redo it for you.</div>
+    <button type="button" id="to-two">Redo it from two</button>
+  </div>
+
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Distance</th><th>Prediction</th><th>Pace</th></tr></thead>
+    <tbody id="rows">
+      <tr><td>1500 m</td><td class="num">06:42</td><td class="num">7:11 /mi</td></tr>
+      <tr><td>1 mile</td><td class="num">07:13</td><td class="num">7:13 /mi</td></tr>
+      <tr><td>3 km</td><td class="num">13:57</td><td class="num">7:29 /mi</td></tr>
+      <tr><td>5 km</td><td class="num">23:59</td><td class="num">7:43 /mi</td></tr>
+      <tr class="mark"><td>10 km · Your result</td><td class="num">50:00</td><td class="num">8:03 /mi</td></tr>
+      <tr><td>15 km</td><td class="num">1:16:51</td><td class="num">8:15 /mi</td></tr>
+      <tr><td>Half marathon</td><td class="num">1:50:19</td><td class="num">8:25 /mi</td></tr>
+      <tr><td>Marathon</td><td class="num">3:50:01 <span class="mk">† optimistic</span></td><td class="num">8:46 /mi</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p class="note" id="leg-mar"><b>† optimistic</b> — the marathon row, worked out from a shorter result. In a study of 2303 recreational runners, that prediction came out 10 minutes or more too fast for about half of them. It is a reference point, not a plan.</p>
+
+  <p class="note" id="leg-star"><b>✱ outside the range</b> — the time leaves the range the formula was tested on: efforts of roughly 3.5 to 230 minutes. Past those limits it simply has not been checked.</p>
+
+  <div class="goalbox">
+    <div class="field">
+      <label for="goal" id="goal-label">Own distance, miles</label>
+      <input id="goal" inputmode="decimal" value="">
+      <p class="hint">Adds a row of its own to the table and puts it into the prediction above: 10, 20, 31 — whatever you are training for.</p>
+    </div>
+  </div>
+
+  <p class="note">The things no formula will take — how much you ran this week and whether you recovered — <a href="https://t.me/fizkult_ai_bot?start=site_calc_predict_out_en">Fizkult</a> sees on its own, with nothing to type in.</p>
+
+  <h2>Where 1.06 comes from, and where the formula lies</h2>
+
+  <p><b>The formula this page stands on looks like this: time₂ = time₁ × (distance₂ / distance₁)<sup>k</sup>.</b> Peter Riegel derived the exponent 1.06 from world records, and his 1981 paper gives the range he tested it on: efforts of roughly 3.5 to 230 minutes. Neither a sprint nor a 24-hour run is described by it. And the main thing is where the number itself came from: records at different distances are set by different people, each at their own best one. In applying a single exponent to a single person, we assume that person is equally prepared at every distance. A living runner has an exponent of their own — and that is what the two-result mode works out.</p>
+
+  <p><b>At the marathon the formula runs fast, and that has been measured.</b> Vickers and Vertosick collected the results of 2303 recreational runners: up to the half marathon Riegel's formula matched the facts reasonably well, while for the marathon it predicted too fast — by 10 minutes or more for about half of them. The mean squared error of their own models was 40–45 % lower, and the best of them looked at two past races and at weekly mileage. Our two-result mode is the same move without the mileage, which means it comes with a caveat: the races are in it, the mileage is not. Mileage and recovery are not things you type into a calculator — they are visible to whoever is watching you every day.</p>
+
+  <h2>Frequently asked questions</h2>
+
+  <p><b>How do I work out a marathon time from a 10K result?</b><br>
+  The arithmetic goes like this: the time at the longer distance equals the time at the shorter one multiplied by the ratio of the distances raised to the power of 1.06. A 10K of 50:00 gives a marathon of 3:50:01 and a half of 1:50:19. The Fizkult race time predictor does this for you and flags the marathon row on the spot: in a study of 2303 recreational runners, that prediction came out 10 minutes or more too fast for about half of them. Read the marathon row as an optimistic reference point, not as a plan. To bring the prediction closer to you, add a second result of your own at another distance — then the exponent is worked out from you instead of being taken from a table of records.</p>
+
+  <p><b>What is the endurance exponent and why is it 1.06?</b><br>
+  It is the power in the formula — the cost of doubling the distance. At an exponent of 1.00 the pace would not change at all: double the distance, exactly double the time. A value of 1.06 means every doubling adds about 4.2 % to the pace. The number comes from Peter Riegel's 1981 paper, where he derived it from world records. Records at different distances are set by different people, each at their own best one — and in applying 1.06 to a single person, we assume that person is equally prepared at all of them. A living runner has an exponent of their own, and the Fizkult race time predictor works it out from two of your results.</p>
+
+  <p><b>Why does Riegel's formula overpredict the marathon?</b><br>
+  The formula works from time and distance, and there is nothing else in it — no mileage, no recovery. In 2016 Vickers and Vertosick collected the results of 2303 recreational runners and tested Riegel's formula on them: up to the half marathon it matched the facts reasonably well, while for the marathon it predicted too fast — by 10 minutes or more for about half of them. Why the gap shows up at the marathon in particular, the authors do not examine. That is why the Fizkult race time predictor flags the marathon row separately instead of serving it up alongside the rest.</p>
+
+  <p><b>Can I predict a half marathon from a 5K if I have never run one?</b><br>
+  You can work it out, and the calculator will: up to the half marathon the formula matched the facts reasonably well in that same study. But it answers one question — what happens if you are as ready for the longer distance as you are for the shorter one. The farther the prediction travels from what you have actually run, the more of that assumption is in it.</p>
+
+  <p><b>What makes the prediction more accurate?</b><br>
+  Three things. First, a second result: two of your own races at different distances give a personal endurance exponent instead of a textbook one — the exponent becomes yours rather than everybody's. What a second race on its own does without mileage, the authors did not test: in their best model, weekly mileage stood next to the two races. Second, freshness: an old result describes the runner you were, not the one you are. Third, similar conditions — heat, wind and elevation gain can move the time more than the difference between exponents of 1.05 and 1.07 does (at the marathon off a 10K that is about 3 %, nearly seven minutes). Everything outside the arithmetic — how much you ran this week, how you slept, whether you recovered — is invisible to the calculator, and that part is a coach's job.</p>
+
+  <h2>Sources</h2>
+
+  <p class="src">1. Riegel P. Athletic Records and Human Endurance. <i>American Scientist</i>, 1981, 69(3), 285–290. The exponent 1.06 and the range it was tested on — efforts of roughly 3.5 to 230 minutes — come from this paper.<br>
+  2. Vickers A. J., Vertosick E. A. An empirical study of race times in recreational endurance runners. <i>BMC Sports Science, Medicine and Rehabilitation</i>, 2016, 8:26. DOI 10.1186/s13102-016-0052-y. Full text: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5000509" rel="nofollow">pmc.ncbi.nlm.nih.gov/articles/PMC5000509</a>. The 2303 runners, the formula's fit up to the half marathon, the "10 minutes or more for about half of runners" and the models' mean squared errors — 227.6 and 208.3 against Riegel's 380.7 — all come from there.</p>
+
+  <div class="cta">
+    <div class="kicker">Fizkult in Telegram</div>
+    <h2>The prediction runs on two numbers. The result is made of everything else</h2>
+    <p>In that same study, the best prediction came from past races paired with weekly mileage. The races you have just typed in by hand. The mileage you will not have to: Fizkult adds it up itself from your workouts — the week's distance per sport sits in your weekly review.</p>
+    <p>From there it reads what the watch records — sleep, heart rate, load — and holds it against your own baseline. After a session a breakdown arrives: what that pace cost you in heart rate, and what follows from it for the next few days. Every morning, a short letter: sleep shorter than usual, yesterday was hard work, here is what to watch today.</p>
+    <p>The watch connects once. First week free, everything included.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_calc_predict_en">Connect your watch in Telegram →</a>
+    <p class="note" style="margin-bottom:0">This is a coach's read, not a medical one. If you are not recovering, see a doctor.</p>
+  </div>
+
+  <p style="margin-top:32px"><a href="/en/calc/pace">Pace calculator</a> — to spread the time you have just found across the distance.</p>
+
+  <a class="back" href="/en/">← Home</a>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // The numbers and the logic are shared between the two languages; only the
+  // strings differ — see CALC_PAIRS in scripts/check-locale-parity.py. The
+  // guard compares this block with string literals and comments stripped, so
+  // a change to the arithmetic has to land on both pages, while a change of
+  // wording lands only on its own. Hence the rule for the distance list
+  // below: the kilometre values are identical on both pages, only the names
+  // are translated.
+  var MILE = 1.609344;
+  var NEAR = 0.005;
+  // Riegel's textbook exponent and the range he derived it on: efforts of
+  // roughly 3.5 to 230 minutes.
+  var K0 = 1.06;
+  var MIN_T = 210;
+  var MAX_T = 13800;
+  var MAR = 42.195;
+  var HALF = 21.0975;
+  // A dead zone around the textbook exponent. A difference of one or two
+  // hundredths is smaller than the shift from heat or wind — a verdict of
+  // "you are better than average" on that difference would be invented.
+  // Inside the zone the page prints "exactly by the book".
+  var K_EPS = 0.01;
+  // Limits on the personal exponent. Not physiology but a guard against
+  // typos: a pair like "5 km in 25:00 and a marathon in 2:30" yields an
+  // exponent that drags the short predictions down into minutes.
+  var K_MIN = 0.8;
+  var K_MAX = 1.4;
+  var DEC = ".";
+  var UNIT0 = "mi";
+  var DISTS = [
+    { km: 1.5, name: "1500 m" },
+    { km: 1.609344, name: "1 mile" },
+    { km: 3, name: "3 km" },
+    { km: 5, name: "5 km" },
+    { km: 10, name: "10 km" },
+    { km: 15, name: "15 km" },
+    { km: 21.0975, name: "Half marathon" },
+    { km: 42.195, name: "Marathon" }
+  ];
+  var T = {
+    paceMi: " /mi",
+    paceKm: " /km",
+    unitMi: " mi",
+    unitKm: " km",
+    hintDistMi: "Miles, decimals are fine: 7.5",
+    hintDistKm: "Kilometers, decimals are fine: 7.5",
+    goalMi: "Own distance, miles",
+    goalKm: "Own distance, km",
+    ariaMi: "Distance of the first result, in miles",
+    ariaKm: "Distance of the first result, in kilometers",
+    aria2Mi: "Distance of the second result, in miles",
+    aria2Km: "Distance of the second result, in kilometers",
+    need1: "The distance and the time of your result are both needed.",
+    need2: "The distance and the time of the second result are both needed.",
+    same: "Both results are at the same distance — one point gives you no slope.",
+    odd: "This pair does not add up to a prediction: check that the times and distances are not swapped.",
+    tooFar: "That is beyond what this calculator covers — check what you typed.",
+    tooFast: "That is faster than any human pace — check what you typed.",
+    kBook: "Textbook 1.06, from Riegel's paper",
+    kSame: "Exactly by the book: 1.06",
+    kUnder: "Below the textbook 1.06: long distances come easier to you than the textbook exponent assumes",
+    kOver: "Above the textbook 1.06: on the long stuff you lose more than the textbook exponent assumes",
+    kWeird: "You ran the longer distance at a faster pace than the shorter one — the short result looks stale",
+    pctNote: "That is how much slower the pace gets",
+    yours: " · Your result",
+    starMark: " ✱ outside the range",
+    marMark: " † optimistic",
+    empty: "Enter your result",
+    dash: "—",
+    time1: "50:00",
+    time2: "24:00"
+  };
+
+  var mode = "one";
+  var unit = UNIT0;
+  // The distances live here, in kilometres. The input fields are display
+  // only: they round, and reading a distance back out of a field would shift
+  // the markers by metres.
+  var d1Km = NaN;
+  var d2Km = NaN;
+  // The second result was entered by a person, not by us. Until this flag is
+  // raised, the second block holds our example.
+  var ownB = false;
+  var el = {};
+  ["preset1", "dist1", "time1", "preset2", "dist2", "time2", "goal", "o-t", "o-t-note",
+   "o-k", "o-k-note", "o-pct", "o-pct-note", "err", "rows", "m-one", "m-two", "u-mi", "u-km",
+   "hint-d1", "hint-d2", "goal-label", "nudge", "to-two", "leg-star", "leg-mar", "leg2", "block2"]
+    .forEach(function (id) { el[id] = document.getElementById(id); });
+
+  function miles() { return unit === "mi"; }
+  function factor() { return miles() ? MILE : 1; }
+
+  // The example in the fields is a demonstration, not the person's data. The
+  // moment they replace even one number of the first result with their own,
+  // our example in the second stops being an example: the page would work out
+  // a personal exponent from a race that never happened and print a verdict
+  // about it. So the example clears on the very first edit, and until the
+  // second number is the person's own, no exponent is printed at all.
+  function dropExampleB() {
+    if (ownB) return;
+    el.preset2.value = "";
+    el.dist2.value = "";
+    el.time2.value = "";
+    d2Km = NaN;
+  }
+
+  function num(v) {
+    v = String(v).replace(",", ".").trim();
+    if (!v) return NaN;
+    var n = Number(v);
+    return isFinite(n) && n > 0 ? n : NaN;
+  }
+
+  // "1:23:45" | "23:45" | "45" -> seconds. Bare digits are read in pairs from
+  // the right: 5000 -> 50:00, 14500 -> 1:45:00. This is not a convenience but
+  // a safeguard: a colon is awkward to type on a phone, and without the rule
+  // 5000 would silently be read as 5000 seconds and give a wrong prediction
+  // with no error at all.
+  function parseClock(v) {
+    v = String(v).trim();
+    if (/^\d+$/.test(v) && v.length > 2) {
+      var out = [], rest = v;
+      while (rest.length > 2) {
+        out.unshift(rest.slice(-2));
+        rest = rest.slice(0, -2);
+      }
+      out.unshift(rest);
+      v = out.join(":");
+    }
+    if (!v) return NaN;
+    var parts = v.split(":");
+    if (parts.length > 3) return NaN;
+    var mult = [1, 60, 3600], total = 0;
+    for (var i = 0; i < parts.length; i++) {
+      var p = parts[parts.length - 1 - i].trim();
+      if (p === "" || !/^\d+([.,]\d+)?$/.test(p)) return NaN;
+      var n = Number(p.replace(",", "."));
+      // Everything but the leading field has to be under 60, otherwise 5:75
+      // silently becomes 6:15.
+      if (i < parts.length - 1 && n >= 60) return NaN;
+      total += n * mult[i];
+    }
+    return total > 0 ? total : NaN;
+  }
+
+  function fmtClock(sec) {
+    if (!isFinite(sec) || sec <= 0) return T.dash;
+    sec = Math.round(sec);
+    var h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+    var mm = m < 10 ? "0" + m : String(m), ss = s < 10 ? "0" + s : String(s);
+    return h > 0 ? h + ":" + mm + ":" + ss : mm + ":" + ss;
+  }
+
+  function fmtPace(sec) {
+    if (!isFinite(sec) || sec <= 0) return T.dash;
+    sec = Math.round(sec);
+    var m = Math.floor(sec / 60), s = sec % 60;
+    return m + ":" + (s < 10 ? "0" + s : String(s));
+  }
+
+  function fmtDist(v) {
+    return String(Math.round(v * 1000) / 1000).replace(".", DEC);
+  }
+
+  // Two decimals, not three: the method cannot tell thousandths apart, and
+  // printing them would promise a precision it does not have.
+  function fmtK(v) {
+    return v.toFixed(2).replace(".", DEC);
+  }
+
+  function fmtPct(v) {
+    return "+" + (v * 100).toFixed(1).replace(".", DEC) + " %";
+  }
+
+  // A distance without a name is called by itself: "12 km", not "Own
+  // distance". One phrase doing duty for three different things — a list
+  // option, a field label and a table row — made the reader solve a riddle
+  // instead of reading.
+  function nameOf(km) {
+    for (var i = 0; i < DISTS.length; i++) {
+      if (Math.abs(DISTS[i].km - km) <= NEAR) return DISTS[i].name;
+    }
+    return fmtDist(km / factor()) + (miles() ? T.unitMi : T.unitKm);
+  }
+
+  // One function for the flag, shared by the table and the big figure. The
+  // table used to be the only place that knew about it, which left the
+  // largest number on the page as the one spot without the caveat the page
+  // exists for.
+  //
+  // The marathon flag outranks the asterisk: an amateur marathon almost
+  // always falls past the upper limit of the range, and two flags at once
+  // would read as two separate problems instead of one.
+  function markOf(km, t, dKm, mine) {
+    if (mine) return "";
+    if (km >= MAR - NEAR && dKm < MAR - NEAR) return T.marMark;
+    if (t < MIN_T || t > MAX_T) return T.starMark;
+    return "";
+  }
+
+  function fail(msg) {
+    el.err.textContent = msg;
+    el.err.hidden = false;
+    el["o-t"].textContent = T.dash;
+    el["o-k"].textContent = T.dash;
+    el["o-pct"].textContent = T.dash;
+    el.rows.innerHTML = '<tr><td colspan="3">' + T.empty + "</td></tr>";
+    el["leg-star"].hidden = true;
+    el["leg-mar"].hidden = true;
+  }
+
+  function setMode(next) {
+    mode = next;
+    el["m-one"].setAttribute("aria-pressed", String(next === "one"));
+    el["m-two"].setAttribute("aria-pressed", String(next === "two"));
+    // In one-result mode the second block is removed rather than greyed out.
+    // On a narrow screen the fields collapse into a column, and a dead grey
+    // block pushed the big figure — the answer people came for — below the
+    // fold.
+    el.leg2.hidden = next === "one";
+    el.block2.hidden = next === "one";
+    el.nudge.hidden = next === "two";
+    calc();
+  }
+
+  // Units switch on the fly: the distances themselves do not change, only
+  // what they are written in — otherwise the switch would silently turn
+  // 13 miles into 13 kilometres.
+  function setUnit(next) {
+    if (next === unit) return;
+    var goalKm = num(el.goal.value) * factor();
+    unit = next;
+    el["u-mi"].setAttribute("aria-pressed", String(miles()));
+    el["u-km"].setAttribute("aria-pressed", String(!miles()));
+    el["hint-d1"].textContent = miles() ? T.hintDistMi : T.hintDistKm;
+    el["goal-label"].textContent = miles() ? T.goalMi : T.goalKm;
+    el.dist1.setAttribute("aria-label", miles() ? T.ariaMi : T.ariaKm);
+    el.dist2.setAttribute("aria-label", miles() ? T.aria2Mi : T.aria2Km);
+    if (isFinite(d1Km)) el.dist1.value = fmtDist(d1Km / factor());
+    if (isFinite(d2Km)) el.dist2.value = fmtDist(d2Km / factor());
+    if (isFinite(goalKm)) el.goal.value = fmtDist(goalKm / factor());
+    calc();
+  }
+
+  function calc() {
+    el.err.hidden = true;
+
+    var t1 = parseClock(el.time1.value);
+    if (!isFinite(d1Km) || d1Km <= 0 || !isFinite(t1)) return fail(T.need1);
+    if (d1Km > 1000) return fail(T.tooFar);
+    if (t1 / d1Km < 60) return fail(T.tooFast);
+
+    var k = K0;
+    var note = T.kBook;
+
+    if (mode === "two") {
+      var t2 = parseClock(el.time2.value);
+      if (!isFinite(d2Km) || d2Km <= 0 || !isFinite(t2)) return fail(T.need2);
+      if (d2Km > 1000) return fail(T.tooFar);
+      if (t2 / d2Km < 60) return fail(T.tooFast);
+      var span = Math.log(d2Km / d1Km);
+      if (Math.abs(span) < 0.05) return fail(T.same);
+      k = Math.log(t2 / t1) / span;
+      if (!isFinite(k) || k < K_MIN || k > K_MAX) return fail(T.odd);
+      if (Math.abs(k - K0) <= K_EPS) note = T.kSame;
+      else if (k < 1) note = T.kWeird;
+      else note = k < K0 ? T.kUnder : T.kOver;
+    }
+
+    // The big figure is the answer the person came for: the time at the
+    // distance they named. If they named none, the marathon — and for
+    // someone who entered a marathon themselves, the half.
+    var tgt = num(el.goal.value) * factor();
+    if (!isFinite(tgt) || tgt <= 0) tgt = d1Km < MAR - NEAR ? MAR : HALF;
+    var tTgt = t1 * Math.pow(tgt / d1Km, k);
+    var tgtMine = Math.abs(tgt - d1Km) <= NEAR ||
+      (mode === "two" && Math.abs(tgt - d2Km) <= NEAR);
+    el["o-t"].textContent = fmtClock(tTgt);
+    el["o-t-note"].textContent = nameOf(tgt) + markOf(tgt, tTgt, d1Km, tgtMine);
+
+    el["o-k"].textContent = fmtK(k);
+    el["o-k-note"].textContent = note;
+    el["o-pct"].textContent = fmtPct(Math.pow(2, k - 1) - 1);
+    el["o-pct-note"].textContent = T.pctNote;
+
+    rows(d1Km, t1, k, mode === "two" ? d2Km : NaN);
+  }
+
+  // Distances in kilometres, times in seconds. The prediction is Riegel's
+  // formula with whichever exponent came out above, textbook or personal.
+  // mineB is the distance of the second entered result: that row is not a
+  // prediction either, even though by construction the formula returns
+  // exactly the time that was entered.
+  function rows(dKm, tSec, k, mineB) {
+    var list = [], i, j, star = false, mar = false;
+
+    function add(km, name, isMine) {
+      if (!isFinite(km) || km <= 0) return;
+      for (j = 0; j < list.length; j++) {
+        if (Math.abs(list[j].km - km) <= NEAR) {
+          if (isMine) {
+            list[j].name = list[j].name + T.yours;
+            list[j].mine = true;
+          }
+          return;
+        }
+      }
+      list.push({ km: km, name: name, mine: isMine });
+    }
+
+    for (i = 0; i < DISTS.length; i++) add(DISTS[i].km, DISTS[i].name, false);
+    var goalKm = num(el.goal.value) * factor();
+    add(goalKm, nameOf(goalKm), false);
+    add(dKm, nameOf(dKm), true);
+    add(mineB, nameOf(mineB), true);
+
+    list.sort(function (a, b) { return a.km - b.km; });
+
+    var html = "";
+    for (i = 0; i < list.length; i++) {
+      var r = list[i];
+      var t = tSec * Math.pow(r.km / dKm, k);
+      var mark = markOf(r.km, t, dKm, r.mine);
+      if (mark === T.marMark) mar = true;
+      else if (mark === T.starMark) star = true;
+      html += "<tr" + (r.mine ? ' class="mark"' : "") + "><td>" + r.name +
+        '</td><td class="num">' + fmtClock(t) +
+        (mark ? ' <span class="mk">' + mark.slice(1) + "</span>" : "") +
+        '</td><td class="num">' + fmtPace(t / (r.km / factor())) +
+        (miles() ? T.paceMi : T.paceKm) + "</td></tr>";
+    }
+    el.rows.innerHTML = html;
+    // The note explaining a flag shows only when the flag is actually on the
+    // page: otherwise the first thing a person reads is an explanation of a
+    // mark they cannot see.
+    el["leg-star"].hidden = !star;
+    el["leg-mar"].hidden = !mar;
+  }
+
+  el.preset1.addEventListener("change", function () {
+    if (el.preset1.value) {
+      d1Km = Number(el.preset1.value);
+      el.dist1.value = fmtDist(d1Km / factor());
+      dropExampleB();
+      calc();
+    }
+  });
+
+  el.preset2.addEventListener("change", function () {
+    if (el.preset2.value) {
+      ownB = true;
+      d2Km = Number(el.preset2.value);
+      el.dist2.value = fmtDist(d2Km / factor());
+      calc();
+    }
+  });
+
+  el.dist1.addEventListener("input", function () {
+    el.preset1.value = "";
+    d1Km = num(el.dist1.value) * factor();
+    dropExampleB();
+    calc();
+  });
+
+  el.dist2.addEventListener("input", function () {
+    ownB = true;
+    el.preset2.value = "";
+    d2Km = num(el.dist2.value) * factor();
+    calc();
+  });
+
+  el.time1.addEventListener("input", function () {
+    dropExampleB();
+    calc();
+  });
+
+  el.time2.addEventListener("input", function () {
+    ownB = true;
+    calc();
+  });
+
+  el.goal.addEventListener("input", calc);
+
+  // Show the person how their input was read: they type 5000 and see 50:00.
+  ["time1", "time2"].forEach(function (id) {
+    el[id].addEventListener("change", function () {
+      var sec = parseClock(el[id].value);
+      if (isFinite(sec)) el[id].value = fmtClock(sec);
+    });
+  });
+
+  el["m-one"].addEventListener("click", function () { setMode("one"); });
+  el["m-two"].addEventListener("click", function () { setMode("two"); });
+  // The button sits below the fields: without moving the focus the layout
+  // jumps and the fields that need filling end up above the viewport.
+  el["to-two"].addEventListener("click", function () {
+    setMode("two");
+    el.dist2.focus();
+  });
+  el["u-mi"].addEventListener("click", function () { setUnit("mi"); });
+  el["u-km"].addEventListener("click", function () { setUnit("km"); });
+
+  d1Km = Number(el.preset1.value);
+  d2Km = Number(el.preset2.value);
+  el.dist1.value = fmtDist(d1Km / factor());
+  el.dist2.value = fmtDist(d2Km / factor());
+  el.time1.value = T.time1;
+  el.time2.value = T.time2;
+  setMode("one");
+})();
+</script>
+</body>
+</html>

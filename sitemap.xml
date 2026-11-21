@@ -218,6 +218,26 @@
   </url>
 
   <url>
+    <loc>https://fizkult.ai/calc/predict</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/calc/predict"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/calc/predict"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/calc/predict"/>
+  </url>
+
+  <url>
+    <loc>https://fizkult.ai/en/calc/predict</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/calc/predict"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/calc/predict"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/calc/predict"/>
+  </url>
+
+  <url>
     <loc>https://fizkult.ai/oferta</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>monthly</changefreq>
