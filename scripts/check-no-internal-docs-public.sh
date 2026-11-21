@@ -93,6 +93,7 @@ PUBLIC_FILES=(
   "garmin/stress text/html https://fizkult.ai/garmin/stress"
   "garmin/training-readiness.pdf application/pdf"
   "garmin/training-readiness text/html https://fizkult.ai/garmin/training-readiness"
+  "garmin/recovery-time text/html https://fizkult.ai/garmin/recovery-time"
   # Английская половина серии. Догоняет русскую (заказ владельца 21.11.2026
   # — обе половины за две недели) — выпустил близнец, допиши сюда строку. PDF у
   # английских разборов пока нет: русский генератор построен на русских

@@ -41,7 +41,9 @@ LDJSON = re.compile(r'<script type="application/ld\+json">(.*?)</script>', re.S)
 # не сверялся ни разу: разметка могла разойтись с текстом молча, а это ровно
 # тот случай, когда агент цитирует нас словами, которых на странице нет.
 FAQ_PAGES = ["index.html", "en/index.html"] + sorted(
-    str(p.relative_to(ROOT)) for p in (ROOT / "garmin").glob("*.html")
+    str(p.relative_to(ROOT))
+    for d in ("garmin", "en/garmin")
+    for p in (ROOT / d).glob("*.html")
     if p.name != "index.html"
 )
 # Страницы с ценами в разметке.
@@ -66,6 +68,7 @@ SITEMAP_FILES = {
     "https://fizkult.ai/garmin/body-battery": "garmin/body-battery.html",
     "https://fizkult.ai/garmin/stress": "garmin/stress.html",
     "https://fizkult.ai/garmin/training-readiness": "garmin/training-readiness.html",
+    "https://fizkult.ai/garmin/recovery-time": "garmin/recovery-time.html",
     "https://fizkult.ai/en/garmin/": "en/garmin/index.html",
     "https://fizkult.ai/en/garmin/body-battery": "en/garmin/body-battery.html",
 }
@@ -100,13 +103,18 @@ def visible_faq(text: str) -> list[tuple[str, str]]:
 
 
 def visible_faq_article(text: str) -> list[tuple[str, str]]:
-    """То же для разборов: заголовок «Частые вопросы» и абзацы `<b>…</b><br>…`.
+    """То же для разборов: заголовок вопросов и абзацы `<b>…</b><br>…`.
 
     Секция кончается следующим `<h2>`. Пара собирается только из абзаца,
     который начинается жирным вопросом, — остальные абзацы внутри секции
     (если появятся) в разметку не попадают и здесь тоже не считаются.
+
+    Заголовок ищется на обоих языках. До 21.11.2026 здесь стояло только
+    русское «Частые вопросы», и английский разбор молча отдавал ноль
+    вопросов — то есть сверка FAQ на нём не делалась вовсе, хотя сторож
+    показывал зелёный по остальным страницам.
     """
-    start = re.search(r"<h2>\s*Частые вопросы\s*</h2>", text)
+    start = re.search(r"<h2>\s*(?:Частые вопросы|Frequently asked questions)\s*</h2>", text)
     if not start:
         return []
     rest = text[start.end():]
