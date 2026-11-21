@@ -35,7 +35,15 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 LDJSON = re.compile(r'<script type="application/ld\+json">(.*?)</script>', re.S)
 
 # Страницы, у которых есть секция вопросов и разметка FAQPage.
-FAQ_PAGES = ["index.html", "en/index.html"]
+# Две формы секции: на лендинге — `<section id="faq">` с `<details>`,
+# в разборах — заголовок «Частые вопросы» и абзацы `<b>вопрос</b><br>ответ`.
+# До 21.11.2026 здесь стояли только два лендинга, и FAQ пяти разборов
+# не сверялся ни разу: разметка могла разойтись с текстом молча, а это ровно
+# тот случай, когда агент цитирует нас словами, которых на странице нет.
+FAQ_PAGES = ["index.html", "en/index.html"] + sorted(
+    str(p.relative_to(ROOT)) for p in (ROOT / "garmin").glob("*.html")
+    if p.name != "index.html"
+)
 # Страницы с ценами в разметке.
 PRICE_PAGES = ["tarify.html", "en/pricing.html"]
 # Адрес в карте сайта → файл, который по нему отдаётся. Pages уводит
@@ -55,6 +63,7 @@ SITEMAP_FILES = {
     "https://fizkult.ai/garmin/sleep-score": "garmin/sleep-score.html",
     "https://fizkult.ai/garmin/vo2max": "garmin/vo2max.html",
     "https://fizkult.ai/garmin/training-status": "garmin/training-status.html",
+    "https://fizkult.ai/garmin/body-battery": "garmin/body-battery.html",
 }
 
 # Страницы, которые сверяются на canonical/noindex: корень, английская версия
@@ -75,7 +84,7 @@ def visible_faq(text: str) -> list[tuple[str, str]]:
     """Вопросы и ответы так, как их читает человек: без тегов и ссылок."""
     section = re.search(r'<section id="faq">.*?</section>', text, re.S)
     if not section:
-        return []
+        return visible_faq_article(text)
     t = re.sub(r"<a [^>]*>", "", section.group()).replace("</a>", "")
     t = re.sub(r"</?b>", "", t)
     pairs = []
@@ -83,6 +92,31 @@ def visible_faq(text: str) -> list[tuple[str, str]]:
         q = re.sub(r"\s+", " ", re.search(r"<summary>(.*?)<span", d, re.S).group(1)).strip()
         ps = [re.sub(r"\s+", " ", x).strip() for x in re.findall(r"<p>(.*?)</p>", d, re.S)]
         pairs.append((q, " ".join(ps)))
+    return pairs
+
+
+def visible_faq_article(text: str) -> list[tuple[str, str]]:
+    """То же для разборов: заголовок «Частые вопросы» и абзацы `<b>…</b><br>…`.
+
+    Секция кончается следующим `<h2>`. Пара собирается только из абзаца,
+    который начинается жирным вопросом, — остальные абзацы внутри секции
+    (если появятся) в разметку не попадают и здесь тоже не считаются.
+    """
+    start = re.search(r"<h2>\s*Частые вопросы\s*</h2>", text)
+    if not start:
+        return []
+    rest = text[start.end():]
+    end = re.search(r"<h2", rest)
+    block = rest[: end.start()] if end else rest
+    block = re.sub(r"<a [^>]*>", "", block).replace("</a>", "")
+    pairs = []
+    for p in re.findall(r"<p>(.*?)</p>", block, re.S):
+        m = re.match(r"\s*<b>(.*?)</b>\s*<br>\s*(.*)", p, re.S)
+        if not m:
+            continue
+        q = re.sub(r"\s+", " ", m.group(1)).strip()
+        a = re.sub(r"\s+", " ", re.sub(r"</?b>", "", m.group(2))).strip()
+        pairs.append((q, a))
     return pairs
 
 

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Body Battery в часах Garmin: из чего считается и почему низкий утром</title>
+<meta name="description" content="Body Battery сворачивает четыре сигнала в одну цифру — вариабельность пульса, стресс, качество сна и активность — и не говорит, какой из них просел. Шкала идёт от 5 до 100, не от нуля. Разбор по действующему руководству fēnix 8: что сказано прямо, что не опубликовано и пять шагов, как найти причину низкого утра самому.">
+<link rel="canonical" href="https://fizkult.ai/garmin/body-battery">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Физкульт">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Body Battery в часах Garmin: из чего считается и почему низкий утром">
+<meta property="og:description" content="Утром на экране 28, и по этому числу не понять, что случилось. Четыре входа, шкала от 5 до 100, закрытая функция между ними — и пять шагов, которыми причину находят своими руками.">
+<meta property="og:url" content="https://fizkult.ai/garmin/body-battery">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Физкульт — личный тренер в Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Body Battery в часах Garmin: из чего считается и почему низкий утром">
+<meta name="twitter:description" content="Четыре сигнала в одном числе, и какой просел — экран не скажет. Что Garmin публикует про шкалу 5–100, чего не публикует и как найти причину низкого утра самому.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .dl { display:inline-flex; align-items:center; gap:10px; margin:0 0 32px; padding:12px 18px;
+    background:var(--panel); border:1.5px solid var(--line); text-decoration:none; color:var(--ink);
+    font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; font-weight:500; }
+  .dl:hover { background:var(--ink); color:var(--bg); }
+  .dl span { color:var(--muted); }
+  .dl:hover span { color:var(--bg); }
+  .tcap { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; color:var(--muted);
+    text-transform:uppercase; margin:28px 0 8px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); min-width:440px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  blockquote { margin:24px 0; padding:18px 20px; background:var(--panel); border:1.5px solid var(--line); }
+  blockquote p { margin:0 0 10px; font-size:16px; }
+  blockquote cite { font-style:normal; font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; color:var(--muted); text-transform:uppercase; }
+  .note { font-size:13px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .src { font-size:13px; color:var(--muted); }
+  .src li { margin-bottom:10px; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Body Battery в часах Garmin: четыре сигнала в одном числе — и какой просел, экран не скажет",
+      "description": "Body Battery считается по четырём входам: вариабельность пульса, уровень стресса, качество сна и данные активности. Шкала на fēnix 8 идёт от 5 до 100, не от нуля. Функцию между входами и числом Garmin не публикует: ни весов, ни окон усреднения, ни скорости заряда. Еда и кофеин на шкалу не влияют — это сказано прямо.",
+      "inLanguage": "ru",
+      "datePublished": "2026-11-21",
+      "dateModified": "2026-11-21",
+      "mainEntityOfPage": "https://fizkult.ai/garmin/body-battery",
+      "image": "https://fizkult.ai/assets/og/og-share.png",
+      "author": { "@type": "Organization", "name": "Физкульт", "url": "https://fizkult.ai/" },
+      "publisher": { "@type": "Organization", "name": "Физкульт", "url": "https://fizkult.ai/" },
+      "about": ["Body Battery", "Garmin", "Training Readiness", "Вариабельность пульса", "Уровень стресса", "Восстановление"],
+      "citation": [
+        "Garmin. fēnix 8 Owner's Manual: Body Battery, Tips for Improved Body Battery Data",
+        "Garmin. fēnix 8 Owner's Manual: Training Readiness",
+        "Garmin. fēnix 8 Owner's Manual: Heart Rate Variability Status",
+        "Garmin. vívosmart 3 Owner's Manual: Heart Rate Variability and Stress Level"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Физкульт", "item": "https://fizkult.ai/" },
+        { "@type": "ListItem", "position": 2, "name": "Разборы метрик Garmin", "item": "https://fizkult.ai/garmin/" },
+        { "@type": "ListItem", "position": 3, "name": "Body Battery в часах Garmin: четыре сигнала в одном числе", "item": "https://fizkult.ai/garmin/body-battery" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Что такое Body Battery простыми словами?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Это шкала «запаса сил» в часах Garmin. На fēnix 8 она идёт от 5 до 100 и считается по четырём входам: вариабельность пульса, уровень стресса, качество сна и данные активности. Garmin описывает её как датчик топлива в машине: заряжает хороший сон, быстрее разряжают тяжёлая активность и высокий стресс."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Почему Body Battery не 0–100, а 5–100?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Так задана шкала: в руководстве fēnix 8 прямо сказано, что диапазон — от 5 до 100. Garmin публикует границу диапазона, но не публикует, почему она именно такая. На практике это значит, что ноль на экране невозможен: минимум, который ты можешь увидеть, — 5, и это дно шкалы, а не «сил не осталось совсем»."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Почему Body Battery не заряжается за ночь?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Сначала проверь, записана ли ночь вообще: Garmin ставит условие «для более точных результатов носи часы во сне», и без записи сна искать физиологическую причину нечего. Если ночь записана, причин три, и экран их не различает: сон хуже обычного, ушедшая вниз вариабельность пульса, тяжёлый вчерашний день. Сколько единиц даёт ночь и какой сон считается хорошим, Garmin не публикует — поэтому смотри на несколько ночей подряд, а не на одну."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Почему Body Battery падает днём, когда я ничего не делаю?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Разряжает шкалу не только активность. Второй вход — уровень стресса, а он у Garmin считается как раз в покое, пока человек неподвижен. Поэтому сидячий день с высоким стрессом может разряжать шкалу без единого шага. Это наш вывод из двух опубликованных строк руководства, а не отдельное заявление Garmin."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Влияют ли еда и кофе на Body Battery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "По заявлению Garmin — нет: «приём пищи и стимуляторы вроде кофеина не влияют на твой Body Battery». Входов четыре: вариабельность пульса, стресс, качество сна и активность."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Низкий Body Battery утром — я перегрузился?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Из одного числа это не определить. Тренерская гипотеза: если низкий уровень держится несколько утр подряд рядом с тяжёлыми днями, похоже, что ты перегрузился. Убери одну-две жёсткие тренировки и посмотри, поднимется ли уровень за неделю-две. Если не поднялся или рядом появилось что-то ещё — сон, вес, настроение — покажись врачу: такое дают не только тренировки. Это тренерский ориентир, не диагноз."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Разборы · Метрики Garmin · 13</div>
+    <a class="home" href="/" aria-label="На главную">FIZKULT.AI</a>
+  </div>
+
+  <h1>Body Battery: четыре сигнала в одном числе — и какой просел, экран не скажет</h1>
+
+  <p class="lead">Утром на экране 28, и по этому числу не понять, что случилось. Body Battery™ сворачивает четыре сигнала в одну цифру — вариабельность пульса, уровень стресса, качество сна и данные активности — и не говорит, какой из них просел: одно и то же низкое утро даёт и короткий сон, и вчерашняя длинная тренировка, и ушедшая вниз вариабельность. Что Garmin публикует: сами входы, границы шкалы (она начинается не с нуля, а с пяти) и список того, что на неё не влияет — еда и кофеин там. Чего не публикует: функцию между входами и числом. Разбор по действующему руководству fēnix 8 (редакция v10, ноябрь 2026) — что сказано прямо, что мы вычитали сами и что делать с низким утром.</p>
+
+  <a class="dl" href="/garmin/body-battery.pdf">Скачать разбор в PDF <span>· 7 полос</span></a>
+
+  <h2>Что это такое и почему шкала начинается не с нуля</h2>
+
+  <p>Определение Garmin короткое.</p>
+
+  <blockquote>
+    <p>Часы анализируют вариабельность пульса, уровень стресса, качество сна и данные активности, чтобы определить общий уровень Body Battery. Как датчик топлива в машине, он показывает, сколько резервной энергии у тебя есть.</p>
+    <cite>Руководство fēnix 8, раздел Body Battery. Английский оригинал — в источниках</cite>
+  </blockquote>
+
+  <p>Шкала идёт <b>от 5 до 100</b>, не от нуля: это сказано на той же странице прямым предложением. Полностью разряженной шкала не показывается никогда — нижняя граница именно пять. Дальше четыре полосы:</p>
+
+  <p class="tcap">Названия полос — как их даёт Garmin; перевод наш</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Уровень</th><th>Как называет Garmin</th><th>По-русски</th></tr></thead>
+    <tbody>
+      <tr><td class="num">5–25</td><td>very low reserve energy</td><td>очень низкий резерв</td></tr>
+      <tr><td class="num">26–50</td><td>low reserve energy</td><td>низкий</td></tr>
+      <tr><td class="num">51–75</td><td>medium reserve energy</td><td>средний</td></tr>
+      <tr><td class="num">76–100</td><td>high reserve energy</td><td>высокий</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Сказано это про fēnix 8. Другие модели мы не проверяли: границы и набор входов у них могут быть иными, и переносить таблицу на свои часы без проверки не стоит.</p>
+
+  <h2>Из чего складывается число</h2>
+
+  <p>Входов ровно четыре, и Garmin называет их прямо: вариабельность пульса, уровень стресса, качество сна, данные активности. Больше в описании ничего нет. Пульсоксиметрия, температура, GPS и барометр среди входов не названы.</p>
+
+  <p>Одна деталь стоит отдельного внимания. <b>Два из четырёх входов выросли из одного сигнала.</b> Уровень стресса определён в руководстве vívosmart 3 как анализ вариабельности пульса, пока человек неподвижен, переведённый в шкалу 0–100; на странице fēnix 8 такого определения мы не нашли. Если оно то же, вариабельность пульса работает в Body Battery дважды: напрямую и через стресс. <b>Это наше наблюдение, а не слова Garmin:</b> как именно она входит в Body Battery, документ не сообщает, и сложения двух входов в одну величину он тоже не описывает.</p>
+
+  <p>Garmin называет и то, что на шкалу не влияет:</p>
+
+  <blockquote>
+    <p>Приём пищи и стимуляторы вроде кофеина не влияют на твой Body Battery.</p>
+    <cite>Руководство fēnix 8, раздел Body Battery</cite>
+  </blockquote>
+
+  <p>Значит, Garmin прямо говорит, что ни обед, ни кофеин в расчёт не входят. Если уровень упал после них, причину по описанию надо искать среди четырёх входов.</p>
+
+  <h2>Что заряжает шкалу и что её разряжает</h2>
+
+  <p>О механике Garmin говорит двумя пунктами в разделе советов, и это всё, что известно про направление:</p>
+
+  <blockquote>
+    <p>Хороший сон заряжает Body Battery.</p>
+    <p>Тяжёлая активность и высокий стресс могут разряжать его быстрее.</p>
+    <cite>Руководство fēnix 8, раздел Body Battery, блок «Tips for Improved Body Battery Data»</cite>
+  </blockquote>
+
+  <p>Это стрелки без чисел: ни окон усреднения, ни порогов, ни скорости заряда за ночь и разряда за час тренировки.</p>
+
+  <p>Отсюда же следует ответ на вопрос, который задают чаще других: <b>почему шкала падает днём, когда ты сидишь и ничего не делаешь.</b> Разряжает её не только активность, но и стресс, а стресс у Garmin — величина в покое: он считается, пока человек неподвижен. Сидячий день с высоким стрессом разряжает шкалу без единого шага. <b>Это наш вывод из двух опубликованных строк, а не отдельное утверждение Garmin</b> — связь стресса с неподвижностью взята из руководства vívosmart 3.</p>
+
+  <h2>Почему не заряжается ночью и почему низкий утром</h2>
+
+  <p>Низкое утро могут дать разные причины, и экран их не различает.</p>
+
+  <p><b>Первое. Сон был не тем, чем кажется.</b> Качество сна — вход шкалы, и по описанию Garmin заряжает именно хороший сон. Что считается «хорошим» и сколько единиц даёт ночь, не опубликовано.</p>
+
+  <p><b>Второе. Часы ночью были не на руке.</b> Garmin пишет: для более точных результатов носи часы во сне. Формулировка про «точнее», а не про «заряжается вообще», и сколько теряется без ночного ношения, не сказано. Для статуса вариабельности пульса часы снимают сигнал именно во сне — это сказано в соседнем разделе руководства; совпадает ли с ним вход Body Battery, Garmin не говорит.</p>
+
+  <p><b>Третье. Вариабельность пульса ушла вниз.</b> Она стоит первой в списке входов, но насколько её отклонение двигает уровень, не сказано ни одной цифрой.</p>
+
+  <p><b>Четвёртое, и это уже наше предположение, не слова Garmin:</b> к ним добавляется нагрузка и стресс вчерашнего дня, которые заряд за ночь мог не покрыть. Как конечный уровень зависит от стартового, документ не описывает.</p>
+
+  <p>Какая причина твоя, по одному утру не определить — зато определяется по ряду. Как его собрать, ниже.</p>
+
+  <p>Про срок: через сколько дней после покупки часов метрика появляется, руководство не указывает. У статуса вариабельности пульса такой срок назван прямо — три недели ровного сна, — а у Body Battery нет.</p>
+
+  <h2>Что делать с низким Body Battery</h2>
+
+  <p>Функция закрыта, но входы опубликованы — по ним проверка собирается своими руками, за пять минут.</p>
+
+  <ol>
+    <li><b>Проверь, записана ли ночь вообще.</b> Garmin ставит условие прямо: «для более точных результатов носи часы во сне». Если в Connect за эту ночь нет записи сна — причина механическая, а не физиологическая, и искать дальше нечего.</li>
+    <li><b>Сравни ночь с собственной обычной.</b> Качество сна — один из четырёх входов. Смотри длительность и время отбоя относительно своих же недавних ночей, а не относительно восьми часов из статьи в интернете.</li>
+    <li><b>Посмотри вчерашний день.</b> Два других входа — активность и стресс, и про них сказано: тяжёлая активность и высокий стресс разряжают быстрее. Длинная тренировка или тяжёлый рабочий день объясняют утро не хуже плохого сна.</li>
+    <li><b>Собери ряд из 7–10 утр и отметь рядом тяжёлые дни.</b> Одно утро не значит ничего: экран не различает причины, а ряд различает — низкие утра либо липнут к тяжёлым дням, либо стоят ровно сами по себе.</li>
+    <li><b>Чего делать не надо — искать причину в еде, кофе и добавках.</b> Тут Garmin высказался прямо: приём пищи и стимуляторы вроде кофеина на шкалу не влияют. Падение после обеда пришло откуда-то ещё.</li>
+  </ol>
+
+  <p><b>Тренерская гипотеза, а не вывод прибора:</b> если низкие утра держатся несколько дней подряд и липнут к тяжёлым дням, похоже, что ты перегрузился и не успеваешь восстанавливаться. Убери одну-две жёсткие тренировки и посмотри, поднимется ли утренний уровень за неделю-две. Если не поднимается или рядом заметно ещё что-то — сон, вес, настроение — покажись врачу: такое дают не только тренировки.</p>
+
+  <p>И заранее про «какой уровень считается нормальным»: такого числа нет. Полосы Garmin — это описание шкалы, а не норма для тебя. Нормальным считается твой собственный обычный уровень, а он виден только из ряда.</p>
+
+  <h2>Чем он отличается от Training Readiness</h2>
+
+  <p>Рядом с Body Battery в часах живёт ещё одна оценка — Training Readiness, «готовность к тренировке». Их часто принимают друг за друга, а устроены они по-разному.</p>
+
+  <p class="tcap">Обе — по действующему руководству fēnix 8, сверено 21 ноября 2026</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th></th><th>Body Battery</th><th>Training Readiness</th></tr></thead>
+    <tbody>
+      <tr><td>Что входит</td><td>вариабельность пульса, стресс, качество сна, активность — <b>четыре</b> входа</td><td>оценка сна за прошлую ночь, время восстановления, статус вариабельности, острая нагрузка, сон за 3 ночи, стресс за 3 дня, погружения за 24 часа — <b>семь</b></td></tr>
+      <tr><td>Шкала</td><td>5–100, четыре полосы</td><td>1–100, пять зон с цветами и названиями</td></tr>
+      <tr><td>Названия полос</td><td>very low / low / medium / high</td><td>Prime 95–100, High 75–94, Moderate 50–74, Low 25–49, Poor 1–24</td></tr>
+      <tr><td>Окна истории</td><td>не названы</td><td>названы: 3 ночи, 3 дня, 24 часа</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Training Readiness расписана по входам заметно подробнее: названы и окна, и границы зон, и что каждая зона значит. Но и там Garmin даёт ингредиенты без пропорций — веса входов не раскрыты ни у той, ни у другой. У Body Battery не раскрыто даже окно: из тех метрик, что мы разбирали в этой серии, она описана скупее всех — список входов и направление стрелки, и на этом всё.</p>
+
+  <h2>Firstbeat на странице Body Battery не упомянут</h2>
+
+  <p>Часто пишут, что Body Battery работает на модели Firstbeat. На странице Body Battery в действующем руководстве fēnix 8 Firstbeat не упомянут — мы проверили её целиком <b>21 ноября 2026 года</b>. Функция описана в разделе Glances, а не в Performance Measurements, где такая подпись стоит у VO2 max.</p>
+
+  <p>Тут стоит знать одну вещь про эти подписи: они меняются. На странице VO2 max. в редакции v9 стояло «VO2 max. data is provided by Firstbeat Analytics™», а в действующей v10 — «VO2 max. data is provided by Garmin Human Performance Lab™». Поэтому «кто считает Body Battery» мы не утверждаем ни в одну сторону. Подробнее про эту смену — в <a href="/garmin/vo2max">разборе VO2max</a>.</p>
+
+  <h2>Частые вопросы</h2>
+
+  <p><b>Что такое Body Battery простыми словами?</b><br>
+  Это шкала «запаса сил» в часах Garmin. На fēnix 8 она идёт от 5 до 100 и считается по четырём входам: вариабельность пульса, уровень стресса, качество сна и данные активности. Garmin описывает её как датчик топлива в машине: заряжает хороший сон, быстрее разряжают тяжёлая активность и высокий стресс.</p>
+
+  <p><b>Почему Body Battery не 0–100, а 5–100?</b><br>
+  Так задана шкала: в руководстве fēnix 8 прямо сказано, что диапазон — от 5 до 100. Garmin публикует границу диапазона, но не публикует, почему она именно такая. На практике это значит, что ноль на экране невозможен: минимум, который ты можешь увидеть, — 5, и это дно шкалы, а не «сил не осталось совсем».</p>
+
+  <p><b>Почему Body Battery не заряжается за ночь?</b><br>
+  Сначала проверь, записана ли ночь вообще: Garmin ставит условие «для более точных результатов носи часы во сне», и без записи сна искать физиологическую причину нечего. Если ночь записана, причин три, и экран их не различает: сон хуже обычного, ушедшая вниз вариабельность пульса, тяжёлый вчерашний день. Сколько единиц даёт ночь и какой сон считается хорошим, Garmin не публикует — поэтому смотри на несколько ночей подряд, а не на одну.</p>
+
+  <p><b>Почему Body Battery падает днём, когда я ничего не делаю?</b><br>
+  Разряжает шкалу не только активность. Второй вход — уровень стресса, а он у Garmin считается как раз в покое, пока человек неподвижен. Поэтому сидячий день с высоким стрессом может разряжать шкалу без единого шага. Это наш вывод из двух опубликованных строк руководства, а не отдельное заявление Garmin.</p>
+
+  <p><b>Влияют ли еда и кофе на Body Battery?</b><br>
+  По заявлению Garmin — нет: «приём пищи и стимуляторы вроде кофеина не влияют на твой Body Battery». Входов четыре: вариабельность пульса, стресс, качество сна и активность.</p>
+
+  <p><b>Низкий Body Battery утром — я перегрузился?</b><br>
+  Из одного числа это не определить. Тренерская гипотеза: если низкий уровень держится несколько утр подряд рядом с тяжёлыми днями, похоже, что ты перегрузился. Убери одну-две жёсткие тренировки и посмотри, поднимется ли уровень за неделю-две. Если не поднялся или рядом появилось что-то ещё — сон, вес, настроение — покажись врачу: такое дают не только тренировки. Это тренерский ориентир, не диагноз.</p>
+
+  <h2>Коротко</h2>
+
+  <ul>
+    <li>Body Battery™ — функция часов Garmin. На fēnix 8 шкала идёт от 5 до 100: 5–25 очень низкий резерв, 26–50 низкий, 51–75 средний, 76–100 высокий.</li>
+    <li>Входов четыре: вариабельность пульса, уровень стресса, качество сна, данные активности. Стресс у Garmin определён через вариабельность пульса (по руководству vívosmart 3) — наше наблюдение: если и на fēnix 8 так, она работает в шкале дважды.</li>
+    <li>Заряжает хороший сон; тяжёлая активность и высокий стресс разряжают быстрее. Еда и кофеин на шкалу не влияют.</li>
+    <li>Низкое утро — несколько возможных причин: сон, вчерашний день, вариабельность, часы не на руке. Экран их не различает, читай ряд утр, а не одно число.</li>
+    <li>Весов входов, окон усреднения и скорости заряда Garmin не публикует. Из метрик, разобранных в этой серии, Body Battery описан скупее всех.</li>
+  </ul>
+
+  <h2>Где проходит граница</h2>
+
+  <ul>
+    <li>Функция между входами и числом не раскрыта: ни окна усреднения, ни пороги, ни скорость заряда и разряда, ни связь вариабельности с уровнем.</li>
+    <li>Не раскрыто, какая именно вариабельность пульса используется и совпадает ли она с той, что лежит в статусе вариабельности из раздела Performance Measurements.</li>
+    <li>Не сказано, через сколько дней после покупки часов шкала появляется. Для статуса вариабельности срок назван — три недели, — для Body Battery нет.</li>
+    <li>Проверки точности мы не нашли: ни собственной работы Garmin, ни независимой в том корпусе источников, который просмотрели. Это значит, что насколько уровень совпадает с настоящим восстановлением, измерено не было, — не значит, что сигналы под ним плохие: вариабельность пульса, сон и нагрузка меряются и проверяются отдельно от этой шкалы.</li>
+    <li>Всё выше — про fēnix 8, редакция руководства v10 от ноября 2026. Для других моделей набор входов и границы мы не проверяли, а редакции меняются: за месяц до этого на соседней странице стояла другая подпись под моделью.</li>
+    <li>Определение уровня стресса через вариабельность пульса в покое цитируется по руководству vívosmart 3: на странице fēnix 8 с тем же номером раздела сейчас стои́т статус вариабельности, а не это определение.</li>
+    <li>Наши объяснения помечены словами «наше наблюдение», «предположение», «гипотеза». Garmin их не публикует.</li>
+  </ul>
+
+  <h2>Источники</h2>
+
+  <ol class="src">
+    <li>Руководство Garmin fēnix 8, раздел Body Battery (редакция v10, ноябрь 2026; сверено 21.11.2026). Определение: «Your watch analyzes your heart rate variability, stress level, sleep quality, and activity data to determine your overall Body Battery™ level. Like a gas gauge on a car, it indicates your amount of available reserve energy.» Шкала: «The Body Battery level range is from 5 to 100», градации — 5–25 very low reserve energy, 26–50 low, 51–75 medium, 76–100 high. Направление влияния, двумя пунктами блока «Tips for Improved Body Battery Data»: «Good sleep charges your Body Battery.» и «Strenuous activity and high stress can cause your Body Battery to drain more quickly.» Исключения: «Food intake, as well as stimulants like caffeine, has no impact on your Body Battery.» Условие: «For more accurate results, wear the watch while sleeping.» Firstbeat на странице не упоминается; функция описана в разделе Glances. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-87E1392B-2C55-40B7-A1FF-3AB9252DA0A0.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Руководство Garmin fēnix 8, раздел Training Readiness (редакция v10; сверено 21.11.2026). Определение: «Your training readiness is a score and a short message that helps you determine how ready you are for training each day.» Входы: sleep score (last night), recovery time, HRV status, acute load, sleep history (last 3 nights), stress history (last 3 days), dive history (last 24 hours). Шкала 1–100, пять зон: Purple 95–100 Prime, Blue 75–94 High, Green 50–74 Moderate, Orange 25–49 Low, Red 1–24 Poor. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-C21BE0C8-A08E-4DA1-B6C6-2E0E2DDDB372.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Руководство Garmin vívosmart 3, раздел Heart Rate Variability and Stress Level (сверено 21.11.2026). «Your device analyzes your heart rate variability while you are inactive to determine your overall stress. The stress level range is from 0 to 100, where 0 to 25 is a resting state, 26 to 50 is low stress, 51 to 75 is medium stress, and 76 to 100 is a high stress state.» Цитата приведена по этому руководству: на странице fēnix 8 с тем же номером раздела сейчас стои́т статус вариабельности пульса. <a href="https://www8.garmin.com/manuals/webhelp/vivosmart3/EN-US/GUID-9282196F-D969-404D-B678-F48A13D8D0CB.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Руководство Garmin fēnix 8, раздел Heart Rate Variability Status (редакция v10; сверено 21.11.2026). «The watch requires three weeks of consistent sleep data to display your heart rate variability status.» Источник сигнала: «Your watch analyzes your wrist heart rate readings while you are sleeping to determine your heart rate variability (HRV).» <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-9282196F-D969-404D-B678-F48A13D8D0CB.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Руководство Garmin fēnix 8, раздел About VO2 Max. Estimates (редакция v10; сверено 21.11.2026) — для примера со сменой подписи: «VO2 max. data is provided by Garmin Human Performance Lab™. VO2 max. analysis is provided with permission from The Cooper Institute®.» В редакции v9, прочитанной нами 29 октября 2026 года, на той же странице стояло «VO2 max. data is provided by Firstbeat Analytics™». <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-3E971364-A756-4057-B22D-C41250B2A82B.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+  </ol>
+
+  <p class="note">Серия разборов «Метрики Garmin» по первоисточникам. Опубликованные формулировки, пороги и границы — со ссылкой на руководство Garmin; наши объяснения и предположения помечены. Физкульт не связан с Garmin и Firstbeat; Body Battery™, Garmin Human Performance Lab™ и Firstbeat Analytics™ — знаки, принадлежащие их владельцам.</p>
+
+  <div class="cta">
+    <div class="kicker">Подключи Garmin к fizkult.ai</div>
+    <h2>Четыре сигнала в одном числе — мы называем, какой из них ушёл</h2>
+    <p>Пять шагов выше — это то, что можно сделать руками. Дальше начинается работа, которую руками делать не хочется: держать ряд, помнить свою обычную ночь, замечать, что сегодня выбилось, и каждое утро складывать это в один вывод.</p>
+    <p>Физкульт делает её за тебя. Он читает сигналы твоих часов — сон, пульс, нагрузку — к твоей собственной норме, набранной по твоей же истории, и называет, по скольким дням она посчитана. Каждое утро в Telegram приходит разбор словами: рядом с оценкой — причина. Сон короче твоей нормы, вчера тяжёлая тренировка — и на что обратить внимание сегодня.</p>
+    <p>Подключаешь часы один раз, галочку Historical Data не пропусти: без неё норма наберётся только по новым дням, медленнее. Первая неделя — целиком и бесплатно.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_garmin_bodybattery">Подключить часы в Telegram →</a>
+    <p class="note" style="margin-bottom:0">Это тренерский разбор, не медицинский. Если самочувствие не восстанавливается — покажись врачу.</p>
+  </div>
+
+  <a class="back" href="/garmin/">← Все разборы метрик Garmin</a>
+  <a class="back" href="/" style="margin-left:18px">На главную</a>
+</div>
+</body>
+</html>
