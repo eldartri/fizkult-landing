@@ -42,7 +42,8 @@ LDJSON = re.compile(r'<script type="application/ld\+json">(.*?)</script>', re.S)
 # тот случай, когда агент цитирует нас словами, которых на странице нет.
 FAQ_PAGES = ["index.html", "en/index.html"] + sorted(
     str(p.relative_to(ROOT))
-    for d in ("garmin", "en/garmin")
+    for d in ("garmin", "en/garmin", "calc", "en/calc")
+    if (ROOT / d).is_dir()
     for p in (ROOT / d).glob("*.html")
     if p.name != "index.html"
 )
@@ -73,11 +74,20 @@ SITEMAP_FILES = {
     "https://fizkult.ai/en/garmin/body-battery": "en/garmin/body-battery.html",
     "https://fizkult.ai/en/garmin/stress": "en/garmin/stress.html",
     "https://fizkult.ai/en/garmin/training-readiness": "en/garmin/training-readiness.html",
+    "https://fizkult.ai/calc/pace": "calc/pace.html",
+    "https://fizkult.ai/en/calc/pace": "en/calc/pace.html",
 }
 
 # Страницы, которые сверяются на canonical/noindex: корень, английская версия
 # и разборы. Каталог `drafts/` сюда не входит — он закрыт редиректом.
-PAGE_GLOBS = ["*.html", "en/*.html", "garmin/*.html", "en/garmin/*.html"]
+PAGE_GLOBS = [
+    "*.html",
+    "en/*.html",
+    "garmin/*.html",
+    "en/garmin/*.html",
+    "calc/*.html",
+    "en/calc/*.html",
+]
 
 
 def nodes(text: str) -> list[dict]:

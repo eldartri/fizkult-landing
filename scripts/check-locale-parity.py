@@ -71,6 +71,40 @@ ARTICLE_PAIRS = [
 ]
 
 
+# Пары калькуляторов. Сверяются ТРЕТЬИМ способом, и вот почему.
+#
+# У разбора скрипта нет вовсе, и побайтная сверка <script> обходится даром.
+# У калькулятора скрипт — это сам продукт, и он не может быть побайтно равен:
+# внутри лежат надписи, которые человек читает («Нужны дистанция и темп»,
+# «Финиш»), а они обязаны быть на своём языке. Требовать равенства значит
+# требовать английскую страницу с русскими кнопками.
+#
+# Но дорого стоит не разница надписей, а разница АРИФМЕТИКИ: поправили
+# перевод миль в одной странице и забыли в другой — и английский человек
+# получает другое число на тот же вопрос, молча. Поэтому скрипт сверяется
+# без строковых литералов и комментариев: что считается — одинаково, чем
+# подписано — по-своему. Отсюда и устройство самих страниц: все надписи
+# вынесены в объект T наверху файла, ниже него строк нет.
+CALC_PAIRS = [
+    ("calc/pace.html", "en/calc/pace.html", "/en/calc/pace", "/calc/pace"),
+]
+
+#: Строковый литерал и строчный комментарий — всё, чем двум языкам разрешено
+#  различаться внутри <script>. Строки вырезаем первыми: иначе «//» внутри
+#  надписи был бы принят за начало комментария и съел бы остаток строки.
+JS_STRING = re.compile(r"'(?:[^'\\\n]|\\.)*'|\"(?:[^\"\\\n]|\\.)*\"")
+JS_COMMENT = re.compile(r"//[^\n]*")
+
+
+def js_logic(block: str | None) -> str | None:
+    """Скрипт без надписей: только то, что считается."""
+    if block is None:
+        return None
+    text = JS_STRING.sub('""', block)
+    text = JS_COMMENT.sub("", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
 class Skeleton(HTMLParser):
     """Скелет страницы: теги, id, классы, ссылки — без единого слова текста.
 
@@ -155,11 +189,17 @@ def read_pair(ru_rel: str, en_rel: str) -> tuple[str, str]:
     return out[0], out[1]
 
 
-def check_shell(ru_rel: str, en_rel: str, ru_text: str, en_text: str) -> list[str]:
+def check_shell(
+    ru_rel: str, en_rel: str, ru_text: str, en_text: str, script: str = "bytes"
+) -> list[str]:
     """Оформление, поведение и число блоков разметки.
 
-    Общая часть обеих сверок: и у страницы лендинга, и у разбора эти вещи
-    обязаны совпадать независимо от того, совпадает ли состав блоков.
+    Общая часть всех трёх сверок: и у страницы лендинга, и у разбора, и у
+    калькулятора эти вещи обязаны совпадать независимо от того, совпадает ли
+    состав блоков.
+
+    `script="logic"` — для калькуляторов: скрипт сверяется без надписей,
+    см. комментарий к CALC_PAIRS.
     """
     problems: list[str] = []
 
@@ -168,6 +208,15 @@ def check_shell(ru_rel: str, en_rel: str, ru_text: str, en_text: str) -> list[st
     for tag in ("style", "script"):
         ru_block = one_block(ru_text, tag, ru_rel)
         en_block = one_block(en_text, tag, en_rel)
+        if tag == "script" and script == "logic":
+            if js_logic(ru_block) != js_logic(en_block):
+                problems.append(
+                    "<script> разъехался по арифметике (надписи в сверку не входят): "
+                    f"{len(js_logic(ru_block) or '')} значимых знаков в русской против "
+                    f"{len(js_logic(en_block) or '')} в английской. Считаться обе страницы "
+                    "обязаны одинаково; на своём языке — только то, что лежит в объекте T."
+                )
+            continue
         if ru_block != en_block:
             problems.append(
                 f"<{tag}> разъехался: {len(ru_block) if ru_block else 'нет блока'} "
@@ -388,12 +437,38 @@ def check_article_pair(
     return [f"{ru_rel} ↔ {en_rel}: {p}" for p in problems]
 
 
+def check_calc_pair(
+    ru_rel: str, en_rel: str, ru_switch: str, en_switch: str
+) -> list[str]:
+    """Пара калькуляторов: оформление побайтно, арифметика — без надписей.
+
+    Состав блоков не сверяется: у русского калькулятора свой список дистанций
+    (3 км, 1500 м), у английского свой (10 миль) — это разные привычки, а не
+    дрейф. Сверяется то, чья поломка стоит денег: вид, разметка, языковая
+    обвязка и — главное — то, как страница считает.
+    """
+    ru_text, en_text = read_pair(ru_rel, en_rel)
+
+    problems = check_shell(
+        ru_rel, en_rel, ru_text, en_text, script="logic"
+    ) + check_lang(ru_rel, en_rel, ru_text, en_text, ru_switch, en_switch)
+
+    if not problems:
+        print(
+            f"{ru_rel} ↔ {en_rel}: сходятся — оформление побайтно равно, "
+            "арифметика одна на двоих, языковая обвязка парная"
+        )
+    return [f"{ru_rel} ↔ {en_rel}: {p}" for p in problems]
+
+
 def main() -> int:
     problems: list[str] = []
     for ru_rel, en_rel, ru_switch, en_switch in PAIRS:
         problems += check_pair(ru_rel, en_rel, ru_switch, en_switch)
     for ru_rel, en_rel, ru_switch, en_switch in ARTICLE_PAIRS:
         problems += check_article_pair(ru_rel, en_rel, ru_switch, en_switch)
+    for ru_rel, en_rel, ru_switch, en_switch in CALC_PAIRS:
+        problems += check_calc_pair(ru_rel, en_rel, ru_switch, en_switch)
 
     if problems:
         print("\nРАСХОЖДЕНИЯ:\n")

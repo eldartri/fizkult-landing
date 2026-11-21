@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Калькулятор темпа бега: темп, скорость и раскладка по дистанции</title>
+<meta name="description" content="Считает третье из двух: знаешь дистанцию и время — покажет темп и скорость; знаешь темп — покажет время. Раскладка по километрам или милям с отметками 5 км, 10 км, половины и марафона и с отрицательным сплитом. Считается прямо в браузере: введённые числа никуда не уходят.">
+<link rel="canonical" href="https://fizkult.ai/calc/pace">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/calc/pace">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/calc/pace">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/calc/pace">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Физкульт">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:title" content="Калькулятор темпа бега: темп, скорость и раскладка по дистанции">
+<meta property="og:description" content="Два значения из трёх — третье посчитается само. С раскладкой по километрам, отметками дистанций и отрицательным сплитом.">
+<meta property="og:url" content="https://fizkult.ai/calc/pace">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Физкульт — личный тренер в Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Калькулятор темпа бега: темп, скорость и раскладка по дистанции">
+<meta name="twitter:description" content="Два значения из трёх — третье посчитается само. С раскладкой, отметками дистанций и отрицательным сплитом.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .calc { background:var(--panel); border:1.5px solid var(--line); padding:22px 20px; margin:0 0 10px; }
+  .modes { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+  .modes button { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    font-weight:700; padding:8px 12px; border:1.5px solid var(--line); background:transparent; color:var(--ink); cursor:pointer; }
+  .modes button[aria-pressed="true"] { background:var(--ink); color:var(--bg); }
+  .fields { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:18px; }
+  .field label { display:block; font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .field input, .field select { width:100%; font-family:"Geist Mono",monospace; font-size:17px; padding:10px 12px;
+    border:1.5px solid var(--line); background:var(--bg); color:var(--ink); }
+  .field input:focus, .field select:focus { outline:2px solid var(--accent); outline-offset:-2px; }
+  .field input[readonly] { background:#F6EFE2; color:var(--accent); font-weight:700; }
+  .hint { font-size:12px; color:var(--muted); margin:6px 0 0; }
+  .out { display:flex; flex-wrap:wrap; gap:24px; margin-top:20px; padding-top:18px; border-top:1.5px solid var(--line); }
+  .out div { min-width:120px; }
+  .out span { display:block; font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--muted); }
+  .out strong { font-family:"Geist Mono",monospace; font-size:24px; font-weight:700; letter-spacing:-.02em; }
+  .err { color:var(--accent); font-weight:700; margin:14px 0 0; }
+  .splitbox { background:var(--panel); border:1.5px solid var(--line); padding:16px 20px; margin:0 0 10px; max-width:340px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  tr.mark td { background:#F6EFE2; font-weight:700; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  @media (max-width:520px) { th.rest, td.rest { display:none; } }
+  .note { font-size:13px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Калькулятор темпа бега",
+      "url": "https://fizkult.ai/calc/pace",
+      "applicationCategory": "SportsApplication",
+      "operatingSystem": "Любой браузер",
+      "inLanguage": "ru",
+      "description": "Считает третье из двух: по дистанции и времени даёт темп и скорость, по дистанции и темпу — время, по времени и темпу — дистанцию. Показывает раскладку по километрам или милям с отметками 5 км, 10 км, половины и марафона и пересобирает её под отрицательный сплит. Расчёт идёт в браузере, введённые значения никуда не отправляются.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" },
+      "publisher": { "@type": "Organization", "name": "Физкульт", "url": "https://fizkult.ai/" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Физкульт", "item": "https://fizkult.ai/" },
+        { "@type": "ListItem", "position": 2, "name": "Калькулятор темпа бега", "item": "https://fizkult.ai/calc/pace" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Как перевести темп бега в скорость?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Скорость в километрах в час — это 60, делённое на темп в минутах на километр. Темп 5:00 мин/км — это 12,00 км/ч; темп 6:00 — ровно 10 км/ч; темп 4:00 — 15 км/ч. Обратный перевод такой же: 60 делить на скорость. Калькулятор темпа Физкульта показывает обе величины сразу, чтобы не переводить в уме: темп удобен на улице, а скорость стоит на панели беговой дорожки."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "С каким темпом нужно бежать, чтобы выбежать марафон из четырёх часов?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ровно 4 часа на 42,195 км — это темп 5:41 мин/км, то есть скорость 10,55 км/ч. Чтобы оставить себе запас, обычно считают на 3:57–3:58: это 5:37–5:38 мин/км. Поставь в калькуляторе темпа Физкульта дистанцию «Марафон» и нужное время — он покажет темп и разложит дистанцию по километрам, а поле отрицательного сплита пересоберёт раскладку под план, в котором первая половина отдаёт секунды, а вторая их отыгрывает. Но темп на финише и темп, который держится на тренировке, — разные вещи: план под результат строится от текущей формы, а не от желаемого числа."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Что такое отрицательный сплит и как его посчитать?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Отрицательный сплит — это когда вторая половина дистанции пройдена быстрее первой. Считать в уме не нужно: поставь в поле отрицательного сплита 30 секунд, и калькулятор темпа Физкульта пересоберёт всю раскладку — первая половина окажется на эти 30 секунд медленнее ровного графика, вторая на столько же быстрее, а итоговое время останется тем же. На половине марафона из 1:45 ровная раскладка даёт по 52:30 на каждую половину; со сплитом в 30 секунд это 53:00 и 52:00."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Почему часы показали не тот темп, что калькулятор?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Чаще всего потому, что часы намерили другую дистанцию. Калькулятор считает от точного числа — у марафона это 42,195 км, — а часы складывают трек из точек GPS: в лесу, между домами и на извилистой трассе точек набегает больше, чем прошло ног, и на финише на экране оказывается на несколько сотен метров больше официальной дистанции. Средний темп часы делят на свою дистанцию, поэтому он выходит оптимистичнее настоящего. Что с этим делать на старте: держаться разметки трассы и сверяться со временем на официальных отметках, а не со средним темпом в часах. Чем ещё числа часов расходятся с тем, что кажется очевидным, разобрано в нашей серии о метриках Garmin."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Темп, посчитанный калькулятором, — это тот темп, с которым нужно тренироваться?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Нет. Калькулятор темпа Физкульта — это арифметика: он переводит одни числа в другие и ничего не знает о тебе. Целевой темп — это то, что проверяется на старте, а не то, чем набирается форма: объём, на котором она строится, идёт медленнее целевого темпа, а короткие отрезки — быстрее, и обе половины нужны. Чтобы из целевого темпа получился план, нужна текущая форма: чем ты бегал последние недели, как спишь и как восстанавливаешься. Это уже не калькулятор, это работа тренера."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Сервисы · Расчёты</div>
+    <div class="ends">
+      <a class="lang" href="/en/calc/pace" hreflang="en" lang="en" aria-label="Switch to English">EN</a>
+      <a class="home" href="/" aria-label="На главную">FIZKULT.AI</a>
+    </div>
+  </div>
+
+  <h1>Калькулятор темпа бега</h1>
+
+  <p class="lead">Две величины из трёх — третья посчитается сама. Внизу раскладка по километрам или милям с отметками 5 км, 10 км, половины и марафона, и поле отрицательного сплита: поставишь 30 секунд — таблица пересоберётся под план гонки, а не под ровный график. Считается прямо в браузере: введённые числа никуда не отправляются.</p>
+
+  <div class="calc">
+    <div class="modes" role="group" aria-label="Что считаем">
+      <button type="button" id="m-time" aria-pressed="false">Считать время</button>
+      <button type="button" id="m-pace" aria-pressed="true">Считать темп</button>
+      <button type="button" id="m-dist" aria-pressed="false">Считать дистанцию</button>
+    </div>
+
+    <div class="modes" role="group" aria-label="Единицы">
+      <button type="button" id="u-mi" aria-pressed="false">Мили</button>
+      <button type="button" id="u-km" aria-pressed="true">Километры</button>
+    </div>
+
+    <div class="fields">
+      <div class="field">
+        <label for="preset">Дистанция</label>
+        <select id="preset">
+          <option value="">Своя дистанция</option>
+          <option value="1">1 км</option>
+          <option value="1.5">1500 м</option>
+          <option value="1.609344">1 миля</option>
+          <option value="3">3 км</option>
+          <option value="5" selected>5 км</option>
+          <option value="10">10 км</option>
+          <option value="21.0975">Половина марафона</option>
+          <option value="42.195">Марафон</option>
+        </select>
+        <input id="dist" inputmode="decimal" aria-label="Дистанция в километрах" style="margin-top:8px">
+        <p class="hint" id="hint-dist">Километры, можно дробью: 7,5</p>
+      </div>
+
+      <div class="field">
+        <label for="time">Время</label>
+        <input id="time" placeholder="25:00">
+        <p class="hint">Ч:ММ:СС или ММ:СС. Можно просто цифрами: 2500 → 25:00</p>
+      </div>
+
+      <div class="field">
+        <label for="pace">Темп</label>
+        <input id="pace" placeholder="5:00">
+        <p class="hint" id="hint-pace">Минуты:секунды на километр. Можно цифрами: 500 → 5:00</p>
+      </div>
+    </div>
+
+    <div class="out" aria-live="polite">
+      <div><span>Темп</span><strong id="o-pace">—</strong></div>
+      <div><span>Скорость</span><strong id="o-speed">—</strong></div>
+      <div><span>Время</span><strong id="o-time">—</strong></div>
+      <div><span id="o-alt-label">Темп на милю</span><strong id="o-alt">—</strong></div>
+    </div>
+
+    <p class="err" id="err" hidden></p>
+  </div>
+
+  <p class="note">Поле, которое считается, подсвечено и заполняется само — его не нужно трогать. Чтобы считать другое, нажми кнопку сверху. <a href="https://t.me/fizkult_ai_bot?start=site_calc_pace_out">Физкульт</a> смотрит дальше арифметики: во сколько ударов пульса тебе обошлась эта скорость и выспался ли ты, чтобы её держать.</p>
+
+  <h2>Раскладка по дистанции</h2>
+
+  <p>Столько времени должно быть на часах на каждой отметке, если держать график от старта до финиша. Отметки дистанций выделены. Поле ниже сдвигает раскладку в отрицательный сплит: итоговое время остаётся тем же, но первая половина отдаёт секунды, а вторая их отыгрывает.</p>
+
+  <div class="splitbox">
+    <div class="field">
+      <label for="split">Отрицательный сплит, секунд</label>
+      <input id="split" inputmode="numeric" value="0">
+      <p class="hint">Сколько секунд первая половина отдаёт, а вторая отыгрывает. 0 — ровная раскладка.</p>
+    </div>
+  </div>
+
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Отметка</th><th>Время на часах</th><th class="rest">Осталось</th></tr></thead>
+    <tbody id="splits">
+      <tr><td>1 км</td><td class="num">05:00</td><td class="num rest">20:00</td></tr>
+      <tr><td>2 км</td><td class="num">10:00</td><td class="num rest">15:00</td></tr>
+      <tr><td>3 км</td><td class="num">15:00</td><td class="num rest">10:00</td></tr>
+      <tr><td>4 км</td><td class="num">20:00</td><td class="num rest">05:00</td></tr>
+      <tr class="mark"><td>5 км · Финиш</td><td class="num">25:00</td><td class="num rest">—</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p class="note">Раскладка считается по расстоянию и не знает ни о подъёмах, ни о ветре, ни о жаре. На холмистой трассе ровные цифры означают, что в гору ты работаешь тяжелее — и расплата за это приходит на последней трети. Отсюда рабочий приём: на подъёмах держать усилие, а не темп, и возвращать секунды на спусках, а не терпеть график.</p>
+
+  <h2>Что это число значит</h2>
+
+  <p><b>Темп растёт, когда ты бежишь медленнее.</b> Это единственная величина на экране, которая устроена наоборот: 5:00 мин/км быстрее, чем 5:30. Поэтому темп и скорость стоят рядом — 5:00 мин/км и 12 км/ч это одно и то же число, просто повёрнутое другой стороной.</p>
+
+  <p><b>Целевой темп — это экзамен, а не расписание подготовки.</b> Форма строится объёмом, который идёт медленнее целевого темпа, и короткими отрезками, которые идут быстрее; целевой темп сам по себе не тренирует почти ничего, потому что на нём нельзя ни набрать объём, ни дать качественную работу. Из одного числа план не получается — нужна текущая форма.</p>
+
+  <p><b>Ровный график — ориентир, а не план гонки.</b> На марафоне и половине раскладку обычно строят с запасом: первую половину проходят на 30–60 секунд медленнее ровного графика, вторую — настолько же быстрее. Смысл в том, чтобы приберечь силы на вторую половину, где обычно и приходит усталость. Поле сплита выше считает такую раскладку целиком, так что сдвиг не нужно держать в голове по ходу гонки.</p>
+
+  <h2>Частые вопросы</h2>
+
+  <p><b>Как перевести темп бега в скорость?</b><br>
+  Скорость в километрах в час — это 60, делённое на темп в минутах на километр. Темп 5:00 мин/км — это 12,00 км/ч; темп 6:00 — ровно 10 км/ч; темп 4:00 — 15 км/ч. Обратный перевод такой же: 60 делить на скорость. Калькулятор темпа Физкульта показывает обе величины сразу, чтобы не переводить в уме: темп удобен на улице, а скорость стоит на панели беговой дорожки.</p>
+
+  <p><b>С каким темпом нужно бежать, чтобы выбежать марафон из четырёх часов?</b><br>
+  Ровно 4 часа на 42,195 км — это темп 5:41 мин/км, то есть скорость 10,55 км/ч. Чтобы оставить себе запас, обычно считают на 3:57–3:58: это 5:37–5:38 мин/км. Поставь в калькуляторе темпа Физкульта дистанцию «Марафон» и нужное время — он покажет темп и разложит дистанцию по километрам, а поле отрицательного сплита пересоберёт раскладку под план, в котором первая половина отдаёт секунды, а вторая их отыгрывает. Но темп на финише и темп, который держится на тренировке, — разные вещи: план под результат строится от текущей формы, а не от желаемого числа.</p>
+
+  <p><b>Что такое отрицательный сплит и как его посчитать?</b><br>
+  Отрицательный сплит — это когда вторая половина дистанции пройдена быстрее первой. Считать в уме не нужно: поставь в поле отрицательного сплита 30 секунд, и калькулятор темпа Физкульта пересоберёт всю раскладку — первая половина окажется на эти 30 секунд медленнее ровного графика, вторая на столько же быстрее, а итоговое время останется тем же. На половине марафона из 1:45 ровная раскладка даёт по 52:30 на каждую половину; со сплитом в 30 секунд это 53:00 и 52:00.</p>
+
+  <p><b>Почему часы показали не тот темп, что калькулятор?</b><br>
+  Чаще всего потому, что часы намерили другую дистанцию. Калькулятор считает от точного числа — у марафона это 42,195 км, — а часы складывают трек из точек GPS: в лесу, между домами и на извилистой трассе точек набегает больше, чем прошло ног, и на финише на экране оказывается на несколько сотен метров больше официальной дистанции. Средний темп часы делят на свою дистанцию, поэтому он выходит оптимистичнее настоящего. Что с этим делать на старте: держаться разметки трассы и сверяться со временем на официальных отметках, а не со средним темпом в часах. Чем ещё числа часов расходятся с тем, что кажется очевидным, разобрано в нашей <a href="/garmin/">серии о метриках Garmin</a>.</p>
+
+  <p><b>Темп, посчитанный калькулятором, — это тот темп, с которым нужно тренироваться?</b><br>
+  Нет. Калькулятор темпа Физкульта — это арифметика: он переводит одни числа в другие и ничего не знает о тебе. Целевой темп — это то, что проверяется на старте, а не то, чем набирается форма: объём, на котором она строится, идёт медленнее целевого темпа, а короткие отрезки — быстрее, и обе половины нужны. Чтобы из целевого темпа получился план, нужна текущая форма: чем ты бегал последние недели, как спишь и как восстанавливаешься. Это уже не калькулятор, это работа тренера.</p>
+
+  <div class="cta">
+    <div class="kicker">Физкульт в Telegram</div>
+    <h2>Калькулятор считает темп. Тренер видит, во что он тебе обошёлся</h2>
+    <p>Самый частый вопрос после расчёта — не «какой у меня темп», а «почему сегодня те же 5:00 дались тяжелее, чем две недели назад». Число на экране на это не отвечает: ему неизвестно, как ты спал, с каким пульсом бежал и успел ли восстановиться.</p>
+    <p>Физкульт читает сигналы часов — сон, пульс, нагрузку — и сравнивает их с твоей собственной нормой. После тренировки приходит разбор: во сколько ударов пульса обошлась эта скорость и что из этого следует для ближайших дней. Каждое утро — короткое письмо: сон короче обычного, вчера была тяжёлая работа, на что смотреть сегодня.</p>
+    <p>Часы подключаются один раз. Первая неделя бесплатно, всё включено.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_calc_pace">Подключить часы в Telegram →</a>
+    <p class="note" style="margin-bottom:0">Это тренерский разбор, не медицинский. Если самочувствие не восстанавливается — покажись врачу.</p>
+  </div>
+
+  <a class="back" href="/">← На главную</a>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // Числа и логика у двух языков общие, различаются только строки: см.
+  // CALC_PAIRS в scripts/check-locale-parity.py — сторож сверяет этот блок
+  // без строковых литералов, поэтому правка арифметики обязана приехать в
+  // обе страницы, а перевод — только в свою.
+  var MILE = 1.609344;
+  // Допуск совпадения отметки с шагом сетки, км. Без него отметка «5 км»
+  // выбрасывалась как дубль шага и выделять в таблице было нечего.
+  var NEAR = 0.005;
+  var DEC = ",";
+  var UNIT0 = "km";
+  var MARKS = [
+    { km: 5, name: "5 км" },
+    { km: 10, name: "10 км" },
+    { km: 21.0975, name: "Половина" },
+    { km: 42.195, name: "Марафон" }
+  ];
+  var T = {
+    speedMi: " миль/ч",
+    speedKm: " км/ч",
+    paceMi: " /миля",
+    paceKm: " /км",
+    rowMi: " миль",
+    rowKm: " км",
+    hintDistMi: "Мили, можно дробью: 7,5",
+    hintDistKm: "Километры, можно дробью: 7,5",
+    hintPaceMi: "Минуты:секунды на милю. Можно цифрами: 800 → 8:00",
+    hintPaceKm: "Минуты:секунды на километр. Можно цифрами: 500 → 5:00",
+    altMi: "Темп на км",
+    altKm: "Темп на милю",
+    ariaMi: "Дистанция в милях",
+    ariaKm: "Дистанция в километрах",
+    needDistPace: "Нужны дистанция и темп.",
+    needDistTime: "Нужны дистанция и время.",
+    needTimePace: "Нужны время и темп.",
+    tooFarMi: "Дистанция больше 620 миль — проверь, что ввёл.",
+    tooFarKm: "Дистанция больше 1000 км — проверь, что ввёл.",
+    tooFastMi: "Темп быстрее 1:37 на милю — проверь, что ввёл.",
+    tooFastKm: "Темп быстрее минуты на километр — проверь, что ввёл.",
+    empty: "Введи дистанцию и темп",
+    sep: " · ",
+    finish: "Финиш",
+    time0: "25:00"
+  };
+
+  var mode = "pace";
+  var unit = UNIT0;
+  // Настоящая дистанция живёт здесь, в километрах. Поле ввода — только показ:
+  // оно округляется до трёх знаков, и чтение дистанции обратно из него
+  // уводило отметки в сторону на метры — ровно настолько, чтобы «Половина»
+  // пропадала из собственной таблицы.
+  var distKm = NaN;
+  var el = {};
+  ["preset", "dist", "time", "pace", "split", "o-pace", "o-speed", "o-time", "o-alt",
+   "o-alt-label", "err", "splits", "m-time", "m-pace", "m-dist", "u-mi", "u-km",
+   "hint-dist", "hint-pace"]
+    .forEach(function (id) { el[id] = document.getElementById(id); });
+
+  function miles() { return unit === "mi"; }
+  function factor() { return miles() ? MILE : 1; }
+
+  function num(v) {
+    v = String(v).replace(",", ".").trim();
+    if (!v) return NaN;
+    var n = Number(v);
+    return isFinite(n) && n > 0 ? n : NaN;
+  }
+
+  // "1:23:45" | "23:45" | "45" -> секунды. Голые цифры читаются справа налево
+  // парами: 2500 -> 25:00, 14500 -> 1:45:00. Это не удобство, а защита: на
+  // телефоне двоеточие набрать трудно, и без этого правила 2500 молча
+  // прочиталось бы как 2500 секунд и выдало неверный темп без единой ошибки.
+  function parseClock(v) {
+    v = String(v).trim();
+    if (/^\d+$/.test(v) && v.length > 2) {
+      var out = [], rest = v;
+      while (rest.length > 2) {
+        out.unshift(rest.slice(-2));
+        rest = rest.slice(0, -2);
+      }
+      out.unshift(rest);
+      v = out.join(":");
+    }
+    if (!v) return NaN;
+    var parts = v.split(":");
+    if (parts.length > 3) return NaN;
+    var mult = [1, 60, 3600], total = 0;
+    for (var i = 0; i < parts.length; i++) {
+      var p = parts[parts.length - 1 - i].trim();
+      if (p === "" || !/^\d+([.,]\d+)?$/.test(p)) return NaN;
+      var n = Number(p.replace(",", "."));
+      // Всё, кроме старшего разряда, обязано быть меньше 60: иначе 5:75
+      // молча становилось 6:15.
+      if (i < parts.length - 1 && n >= 60) return NaN;
+      total += n * mult[i];
+    }
+    return total > 0 ? total : NaN;
+  }
+
+  function fmtClock(sec) {
+    if (!isFinite(sec) || sec <= 0) return "—";
+    sec = Math.round(sec);
+    var h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+    var mm = m < 10 ? "0" + m : String(m), ss = s < 10 ? "0" + s : String(s);
+    return h > 0 ? h + ":" + mm + ":" + ss : mm + ":" + ss;
+  }
+
+  function fmtPace(sec) {
+    if (!isFinite(sec) || sec <= 0) return "—";
+    sec = Math.round(sec);
+    var m = Math.floor(sec / 60), s = sec % 60;
+    return m + ":" + (s < 10 ? "0" + s : String(s));
+  }
+
+  function fmtDist(v) {
+    return String(Math.round(v * 1000) / 1000).replace(".", DEC);
+  }
+
+  function fmtSpeed(v) {
+    return v.toFixed(2).replace(".", DEC) + (miles() ? T.speedMi : T.speedKm);
+  }
+
+  function splitAdj() {
+    var v = String(el.split.value).replace(",", ".").trim();
+    if (!v) return 0;
+    var n = Number(v);
+    return isFinite(n) ? n : 0;
+  }
+
+  function setMode(next) {
+    mode = next;
+    el["m-time"].setAttribute("aria-pressed", String(next === "time"));
+    el["m-pace"].setAttribute("aria-pressed", String(next === "pace"));
+    el["m-dist"].setAttribute("aria-pressed", String(next === "dist"));
+    el.time.readOnly = next === "time";
+    el.pace.readOnly = next === "pace";
+    el.dist.readOnly = next === "dist";
+    el.preset.disabled = next === "dist";
+    calc();
+  }
+
+  // Единицы меняются на лету: сама дистанция и сам темп при этом те же,
+  // меняется только то, в чём они написаны — иначе переключатель молча
+  // превращал бы 13 миль в 13 километров.
+  function setUnit(next) {
+    if (next === unit) return;
+    var paceKm = parseClock(el.pace.value) / factor();
+    unit = next;
+    el["u-mi"].setAttribute("aria-pressed", String(miles()));
+    el["u-km"].setAttribute("aria-pressed", String(!miles()));
+    el["hint-dist"].textContent = miles() ? T.hintDistMi : T.hintDistKm;
+    el["hint-pace"].textContent = miles() ? T.hintPaceMi : T.hintPaceKm;
+    el["o-alt-label"].textContent = miles() ? T.altMi : T.altKm;
+    el.dist.setAttribute("aria-label", miles() ? T.ariaMi : T.ariaKm);
+    if (isFinite(distKm)) el.dist.value = fmtDist(distKm / factor());
+    if (isFinite(paceKm)) el.pace.value = fmtPace(paceKm * factor());
+    calc();
+  }
+
+  function fail(msg) {
+    el.err.textContent = msg;
+    el.err.hidden = false;
+    el["o-pace"].textContent = "—";
+    el["o-speed"].textContent = "—";
+    el["o-time"].textContent = "—";
+    el["o-alt"].textContent = "—";
+    el.splits.innerHTML = '<tr><td colspan="3">' + T.empty + "</td></tr>";
+  }
+
+  function calc() {
+    el.err.hidden = true;
+
+    var f = factor();
+    var d = isFinite(distKm) && distKm > 0 ? distKm / f : NaN;
+    var t = parseClock(el.time.value);
+    var p = parseClock(el.pace.value);
+
+    if (mode === "time") {
+      if (!isFinite(d) || !isFinite(p)) return fail(T.needDistPace);
+      t = d * p;
+      el.time.value = fmtClock(t);
+    } else if (mode === "pace") {
+      if (!isFinite(d) || !isFinite(t)) return fail(T.needDistTime);
+      p = t / d;
+      el.pace.value = fmtPace(p);
+    } else {
+      if (!isFinite(t) || !isFinite(p)) return fail(T.needTimePace);
+      d = t / p;
+      distKm = d * f;
+      el.dist.value = fmtDist(d);
+    }
+
+    if (distKm > 1000) return fail(miles() ? T.tooFarMi : T.tooFarKm);
+
+    var paceKm = p / f;
+    // Калькулятор, спокойно печатающий 360 км/ч, выглядит несерьёзно.
+    if (paceKm < 60) return fail(miles() ? T.tooFastMi : T.tooFastKm);
+
+    el["o-pace"].textContent = fmtPace(p) + (miles() ? T.paceMi : T.paceKm);
+    el["o-speed"].textContent = fmtSpeed(3600 / p);
+    el["o-time"].textContent = fmtClock(t);
+    el["o-alt"].textContent = miles()
+      ? fmtPace(paceKm) + T.paceKm
+      : fmtPace(paceKm * MILE) + T.paceMi;
+
+    splits(distKm, paceKm, t, splitAdj());
+  }
+
+  // Дистанция в километрах, темп в секундах на километр: внутри считаем в
+  // одних единицах всегда, переводим только на выходе. adj — отрицательный
+  // сплит в секундах: столько первая половина отдаёт, а вторая отыгрывает.
+  function splits(dKm, paceKm, total, adj) {
+    var rows = [], i, j;
+    var f = factor();
+    var half = dKm / 2;
+    var cap = total * 0.4;
+    if (adj > cap) adj = cap;
+    if (adj < -cap) adj = -cap;
+    var firstPace = half > 0 ? (total / 2 + adj) / half : paceKm;
+    var secondPace = half > 0 ? (total / 2 - adj) / half : paceKm;
+
+    function at(km) {
+      return km <= half ? km * firstPace : total / 2 + adj + (km - half) * secondPace;
+    }
+
+    // Отметка, совпавшая с шагом сетки, не выбрасывается, а повышает в
+    // звании уже стоящую строку; финиш, попавший на отметку, дописывается
+    // к её имени, а не плодит вторую строку с тем же временем.
+    function add(km, name, isMark) {
+      if (km > dKm + 1e-9) return;
+      for (j = 0; j < rows.length; j++) {
+        if (Math.abs(rows[j].km - km) <= NEAR) {
+          if (!isMark) return;
+          rows[j].name = rows[j].mark ? rows[j].name + T.sep + name : name;
+          rows[j].mark = true;
+          return;
+        }
+      }
+      rows.push({ km: km, name: name, mark: isMark });
+    }
+
+    var dUnits = dKm / f;
+    var step = dUnits <= 60 ? 1 : 5;
+    for (i = step; i <= dUnits + 1e-9; i += step) add(i * f, i + (miles() ? T.rowMi : T.rowKm), false);
+    for (i = 0; i < MARKS.length; i++) add(MARKS[i].km, MARKS[i].name, true);
+    add(dKm, T.finish, true);
+
+    rows.sort(function (a, b) { return a.km - b.km; });
+
+    if (!rows.length) {
+      el.splits.innerHTML = '<tr><td colspan="3">' + T.empty + "</td></tr>";
+      return;
+    }
+    if (rows.length > 120) rows = rows.filter(function (r) { return r.mark; });
+
+    var html = "";
+    for (i = 0; i < rows.length; i++) {
+      var r = rows[i], a = at(r.km), left = total - a;
+      html += "<tr" + (r.mark ? ' class="mark"' : "") + "><td>" + r.name +
+        '</td><td class="num">' + fmtClock(a) +
+        '</td><td class="num rest">' + (left > 0.5 ? fmtClock(left) : "—") + "</td></tr>";
+    }
+    el.splits.innerHTML = html;
+  }
+
+  el.preset.addEventListener("change", function () {
+    if (el.preset.value) {
+      distKm = Number(el.preset.value);
+      el.dist.value = fmtDist(distKm / factor());
+      calc();
+    }
+  });
+
+  el.dist.addEventListener("input", function () {
+    el.preset.value = "";
+    distKm = num(el.dist.value) * factor();
+    calc();
+  });
+
+  ["time", "pace", "split"].forEach(function (id) {
+    el[id].addEventListener("input", calc);
+  });
+
+  // Показать человеку, как его ввод был понят: напечатал 2500 — увидел 25:00.
+  ["time", "pace"].forEach(function (id) {
+    el[id].addEventListener("change", function () {
+      var sec = parseClock(el[id].value);
+      if (isFinite(sec)) el[id].value = id === "time" ? fmtClock(sec) : fmtPace(sec);
+    });
+  });
+
+  el["m-time"].addEventListener("click", function () { setMode("time"); });
+  el["m-pace"].addEventListener("click", function () { setMode("pace"); });
+  el["m-dist"].addEventListener("click", function () { setMode("dist"); });
+  el["u-mi"].addEventListener("click", function () { setUnit("mi"); });
+  el["u-km"].addEventListener("click", function () { setUnit("km"); });
+
+  distKm = Number(el.preset.value);
+  el.dist.value = fmtDist(distKm / factor());
+  el.time.value = T.time0;
+  setMode("pace");
+})();
+</script>
+</body>
+</html>

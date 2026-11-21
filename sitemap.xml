@@ -191,6 +191,32 @@
     <priority>0.7</priority>
   </url>
 
+  <!--
+    Калькуляторы. Отдельный раздел `/calc/`: это не разбор прибора, а
+    сервис, которым пользуются, — у него своя частота обновления и свой
+    повод прийти из поиска. Языковая пара объявлена сразу у обеих сторон:
+    английский близнец выпущен тем же днём, а не догоняет.
+  -->
+  <url>
+    <loc>https://fizkult.ai/calc/pace</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/calc/pace"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/calc/pace"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/calc/pace"/>
+  </url>
+
+  <url>
+    <loc>https://fizkult.ai/en/calc/pace</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/calc/pace"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/calc/pace"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/calc/pace"/>
+  </url>
+
   <url>
     <loc>https://fizkult.ai/oferta</loc>
     <lastmod>2026-11-21</lastmod>
