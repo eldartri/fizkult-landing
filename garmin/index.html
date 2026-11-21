@@ -6,10 +6,14 @@
 <title>Разборы метрик Garmin — по первоисточникам, с цитатами и границами</title>
 <meta name="description" content="Серия разборов о том, как на самом деле считаются метрики часов Garmin: тренировочный эффект, оценка и эффективность сна, VO2max, статус тренировок. По руководствам Garmin и Firstbeat и по научным работам — с цитатами, с отметками, где кончается опубликованное и начинается наше объяснение.">
 <link rel="canonical" href="https://fizkult.ai/garmin/">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/">
 <link rel="icon" href="/assets/favicon/favicon-32.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Физкульт">
 <meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
 <meta property="og:title" content="Разборы метрик Garmin — по первоисточникам">
 <meta property="og:description" content="Как считаются метрики часов Garmin: тренировочный эффект, сон, VO2max. С цитатами из руководств и научных работ и с отметками, где кончается опубликованное.">
 <meta property="og:url" content="https://fizkult.ai/garmin/">
@@ -30,10 +34,11 @@
   body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
   .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
   .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
   .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
-  .home { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
     text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
-  .home:hover { background:var(--ink); color:var(--bg); }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
   h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
   .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 36px; }
   p, li { font-size:16px; }
@@ -99,7 +104,10 @@
 <div class="wrap">
   <div class="topbar">
     <div class="kicker">Разборы · Метрики Garmin</div>
-    <a class="home" href="/" aria-label="На главную">FIZKULT.AI</a>
+    <div class="ends">
+      <a class="lang" href="/en/garmin/" hreflang="en" lang="en" aria-label="Switch to English">EN</a>
+      <a class="home" href="/" aria-label="На главную">FIZKULT.AI</a>
+    </div>
   </div>
 
   <h1>Разборы метрик Garmin</h1>

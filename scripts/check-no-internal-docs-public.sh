@@ -87,6 +87,18 @@ PUBLIC_FILES=(
   "garmin/vo2max text/html https://fizkult.ai/garmin/vo2max"
   "garmin/training-status.pdf application/pdf"
   "garmin/training-status text/html https://fizkult.ai/garmin/training-status"
+  "garmin/body-battery.pdf application/pdf"
+  "garmin/body-battery text/html https://fizkult.ai/garmin/body-battery"
+  "garmin/stress.pdf application/pdf"
+  "garmin/stress text/html https://fizkult.ai/garmin/stress"
+  "garmin/training-readiness.pdf application/pdf"
+  "garmin/training-readiness text/html https://fizkult.ai/garmin/training-readiness"
+  # Английская половина серии. Догоняет русскую (заказ владельца 21.11.2026
+  # — обе половины за две недели) — выпустил близнец, допиши сюда строку. PDF у
+  # английских разборов пока нет: русский генератор построен на русских
+  # заголовках, и английский пак делается отдельной работой.
+  "en/garmin/ text/html https://fizkult.ai/en/garmin/"
+  "en/garmin/body-battery text/html https://fizkult.ai/en/garmin/body-battery"
   "robots.txt text/plain"
   "sitemap.xml application/xml"
   "llms.txt text/plain"

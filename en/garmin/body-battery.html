@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garmin Body Battery: what goes into the number, and why it's low in the morning</title>
+<meta name="description" content="Body Battery folds four signals into one number — heart rate variability, stress, sleep quality and activity — and doesn't say which one dropped. The scale runs from 5 to 100, not from zero. A breakdown of the current fēnix 8 manual: what is stated outright, what isn't published, and five steps to find the cause of a low reading in the morning yourself.">
+<link rel="canonical" href="https://fizkult.ai/en/garmin/body-battery">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/body-battery">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/body-battery">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/body-battery">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Fizkult">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:title" content="Garmin Body Battery: what goes into the number, and why it's low in the morning">
+<meta property="og:description" content="The screen says 28 this morning, and the number doesn't tell you what happened. Four inputs, a scale from 5 to 100, a black-box formula in between — and five steps to find the cause yourself.">
+<meta property="og:url" content="https://fizkult.ai/en/garmin/body-battery">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fizkult — a personal coach in Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Garmin Body Battery: what goes into the number, and why it's low in the morning">
+<meta name="twitter:description" content="Four signals in one number, and the screen won't say which one dropped. What Garmin publishes about the 5–100 scale, what it doesn't, and how to find the cause of a low reading in the morning yourself.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .dl { display:inline-flex; align-items:center; gap:10px; margin:0 0 32px; padding:12px 18px;
+    background:var(--panel); border:1.5px solid var(--line); text-decoration:none; color:var(--ink);
+    font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; font-weight:500; }
+  .dl:hover { background:var(--ink); color:var(--bg); }
+  .dl span { color:var(--muted); }
+  .dl:hover span { color:var(--bg); }
+  .tcap { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; color:var(--muted);
+    text-transform:uppercase; margin:28px 0 8px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); min-width:440px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  blockquote { margin:24px 0; padding:18px 20px; background:var(--panel); border:1.5px solid var(--line); }
+  blockquote p { margin:0 0 10px; font-size:16px; }
+  blockquote cite { font-style:normal; font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; color:var(--muted); text-transform:uppercase; }
+  .note { font-size:13px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .src { font-size:13px; color:var(--muted); }
+  .src li { margin-bottom:10px; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Body Battery on Garmin watches: four signals in one number, and the screen won't say which one dropped",
+      "description": "Body Battery is calculated from four inputs: heart rate variability, stress level, sleep quality and activity data. On the fēnix 8 the scale runs from 5 to 100, not from zero. Garmin doesn't publish the formula behind the number: no weights, no averaging windows, no charge rate. Food and caffeine have no impact on the scale; the manual says so directly.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-21",
+      "dateModified": "2026-11-21",
+      "mainEntityOfPage": "https://fizkult.ai/en/garmin/body-battery",
+      "image": "https://fizkult.ai/assets/og/og-share.png",
+      "author": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/en/" },
+      "publisher": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/en/" },
+      "about": ["Body Battery", "Garmin", "Training Readiness", "Heart rate variability", "Stress level", "Recovery"],
+      "citation": [
+        "Garmin. fēnix 8 Owner's Manual: Body Battery, Tips for Improved Body Battery Data",
+        "Garmin. fēnix 8 Owner's Manual: Training Readiness",
+        "Garmin. fēnix 8 Owner's Manual: Heart Rate Variability Status",
+        "Garmin. vívosmart 3 Owner's Manual: Heart Rate Variability and Stress Level"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Fizkult", "item": "https://fizkult.ai/en/" },
+        { "@type": "ListItem", "position": 2, "name": "Garmin metrics explained", "item": "https://fizkult.ai/en/garmin/" },
+        { "@type": "ListItem", "position": 3, "name": "Body Battery on Garmin watches: four signals in one number", "item": "https://fizkult.ai/en/garmin/body-battery" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Body Battery on a Garmin watch?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Body Battery is the \"reserve energy\" scale on Garmin watches. On the fēnix 8 it runs from 5 to 100 and is calculated from four inputs: heart rate variability, stress level, sleep quality and activity data. Garmin describes it as a gas gauge on a car: good sleep charges it, and strenuous activity and high stress can drain it more quickly. The scale never reads zero — its floor is 5, so the lowest number you can see is the bottom of the scale, not \"nothing left at all\"."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is my Body Battery low in the morning?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "One number can't tell you, because the screen doesn't separate the causes. Four things can produce a low reading in the morning: a night worse than usual, HRV that went down, a hard day yesterday, or a watch that wasn't on your wrist. Garmin doesn't publish how many points a night adds or what counts as good sleep, so read a run of 7–10 mornings and mark the hard days next to them. If the low readings follow hard days, training is part of the cause. If they sit low regardless of training, the lever isn't your training — it's the night and the day: bedtime, stress, wearing the watch. A run of mornings tells those two cases apart, and nothing finer than that."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's a good Body Battery number in the morning?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There is no number that is good for everyone. Garmin's bands (on the fēnix 8: 5–25 very low, 26–50 low, 51–75 medium, 76–100 high) describe the scale, not a norm for you. Your normal is your own usual morning level, and it only shows up across a run of mornings: write down 7–10 readings and you have a first baseline. A reading is low when it sits well below your own usual level, not when it falls into a band. Keeping that baseline up by hand is the tedious part, and it's what Fizkult does: it builds your baseline from your watch history and tells you how many days it's calculated over."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why doesn't my Body Battery charge at night?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Start with the mechanics. Garmin is explicit: \"For more accurate results, wear the watch while sleeping.\" So check three things: that Garmin Connect has a sleep record for the night, that the watch wasn't on the charger, and that it stayed on your wrist all night. If all three check out, the cause is physiological rather than mechanical. Garmin doesn't publish how many points a night adds, so judge by several nights in a row, not by one."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I increase my Body Battery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The manual gives a direction, not a recipe. Two published lines: \"Good sleep charges your Body Battery.\" and \"Strenuous activity and high stress can cause your Body Battery to drain more quickly.\" Garmin doesn't publish the rate of charge, so there's no figure for how much a night adds, and food and caffeine aren't a lever: the manual says they have no impact on the scale. The one lever you control is the night: wear the watch, keep bedtime steady, and watch what a hard day does to the next morning. The steps on this page tell you which of the four inputs — sleep, stress, activity, heart rate variability — is behind your number."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my Body Battery drain when I'm not doing anything?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Activity isn't the only thing that drains it. Stress does too — the fēnix 8 manual says \"Strenuous activity and high stress can cause your Body Battery to drain more quickly\", and the vívosmart 3 manual defines stress as an analysis of heart rate variability while you are inactive. So a sedentary day with high stress can drain the scale without a single step. That's our conclusion from those two lines, not a separate Garmin statement."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do food and coffee affect Body Battery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "According to Garmin, no: \"Food intake, as well as stimulants like caffeine, has no impact on your Body Battery.\" The four inputs are heart rate variability, stress, sleep quality and activity. If your level dropped after lunch or a coffee, the manual's description sends you to look among those four."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between Body Battery and Training Readiness?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They're two separate scores with different inputs. Body Battery has four inputs — heart rate variability, stress, sleep quality, activity — runs from 5 to 100 and has four bands; its history windows aren't named. Training Readiness has seven inputs: sleep score (last night), recovery time, HRV status, acute load, sleep history (last 3 nights), stress history (last 3 days), dive history (last 24 hours). It runs from 1 to 100 and has five zones: Prime 95–100, High 75–94, Moderate 50–74, Low 25–49, Poor 1–24. Garmin doesn't disclose the weights of the inputs for either one."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Body Battery accurate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We found no accuracy check of Body Battery: neither Garmin's own work nor an independent study, in the sources we went through for this page. That means we came across no measurement of how well the level matches actual recovery. It doesn't mean the signals under it are poor: heart rate variability, sleep and load are measured and validated separately from this scale. Our reading: treat the number as Garmin's summary of four signals, not as a measured value of how recovered you are, and check it against what you can see — the sleep record in Garmin Connect, yesterday's load, how you actually feel. If the number and your body disagree across a week and a half of mornings, give your own log more weight than the single figure."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does a low Body Battery in the morning mean I'm overtraining?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "One number can't settle it. A coach's hypothesis, not a device verdict: if low levels hold for several mornings in a row next to hard days, it looks like you've overreached. Drop one or two hard workouts and see whether the level climbs within a week or two. If it doesn't, or something else shows up alongside — sleep, weight, mood — see a doctor: training isn't the only thing that causes this. That's a coach's guide, not a diagnosis."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Explainers · Garmin metrics</div>
+    <div class="ends">
+      <a class="lang" href="/garmin/body-battery" hreflang="ru" lang="ru" aria-label="Переключиться на русский">RU</a>
+      <a class="home" href="/en/" aria-label="Home">FIZKULT.AI</a>
+    </div>
+  </div>
+
+  <h1>Body Battery: four signals in one number, and the screen won't say which one dropped</h1>
+
+  <p class="lead">The screen says 28 this morning, and the number doesn't tell you what happened. Body Battery™ folds four signals into one figure — heart rate variability, stress level, sleep quality and activity data — and doesn't say which one dropped: a short night, yesterday's long workout and a slump in heart rate variability all produce the same low reading. Below: what Garmin publishes about the number, what it keeps closed, and five steps to find out which cause is yours.</p>
+
+  <p><b>Short answer:</b> four things can produce a low number in the morning — a worse night than usual, HRV that went down, a hard day yesterday, or a watch that wasn't on your wrist. The screen can't tell them apart. Five minutes tomorrow morning will rule some of them out, and a week and a half of mornings will show whether your training is behind it; the steps are below.</p>
+
+  <h2>What it is, and why the scale starts at five</h2>
+
+  <p>Garmin's definition is short.</p>
+
+  <blockquote>
+    <p>Your watch analyzes your heart rate variability, stress level, sleep quality, and activity data to determine your overall Body Battery™ level. Like a gas gauge on a car, it indicates your amount of available reserve energy.</p>
+    <cite>fēnix 8 Owner's Manual, Body Battery</cite>
+  </blockquote>
+
+  <p>The scale runs <b>from 5 to 100</b>, not from zero: this is stated on the same page in a plain sentence — "The Body Battery level range is from 5 to 100". The scale never reads empty: its floor is five. Then four bands:</p>
+
+  <p class="tcap">What Garmin calls each band</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Level</th><th>Band</th></tr></thead>
+    <tbody>
+      <tr><td class="num">5–25</td><td>very low</td></tr>
+      <tr><td class="num">26–50</td><td>low</td></tr>
+      <tr><td class="num">51–75</td><td>medium</td></tr>
+      <tr><td class="num">76–100</td><td>high</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">Garmin's own wording, verbatim: "very low reserve energy", "low reserve energy", "medium reserve energy", "high reserve energy".</p>
+
+  <p>All of this is stated for the fēnix 8. We haven't checked other models: their band cutoffs and set of inputs may be different, and the table isn't worth carrying over to your own watch without checking.</p>
+
+  <h2>What goes into the number</h2>
+
+  <p>There are exactly four inputs, and Garmin names them outright: heart rate variability, stress level, sleep quality, activity data. That's the whole list. Pulse oximetry, temperature, GPS and barometer aren't named among the inputs.</p>
+
+  <p>One detail deserves a closer look. <b>Two of the four inputs grew out of a single signal.</b> The vívosmart 3 manual defines stress level as an analysis of heart rate variability (HRV) while you are inactive, mapped onto a 0–100 scale; we couldn't find that definition on the fēnix 8 page. If it's the same one, HRV feeds Body Battery twice: directly, and through stress. <b>This is our observation, not Garmin's words:</b> the manual doesn't say how exactly HRV enters Body Battery, nor does it say whether the two are added together.</p>
+
+  <p>Garmin also names what has no impact on the scale:</p>
+
+  <blockquote>
+    <p>Food intake, as well as stimulants like caffeine, has no impact on your Body Battery.</p>
+    <cite>fēnix 8 Owner's Manual, Body Battery</cite>
+  </blockquote>
+
+  <p>So Garmin says directly that neither lunch nor caffeine enters the calculation. If your level dropped after them, the manual's description sends you to look among the four inputs.</p>
+
+  <h2>What charges the scale and what drains it</h2>
+
+  <p>Garmin gives two lines on the mechanics, in the tips section, and that's all we know about direction:</p>
+
+  <blockquote>
+    <p>Good sleep charges your Body Battery.</p>
+    <p>Strenuous activity and high stress can cause your Body Battery to drain more quickly.</p>
+    <cite>fēnix 8 Owner's Manual, Body Battery, "Tips for Improved Body Battery Data"</cite>
+  </blockquote>
+
+  <p>Those are directions without magnitudes: no averaging windows, no thresholds, no rate of charge overnight or drain per hour of training.</p>
+
+  <p>This also answers the question people ask most often: <b>why the scale falls during the day while you sit and do nothing.</b> Activity isn't the only thing that drains it. Stress does too, and Garmin measures stress at rest — the watch calculates it while you're sitting still. A sedentary day with high stress drains the scale without a single step. <b>This is our conclusion from two published lines, not a separate Garmin statement</b> — the link between stress and inactivity comes from the vívosmart 3 manual.</p>
+
+  <h2>Why it doesn't charge overnight, and why it's low in the morning</h2>
+
+  <p>Several different causes can produce a low reading in the morning, and the screen can't tell them apart.</p>
+
+  <p><b>First: the night wasn't as good as it felt.</b> Sleep quality is an input of the scale, and by Garmin's description it is good sleep that charges it. What counts as "good" and how many points a night adds isn't published.</p>
+
+  <p><b>Second. The watch wasn't on your wrist overnight.</b> The manual is explicit: "For more accurate results, wear the watch while sleeping." The wording is about "more accurate", not about "charges at all", and how much is lost without wearing it overnight isn't stated. For HRV status the watch reads the signal during sleep — that's in the next section of the manual; Garmin doesn't say whether the Body Battery input is the same one.</p>
+
+  <p><b>Third. Heart rate variability went down.</b> It's first in the list of inputs, but how far its deviation moves the level isn't given in a single number.</p>
+
+  <p><b>Fourth — and this one is ours, not Garmin's:</b> yesterday's load and stress may not have been covered by the overnight charge. The manual doesn't describe how the final level depends on where it started.</p>
+
+  <p>One morning can't tell you which cause is yours. A run of mornings can narrow it down; how to collect one is below.</p>
+
+  <h2>What to do about a low Body Battery</h2>
+
+  <p>The formula is a black box, but the inputs are published — so you can run the check yourself. Four of the five steps take five minutes. The fifth takes a week and a half — that's the one worth handing off.</p>
+
+  <ol>
+    <li><b>Check that the night was recorded at all.</b> The manual is explicit here: "For more accurate results, wear the watch while sleeping." If Garmin Connect has no sleep record for that night, the cause is mechanical rather than physiological, and there's nothing more to look for.</li>
+    <li><b>Compare the night with your own usual one.</b> Sleep quality is one of the four inputs. Open the sleep screen in Garmin Connect for that night and for the nights just before it, and look at total sleep time and when you fell asleep. The sign to look for: this night is shorter, or later, than most of the nights around it. Compare with your own recent nights, not with the eight hours from some article online.</li>
+    <li><b>Look at yesterday.</b> The other two inputs are activity and stress, and the manual says strenuous activity and high stress drain the scale more quickly. In Garmin Connect, open yesterday's activity list, then yesterday's stress graph. Count it as a hard day if a workout was longer or harder than your usual, or if the stress graph sat in the medium or high range for long stretches. A hard day explains the number just as well as bad sleep does.</li>
+    <li><b>What not to do: look for the cause in food, coffee or supplements.</b> Garmin is explicit here: food intake and stimulants like caffeine have no impact on the scale. If it dropped after lunch, something else did it.</li>
+    <li><b>Collect a run of 7–10 mornings and mark the hard days next to them.</b> One morning means nothing: the screen can't tell the causes apart, but a run of mornings can separate two cases — low readings either stick to hard days or sit low on their own.</li>
+  </ol>
+
+  <p><b>A coach's hypothesis, not a device verdict:</b> if low readings hold for several mornings in a row and stick to hard days, it looks like you've overreached and aren't recovering in time. Drop one or two hard workouts and see whether the morning level climbs within a week or two. If it doesn't, or you notice something else alongside — sleep, weight, mood — see a doctor: training isn't the only thing that causes this.</p>
+
+  <p>If the readings sit low whether you train hard or not, the lever isn't your training — it's the night and the day: bedtime, stress, wearing the watch. Give that two steady weeks; if the level still doesn't move, the same doctor line applies.</p>
+
+  <p>One more thing, before you go looking for "a normal level": there is no such number. Garmin's bands describe the scale, not a norm for you. Normal is your own usual level, and it only shows up across a run of mornings.</p>
+
+  <h2>How it differs from Training Readiness</h2>
+
+  <p>There's a second score next to Body Battery on the watch: Training Readiness. People often mix the two up, but they're built differently.</p>
+
+  <p class="tcap">Both per the current fēnix 8 manual, checked November 21, 2026</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th></th><th>Body Battery</th><th>Training Readiness</th></tr></thead>
+    <tbody>
+      <tr><td>Inputs</td><td>heart rate variability, stress, sleep quality, activity — <b>four</b> inputs</td><td>sleep score for last night, recovery time, HRV status, acute load, sleep history for 3 nights, stress history for 3 days, dive history for 24 hours — <b>seven</b></td></tr>
+      <tr><td>Scale</td><td>5–100, four bands</td><td>1–100, five zones with colors and names</td></tr>
+      <tr><td>Band names</td><td>very low / low / medium / high</td><td>Prime 95–100, High 75–94, Moderate 50–74, Low 25–49, Poor 1–24</td></tr>
+      <tr><td>History windows</td><td>not named</td><td>named: 3 nights, 3 days, 24 hours</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Garmin documents Training Readiness in much more detail: the windows are named, so are the limits of the zones and what each zone means. But there too Garmin gives ingredients without proportions — the weights of the inputs are disclosed for neither one. For Body Battery not even the window is disclosed: it gets the thinnest description of any metric we've broken down so far — a list of inputs and the direction of the arrow, and that's all.</p>
+
+  <h2>Is Body Battery accurate?</h2>
+
+  <p>We found no accuracy check of Body Battery: neither Garmin's own work nor an independent study, in the sources we went through for this page. That means we came across no measurement of how well the level matches actual recovery. It doesn't mean the signals under it are poor: heart rate variability, sleep and load are measured and validated separately from this scale.</p>
+
+  <p>Our reading: treat the number as Garmin's summary of four signals, not as a measured value of how recovered you are, and check it against what you can see — the sleep record in Garmin Connect, yesterday's load, how you actually feel. If the number and your body disagree across a week and a half of mornings, give your own log more weight than the single figure.</p>
+
+  <h2>Firstbeat isn't mentioned on the Body Battery page</h2>
+
+  <p>You'll often read that Body Battery runs on a Firstbeat model. The Body Battery page of the current fēnix 8 manual doesn't mention Firstbeat — we checked the whole page on <b>November 21, 2026</b> — and the feature is described in the Glances section, not in Performance Measurements, where the Firstbeat credit line appears for VO2 max. Credit lines change: edition v9 of the VO2 max. page read "VO2 max. data is provided by Firstbeat Analytics™", and the current v10 reads "VO2 max. data is provided by Garmin Human Performance Lab™". So we're not going to claim who calculates Body Battery, in either direction. More in the <a href="/garmin/vo2max" hreflang="ru" lang="ru">VO2 max breakdown</a> (in Russian).</p>
+
+  <h2>Frequently asked questions</h2>
+
+  <p><b>What is Body Battery on a Garmin watch?</b><br>
+  Body Battery is the "reserve energy" scale on Garmin watches. On the fēnix 8 it runs from 5 to 100 and is calculated from four inputs: heart rate variability, stress level, sleep quality and activity data. Garmin describes it as a gas gauge on a car: good sleep charges it, and strenuous activity and high stress can drain it more quickly. The scale never reads zero — its floor is 5, so the lowest number you can see is the bottom of the scale, not "nothing left at all".</p>
+
+  <p><b>Why is my Body Battery low in the morning?</b><br>
+  One number can't tell you, because the screen doesn't separate the causes. Four things can produce a low reading in the morning: a night worse than usual, HRV that went down, a hard day yesterday, or a watch that wasn't on your wrist. Garmin doesn't publish how many points a night adds or what counts as good sleep, so read a run of 7–10 mornings and mark the hard days next to them. If the low readings follow hard days, training is part of the cause. If they sit low regardless of training, the lever isn't your training — it's the night and the day: bedtime, stress, wearing the watch. A run of mornings tells those two cases apart, and nothing finer than that.</p>
+
+  <p><b>What's a good Body Battery number in the morning?</b><br>
+  There is no number that is good for everyone. Garmin's bands (on the fēnix 8: 5–25 very low, 26–50 low, 51–75 medium, 76–100 high) describe the scale, not a norm for you. Your normal is your own usual morning level, and it only shows up across a run of mornings: write down 7–10 readings and you have a first baseline. A reading is low when it sits well below your own usual level, not when it falls into a band. Keeping that baseline up by hand is the tedious part, and it's what Fizkult does: it builds your baseline from your watch history and tells you how many days it's calculated over.</p>
+
+  <p><b>Why doesn't my Body Battery charge at night?</b><br>
+  Start with the mechanics. Garmin is explicit: "For more accurate results, wear the watch while sleeping." So check three things: that Garmin Connect has a sleep record for the night, that the watch wasn't on the charger, and that it stayed on your wrist all night. If all three check out, the cause is physiological rather than mechanical. Garmin doesn't publish how many points a night adds, so judge by several nights in a row, not by one.</p>
+
+  <p><b>How do I increase my Body Battery?</b><br>
+  The manual gives a direction, not a recipe. Two published lines: "Good sleep charges your Body Battery." and "Strenuous activity and high stress can cause your Body Battery to drain more quickly." Garmin doesn't publish the rate of charge, so there's no figure for how much a night adds, and food and caffeine aren't a lever: the manual says they have no impact on the scale. The one lever you control is the night: wear the watch, keep bedtime steady, and watch what a hard day does to the next morning. The steps on this page tell you which of the four inputs — sleep, stress, activity, heart rate variability — is behind your number.</p>
+
+  <p><b>Why does my Body Battery drain when I'm not doing anything?</b><br>
+  Activity isn't the only thing that drains it. Stress does too — the fēnix 8 manual says "Strenuous activity and high stress can cause your Body Battery to drain more quickly", and the vívosmart 3 manual defines stress as an analysis of heart rate variability while you are inactive. So a sedentary day with high stress can drain the scale without a single step. That's our conclusion from those two lines, not a separate Garmin statement.</p>
+
+  <p><b>Do food and coffee affect Body Battery?</b><br>
+  According to Garmin, no: "Food intake, as well as stimulants like caffeine, has no impact on your Body Battery." The four inputs are heart rate variability, stress, sleep quality and activity. If your level dropped after lunch or a coffee, the manual's description sends you to look among those four.</p>
+
+  <p><b>What's the difference between Body Battery and Training Readiness?</b><br>
+  They're two separate scores with different inputs. Body Battery has four inputs — heart rate variability, stress, sleep quality, activity — runs from 5 to 100 and has four bands; its history windows aren't named. Training Readiness has seven inputs: sleep score (last night), recovery time, HRV status, acute load, sleep history (last 3 nights), stress history (last 3 days), dive history (last 24 hours). It runs from 1 to 100 and has five zones: Prime 95–100, High 75–94, Moderate 50–74, Low 25–49, Poor 1–24. Garmin doesn't disclose the weights of the inputs for either one.</p>
+
+  <p><b>Is Body Battery accurate?</b><br>
+  We found no accuracy check of Body Battery: neither Garmin's own work nor an independent study, in the sources we went through for this page. That means we came across no measurement of how well the level matches actual recovery. It doesn't mean the signals under it are poor: heart rate variability, sleep and load are measured and validated separately from this scale. Our reading: treat the number as Garmin's summary of four signals, not as a measured value of how recovered you are, and check it against what you can see — the sleep record in Garmin Connect, yesterday's load, how you actually feel. If the number and your body disagree across a week and a half of mornings, give your own log more weight than the single figure.</p>
+
+  <p><b>Does a low Body Battery in the morning mean I'm overtraining?</b><br>
+  One number can't settle it. A coach's hypothesis, not a device verdict: if low levels hold for several mornings in a row next to hard days, it looks like you've overreached. Drop one or two hard workouts and see whether the level climbs within a week or two. If it doesn't, or something else shows up alongside — sleep, weight, mood — see a doctor: training isn't the only thing that causes this. That's a coach's guide, not a diagnosis.</p>
+
+  <h2>In short</h2>
+
+  <ul>
+    <li>Body Battery™ is a feature of Garmin watches. On the fēnix 8 the scale runs from 5 to 100: 5–25 very low reserve energy, 26–50 low, 51–75 medium, 76–100 high.</li>
+    <li>There are four inputs: heart rate variability, stress level, sleep quality, activity data. Garmin defines stress through heart rate variability (per the vívosmart 3 manual) — our observation: if that holds on the fēnix 8 too, it counts twice.</li>
+    <li>Good sleep charges it; strenuous activity and high stress drain it more quickly. Food and caffeine have no impact on the scale.</li>
+    <li>A low reading in the morning has several possible causes: sleep, yesterday, heart rate variability, a watch that wasn't on your wrist. The screen can't tell them apart — read a run of mornings, not one number.</li>
+    <li>Garmin doesn't publish the weights of the inputs, the averaging windows or the rate of charge. Body Battery gets the thinnest description of any Garmin metric we've broken down so far.</li>
+  </ul>
+
+  <h2>What Garmin doesn't disclose</h2>
+
+  <ul>
+    <li>The formula behind the number isn't disclosed: no averaging windows, no thresholds, no rate of charge and drain, no link between heart rate variability and the level.</li>
+    <li>It isn't disclosed which heart rate variability is used, or whether it matches the one behind HRV status in the Performance Measurements section.</li>
+    <li>It isn't stated how many days after you buy the watch the scale appears. For HRV status the wait is named — three weeks — and for Body Battery it isn't.</li>
+    <li>We found no accuracy check, Garmin's or independent, in the sources we went through — details under "Is Body Battery accurate?" above.</li>
+    <li>Everything above is about the fēnix 8, manual edition v10, November 2026. We haven't checked the set of inputs and the band cutoffs for other models, and editions change: a month earlier a neighboring page carried a different credit line under a model.</li>
+    <li>The definition of stress level through heart rate variability at rest is quoted from the vívosmart 3 manual: the fēnix 8 page with the same section number now carries heart rate variability status instead.</li>
+    <li>Our explanations are marked "our observation", "our assumption", "our conclusion" and "a coach's hypothesis". Garmin doesn't publish them.</li>
+  </ul>
+
+  <h2>Sources</h2>
+
+  <ol class="src">
+    <li>Garmin fēnix 8 Owner's Manual, Body Battery (edition v10, November 2026; checked November 21, 2026). Definition: "Your watch analyzes your heart rate variability, stress level, sleep quality, and activity data to determine your overall Body Battery™ level. Like a gas gauge on a car, it indicates your amount of available reserve energy." Scale: "The Body Battery level range is from 5 to 100"; bands — 5–25 very low reserve energy, 26–50 low, 51–75 medium, 76–100 high. Direction of influence, two lines from the "Tips for Improved Body Battery Data" block: "Good sleep charges your Body Battery." and "Strenuous activity and high stress can cause your Body Battery to drain more quickly." Exclusions: "Food intake, as well as stimulants like caffeine, has no impact on your Body Battery." Condition: "For more accurate results, wear the watch while sleeping." Firstbeat isn't mentioned on the page; the feature is described in the Glances section. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-87E1392B-2C55-40B7-A1FF-3AB9252DA0A0.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Owner's Manual, Training Readiness (edition v10; checked November 21, 2026). Definition: "Your training readiness is a score and a short message that helps you determine how ready you are for training each day." Inputs: sleep score (last night), recovery time, HRV status, acute load, sleep history (last 3 nights), stress history (last 3 days), dive history (last 24 hours). Scale 1–100, five zones: Purple 95–100 Prime, Blue 75–94 High, Green 50–74 Moderate, Orange 25–49 Low, Red 1–24 Poor. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-C21BE0C8-A08E-4DA1-B6C6-2E0E2DDDB372.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin vívosmart 3 Owner's Manual, Heart Rate Variability and Stress Level (checked November 21, 2026). "Your device analyzes your heart rate variability while you are inactive to determine your overall stress. The stress level range is from 0 to 100, where 0 to 25 is a resting state, 26 to 50 is low stress, 51 to 75 is medium stress, and 76 to 100 is a high stress state." Quoted from this manual: on the fēnix 8 page with the same section number, heart rate variability status now stands there. <a href="https://www8.garmin.com/manuals/webhelp/vivosmart3/EN-US/GUID-9282196F-D969-404D-B678-F48A13D8D0CB.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Owner's Manual, Heart Rate Variability Status (edition v10; checked November 21, 2026). "The watch requires three weeks of consistent sleep data to display your heart rate variability status." Signal source: "Your watch analyzes your wrist heart rate readings while you are sleeping to determine your heart rate variability (HRV)." <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-9282196F-D969-404D-B678-F48A13D8D0CB.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Owner's Manual, About VO2 Max. Estimates (edition v10; checked November 21, 2026) — as an example of a changed credit line: "VO2 max. data is provided by Garmin Human Performance Lab™. VO2 max. analysis is provided with permission from The Cooper Institute®." In edition v9, which we read on October 29, 2026, the same page read "VO2 max. data is provided by Firstbeat Analytics™". <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-3E971364-A756-4057-B22D-C41250B2A82B.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+  </ol>
+
+  <p class="note">A series of explainers, "Garmin metrics", built from primary sources. Published wording, thresholds and limits come with a link to the Garmin manual; our explanations and assumptions are marked. Fizkult is not affiliated with Garmin or Firstbeat; Body Battery™, Garmin Human Performance Lab™ and Firstbeat Analytics™ are marks owned by their respective owners.</p>
+
+  <div class="cta">
+    <div class="kicker">Connect your Garmin to fizkult.ai</div>
+    <h2>The number hides the cause — we read the signals underneath</h2>
+    <p>Garmin's formula isn't published, so nobody outside Garmin can reproduce that number. We go to the signals underneath it — and name the one that moved.</p>
+    <p>The five steps above are what you can do by hand. The part nobody wants to do by hand comes next: keep the log going, know what a normal night looks like for you, notice what stood out today, and fold it into one conclusion every morning.</p>
+    <p>Fizkult does that for you. It reads the signals from your watch — sleep, heart rate, load — against your own baseline, built from your own history, and tells you how many days that baseline is calculated over. Every morning a breakdown arrives in Telegram, in words: a readiness score out of 100 — ours, not Garmin's — and next to it the reason. One tap into Recovery and it names the signal that moved: heart rate variability, resting heart rate, sleep duration, load balance, stress. Our score is a number too — but it never arrives on its own. The reason comes with it, in the same message, which is exactly what this page spent five steps reconstructing by hand.</p>
+    <p>You connect the watch once; don't skip the Historical Data box — without it the baseline builds only from new days, and more slowly. First week free, everything included. The bot writes in English if your Telegram is set to English; <b>/language</b> switches it either way.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_en_garmin_bodybattery">Connect your watch in Telegram →</a>
+    <p class="note" style="margin-bottom:0">This is a coach's read, not a medical one. If you don't feel yourself recovering, see a doctor.</p>
+  </div>
+
+  <a class="back" href="/en/garmin/">← All Garmin metric explainers</a>
+  <a class="back" href="/en/" style="margin-left:18px">Home</a>
+</div>
+</body>
+</html>

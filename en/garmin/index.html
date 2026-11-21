@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garmin metrics explained — from primary sources, with quotes and limits</title>
+<meta name="description" content="A series of explainers on how Garmin watch metrics are actually calculated: Body Battery, training effect, sleep score, VO2 max., training status, stress, Training Readiness. Built from Garmin and Firstbeat manuals and from peer-reviewed work — with quotes, and with a mark wherever the published part ends and our own explanation begins.">
+<link rel="canonical" href="https://fizkult.ai/en/garmin/">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Fizkult">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:title" content="Garmin metrics explained — from primary sources">
+<meta property="og:description" content="How Garmin watch metrics are calculated: Body Battery, training effect, sleep, VO2 max. With quotes from the manuals and from research, and with a mark where the published part ends.">
+<meta property="og:url" content="https://fizkult.ai/en/garmin/">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fizkult — a personal coach in Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Garmin metrics explained — from primary sources">
+<meta name="twitter:description" content="How Garmin watch metrics are calculated: Body Battery, training effect, sleep, VO2 max. With quotes and with the limits of every claim.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 36px; }
+  p, li { font-size:16px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .item { background:var(--panel); border:1.5px solid var(--line); padding:22px 22px 18px; margin-bottom:18px; }
+  .item .no { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+  .item h2 { font-size:21px; font-weight:800; letter-spacing:-.02em; line-height:1.2; margin:0 0 10px; }
+  .item h2 a { color:var(--ink); text-decoration:none; }
+  .item h2 a:hover { color:var(--accent); }
+  .item p { margin:0 0 14px; font-size:15px; color:var(--muted); }
+  .links { display:flex; flex-wrap:wrap; gap:10px; }
+  .links a { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; font-weight:500;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:7px 12px; }
+  .links a:hover { background:var(--ink); color:var(--bg); }
+  .note { font-size:13px; color:var(--muted); }
+  .rule { margin:44px 0 0; padding-top:20px; border-top:2px solid var(--line); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:36px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); margin:10px 0 12px; font-size:22px; font-weight:800; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "name": "Garmin metrics explained",
+      "description": "A series of explainers on how Garmin watch metrics are calculated — from the manufacturer's manuals, Firstbeat documentation and peer-reviewed work.",
+      "inLanguage": "en",
+      "url": "https://fizkult.ai/en/garmin/",
+      "isPartOf": { "@type": "WebSite", "name": "Fizkult", "url": "https://fizkult.ai/en/" },
+      "publisher": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/en/" },
+      "hasPart": [
+        { "@type": "Article", "headline": "Body Battery: four signals in one number, and the screen won't say which one dropped", "url": "https://fizkult.ai/en/garmin/body-battery", "inLanguage": "en" }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Fizkult", "item": "https://fizkult.ai/en/" },
+        { "@type": "ListItem", "position": 2, "name": "Garmin metrics explained", "item": "https://fizkult.ai/en/garmin/" }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Explainers · Garmin metrics</div>
+    <div class="ends">
+      <a class="lang" href="/garmin/" hreflang="ru" lang="ru" aria-label="Переключиться на русский">RU</a>
+      <a class="home" href="/en/" aria-label="Home">FIZKULT.AI</a>
+    </div>
+  </div>
+
+  <h1>Garmin metrics explained</h1>
+
+  <p class="lead">The watch shows dozens of numbers and says almost nothing about where they come from. We take them apart from primary sources: Garmin's own manuals, Firstbeat documentation and the research where a metric was tested against a lab. With quotes — and with a mark wherever the published part ends and our own explanation begins.</p>
+
+  <div class="item">
+    <div class="no">Explainer 13 · Body Battery</div>
+    <h2><a href="/en/garmin/body-battery">Body Battery: four signals in one number, and the screen won't say which one dropped</a></h2>
+    <p>The screen says 28 this morning, and the number doesn't tell you what happened: a short night, yesterday's long workout and a slump in heart rate variability all produce the same low morning. Which four inputs are named, why the scale starts at five instead of zero, what Garmin excludes from the calculation outright (food and caffeine) and five steps to find the cause by hand.</p>
+    <div class="links">
+      <a href="/en/garmin/body-battery">Read</a>
+    </div>
+  </div>
+
+  <div class="rule">
+    <p class="note">This series was written in Russian first and is being translated one explainer at a time. Already published in Russian: training effect, sleep score, VO2 max., training status, stress and Training Readiness — <a href="/garmin/">the Russian index</a> holds all of them, each with a PDF. English versions arrive on this page as they are done.</p>
+    <p class="note">Fizkult is not affiliated with Garmin, Firstbeat or The Cooper Institute; the names belong to their owners.</p>
+  </div>
+
+  <div class="cta">
+    <div class="kicker">Connect your Garmin to fizkult.ai</div>
+    <h2>Knowing how a number is built is half the job</h2>
+    <p>The other half is knowing what it means for you today. Fizkult reads your watch data itself and sends a breakdown to Telegram every morning, in plain words: what your sleep, recovery and load are saying and what to pay attention to. It builds your norm from your own history and tells you how many days it is calculated over. The first week is free, with everything included.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_en_garmin">Connect your watch in Telegram →</a>
+    <p class="note" style="margin-bottom:0">This is a coach's read, not a medical one. If you don't feel yourself recovering, see a doctor.</p>
+  </div>
+
+  <a class="back" href="/en/">← Home</a>
+</div>
+</body>
+</html>

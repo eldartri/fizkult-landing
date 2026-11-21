@@ -66,11 +66,13 @@ SITEMAP_FILES = {
     "https://fizkult.ai/garmin/body-battery": "garmin/body-battery.html",
     "https://fizkult.ai/garmin/stress": "garmin/stress.html",
     "https://fizkult.ai/garmin/training-readiness": "garmin/training-readiness.html",
+    "https://fizkult.ai/en/garmin/": "en/garmin/index.html",
+    "https://fizkult.ai/en/garmin/body-battery": "en/garmin/body-battery.html",
 }
 
 # Страницы, которые сверяются на canonical/noindex: корень, английская версия
 # и разборы. Каталог `drafts/` сюда не входит — он закрыт редиректом.
-PAGE_GLOBS = ["*.html", "en/*.html", "garmin/*.html"]
+PAGE_GLOBS = ["*.html", "en/*.html", "garmin/*.html", "en/garmin/*.html"]
 
 
 def nodes(text: str) -> list[dict]:

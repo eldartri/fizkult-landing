@@ -34,6 +34,30 @@ PAIRS = [
     ("oferta.html", "en/terms.html", "/en/terms", "/oferta"),
 ]
 
+# Пары разборов серии «Метрики Garmin». Сверяются ПО-ДРУГОМУ, не как пары выше.
+#
+# У страниц лендинга состав блоков обязан совпадать: это одна и та же страница
+# на двух языках, и лишняя карточка с одной стороны — потерянная секция с
+# другой. У разбора состав различается ПО ДЕЛУ. В русской таблице полос стоит
+# третья колонка с переводом английских названий; в английской переводить
+# нечего, и колонки там две. Требовать от неё пустую колонку ради прибора
+# значит портить страницу в угоду сторожу.
+#
+# Поэтому здесь сверяется не скелет, а то, чья поломка стоит денег:
+# оформление (побайтно — иначе страница приедет с чужим видом), число блоков
+# разметки, карта hreflang, объявленный язык, переключатель и забытый русский
+# абзац. Выпустил английский близнец — допиши сюда строку, иначе дрейф между
+# языками снова станет тихим.
+ARTICLE_PAIRS = [
+    ("garmin/index.html", "en/garmin/index.html", "/en/garmin/", "/garmin/"),
+    (
+        "garmin/body-battery.html",
+        "en/garmin/body-battery.html",
+        "/en/garmin/body-battery",
+        "/garmin/body-battery",
+    ),
+]
+
 
 class Skeleton(HTMLParser):
     """Скелет страницы: теги, id, классы, ссылки — без единого слова текста.
@@ -109,15 +133,22 @@ def _norm_start(href: str, ru_slug: str = "", en_slug: str = "") -> str:
     return href
 
 
-def check_pair(ru_rel: str, en_rel: str, ru_switch: str, en_switch: str) -> list[str]:
-    RU = ROOT / ru_rel
-    EN = ROOT / en_rel
-    for path in (RU, EN):
+def read_pair(ru_rel: str, en_rel: str) -> tuple[str, str]:
+    out = []
+    for rel in (ru_rel, en_rel):
+        path = ROOT / rel
         if not path.exists():
             sys.exit(f"нет файла {path}")
+        out.append(path.read_text(encoding="utf-8"))
+    return out[0], out[1]
 
-    ru_text = RU.read_text(encoding="utf-8")
-    en_text = EN.read_text(encoding="utf-8")
+
+def check_shell(ru_rel: str, en_rel: str, ru_text: str, en_text: str) -> list[str]:
+    """Оформление, поведение и число блоков разметки.
+
+    Общая часть обеих сверок: и у страницы лендинга, и у разбора эти вещи
+    обязаны совпадать независимо от того, совпадает ли состав блоков.
+    """
     problems: list[str] = []
 
     # 1. Оформление и поведение — побайтно. Разошлись — английская страница
@@ -141,7 +172,16 @@ def check_pair(ru_rel: str, en_rel: str, ru_switch: str, en_switch: str) -> list
             "и ИИ показывают до перехода; пропал блок — пропала страница из их ответов."
         )
 
-    ru_s, en_s = skeleton(ru_text), skeleton(en_text)
+    return problems
+
+
+def check_skeleton(ru_rel: str, en_rel: str, ru_s: Skeleton, en_s: Skeleton) -> list[str]:
+    """Состав блоков: теги, якоря, классы.
+
+    Только для пар страниц лендинга. У разборов состав различается по делу —
+    см. комментарий к ARTICLE_PAIRS.
+    """
+    problems: list[str] = []
 
     # 2. Состав и порядок тегов. Ловит потерянную секцию и лишнюю карточку —
     #    то есть перевод, отставший от русской страницы по составу.
@@ -184,6 +224,13 @@ def check_pair(ru_rel: str, en_rel: str, ru_switch: str, en_switch: str) -> list
                     problems.append(f"первое расхождение на классе №{i}: {a!r} против {b!r}")
                     break
 
+    return problems
+
+
+def check_links(ru_rel: str, en_rel: str, ru_s: Skeleton, en_s: Skeleton) -> list[str]:
+    """Ссылки наружу и якоря внутрь — общая часть обеих сверок."""
+    problems: list[str] = []
+
     # 5. Ссылки наружу — отдельным прибором: битая ссылка на бота это прямая
     #    потеря человека, а не косметика.
     #
@@ -223,6 +270,15 @@ def check_pair(ru_rel: str, en_rel: str, ru_switch: str, en_switch: str) -> list
         for href in s.links:
             if href.startswith("#") and href[1:] not in known:
                 problems.append(f"{rel}: ссылка {href!r} ведёт в несуществующий раздел")
+
+    return problems
+
+
+def check_lang(
+    ru_rel: str, en_rel: str, ru_text: str, en_text: str, ru_switch: str, en_switch: str
+) -> list[str]:
+    """Языковая обвязка: переключатель, hreflang, объявленный язык, кириллица."""
+    problems: list[str] = []
 
     # 6. Переключатель языка — ровно один на странице, и ведёт на другую сторону.
     for rel, text, expect in ((ru_rel, ru_text, ru_switch), (en_rel, en_text, en_switch)):
@@ -270,11 +326,52 @@ def check_pair(ru_rel: str, en_rel: str, ru_switch: str, en_switch: str) -> list
         line = page[: m.start()].count("\n") + 1
         problems.append(f"{en_rel}: непереведённый текст {m.group()!r} (строка ~{line})")
 
+    return problems
+
+
+def check_pair(ru_rel: str, en_rel: str, ru_switch: str, en_switch: str) -> list[str]:
+    """Пара страниц лендинга: сверяется всё, включая состав блоков."""
+    ru_text, en_text = read_pair(ru_rel, en_rel)
+    ru_s, en_s = skeleton(ru_text), skeleton(en_text)
+
+    problems = (
+        check_shell(ru_rel, en_rel, ru_text, en_text)
+        + check_skeleton(ru_rel, en_rel, ru_s, en_s)
+        + check_links(ru_rel, en_rel, ru_s, en_s)
+        + check_lang(ru_rel, en_rel, ru_text, en_text, ru_switch, en_switch)
+    )
+
     if not problems:
         print(
             f"{ru_rel} ↔ {en_rel}: сходятся — {len(ru_s.tags)} тегов, "
-            f"{len(ru_s.ids)} якорей, {len(set(ru_out))} внешних ссылок; "
-            f"оформление и скрипт побайтно равны"
+            f"{len(ru_s.ids)} якорей, "
+            f"{len({h for h in ru_s.links if h.startswith(('http', 'mailto:'))})} "
+            "внешних ссылок; оформление и скрипт побайтно равны"
+        )
+    return [f"{ru_rel} ↔ {en_rel}: {p}" for p in problems]
+
+
+def check_article_pair(
+    ru_rel: str, en_rel: str, ru_switch: str, en_switch: str
+) -> list[str]:
+    """Пара разборов: всё то же, КРОМЕ состава блоков — см. ARTICLE_PAIRS.
+
+    Ссылки тоже не сверяются: разбор зовёт из текста соседние разборы, а по
+    русскую сторону их семь против одного по английскую — это и есть
+    догоняющий выпуск английской половины, а не дрейф. Остаётся то, чья
+    поломка стоит денег: оформление, число блоков разметки и языковая
+    обвязка.
+    """
+    ru_text, en_text = read_pair(ru_rel, en_rel)
+
+    problems = check_shell(ru_rel, en_rel, ru_text, en_text) + check_lang(
+        ru_rel, en_rel, ru_text, en_text, ru_switch, en_switch
+    )
+
+    if not problems:
+        print(
+            f"{ru_rel} ↔ {en_rel}: сходятся — оформление побайтно равно, "
+            "разметка на месте, языковая обвязка парная"
         )
     return [f"{ru_rel} ↔ {en_rel}: {p}" for p in problems]
 
@@ -283,6 +380,8 @@ def main() -> int:
     problems: list[str] = []
     for ru_rel, en_rel, ru_switch, en_switch in PAIRS:
         problems += check_pair(ru_rel, en_rel, ru_switch, en_switch)
+    for ru_rel, en_rel, ru_switch, en_switch in ARTICLE_PAIRS:
+        problems += check_article_pair(ru_rel, en_rel, ru_switch, en_switch)
 
     if problems:
         print("\nРАСХОЖДЕНИЯ:\n")

@@ -72,6 +72,28 @@
     <lastmod>2026-11-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/"/>
+  </url>
+
+  <!--
+    Английская половина серии. Догоняет русскую (заказ владельца
+    21.11.2026 — обе половины за две недели), поэтому языковая пара
+    объявляется НЕ у всех разборов сразу, а у того, у кого английский
+    близнец уже лежит: пара,
+    объявленная на несуществующий адрес, обесценивает все остальные пары
+    домена. Выпустил английский разбор — здесь появляются две строки:
+    пара у русского адреса и собственный блок английского.
+  -->
+  <url>
+    <loc>https://fizkult.ai/en/garmin/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/"/>
   </url>
 
   <url>
@@ -107,6 +129,19 @@
     <lastmod>2026-11-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/body-battery"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/body-battery"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/body-battery"/>
+  </url>
+
+  <url>
+    <loc>https://fizkult.ai/en/garmin/body-battery</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/body-battery"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/body-battery"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/body-battery"/>
   </url>
 
   <url>
