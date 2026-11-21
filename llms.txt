@@ -35,7 +35,7 @@
 - [Тарифы и состав](https://fizkult.ai/tarify): таблица уровней, словарь понятий, правила счётчиков, оплаты, переходов и возврата. Официальная ссылка на цены.
 - [Условия, оплата и возврат](https://fizkult.ai/oferta): действующая оферта.
 - [Политика обработки персональных данных](https://fizkult.ai/privacy).
-- [Fizkult in English](https://fizkult.ai/en/) · [Pricing](https://fizkult.ai/en/pricing).
+- [Fizkult in English](https://fizkult.ai/en/) · [Pricing](https://fizkult.ai/en/pricing) · [Terms of service](https://fizkult.ai/en/terms) · [Privacy policy](https://fizkult.ai/en/privacy).
 
 ## Разборы метрик Garmin
 

@@ -31,6 +31,7 @@ PAIRS = [
     ("index.html", "en/index.html", "/en/", "/"),
     ("tarify.html", "en/pricing.html", "/en/pricing", "/tarify"),
     ("privacy.html", "en/privacy.html", "/en/privacy", "/privacy"),
+    ("oferta.html", "en/terms.html", "/en/terms", "/oferta"),
 ]
 
 

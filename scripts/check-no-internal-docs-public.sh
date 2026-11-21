@@ -65,6 +65,7 @@ PUBLIC=(
   en/
   en/pricing
   en/privacy
+  en/terms
 )
 
 # Публичное, что обязано отдаваться: разборы серии «Метрики Garmin» и
