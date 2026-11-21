@@ -102,6 +102,11 @@ PUBLIC_FILES=(
   "en/garmin/body-battery text/html https://fizkult.ai/en/garmin/body-battery"
   "en/garmin/stress text/html https://fizkult.ai/en/garmin/stress"
   "en/garmin/training-readiness text/html https://fizkult.ai/en/garmin/training-readiness"
+  # Калькуляторы. Считают в браузере, поэтому открытость адреса — это и есть
+  # вся их доставка: страница не отвечает — сервиса нет. Выпустил новый
+  # калькулятор, допиши сюда обе строки, русскую и английскую.
+  "calc/pace text/html https://fizkult.ai/calc/pace"
+  "en/calc/pace text/html https://fizkult.ai/en/calc/pace"
   "robots.txt text/plain"
   "sitemap.xml application/xml"
   "llms.txt text/plain"
