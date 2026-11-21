@@ -93,6 +93,22 @@ def one_block(text: str, tag: str, where: str) -> str | None:
     return hits[0] if hits else None
 
 
+def _norm_start(href: str, ru_slug: str = "", en_slug: str = "") -> str:
+    """Сводит языковую метку deeplink к одному виду, чтобы сверять остальное.
+
+    site_en_club → site_club, одинокий site_en → site_ru. Русскую сторону
+    трогать не нужно: она и есть нормальная форма. Отдельный случай — метка
+    по имени самой страницы: адреса пары разные по делу (tarify ↔ pricing),
+    и метка повторяет адрес своей стороны; тогда сводим имя страницы
+    к русскому.
+    """
+    href = re.sub(r"(start=site)_en_", r"\1_", href)
+    href = re.sub(r"(start=site)_en\b", r"\1_ru", href)
+    if ru_slug and en_slug and en_slug != ru_slug:
+        href = re.sub(rf"(start=site)_{re.escape(en_slug)}\b", rf"\1_{ru_slug}", href)
+    return href
+
+
 def check_pair(ru_rel: str, en_rel: str, ru_switch: str, en_switch: str) -> list[str]:
     RU = ROOT / ru_rel
     EN = ROOT / en_rel
@@ -170,9 +186,21 @@ def check_pair(ru_rel: str, en_rel: str, ru_switch: str, en_switch: str) -> list
 
     # 5. Ссылки наружу — отдельным прибором: битая ссылка на бота это прямая
     #    потеря человека, а не косметика.
+    #
+    #    Метка языка в deeplink сравнивается нормализованной. Английская
+    #    страница обязана звать бота английской меткой — иначе источник в
+    #    статистике слипнется с русским, а метка и заведена ради разделения.
+    #    Сторож, который этого не знал, краснел на ровном месте с 21.11.2026 —
+    #    а красный сторож перестают читать, и он умирает молча.
+    #    Сверяем, что метки парные: site_X ↔ site_en_X, site_ru ↔ site_en.
+    #    Всё остальное в ссылке — хост, путь, параметры — сверяется как прежде.
     ru_out = [h for h in ru_s.links if h.startswith(("http", "mailto:"))]
     en_out = [h for h in en_s.links if h.startswith(("http", "mailto:"))]
-    if ru_out != en_out:
+    ru_slug = ru_rel.rsplit("/", 1)[-1].removesuffix(".html")
+    en_slug = en_rel.rsplit("/", 1)[-1].removesuffix(".html")
+    if [_norm_start(h, ru_slug, en_slug) for h in ru_out] != [
+        _norm_start(h, ru_slug, en_slug) for h in en_out
+    ]:
         problems.append(
             f"внешние ссылки разные: русская {sorted(set(ru_out))}, "
             f"английская {sorted(set(en_out))}"
