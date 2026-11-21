@@ -109,6 +109,8 @@ PUBLIC_FILES=(
   "en/calc/pace text/html https://fizkult.ai/en/calc/pace"
   "calc/predict text/html https://fizkult.ai/calc/predict"
   "en/calc/predict text/html https://fizkult.ai/en/calc/predict"
+  "calc/hr-zones text/html https://fizkult.ai/calc/hr-zones"
+  "en/calc/hr-zones text/html https://fizkult.ai/en/calc/hr-zones"
   "robots.txt text/plain"
   "sitemap.xml application/xml"
   "llms.txt text/plain"

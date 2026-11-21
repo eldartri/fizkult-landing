@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heart Rate Zone Calculator: Max HR and Heart Rate Reserve</title>
+<meta name="description" content="Works out heart rate zones two ways at once — as a share of maximum heart rate and as a share of heart rate reserve — and shows which zone your run falls into on each scale. Age-predicted maximum comes from Tanaka 2001: 351 studies, 18,712 people. Everything is computed in your browser; the numbers you type go nowhere.">
+<link rel="canonical" href="https://fizkult.ai/en/calc/hr-zones">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/calc/hr-zones">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/calc/hr-zones">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/calc/hr-zones">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Fizkult">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:title" content="Heart Rate Zone Calculator: Max HR and Heart Rate Reserve">
+<meta property="og:description" content="Two zone tables for one person — and why they disagree.">
+<meta property="og:url" content="https://fizkult.ai/en/calc/hr-zones">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fizkult — a personal coach in Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Heart Rate Zone Calculator: Max HR and Heart Rate Reserve">
+<meta name="twitter:description" content="Two zone tables for one person — and why they disagree.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .calc { background:var(--panel); border:1.5px solid var(--line); padding:22px 20px; margin:0 0 10px; }
+  .modes { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+  .modes button { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    font-weight:700; padding:8px 12px; border:1.5px solid var(--line); background:transparent; color:var(--ink); cursor:pointer; }
+  .modes button[aria-pressed="true"] { background:var(--ink); color:var(--bg); }
+  .fields { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:18px; }
+  .field label { display:block; font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .field input, .field select { width:100%; font-family:"Geist Mono",monospace; font-size:17px; padding:10px 12px;
+    border:1.5px solid var(--line); background:var(--bg); color:var(--ink); }
+  .field input:focus, .field select:focus { outline:2px solid var(--accent); outline-offset:-2px; }
+  .field input:disabled, .field select:disabled { opacity:.45; }
+  .hint { font-size:12px; color:var(--muted); margin:6px 0 0; }
+  .leg { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--muted); margin:22px 0 10px; padding-top:14px; border-top:1.5px solid var(--line); }
+  .out { display:flex; flex-wrap:wrap; gap:24px; margin-top:20px; padding-top:18px; border-top:1.5px solid var(--line); }
+  .out div { min-width:120px; }
+  .out span { display:block; font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--muted); }
+  .out strong { font-family:"Geist Mono",monospace; font-size:24px; font-weight:700; letter-spacing:-.02em; }
+  .out .big { font-size:34px; color:var(--accent); }
+  .out em { font-style:normal; font-size:14px; color:var(--muted); display:block; }
+  .hit { font-size:17px; font-weight:700; margin:18px 0 0; padding-top:16px; border-top:1.5px solid var(--line); }
+  .err { color:var(--accent); font-weight:700; margin:14px 0 0; }
+  .nudge { background:var(--panel); border:1.5px dashed var(--line); padding:14px 18px; margin:0 0 10px;
+    display:flex; flex-wrap:wrap; align-items:center; gap:12px; font-size:15px; }
+  .nudge button { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    font-weight:700; padding:8px 12px; border:1.5px solid var(--line); background:var(--ink); color:var(--bg); cursor:pointer; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); }
+  .scroll table { min-width:560px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  tr.mark td { background:#F6EFE2; font-weight:700; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  .mk { font-family:"Geist",system-ui,sans-serif; font-size:12px; font-weight:400; color:var(--accent); white-space:nowrap; }
+  .note { font-size:13px; color:var(--muted); }
+  .src { font-size:14px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "Heart Rate Zone Calculator",
+      "url": "https://fizkult.ai/en/calc/hr-zones",
+      "applicationCategory": "SportsApplication",
+      "operatingSystem": "Any browser",
+      "inLanguage": "en",
+      "description": "Works out the boundaries of six heart rate bands two ways at once: as a share of maximum heart rate and as a share of heart rate reserve (maximum minus resting heart rate, the Karvonen method). The maximum is either estimated with the Tanaka formula 208 − 0.7 × age or taken from the athlete's own measurement. The heart rate of a specific run is placed on both scales at once, so you can see the same number collect two different zone numbers. Everything is computed in the browser; the values entered are never sent anywhere.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "publisher": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/en/" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Fizkult", "item": "https://fizkult.ai/en/" },
+        { "@type": "ListItem", "position": 2, "name": "Heart Rate Zone Calculator", "item": "https://fizkult.ai/en/calc/hr-zones" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do you calculate maximum heart rate from age?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Multiply your age by 0.7 and subtract the result from 208 — that is the Tanaka, Monahan and Seals formula from 2001, derived from 351 studies and cross-validated in the lab on 514 people aged 18 to 81. At forty it gives 180 beats. The Fizkult heart rate zone calculator does the arithmetic for you and lays the result out in bands straight away. But the authors put a caveat next to the formula that matters more than the formula itself: among people of the same age, measured maximum heart rate scatters around it with a standard deviation of 7 to 11 beats, which is why they recommend measuring it directly whenever that is possible."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you measure your own maximum heart rate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An easy run will not show it: the maximum appears where the work ends. In the field it is usually looked for like this: warm up properly, then run two or three minutes up a long hill at full effort, putting everything left into the last thirty seconds — and take the peak on your watch at the end as your number, provided it does not look like a jump of a couple of seconds and it matched the feeling of the limit. A doubtful peak is worth rechecking with a chest strap or repeating on another day: wrist optics go wrong most often on exactly this kind of maximal work. The second chance arrives on its own: the final kilometer of a 5K or 10K race often comes very close to the maximum. And two caveats that matter more than the protocol itself. This is work to exhaustion — it is not for anyone just starting out or coming back after a break or an illness, and not for anyone whose doctor has mentioned their heart or their blood pressure: for them the maximum is determined on a supervised test, not on a hill. And you stop by what you feel, not by the stopwatch: pain or pressure in the chest, dizziness, a skipping heartbeat, breathlessness out of proportion to the effort — reason to stop at once and see a doctor, not to grind out the last thirty seconds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which of the two tables should you use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The one your watch builds its zones on, otherwise your plan and your screen will call the same run by different zone numbers. The Forerunner 945 manual allows zones to be built four ways: in beats, as a share of maximum heart rate, as a share of heart rate reserve, or as a share of threshold heart rate; which one you are on is visible in your heart rate zone settings. If it is set to beats or to a share of threshold heart rate, neither of the two columns fits — then this page is about the mechanism rather than about your boundaries. The second column is not spare, though: it shows how much the zone number depends on the chosen scale rather than on you."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is 220 minus age considered outdated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because nobody ever derived it. Tanaka and colleagues traced it back to reviews from the seventies, where it was set — their word — arbitrarily, on about a dozen studies with almost nobody over 55. Compared against their own data you can see where it misses: it runs high for young people, meets 208 − 0.7 × age at around forty, and then runs low — by roughly 10 beats by the age of seventy, and by more than 20 for some older adults. For a runner between thirty and fifty the two formulas give almost the same answer, and the calculator prints the difference as a number so you do not have to take that on trust."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do reserve zones differ from max heart rate zones?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In where the counting starts. Max zones take a share of maximum heart rate, which means counting up from zero beats — a number no living person has. Reserve zones take a share of the gap between resting and maximum heart rate; that is the Karvonen method from 1957. For the same person the second table comes out above the first, and the higher the resting heart rate, the further apart they move: the gap at every boundary equals the resting heart rate multiplied by the share still missing to one. That is why the same run lands in zone two on one scale and zone three on the other — the calculator prints both columns side by side so that it is visible at once."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you trust zones calculated from a formula?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "As a starting point yes, as a measurement no, and the reason is arithmetic rather than caution. Among people of the same age, measured maximum heart rate scatters around the formula with a standard deviation of 7 to 11 beats — more than the distance between the two formulas for a middle-aged runner. Ten beats of error in the maximum move every boundary by 5 to 10 beats: a quarter to a half of a band's width on the max scale, and the reserve bands are narrower still, so the same error weighs even more there. That is enough to push a run that was close to a boundary into the next band. If your heart rate has climbed above the calculated maximum in a race or in work to exhaustion, trust the measurement, provided the peak does not look like a jump of a couple of seconds and it matched the feeling of the limit; recheck a doubtful one with a chest strap or repeat it on another day. Type your own number into the field and the table will recalculate."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do different apps give me different zones?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because a zone is not a property of a person but a division of a scale, and the app picks the scale. The Forerunner 945 manual allows zones to be built four ways: in beats, as a share of maximum heart rate, as a share of heart rate reserve, or as a share of threshold heart rate. On top of that, the number of zones differs from app to app: the table in that same manual has five, other programs do it differently. The zone number changes when the scale changes, while a share of maximum stays a share of maximum — which is why Fizkult labels bands in its workout breakdown by their boundary rather than by a number: a run at 165 beats with a maximum of 184 is 90 percent of maximum in any system, but its zone number is different in each."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Services · Calculators</div>
+    <div class="ends">
+      <a class="lang" href="/calc/hr-zones" hreflang="ru" lang="ru" aria-label="Переключиться на русскую версию">RU</a>
+      <a class="home" href="/en/" aria-label="Home">FIZKULT.AI</a>
+    </div>
+  </div>
+
+  <h1>Heart Rate Zone Calculator</h1>
+
+  <p class="lead">Builds the boundaries on two scales at once — from maximum heart rate and from heart rate reserve — because for one person those are two different tables with different zone numbers. Type in the heart rate of your last run and it will show which zone that run lands in on each of them. Computed in your browser: the numbers you type go nowhere.</p>
+
+  <div class="calc">
+    <div class="modes" role="group" aria-label="Where the maximum heart rate comes from">
+      <button type="button" id="m-age" aria-pressed="true">Max from age</button>
+      <button type="button" id="m-own" aria-pressed="false">I know my max</button>
+    </div>
+
+    <div class="fields">
+      <div class="field">
+        <label for="age">Age, years</label>
+        <input id="age" inputmode="numeric" value="35">
+        <p class="hint">Put in your own — the table recalculates</p>
+      </div>
+
+      <div class="field">
+        <label for="hrmax">Maximum heart rate, bpm</label>
+        <input id="hrmax" inputmode="numeric" disabled>
+        <p class="hint" id="hint-max">Calculated from age. If you know yours from a measurement, press “I know my max”</p>
+      </div>
+
+      <div class="field">
+        <label for="rest">Resting heart rate, bpm</label>
+        <input id="rest" inputmode="numeric" value="">
+        <p class="hint">Optional. Morning heart rate lying down, before you get up. Fill it in and the “By reserve” column fills too</p>
+      </div>
+
+      <div class="field">
+        <label for="hr">Heart rate on a run, bpm</label>
+        <input id="hr" inputmode="numeric" value="">
+        <p class="hint">Optional. Average heart rate of your last session — it will show the zone on each scale</p>
+      </div>
+    </div>
+
+    <p class="note" style="margin-top:14px">The fields hold an example — put your own numbers in.</p>
+
+    <div class="out" aria-live="polite">
+      <div><span>Maximum heart rate</span><strong class="big" id="o-max">—</strong><em id="o-max-note">208 − 0.7 × age</em></div>
+      <div><span>220 − age gives</span><strong id="o-fox">—</strong><em id="o-fox-note">The default in the Forerunner 45 manual</em></div>
+      <div><span>Heart rate reserve</span><strong id="o-res">—</strong><em id="o-res-note">Maximum minus resting</em></div>
+    </div>
+
+    <p class="hit" id="o-hit" aria-live="polite" hidden></p>
+
+    <p class="err" id="err" hidden></p>
+  </div>
+
+  <div class="scroll" aria-live="polite">
+  <table>
+    <thead><tr><th>Share of max</th><th>By max HR</th><th>By reserve</th><th>How it feels</th></tr></thead>
+    <tbody id="rows">
+      <tr><td class="num">below 50%</td><td class="num">up to 92</td><td class="num">—</td><td>Below zone 1: walking, warm-up, rest between intervals</td></tr>
+      <tr><td class="num">50–60%</td><td class="num">92–110</td><td class="num">—</td><td>Zone 1 · easy, breathing easy</td></tr>
+      <tr><td class="num">60–70%</td><td class="num">110–129</td><td class="num">—</td><td>Zone 2 · comfortable, you can hold a conversation</td></tr>
+      <tr><td class="num">70–80%</td><td class="num">129–147</td><td class="num">—</td><td>Zone 3 · talking gets hard</td></tr>
+      <tr><td class="num">80–90%</td><td class="num">147–166</td><td class="num">—</td><td>Zone 4 · fast and slightly uncomfortable, breathing hard</td></tr>
+      <tr><td class="num">90–100%</td><td class="num">166–184</td><td class="num">—</td><td>Zone 5 · a sprint, it does not last</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p class="note">The five zone numbers and the way they feel come from the table in the Garmin manual; the “below zone 1” row is ours, added so the table does not break off at the bottom. The number belongs to the scale, not to you: change what your watch builds zones on and the number changes with it. The share of maximum stays the same.</p>
+
+  <div class="nudge" id="nudge">
+    <div>The “By reserve” column is empty: it is measured from your resting heart rate. Many watches work it out themselves if you wear them at night: look for morning heart rate lying down, or the daily minimum.</div>
+    <button type="button" id="to-rest">Add resting heart rate</button>
+  </div>
+
+  <p class="note">The one thing no formula can work out — how high your own heart rate has actually climbed over the last three months — <a href="https://t.me/fizkult_ai_bot?start=site_calc_zones_out_en">Fizkult</a> takes from your own sessions.</p>
+
+  <h2>Where 208 − 0.7 × age and 220 − age come from</h2>
+
+  <p><b>Nobody ever derived the second formula.</b> Tanaka, Monahan and Seals traced its origin in 2001: it came out of reviews from the seventies, where it was set — their word — arbitrarily, on about a dozen studies with almost nobody over 55. They themselves gathered 351 studies, 492 groups and 18,712 people and arrived at 208 − 0.7 × age; separately, in the lab, they cross-validated it on 514 people aged 18 to 81 and got practically the same line. It leans on neither sex nor training status: trained and untrained people produced the same slope.</p>
+
+  <p><b>And the most important number on this page is not the formula but the scatter around it.</b> Among people of the same age, measured maximum heart rate scatters around the line with a standard deviation of 7 to 11 beats. That is larger than the distance between the two formulas in mid-life: the argument about which of them is right is smaller than the difference between two people of the same age. Ten beats of error in the maximum move every boundary by 5 to 10 beats — a quarter to a half of a band's width on the max scale, and the reserve bands are narrower still, so the same error weighs even more there. That is enough to push a run that was close to a boundary into the next band. Which is why the authors recommend measuring the maximum directly whenever that is possible, and keeping the formula as a starting point.</p>
+
+  <p><b>The two formulas do not disagree everywhere.</b> They cross at around forty, and for a runner between thirty and fifty the difference is no more than three beats. It becomes noticeable at the edges: about four beats at 25, six at 60, nine at 70, and more than 20 for some older adults. The calculator prints both numbers side by side so that this is shown rather than retold.</p>
+
+  <h2>Why one person has two zone tables</h2>
+
+  <p><b>The “by max” scale counts up from zero beats.</b> Seventy percent of 184 is 129, and it makes no difference whether your heart does 45 or 70 at rest. But a living person has no zero: even lying down the heart is working, and the bottom of the range is permanently occupied. Martti Karvonen and colleagues proposed a different count in 1957 — from the reserve: take the gap between resting and maximum heart rate and measure the share inside that gap. At a resting heart rate of 50 the same seventy percent gives 144 beats, fifteen higher; at a resting heart rate of 70 it gives 150, twenty-one higher. The gap between the scales equals the resting heart rate multiplied by the share still missing to one: it grows the higher the resting heart rate and the lower the zone.</p>
+
+  <p><b>This is where all the confusion with numbers comes from.</b> The same run easily turns out to be zone two on one scale and zone three on the other — same person, same effort, different ruler. The Forerunner 945 manual allows zones to be built four ways: in beats, as a share of maximum heart rate, as a share of heart rate reserve, or as a share of threshold heart rate. On top of that, different apps use a different number of zones. So the question “what is my zone two” has no answer without naming the scale, while “what percentage of maximum is this” always does.</p>
+
+  <p><b>And the slicing into ten-percent bands is itself a convention, not physiology.</b> Nowhere in the body is it written that something happens at 79 percent of maximum and something else at 81. Approaches that build zones from threshold heart rate put the boundaries elsewhere and arrive at a different number of zones; the reserve method is likewise a way of counting, proposed in 1957, not a measured law. It is the same thought as the one about numbers, one level deeper: the scale is a tool, not a property of a person.</p>
+
+  <p>The Fizkult workout breakdown is built the same way: it shows how many minutes your heart rate spent in each band — when enough heart rate was recorded to count that — and labels the bands by their boundary, “70–80%”, rather than by a number. A number there would belong to your watch settings, not to you.</p>
+
+  <h2>What to do with all this</h2>
+
+  <p><b>The uncertainty worth closing is the measured maximum, not the resting heart rate.</b> An easy run will not show it: the maximum appears where the work ends. In the field it is usually looked for like this: warm up properly, then run two or three minutes up a long hill at full effort, putting everything left into the last thirty seconds — and take the peak on your watch at the end as your number, provided it does not look like a jump of a couple of seconds and it matched the feeling of the limit. A doubtful peak is worth rechecking with a chest strap or repeating on another day: wrist optics go wrong most often on exactly this kind of maximal work. The second chance arrives on its own: the final kilometer of a 5K or 10K race often comes very close to the maximum. And two caveats that matter more than the protocol itself. This is work to exhaustion — it is not for anyone just starting out or coming back after a break or an illness, and not for anyone whose doctor has mentioned their heart or their blood pressure: for them the maximum is determined on a supervised test, not on a hill. And you stop by what you feel, not by the stopwatch: pain or pressure in the chest, dizziness, a skipping heartbeat, breathlessness out of proportion to the effort — reason to stop at once and see a doctor, not to grind out the last thirty seconds.</p>
+
+  <p><b>The column to use is the one your watch builds its zones on.</b> Otherwise your plan and your screen will call the same run by different zone numbers, and the argument will never end. Which one you are on is visible in your heart rate zone settings. The second column is not spare, though — it shows how much the number depends on the chosen scale rather than on you, and that is precisely the reason not to get attached to the number.</p>
+
+  <h2>Frequently asked questions</h2>
+
+  <p><b>How do you calculate maximum heart rate from age?</b><br>
+  Multiply your age by 0.7 and subtract the result from 208 — that is the Tanaka, Monahan and Seals formula from 2001, derived from 351 studies and cross-validated in the lab on 514 people aged 18 to 81. At forty it gives 180 beats. The Fizkult heart rate zone calculator does the arithmetic for you and lays the result out in bands straight away. But the authors put a caveat next to the formula that matters more than the formula itself: among people of the same age, measured maximum heart rate scatters around it with a standard deviation of 7 to 11 beats, which is why they recommend measuring it directly whenever that is possible.</p>
+
+  <p><b>How do you measure your own maximum heart rate?</b><br>
+  An easy run will not show it: the maximum appears where the work ends. In the field it is usually looked for like this: warm up properly, then run two or three minutes up a long hill at full effort, putting everything left into the last thirty seconds — and take the peak on your watch at the end as your number, provided it does not look like a jump of a couple of seconds and it matched the feeling of the limit. A doubtful peak is worth rechecking with a chest strap or repeating on another day: wrist optics go wrong most often on exactly this kind of maximal work. The second chance arrives on its own: the final kilometer of a 5K or 10K race often comes very close to the maximum. And two caveats that matter more than the protocol itself. This is work to exhaustion — it is not for anyone just starting out or coming back after a break or an illness, and not for anyone whose doctor has mentioned their heart or their blood pressure: for them the maximum is determined on a supervised test, not on a hill. And you stop by what you feel, not by the stopwatch: pain or pressure in the chest, dizziness, a skipping heartbeat, breathlessness out of proportion to the effort — reason to stop at once and see a doctor, not to grind out the last thirty seconds.</p>
+
+  <p><b>Which of the two tables should you use?</b><br>
+  The one your watch builds its zones on, otherwise your plan and your screen will call the same run by different zone numbers. The Forerunner 945 manual allows zones to be built four ways: in beats, as a share of maximum heart rate, as a share of heart rate reserve, or as a share of threshold heart rate; which one you are on is visible in your heart rate zone settings. If it is set to beats or to a share of threshold heart rate, neither of the two columns fits — then this page is about the mechanism rather than about your boundaries. The second column is not spare, though: it shows how much the zone number depends on the chosen scale rather than on you.</p>
+
+  <p><b>Why is 220 minus age considered outdated?</b><br>
+  Because nobody ever derived it. Tanaka and colleagues traced it back to reviews from the seventies, where it was set — their word — arbitrarily, on about a dozen studies with almost nobody over 55. Compared against their own data you can see where it misses: it runs high for young people, meets 208 − 0.7 × age at around forty, and then runs low — by roughly 10 beats by the age of seventy, and by more than 20 for some older adults. For a runner between thirty and fifty the two formulas give almost the same answer, and the calculator prints the difference as a number so you do not have to take that on trust.</p>
+
+  <p><b>How do reserve zones differ from max heart rate zones?</b><br>
+  In where the counting starts. Max zones take a share of maximum heart rate, which means counting up from zero beats — a number no living person has. Reserve zones take a share of the gap between resting and maximum heart rate; that is the Karvonen method from 1957. For the same person the second table comes out above the first, and the higher the resting heart rate, the further apart they move: the gap at every boundary equals the resting heart rate multiplied by the share still missing to one. That is why the same run lands in zone two on one scale and zone three on the other — the calculator prints both columns side by side so that it is visible at once.</p>
+
+  <p><b>Can you trust zones calculated from a formula?</b><br>
+  As a starting point yes, as a measurement no, and the reason is arithmetic rather than caution. Among people of the same age, measured maximum heart rate scatters around the formula with a standard deviation of 7 to 11 beats — more than the distance between the two formulas for a middle-aged runner. Ten beats of error in the maximum move every boundary by 5 to 10 beats: a quarter to a half of a band's width on the max scale, and the reserve bands are narrower still, so the same error weighs even more there. That is enough to push a run that was close to a boundary into the next band. If your heart rate has climbed above the calculated maximum in a race or in work to exhaustion, trust the measurement, provided the peak does not look like a jump of a couple of seconds and it matched the feeling of the limit; recheck a doubtful one with a chest strap or repeat it on another day. Type your own number into the field and the table will recalculate.</p>
+
+  <p><b>Why do different apps give me different zones?</b><br>
+  Because a zone is not a property of a person but a division of a scale, and the app picks the scale. The Forerunner 945 manual allows zones to be built four ways: in beats, as a share of maximum heart rate, as a share of heart rate reserve, or as a share of threshold heart rate. On top of that, the number of zones differs from app to app: the table in that same manual has five, other programs do it differently. The zone number changes when the scale changes, while a share of maximum stays a share of maximum — which is why Fizkult labels bands in its workout breakdown by their boundary rather than by a number: a run at 165 beats with a maximum of 184 is 90 percent of maximum in any system, but its zone number is different in each.</p>
+
+  <h2>Sources</h2>
+
+  <p class="src">1. Tanaka H., Monahan K. D., Seals D. R. Age-Predicted Maximal Heart Rate Revisited. <i>Journal of the American College of Cardiology</i>, 2001, 37(1), 153–156. Source of the formula 208 − 0.7 × age, the size of the meta-analysis (351 studies, 492 groups, 18,712 people), the lab cross-validation on 514 people aged 18 to 81, the standard deviation of 7 to 11 beats, the origin of 220 − age and the way it drifts with age.<br>
+  2. Karvonen M. J., Kentala E., Mustala O. The effects of training on heart rate: a longitudinal study. <i>Annales Medicinae Experimentalis et Biologiae Fenniae</i>, 1957, 35(3), 307–315. Source of the heart rate reserve method: the share is measured inside the gap between resting and maximum heart rate.<br>
+  3. Garmin. Customizing Your Heart Rate Zones and Maximum Heart Rate (Forerunner 45): <a href="https://www8.garmin.com/manuals/webhelp/forerunner45/EN-US/GUID-28038039-8D8B-4672-8412-E2E4C5A822E2.html" rel="nofollow">www8.garmin.com</a>. Verbatim: “The default maximum heart rate is 220 minus your age.” This is one model's manual — other watches may default differently.<br>
+  4. Garmin. About Heart Rate Zones (Forerunner 945): <a href="https://www8.garmin.com/manuals-apac/webhelp/forerunner945/EN-SG/GUID-6CC225C9-01C6-4B58-A40D-6B1A80091092-1111.html" rel="nofollow">www8.garmin.com</a>. Source of the four bases for zones — BPM, %Max. HR, %HRR, %LTHR — and the five-zone table with how each one feels.</p>
+
+  <div class="cta">
+    <div class="kicker">Fizkult in Telegram</div>
+    <h2>A formula takes your maximum from your age. Fizkult takes it from your training</h2>
+    <p>Fizkult looks at the peak heart rate across your sessions over the last three months and, once there are enough sessions to go on, takes not the single highest value but one close to the top — so that one sensor glitch does not become your maximum. That is a floor, not a ceiling: the real maximum is usually above what you have managed to show in training. Which is why it does not record the number silently but asks — looks like your maximum is around 188, is that right? You agree with one tap, give your own number, or honestly say you do not know.</p>
+    <p>In a workout breakdown it shows how many minutes your heart rate spent in each band — when enough heart rate was recorded to count that — and labels the bands by their boundary rather than by a number. And it compares that session with your own sessions in the same sport over the last six months, not with a table meant for everyone.</p>
+    <p>The watch connects once. The first week is free, everything included.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_calc_zones_en">Connect your watch in Telegram →</a>
+    <p class="note" style="margin-bottom:0">This is a coach's read, not a medical one. If you are not recovering, see a doctor.</p>
+  </div>
+
+  <p style="margin-top:32px"><a href="/en/calc/predict">Race time predictor</a> — what your current form turns into over a distance. <a href="/en/calc/pace">Pace calculator</a> — how to break it down per kilometer.</p>
+
+  <a class="back" href="/en/">← Home</a>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // The numbers and the logic are shared between the two languages, only the
+  // strings differ: see CALC_PAIRS in scripts/check-locale-parity.py. The
+  // guard compares this block with string literals and comments stripped, so
+  // a change to the arithmetic has to land on both pages, while a change to
+  // the wording lands only on its own.
+  //
+  // Tanaka formula: maximum = 208 − 0.7 × age (351 studies, 18,712 people).
+  // Next to it, 220 − age: the default in the Forerunner 45 manual. It is
+  // here not as an alternative but as a point of comparison.
+  var T_A = 208;
+  var T_B = 0.7;
+  var FOX_A = 220;
+  // Band boundaries as shares of maximum. The same six Fizkult uses to label
+  // a workout breakdown: below 50% and then in tens.
+  var BANDS = [0, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
+  // Input bounds. This is not physiology but protection against a typo:
+  // without them “age 350” would quietly produce a negative maximum and a
+  // table full of minus signs.
+  var AGE_MIN = 10;
+  var AGE_MAX = 100;
+  // The age range of Tanaka's lab cross-validation. Outside it the formula
+  // still computes, but that has to be said out loud.
+  var VAL_MIN = 18;
+  var VAL_MAX = 81;
+  var MAX_MIN = 100;
+  var MAX_MAX = 230;
+  var REST_MIN = 25;
+  var REST_MAX = 120;
+  var HR_MIN = 50;
+  var HR_MAX = 230;
+  // Minimum reserve. A resting heart rate sitting right up against the
+  // maximum is almost certainly two swapped fields, not a person.
+  var RES_MIN = 40;
+  var T = {
+    noteAge: "208 − 0.7 × age",
+    noteAgeOut: "208 − 0.7 × age. In the lab the formula was validated on people aged 18 to 81",
+    noteOwn: "Your measurement",
+    noteFoxSame: "The default in the Forerunner 45 manual",
+    noteFoxDiff: "The default in the Forerunner 45 manual. Difference: ",
+    bpm: " bpm",
+    noteRes: "Maximum minus resting",
+    noteResNone: "Needs resting heart rate",
+    badAge: "Age needs to be a number between 10 and 100.",
+    badMax: "Maximum heart rate needs to be a number between 100 and 230. It comes from a race or from work to exhaustion, not from an average run.",
+    badRest: "Resting heart rate needs to be a number between 25 and 120. That is the morning heart rate lying down, not the daily average.",
+    badRes: "The resting heart rate is almost equal to the maximum — check whether the fields got swapped.",
+    badHr: "Heart rate on a run needs to be a number between 50 and 230.",
+    below: "below 50%",
+    upTo: "up to ",
+    dash: "—",
+    mkHit: "← your pulse",
+    hitA: "A heart rate of ",
+    hitB: " is ",
+    hitC: "% of your maximum: ",
+    hitD: " on the max scale and ",
+    hitE: " on the reserve scale.",
+    hitNoRest: " on this scale. Add your resting heart rate to see the other one.",
+    zones: [
+      "below zone 1",
+      "zone 1",
+      "zone 2",
+      "zone 3",
+      "zone 4",
+      "zone 5"
+    ],
+    bands: [
+      "Below zone 1: walking, warm-up, rest between intervals",
+      "Zone 1 · easy, breathing easy",
+      "Zone 2 · comfortable, you can hold a conversation",
+      "Zone 3 · talking gets hard",
+      "Zone 4 · fast and slightly uncomfortable, breathing hard",
+      "Zone 5 · a sprint, it does not last"
+    ]
+  };
+
+  var mode = "age";
+  var el = {};
+  ["age", "hrmax", "rest", "hr", "m-age", "m-own", "o-max", "o-max-note", "o-fox", "o-fox-note",
+   "o-res", "o-res-note", "o-hit", "err", "rows", "nudge", "to-rest", "hint-max"]
+    .forEach(function (id) { el[id] = document.getElementById(id); });
+
+  function num(v) {
+    v = String(v).replace(",", ".").trim();
+    if (!v) return NaN;
+    var n = Number(v);
+    return isFinite(n) && n > 0 ? n : NaN;
+  }
+
+  function bpm(v) {
+    return String(Math.round(v));
+  }
+
+  // An error no longer wipes the last valid answer. A two-digit number is
+  // always typed through a one-digit state: a page that collapsed on the
+  // very first digit took away what the reader was looking at. The error
+  // text appears only when the field is left — while typing, it stays quiet.
+  function fail(msg, loud) {
+    if (!loud) return;
+    el.err.textContent = msg;
+    el.err.hidden = false;
+  }
+
+  function setMode(next) {
+    mode = next;
+    el["m-age"].setAttribute("aria-pressed", String(next === "age"));
+    el["m-own"].setAttribute("aria-pressed", String(next === "own"));
+    // In age mode the maximum field is an output, not an input: the formula
+    // writes into it. Leaving it open would invite edits to a number that
+    // gets overwritten on the next keystroke in the age field anyway.
+    el.hrmax.disabled = next === "age";
+    calc(false);
+  }
+
+  // A band boundary. On the max scale the share is measured from zero beats;
+  // on the reserve scale, inside the gap between resting and maximum
+  // (Karvonen). One function for both: the only difference is whether a
+  // resting heart rate was passed in.
+  function bound(p, max, rest) {
+    return isFinite(rest) ? rest + p * (max - rest) : p * max;
+  }
+
+  // The index of the band a heart rate falls into. One is “below zone 1”,
+  // and the rest are shifted: the sixth band is zone 5.
+  function zoneIndex(v, max, rest) {
+    var i;
+    for (i = 1; i < BANDS.length; i++) {
+      if (v < bound(BANDS[i], max, rest)) return i;
+    }
+    return BANDS.length - 1;
+  }
+
+  // Table rows. The reserve column lives on the same shares but measures them
+  // inside the gap between resting and maximum, so with no resting heart rate
+  // it holds dashes rather than zeros: there is no zero in that place.
+  function rows(max, rest, hr) {
+    var hitMax = isFinite(hr) ? zoneIndex(hr, max, NaN) : 0;
+    var hitRes = isFinite(hr) && isFinite(rest) ? zoneIndex(hr, max, rest) : 0;
+    var html = "", i;
+    for (i = 1; i < BANDS.length; i++) {
+      var lo = BANDS[i - 1], hi = BANDS[i];
+      var byMax = i === 1
+        ? T.upTo + bpm(bound(hi, max, NaN))
+        : bpm(bound(lo, max, NaN)) + "–" + bpm(bound(hi, max, NaN));
+      var byRes = T.dash;
+      if (isFinite(rest)) {
+        byRes = i === 1
+          ? T.upTo + bpm(bound(hi, max, rest))
+          : bpm(bound(lo, max, rest)) + "–" + bpm(bound(hi, max, rest));
+      }
+      if (i === hitMax) byMax += ' <span class="mk">' + T.mkHit + "</span>";
+      if (i === hitRes) byRes += ' <span class="mk">' + T.mkHit + "</span>";
+      var band = i === 1
+        ? T.below
+        : Math.round(lo * 100) + "–" + Math.round(hi * 100) + "%";
+      html += '<tr class="' + (i === hitMax || i === hitRes ? "mark" : "") +
+        '"><td class="num">' + band +
+        '</td><td class="num">' + byMax +
+        '</td><td class="num">' + byRes +
+        "</td><td>" + T.bands[i - 1] + "</td></tr>";
+    }
+    el.rows.innerHTML = html;
+  }
+
+  function calc(loud) {
+    el.err.hidden = true;
+
+    var age = num(el.age.value);
+    if (!isFinite(age) || age < AGE_MIN || age > AGE_MAX) return fail(T.badAge, loud);
+
+    // The maximum is rounded once, here, and every share below is taken from
+    // the rounded number. Otherwise the printed maximum and the top of the
+    // last band would drift by a beat: 208 − 0.7 × 35 = 183.5, the headline
+    // says 184, and 90% of 183.5 gives 165 instead of 166.
+    var tanaka = Math.round(T_A - T_B * age);
+    var fox = Math.round(FOX_A - age);
+
+    var max = tanaka;
+    if (mode === "own") {
+      max = Math.round(num(el.hrmax.value));
+      if (!isFinite(max) || max < MAX_MIN || max > MAX_MAX) return fail(T.badMax, loud);
+    } else {
+      el.hrmax.value = bpm(tanaka);
+    }
+
+    var rest = NaN;
+    if (String(el.rest.value).trim() !== "") {
+      rest = Math.round(num(el.rest.value));
+      if (!isFinite(rest) || rest < REST_MIN || rest > REST_MAX) return fail(T.badRest, loud);
+      if (max - rest < RES_MIN) return fail(T.badRes, loud);
+    }
+
+    var hr = NaN;
+    if (String(el.hr.value).trim() !== "") {
+      hr = Math.round(num(el.hr.value));
+      if (!isFinite(hr) || hr < HR_MIN || hr > HR_MAX) return fail(T.badHr, loud);
+    }
+
+    el["o-max"].textContent = bpm(max);
+    el["o-max-note"].textContent = mode === "own"
+      ? T.noteOwn
+      : (age < VAL_MIN || age > VAL_MAX ? T.noteAgeOut : T.noteAge);
+
+    el["o-fox"].textContent = bpm(fox);
+    // The difference is printed only when there is one: the formulas meet at
+    // around forty, and “difference: 0” would read as a breakage.
+    var gap = Math.abs(fox - max);
+    el["o-fox-note"].textContent = gap === 0
+      ? T.noteFoxSame
+      : T.noteFoxDiff + gap + T.bpm;
+
+    el["o-res"].textContent = isFinite(rest) ? bpm(max - rest) : T.dash;
+    el["o-res-note"].textContent = isFinite(rest) ? T.noteRes : T.noteResNone;
+    // The prompt about the empty column goes away as soon as it is filled.
+    el.nudge.hidden = isFinite(rest);
+
+    // The hit line is the whole reason this page is about two scales: one and
+    // the same number picks up two different zone numbers, and it takes a
+    // second to see rather than a paragraph to read.
+    if (isFinite(hr)) {
+      var head = T.hitA + bpm(hr) + T.hitB + Math.round(hr / max * 100) +
+        T.hitC + T.zones[zoneIndex(hr, max, NaN) - 1];
+      el["o-hit"].textContent = isFinite(rest)
+        ? head + T.hitD + T.zones[zoneIndex(hr, max, rest) - 1] + T.hitE
+        : head + T.hitNoRest;
+      el["o-hit"].hidden = false;
+    } else {
+      el["o-hit"].hidden = true;
+    }
+
+    rows(max, rest, hr);
+  }
+
+  ["age", "hrmax", "rest", "hr"].forEach(function (id) {
+    el[id].addEventListener("input", function () { calc(false); });
+    el[id].addEventListener("blur", function () { calc(true); });
+  });
+
+  el["m-age"].addEventListener("click", function () { setMode("age"); });
+  // Moving to your own maximum, you start from the number the formula has
+  // already produced: editing something is easier than recalling it cold.
+  el["m-own"].addEventListener("click", function () {
+    setMode("own");
+    el.hrmax.focus();
+  });
+  // The button sits below the fields: without moving the focus, the field
+  // that needs filling stays above the top of the screen.
+  el["to-rest"].addEventListener("click", function () { el.rest.focus(); });
+
+  setMode("age");
+})();
+</script>
+</body>
+</html>

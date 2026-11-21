@@ -78,6 +78,8 @@ SITEMAP_FILES = {
     "https://fizkult.ai/en/calc/pace": "en/calc/pace.html",
     "https://fizkult.ai/calc/predict": "calc/predict.html",
     "https://fizkult.ai/en/calc/predict": "en/calc/predict.html",
+    "https://fizkult.ai/calc/hr-zones": "calc/hr-zones.html",
+    "https://fizkult.ai/en/calc/hr-zones": "en/calc/hr-zones.html",
 }
 
 # Страницы, которые сверяются на canonical/noindex: корень, английская версия

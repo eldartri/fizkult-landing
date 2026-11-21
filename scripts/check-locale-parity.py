@@ -88,6 +88,7 @@ ARTICLE_PAIRS = [
 CALC_PAIRS = [
     ("calc/pace.html", "en/calc/pace.html", "/en/calc/pace", "/calc/pace"),
     ("calc/predict.html", "en/calc/predict.html", "/en/calc/predict", "/calc/predict"),
+    ("calc/hr-zones.html", "en/calc/hr-zones.html", "/en/calc/hr-zones", "/calc/hr-zones"),
 ]
 
 #: Строковый литерал и строчный комментарий — всё, чем двум языкам разрешено

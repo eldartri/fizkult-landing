@@ -238,6 +238,26 @@
   </url>
 
   <url>
+    <loc>https://fizkult.ai/calc/hr-zones</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/calc/hr-zones"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/calc/hr-zones"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/calc/hr-zones"/>
+  </url>
+
+  <url>
+    <loc>https://fizkult.ai/en/calc/hr-zones</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/calc/hr-zones"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/calc/hr-zones"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/calc/hr-zones"/>
+  </url>
+
+  <url>
     <loc>https://fizkult.ai/oferta</loc>
     <lastmod>2026-11-21</lastmod>
     <changefreq>monthly</changefreq>
