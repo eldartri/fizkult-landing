@@ -71,6 +71,8 @@ SITEMAP_FILES = {
     "https://fizkult.ai/garmin/recovery-time": "garmin/recovery-time.html",
     "https://fizkult.ai/en/garmin/": "en/garmin/index.html",
     "https://fizkult.ai/en/garmin/body-battery": "en/garmin/body-battery.html",
+    "https://fizkult.ai/en/garmin/stress": "en/garmin/stress.html",
+    "https://fizkult.ai/en/garmin/training-readiness": "en/garmin/training-readiness.html",
 }
 
 # Страницы, которые сверяются на canonical/noindex: корень, английская версия

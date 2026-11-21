@@ -6,10 +6,14 @@
 <title>Стресс в часах Garmin: что значит число и почему при тяжёлой нагрузке его нет</title>
 <meta name="description" content="Уровень стресса в часах Garmin: шкала 0–100 и четыре полосы по руководству, почему при тяжёлой нагрузке измерения не записываются, чем отличаются уровень стресса, тест по вариабельности и ночной статус, и что делать со своим числом.">
 <link rel="canonical" href="https://fizkult.ai/garmin/stress">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/stress">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/stress">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/stress">
 <link rel="icon" href="/assets/favicon/favicon-32.png">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Физкульт">
 <meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="en_US">
 <meta property="og:title" content="Стресс в часах Garmin: что значит число и почему при тяжёлой нагрузке его нет">
 <meta property="og:description" content="Число, на которое многие не смотрят, по нашему чтению молча кормит их «готовность к тренировке». А при слишком высокой активности измерения стресса не записываются — так написано в руководстве.">
 <meta property="og:url" content="https://fizkult.ai/garmin/stress">
@@ -30,10 +34,11 @@
   body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
   .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
   .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
   .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
-  .home { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
     text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
-  .home:hover { background:var(--ink); color:var(--bg); }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
   h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
   .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
   h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
@@ -145,6 +150,14 @@
         },
         {
           "@type": "Question",
+          "name": "Насколько точен уровень стресса в Garmin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Своей проверки точности Garmin не публикует, независимые есть. Лабораторная работа с предрегистрацией (Stress and Health, 2025) сравнила vívosmart 4 с нагрудным ремнём: число стресса отличало задачу на стресс от покоя и шло вслед за показателями вариабельности с ремня, но то, насколько напряжённым человек сам себя чувствует, предсказывало слабо — хуже обычного пульса. Полевая работа на 781 студенте с теми же часами (Journal of Psychopathology and Clinical Science, 2025) нашла, что у большинства связь между стрессом в часах и собственными ответами очень слабая или её нет вовсе. То есть число идёт вслед за чем-то настоящим в теле и плохо угадывает то, что человек чувствует. Из расчёта Garmin публикует вход и четыре полосы; окно усреднения, пороги внутри полосы и то, какая мера вариабельности взята, не опубликованы. Наш вывод: читать число как отклонение от собственного обычного уровня и сверять с самочувствием, а не как замер состояния с известной погрешностью — поэтому разбор на этой странице построен на отрезке дней, а не на одном замере."
+          }
+        },
+        {
+          "@type": "Question",
           "name": "Чем отличаются уровень стресса, тест стресса по ВСР и статус вариабельности?",
           "acceptedAnswer": {
             "@type": "Answer",
@@ -185,7 +198,10 @@
 <div class="wrap">
   <div class="topbar">
     <div class="kicker">Разборы · Метрики Garmin · 10</div>
-    <a class="home" href="/" aria-label="На главную">FIZKULT.AI</a>
+    <div class="ends">
+      <a class="lang" href="/en/garmin/stress" hreflang="en" lang="en" aria-label="Switch to English">EN</a>
+      <a class="home" href="/" aria-label="На главную">FIZKULT.AI</a>
+    </div>
   </div>
 
   <h1>Стресс в часах Garmin: что значит число и почему при тяжёлой нагрузке его нет</h1>
@@ -296,6 +312,12 @@
 
   <p>Выходит, уровень стресса и статус вариабельности опираются на одно основание — вариабельность пульса — и смотрят на него с разных сторон. Первый снимает его, пока ты неактивен, и отвечает «как сейчас» — хотя за какое окно считается это «сейчас», не названо. Второй собирает его за ночь и неделю и отвечает «как у тебя последнюю неделю против твоей же базы». Совпадать они не обязаны: определения разные. <b>Наше чтение:</b> расхождение само по себе ещё не говорит об ошибке прибора.</p>
 
+  <h2>Насколько уровню стресса можно верить</h2>
+
+  <p>Своей проверки точности Garmin не публикует. Независимые есть, и они не комплиментарные. Лабораторная работа с предрегистрацией (<i>Stress and Health</i>, 2025) сравнила vívosmart 4 с нагрудным ремнём: число стресса действительно отличало задачу на стресс от покоя и шло вслед за показателями вариабельности, снятыми с ремня, — но то, насколько напряжённым человек сам себя чувствует, предсказывало слабо, хуже обычного пульса. Полевая работа на 781 студенте с теми же часами (<i>Journal of Psychopathology and Clinical Science</i>, 2025) нашла, что у большинства связь между стрессом в часах и собственными ответами людей очень слабая или её нет вовсе.</p>
+
+  <p>Читаем это буквально: число идёт вслед за чем-то настоящим в теле — и плохо угадывает то, что человек чувствует. Из расчёта опубликованы вход и четыре полосы. Окно усреднения, пороги внутри полосы и то, какая мера вариабельности взята, — нет. <b>Наш вывод:</b> читать число как отклонение от собственного обычного уровня и сверять с самочувствием, а не как замер состояния с известной погрешностью. Ровно поэтому разбор ниже построен на отрезке дней: величину, которую не с чем сверить, можно сверить с собой.</p>
+
   <h2>Что делать со своим числом</h2>
 
   <p>Процедура на один вечер и потом десять минут в неделю. Экраны названы так, как они называются в списке виджетов fēnix 8.</p>
@@ -328,6 +350,9 @@
   <p><b>Почему стресс высокий, когда я ничего не делаю?</b><br>
   Потому что метрика и меряется именно в такие минуты — пока человек неактивен. На уровень стресса, по руководству vívosmart 3, влияют тренировки, физическая активность, сон, питание и общий жизненный стресс. Наше чтение: поэтому высокое значение в покое может быть последствием вчерашней нагрузки или короткой ночи, а не того, что происходит прямо сейчас. Какой из этих факторов сработал в конкретный день, по одному числу не определить.</p>
 
+  <p><b>Насколько точен уровень стресса в Garmin?</b><br>
+  Своей проверки точности Garmin не публикует, независимые есть. Лабораторная работа с предрегистрацией (Stress and Health, 2025) сравнила vívosmart 4 с нагрудным ремнём: число стресса отличало задачу на стресс от покоя и шло вслед за показателями вариабельности с ремня, но то, насколько напряжённым человек сам себя чувствует, предсказывало слабо — хуже обычного пульса. Полевая работа на 781 студенте с теми же часами (Journal of Psychopathology and Clinical Science, 2025) нашла, что у большинства связь между стрессом в часах и собственными ответами очень слабая или её нет вовсе. То есть число идёт вслед за чем-то настоящим в теле и плохо угадывает то, что человек чувствует. Из расчёта Garmin публикует вход и четыре полосы; окно усреднения, пороги внутри полосы и то, какая мера вариабельности взята, не опубликованы. Наш вывод: читать число как отклонение от собственного обычного уровня и сверять с самочувствием, а не как замер состояния с известной погрешностью — поэтому разбор на этой странице построен на отрезке дней, а не на одном замере.</p>
+
   <p><b>Чем отличаются уровень стресса, тест стресса по ВСР и статус вариабельности?</b><br>
   Уровень стресса считается, пока ты неактивен, и даёт число 0–100 с четырьмя полосами (по руководству vívosmart 3). Тест стресса по вариабельности — разовый: три минуты стоя неподвижно, по руководству Forerunner 935 обязателен нагрудный пульсометр Garmin, шкала 1–100 без полос. Статус вариабельности приходит после ночи и показывает одну из четырёх категорий, сравнивая семидневное среднее с твоей базовой линией; на fēnix 8 он появляется только после трёх недель ровных данных сна. Основание у всех трёх — вариабельность пульса, но приборы, условия и горизонты разные, поэтому их числа не переводятся друг в друга.</p>
 
@@ -358,7 +383,7 @@
     <li>Не сказано, как влияет на замер в покое тренировка, закончившаяся недавно. Совет читать такие замеры осторожнее — наше предположение.</li>
     <li>Веса уровня стресса внутри готовности к тренировке и внутри Body Battery не опубликованы, поэтому вклад этого входа посчитать нельзя.</li>
     <li>Определение уровня стресса и полосы приводятся по руководству vívosmart 3; отдельной страницы про уровень стресса в руководстве fēnix 8 мы не нашли, там метрика описана строкой виджета. Требование нагрудного датчика — по руководству Forerunner 935. Это описание функции в названных руководствах, а не обязательство для любой модели.</li>
-    <li>Проверки точности уровня стресса мы не нашли: ни собственной работы Garmin, ни независимой в том корпусе источников, который просмотрели. Это значит, что нам не встретилось измерения, насколько значение совпадает с реальным состоянием, — и не значит, что сам сигнал плох: вариабельность пульса меряется и проверяется отдельно от этой шкалы.</li>
+    <li>Своей проверки точности уровня стресса Garmin не публикует; независимые, которые мы нашли, приведены выше вместе с тем, что из них следует. Насколько число совпадает с реальным состоянием человека — вопрос отдельный, и этот разбор на него не отвечает.</li>
     <li>Связь «высокие значения рядом с тяжёлыми днями — похоже, перегрузился» — наша тренерская гипотеза, а не заявление Garmin.</li>
     <li>Наши объяснения помечены словами «наше предположение», «наше чтение», «наш совет», «гипотеза».</li>
   </ul>
@@ -372,6 +397,8 @@
     <li>Руководство Garmin fēnix 8, раздел Heart Rate Variability Status (редакция v10; сверено 21.11.2026): «Your watch analyzes your wrist heart rate readings while you are sleeping to determine your heart rate variability (HRV).» «The watch requires three weeks of consistent sleep data to display your heart rate variability status.» Категории: Balanced — «Your seven-day average HRV is within your baseline range»; Unbalanced — «Your seven-day average HRV is above or below your baseline range»; Low — «Your seven-day average HRV is well below your baseline range»; Poor — «Your HRV values are averaging well below the normal range for your age». Модальность: «A balanced HRV status may indicate positive signs of health…» и «An unbalanced or poor status may be a sign of fatigue, greater recovery needs, or increased stress.» Числового значения вариабельности в миллисекундах страница не приводит. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-9282196F-D969-404D-B678-F48A13D8D0CB.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
     <li>Руководство Garmin fēnix 8, раздел Training Readiness (редакция v10; сверено 21.11.2026): среди семи входов названа история стресса за последние три дня — «Stress history (last 3 days)». <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-C21BE0C8-A08E-4DA1-B6C6-2E0E2DDDB372.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
     <li>Руководство Garmin fēnix 8, раздел Body Battery (редакция v10; сверено 21.11.2026): уровень стресса назван одним из четырёх входов — «Your watch analyzes your heart rate variability, stress level, sleep quality, and activity data». <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-87E1392B-2C55-40B7-A1FF-3AB9252DA0A0.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Rosenbach, Itzkovitch, Gidron, Schonberg. Assessing Garmin's stress level score against heart rate variability measurements. <i>Stress and Health</i>, 2025. Пилот на 29 участниках, затем предрегистрированное основное исследование на 60: vívosmart 4 и нагрудный ремень Polar H10 писали одновременно в покое и на задачах с умственным стрессом. Число стресса значимо различалось между стрессом и покоем и коррелировало с пульсом, RMSSD и SD2/SD1; против стресса по самоотчёту сильнее всего сработал обычный пульс, а у числа стресса предсказательная ценность оказалась на грани значимости. Препринт: <a href="https://doi.org/10.1101/2025.01.06.630177" rel="nofollow noopener" target="_blank">doi.org/10.1101/2025.01.06.630177</a></li>
+    <li>Siepe, Tutunji, Rieble, Proppert, Fried. Associations between ecological momentary assessment and passive sensor data in a large student sample. <i>Journal of Psychopathology and Clinical Science</i>, 2025, т. 134, № 8, с. 912–925. 781 студент носил vívosmart 4 и отвечал на вопросы четыре раза в день: «for the majority of individuals in our sample, self-report and physiological measures of stress show very weak to no associations», при этом показатели сна сходились с самоотчётами уверенно. <a href="https://doi.org/10.1037/abn0001013" rel="nofollow noopener" target="_blank">doi.org/10.1037/abn0001013</a></li>
   </ol>
 
   <p class="note">Серия разборов «Метрики Garmin» по первоисточникам. Опубликованные формулировки, пороги и границы — со ссылкой на руководство Garmin; наши объяснения и предположения помечены. Физкульт не связан с Garmin; Body Battery™ и Garmin Connect™ — знаки, принадлежащие их владельцам.</p>

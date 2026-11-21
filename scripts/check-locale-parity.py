@@ -56,6 +56,18 @@ ARTICLE_PAIRS = [
         "/en/garmin/body-battery",
         "/garmin/body-battery",
     ),
+    (
+        "garmin/stress.html",
+        "en/garmin/stress.html",
+        "/en/garmin/stress",
+        "/garmin/stress",
+    ),
+    (
+        "garmin/training-readiness.html",
+        "en/garmin/training-readiness.html",
+        "/en/garmin/training-readiness",
+        "/garmin/training-readiness",
+    ),
 ]
 
 

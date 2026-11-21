@@ -100,6 +100,8 @@ PUBLIC_FILES=(
   # заголовках, и английский пак делается отдельной работой.
   "en/garmin/ text/html https://fizkult.ai/en/garmin/"
   "en/garmin/body-battery text/html https://fizkult.ai/en/garmin/body-battery"
+  "en/garmin/stress text/html https://fizkult.ai/en/garmin/stress"
+  "en/garmin/training-readiness text/html https://fizkult.ai/en/garmin/training-readiness"
   "robots.txt text/plain"
   "sitemap.xml application/xml"
   "llms.txt text/plain"

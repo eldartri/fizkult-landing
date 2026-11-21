@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garmin stress level: what the number means, and why it vanishes during hard training</title>
+<meta name="description" content="Garmin's stress level: the 0–100 scale and its four bands per the manual, why measurements aren't recorded while you're too active, how stress level, the HRV stress test and HRV status differ, and what to do with your own number.">
+<link rel="canonical" href="https://fizkult.ai/en/garmin/stress">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/stress">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/stress">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/stress">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Fizkult">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:title" content="Garmin stress level: what the number means, and why it vanishes during hard training">
+<meta property="og:description" content="The number most people scroll past, by our reading, quietly feeds the two they do look at. And while you're too active, Garmin doesn't record stress at all — the manual says so outright.">
+<meta property="og:url" content="https://fizkult.ai/en/garmin/stress">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fizkult — a personal coach in Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Garmin stress level: what the number means, and why it vanishes during hard training">
+<meta name="twitter:description" content="The 0–100 scale per the manual, the gap in the daily graph during hard work, and three different metrics hiding under one word.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .dl { display:inline-flex; align-items:center; gap:10px; margin:0 0 32px; padding:12px 18px;
+    background:var(--panel); border:1.5px solid var(--line); text-decoration:none; color:var(--ink);
+    font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; font-weight:500; }
+  .dl:hover { background:var(--ink); color:var(--bg); }
+  .dl span { color:var(--muted); }
+  .dl:hover span { color:var(--bg); }
+  .tcap { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; color:var(--muted);
+    text-transform:uppercase; margin:28px 0 8px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); min-width:440px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  blockquote { margin:24px 0; padding:18px 20px; background:var(--panel); border:1.5px solid var(--line); }
+  blockquote p { margin:0 0 10px; font-size:16px; }
+  blockquote cite { font-style:normal; font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; color:var(--muted); text-transform:uppercase; }
+  .note { font-size:13px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .src { font-size:13px; color:var(--muted); }
+  .src li { margin-bottom:10px; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Stress on a Garmin watch: what the number means, and why it vanishes during hard training",
+      "description": "Stress level is calculated from heart rate variability while you are inactive; when you are too active the manual says measurements are not recorded at all, which is where the gap in the daily graph comes from. The 0 to 100 scale has four bands. Two more metrics sit next to it on the same foundation: a one-off HRV stress test that needs a chest strap, and overnight HRV status. Stress history for the last 3 days is one of the seven inputs of Training Readiness; whether it is the same number you see in the daily stress glance, the manual doesn't say outright.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-21",
+      "dateModified": "2026-11-21",
+      "mainEntityOfPage": "https://fizkult.ai/en/garmin/stress",
+      "image": "https://fizkult.ai/assets/og/og-share.png",
+      "author": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/en/" },
+      "publisher": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/en/" },
+      "about": ["Stress level", "Heart rate variability", "Garmin", "HRV Status", "Training Readiness", "Body Battery"],
+      "citation": [
+        "Garmin. vívosmart 3 Owner's Manual: Heart Rate Variability and Stress Level",
+        "Garmin. fēnix 8 Owner's Manual: Glances",
+        "Garmin. Forerunner 935 Owner's Manual: HRV Stress Test",
+        "Garmin. fēnix 8 Owner's Manual: Heart Rate Variability Status",
+        "Garmin. fēnix 8 Owner's Manual: Training Readiness",
+        "Garmin. fēnix 8 Owner's Manual: Body Battery"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Fizkult", "item": "https://fizkult.ai/en/" },
+        { "@type": "ListItem", "position": 2, "name": "Garmin metrics explained", "item": "https://fizkult.ai/en/garmin/" },
+        { "@type": "ListItem", "position": 3, "name": "Stress on a Garmin watch: what the number means", "item": "https://fizkult.ai/en/garmin/stress" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What does the stress number on a Garmin watch mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It's a stress level on a scale from 0 to 100. Per the vívosmart 3 manual the device analyzes heart rate variability while you are inactive, and the bands are named: 0–25 a resting state, 26–50 low stress, 51–75 medium, 76–100 a high stress state. How heart rate variability becomes that number — the averaging window, the thresholds inside each band, which measure of variability is used — isn't disclosed in the manual."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a Garmin stress level of 62 high?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "62 falls in the 51–75 band, which Garmin calls medium stress. The vívosmart 3 manual also names a daily stress level in Garmin Connect, but doesn't describe how it's derived from the individual readings; whether the bands apply to it the same way is our reading. The manual says nothing about the bands adapting to the person, so we read them as a general scale rather than as your norm. Normal for you is your own usual level, and that only shows up across a stretch of days: which values repeat day after day in similar conditions. So 62 for someone who usually sits near 30 and 62 for someone who usually sits near 60 are two different stories under the same label. Keeping that baseline up by hand is the tedious part, and it's what Fizkult does: it builds your baseline from your watch history and tells you how many days it's calculated over."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my Garmin stress disappear during a hard workout?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because while you are highly active no measurement is taken. The fēnix 8 manual says it outright: if you are too active for the watch to determine your stress level, stress measurements are not recorded. The metric is built on heart rate variability, which the device analyzes while you are inactive. So the daily graph has a gap during hard training, and that's a condition of the metric, not a fault in the watch. Where the threshold for \"too active\" sits isn't named."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is my Garmin stress high when I'm not doing anything?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because those are exactly the minutes the metric is measured in — while you are inactive. Per the vívosmart 3 manual, stress level is affected by training, physical activity, sleep, nutrition and general life stress. Our reading: a high value at rest can therefore be the aftermath of yesterday's load or a short night rather than anything happening right now. Which of those factors it was on a given day can't be settled from a single number."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I lower my stress level on a Garmin watch?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There's no setting that turns it down: the number is calculated from heart rate variability while you are inactive, so what moves the number is what moves your body. The vívosmart 3 manual names five things that affect stress level — training, physical activity, sleep, nutrition and general life stress — and gives no weights for them. Our advice, not a Garmin rule: of those five, sleep and training load are the two you can change inside a week, and they are also the two your watch measures, so you can check whether the change worked. Cut the number of hard sessions for a week, go to bed at a steady hour, and compare those seven days against the seven before. And the goal isn't a lower number on the scale — it's your own usual level. Our reading: a value far from your usual in either direction is a reason to look at what changed, not a prize."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Garmin's stress level accurate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Garmin publishes no accuracy check of its own, and independent ones exist. A preregistered lab study (Stress and Health, 2025) put the vívosmart 4 against a chest strap: the stress score did separate a stress task from rest and it tracked variability measures taken from the strap, but as a predictor of how stressed people said they felt it was marginal, weaker than plain heart rate. A field study of 781 students wearing the same model (Journal of Psychopathology and Clinical Science, 2025) found that for most of them the watch's stress and their own reports of stress had very weak to no association at all. So the number follows something real in the body, and it is a poor guess at what you are feeling. What Garmin does publish about the calculation is the input and the four bands; the averaging window, the thresholds inside a band and the measure of variability used are not published. Our conclusion: read the number as a deviation from your own usual level and set it against how you feel, not as a measurement of your state with a known error — which is why the steps on this page are built on a stretch of days instead of one reading."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between stress level, the HRV stress test and HRV status on Garmin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Stress level is calculated while you are inactive and gives a 0–100 number with four bands (per the vívosmart 3 manual). The HRV stress test is a one-off: three minutes standing still, and per the Forerunner 935 manual a Garmin chest heart rate monitor is required; the scale is 1–100 with no bands. HRV status arrives after a night and shows one of four categories, comparing your seven-day average against your own baseline range; on the fēnix 8 it appears only after three weeks of consistent sleep data. All three rest on heart rate variability, but the sensors, conditions and horizons differ, so their numbers don't convert into one another."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does stress level affect Training Readiness on Garmin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Per the fēnix 8 manual, stress history for the last 3 days is one of the seven inputs of Training Readiness, and stress level is one of the four inputs of Body Battery. Whether that's the same number you see in the daily stress glance isn't stated outright on the readiness page — that's our reading. Garmin doesn't publish how much the input weighs, so its contribution to the final number can't be calculated. In practice it means the number most people scroll past still feeds the two numbers they do look at."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does high stress on a Garmin watch mean I've overreached, or that I'm ill?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The number can't settle that: what moved your heart rate variability isn't disclosed in the manual. A coach's hypothesis: if high values hold for several days in a row during calm hours — not straight after a workout — and hard training days are running alongside, it looks like you've overreached. Drop one or two hard sessions and see whether the values come down within a week or two. If they don't, or something else shows up alongside — sleep, weight, mood — see a doctor: training isn't the only thing that causes this. That's a coach's guide, not a diagnosis."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What should I do if my Garmin stress stays high for several days?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Work through it in order. Take seven consecutive daily values from Garmin Connect, so you can see what level is usual for you — the manual sets the bands in fixed figures and says nothing about adapting them to the person. Mark the hard workouts and the short nights next to those values, and check them against overnight HRV status, which answers for a week rather than for one night. Then write the conclusion down in one sentence with a date in it: my usual values are such and such, right now it has been higher for this many days, it lines up with this, and I'm watching until this date. Without a date the observation never ends in a decision. If your usual level hasn't come back by the date you set, or something else shows up alongside it — sleep, weight, mood — see a doctor: training isn't the only thing that does this."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Explainers · Garmin metrics</div>
+    <div class="ends">
+      <a class="lang" href="/garmin/stress" hreflang="ru" lang="ru" aria-label="Переключиться на русский">RU</a>
+      <a class="home" href="/en/" aria-label="Home">FIZKULT.AI</a>
+    </div>
+  </div>
+
+  <h1>Stress on a Garmin watch: what the number means, and why it vanishes during hard training</h1>
+
+  <p class="lead">You finish the intervals, open the <i>Stress</i> glance — and where the hardest hour of your day should be, there's nothing at all. It isn't a glitch: the manual says outright that when you're too active for the watch to read your stress, the measurements are not recorded. And the number you do see is doing more work than it looks. The one most people scroll past, by our reading, quietly feeds the two they do look at: stress history for the last three days is one of the seven inputs of Training Readiness, and stress level is one of the four inputs of Body&nbsp;Battery™. On top of that, the word "stress" covers two different metrics on the watch, with a third standing next to them on the same foundation: heart rate variability. A breakdown from the Garmin manuals — how to tell all three apart, how to read the 0–100 scale, and what to do with your own number.</p>
+
+  <p><b>Short answer:</b> the reading vanishes during hard work because it isn't taken then — stress is calculated while you're inactive. It's high while you're doing nothing for the same reason: those calm minutes are the only ones it's measured in, and what you're looking at may be yesterday's session or a short night rather than this moment. The bands — 0–25, 26–50, 51–75, 76–100 — are, by our reading, a general scale and not your norm, so one reading on its own says very little. <b>Our advice:</b> seven days of values with the hard days marked next to them is about ten minutes of work, and it's what turns the number into something you can act on. The five steps are below.</p>
+
+  <h2>The word "stress" covers two different metrics</h2>
+
+  <p>Garmin puts two different things under the word "stress": <b>stress level</b> and the <b>HRV stress test</b>. A third lives next to them — <b>HRV status</b> — where the word "stress" doesn't appear but the foundation is the same. All three are built on heart rate variability, that is, on how the intervals between heartbeats change. Whether it's one and the same measure in all three cases, the manuals don't say.</p>
+
+  <p class="tcap">Checked against the manuals on November 21, 2026; which manual sits behind which row is in the sources</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th></th><th>Stress level</th><th>HRV stress test</th><th>HRV status</th></tr></thead>
+    <tbody>
+      <tr><td>When it's measured</td><td>while you are inactive</td><td>on request, 3 minutes standing</td><td>at night, during sleep</td></tr>
+      <tr><td>Sensor</td><td>not stated; no chest strap mentioned</td><td><b>chest heart rate monitor required</b></td><td>the wrist</td></tr>
+      <tr><td>Scale</td><td class="num">0–100, four bands</td><td class="num">1–100, no bands</td><td>four categories, no numeric cutoffs given</td></tr>
+      <tr><td>Time window</td><td>averaging window not named; the screen shows a current level and a graph</td><td>a one-off snapshot</td><td>7 days against your baseline</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p><b>Here's why pulling them apart is worth the trouble.</b> Stress level doesn't live on its own: per the fēnix 8 manual, stress history for the last 3 days is one of the seven inputs of Training Readiness, and stress level is one of the four inputs of <a href="/en/garmin/body-battery">Body Battery</a>. In the readiness input list that line reads "stress history (last 3 days)"; <b>our reading:</b> it's the same number as the daily stress glance, although the manual doesn't say so outright. For Body Battery the term matches word for word. How much the input weighs isn't published in either case. So the glance most people scroll straight past, by our reading, feeds the two numbers they use to decide whether to train today.</p>
+
+  <h2>Stress level: how to read the scale</h2>
+
+  <p>The definition is short: the device analyzes heart rate variability while you are inactive and turns it into a scale from 0 to 100.</p>
+
+  <blockquote>
+    <p>Your device analyzes your heart rate variability while you are inactive to determine your overall stress. The stress level range is from 0 to 100, where 0 to 25 is a resting state, 26 to 50 is low stress, 51 to 75 is medium stress, and 76 to 100 is a high stress state.</p>
+    <cite>vívosmart 3 Owner's Manual, Heart Rate Variability and Stress Level</cite>
+  </blockquote>
+
+  <p class="tcap">Band names per the vívosmart 3 manual, verbatim</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Range</th><th>What Garmin calls it</th></tr></thead>
+    <tbody>
+      <tr><td class="num">0–25</td><td>resting state</td></tr>
+      <tr><td class="num">26–50</td><td>low stress</td></tr>
+      <tr><td class="num">51–75</td><td>medium stress</td></tr>
+      <tr><td class="num">76–100</td><td>high stress state</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>The bands are everything that's published about the output. How variability turns into the number isn't stated: not the averaging window, not the thresholds inside the bands, not which measure of variability is taken. The input and four bands are known; the rest is our reading.</p>
+
+  <p><b>Which brings us to the practical part — and it's about your number.</b> The manual sets the bands in fixed figures and says nothing about adapting them to the person. <b>Our reading:</b> this is a general scale, not your norm. A 62 for someone who usually sits near 30 and a 62 for someone who usually sits near 60 are two different stories under the same label, "medium stress". Normal for you is your own usual level, and you can only see it across a stretch of days: which values repeat day after day in similar conditions. A single reading on its own says very little.</p>
+
+  <p class="note">We take the bands and their names from the vívosmart 3 manual: that's where the definition stands in full, with the figures. We found no separate stress level page in the fēnix 8 manual, where it's described in a single line of the glances list. Check the manual for your own model: this is a description of the feature in the manuals named here, not a guarantee that it applies to every Garmin watch.</p>
+
+  <h2>Why there's no stress reading during hard training</h2>
+
+  <p>This is stated outright, and the wording is blunter than you'd expect: during high activity the measurements aren't merely hidden — they aren't recorded.</p>
+
+  <blockquote>
+    <p>Displays your current stress level and a graph of your stress level. If you are too active for the watch to determine your stress level, stress measurements are not recorded.</p>
+    <cite>fēnix 8 Owner's Manual, edition v10, Glances, the Stress row</cite>
+  </blockquote>
+
+  <p><b>Our reading:</b> Garmin doesn't name where the "too active" threshold sits. During hard work a gap is expected; on a calm walk the readings may well be recorded.</p>
+
+  <p>Two practical consequences.</p>
+
+  <p><b>First: a gap in the daily graph is a condition of the metric, not a fault.</b> The minutes the watch judged too active never entered the calculation; there's no lost data to go looking for there. By "daily" we mean the 24-hour graph you see in the app; what period the glance on the watch draws, the manual doesn't name.</p>
+
+  <p><b>Second: the number you see walking out of the gym doesn't measure how hard the session was.</b> It was taken afterwards, once you'd settled. To judge how hard the session was, look at the session itself and at training load — that's our advice, not a Garmin rule.</p>
+
+  <p>Garmin doesn't publish how a workout that finished half an hour ago affects a reading taken at rest. <b>Our assumption:</b> a reading taken right after a hard effort deserves more caution than a calm evening one — otherwise the aftermath of training is easy to mistake for something else. The order of the steps below is built on that same assumption.</p>
+
+  <h2>Why your stress is high when you're doing nothing</h2>
+
+  <p>The question sounds like a complaint about the watch, but it actually describes how the metric works: it's calculated in exactly those minutes — while you are inactive. <b>Our reading:</b> a high value at rest doesn't by itself mean something bad is happening right now.</p>
+
+  <p>Per the vívosmart 3 manual, stress level is affected by training, physical activity, sleep, nutrition and general life stress; the manual gives no weights for those factors. <b>Our reading:</b> a high value in the morning can therefore be the aftermath of yesterday's work or a short night as easily as it can be today. One number can't pick from that list, but a week of readings can — if the high values turn up the day after hard sessions and not otherwise, the cause is visible without any formula.</p>
+
+  <h2>How the HRV stress test and HRV status differ</h2>
+
+  <p>The <b>HRV stress test</b> is a separate one-off reading, not a daily feed. To see it at all you need a chest strap.</p>
+
+  <blockquote>
+    <p>Before you can view your heart rate variability (HRV) stress score, you must put on a Garmin chest heart rate monitor and pair it with your device.</p>
+    <cite>Forerunner 935 Owner's Manual, HRV Stress Test</cite>
+  </blockquote>
+
+  <p>The test takes three minutes, standing still, and the scale is 1 to 100. Garmin doesn't say what a given number means: there are no bands here as there are for daily stress. The consequence is simple: per this manual you can't get the test from the wrist, its number can't be compared with daily stress, and it only makes sense within a series of your own tests taken the same way — same time of day, same posture, same state beforehand. That's our advice, not a Garmin rule.</p>
+
+  <p><b>HRV status</b> is taken overnight and shows one of four categories. The watch reads wrist heart rate during sleep and compares your seven-day average against your baseline range (for the Poor category, against the normal range for your age).</p>
+
+  <p class="tcap">Garmin's wording — fēnix 8 manual, edition v10, checked November 21, 2026; the right column is ours</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Category</th><th>What Garmin says</th><th>What to do about it</th></tr></thead>
+    <tbody>
+      <tr><td>Balanced</td><td>the seven-day average is within your baseline range</td><td>nothing to change on this signal alone</td></tr>
+      <tr><td>Unbalanced</td><td>the seven-day average is above or below your baseline range</td><td>read it together with load and sleep from the same week</td></tr>
+      <tr><td>Low</td><td>the seven-day average is well below your baseline range</td><td>the same, plus run the procedure below</td></tr>
+      <tr><td>Poor</td><td>values average well below the normal range for your age</td><td>the same; if it holds for a couple of weeks and there are other complaints, see a doctor</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>The status won't appear until <b>three weeks of consistent sleep data</b> have accumulated — the HRV status page says it in a plain sentence. What "well below" means in figures, and where the age norms come from, isn't published. And Garmin's wording here is careful: a balanced status "may indicate positive signs of health", while an unbalanced or poor one "may be a sign of fatigue, greater recovery needs, or increased stress" — may, not does. <b>Our reading:</b> that caution is worth borrowing for your own conclusions.</p>
+
+  <p>So stress level and HRV status rest on one foundation — heart rate variability — and look at it from different sides. The first takes it while you're inactive and answers "how are things now", although what window that "now" covers isn't named. The second collects it across a night and a week and answers "how has your last week gone against your own baseline". They don't have to agree — the definitions are different, and a disagreement between them isn't in itself a sign that the device is wrong.</p>
+
+  <h2>Is the stress level accurate?</h2>
+
+  <p>Garmin publishes no accuracy check of its own. Independent ones exist, and they aren't flattering. A preregistered lab study (<i>Stress and Health</i>, 2025) put the vívosmart 4 against a chest strap: the stress score did separate a stress task from rest, and it tracked variability measures taken from the strap — but as a predictor of how stressed people said they felt it was marginal, weaker than plain heart rate. A field study of 781 students wearing the same model (<i>Journal of Psychopathology and Clinical Science</i>, 2025) found that for most of them the watch's stress and their own reports of stress had very weak to no association at all.</p>
+
+  <p>Read that for what it says: the number follows something real in the body, and it is a poor guess at what you are feeling. What is published about the calculation is the input and the four bands. The averaging window, the thresholds inside a band and the measure of variability used are not. <b>Our conclusion:</b> read the number as a deviation from your own usual level and set it against how you feel, not as a measurement of your state with a known error. That's the whole reason the procedure below is built on a stretch of days: a value you can't check against a reference, you can still check against yourself.</p>
+
+  <h2>What to do with your own number</h2>
+
+  <p>One evening of work, then ten minutes a week. Screen names follow the fēnix 8 glances list.</p>
+
+  <ol>
+    <li><b>Open the <i>Stress</i> glance and look at the day, not the number.</b> The glance shows a current level and a graph. Write down two things: which band you spend most of your calm hours in, and where the gaps in the graph are. A gap during hard training is expected; a gap during calm hours, <b>by our reading</b>, means the watch was off your wrist or couldn't take a reading. If the graph is full of holes most of the day, <b>our advice:</b> check that the strap sits snugly and that you wear the watch consistently.</li>
+    <li><b>Collect seven days in a row in Garmin Connect™.</b> It stores a daily stress level and long-term trends. Take seven consecutive daily values: one day won't show you a norm, seven will. How the daily level is derived from the individual readings, the manual doesn't say. <b>Our reading:</b> it's one number for the whole day, and you can't pick the hours inside it. If you want to compare like with like, open the stress graph for the day, if your model shows one, and take a calm evening stretch rather than the time right after a session.</li>
+    <li><b>Mark the hard workouts and short nights next to it.</b> That's the analysis. If the high values land on the days after hard work or after a short night — <b>our hypothesis:</b> that's the cause, and it's tested by backing off. If the values sit flat and have no relation to training, then by our reading training doesn't explain them: look at sleep and at how you feel, and if it holds for a couple of weeks, see a doctor.</li>
+    <li><b>Check it against the night side — the <i>HRV status</i> glance.</b> It answers for a week, not for one night, so read it together with the seven days from step 2. If the status hasn't appeared yet, that's normal — it arrives after three weeks of consistent sleep; do the step without it. If they agree (daily stress above your usual and the status out of its baseline range), the signal is solid; if they disagree, trust the seven days over one daily reading. Neither of those rules comes from the manual — both are ours.</li>
+    <li><b>Put the conclusion in one sentence and name a date.</b> Something like: "my usual values are such and such, right now it's been higher for this many days, it lines up with this, and I'm watching until this date." The last part isn't optional: without a date by which you expect it back, the observation never ends in a decision. What to do if it hasn't come back by then is in the coach's hypothesis below.</li>
+  </ol>
+
+  <p><b>And the reverse move, which is what all this is for.</b> If Garmin showed low Training Readiness this morning and you can't see why, open stress for the last three days: it's one of the seven inputs of the score. <b>Our reading:</b> a calm week of stress readings alongside low readiness means the cause is worth looking for among the other inputs; three high days in a row may be part of the answer. Garmin doesn't publish how much the input weighs, so this is a direction to search in, not a calculation.</p>
+
+  <p><b>What not to do:</b> hunt for a hard workout in the daily graph (it most likely isn't there), compare the HRV stress test number against daily stress (different scales, different sensors), or fold all three into one "overall stress picture" — different windows and scales give you a number with nothing behind it.</p>
+
+  <p><b>A coach's hypothesis, not a device verdict:</b> if high values hold for several days in a row during calm hours — not straight after a workout — and hard training days are running alongside, it looks like you've overreached and aren't recovering in time. Drop one or two hard sessions and see whether the values come down within a week or two. If they don't, or you notice something else alongside — sleep, weight, mood — see a doctor: training isn't the only thing that causes this.</p>
+
+  <h2>Frequently asked questions</h2>
+
+  <p><b>What does the stress number on a Garmin watch mean?</b><br>
+  It's a stress level on a scale from 0 to 100. Per the vívosmart 3 manual the device analyzes heart rate variability while you are inactive, and the bands are named: 0–25 a resting state, 26–50 low stress, 51–75 medium, 76–100 a high stress state. How heart rate variability becomes that number — the averaging window, the thresholds inside each band, which measure of variability is used — isn't disclosed in the manual.</p>
+
+  <p><b>Is a Garmin stress level of 62 high?</b><br>
+  62 falls in the 51–75 band, which Garmin calls medium stress. The vívosmart 3 manual also names a daily stress level in Garmin Connect, but doesn't describe how it's derived from the individual readings; whether the bands apply to it the same way is our reading. The manual says nothing about the bands adapting to the person, so we read them as a general scale rather than as your norm. Normal for you is your own usual level, and that only shows up across a stretch of days: which values repeat day after day in similar conditions. So 62 for someone who usually sits near 30 and 62 for someone who usually sits near 60 are two different stories under the same label. Keeping that baseline up by hand is the tedious part, and it's what Fizkult does: it builds your baseline from your watch history and tells you how many days it's calculated over.</p>
+
+  <p><b>Why does my Garmin stress disappear during a hard workout?</b><br>
+  Because while you are highly active no measurement is taken. The fēnix 8 manual says it outright: if you are too active for the watch to determine your stress level, stress measurements are not recorded. The metric is built on heart rate variability, which the device analyzes while you are inactive. So the daily graph has a gap during hard training, and that's a condition of the metric, not a fault in the watch. Where the threshold for "too active" sits isn't named.</p>
+
+  <p><b>Why is my Garmin stress high when I'm not doing anything?</b><br>
+  Because those are exactly the minutes the metric is measured in — while you are inactive. Per the vívosmart 3 manual, stress level is affected by training, physical activity, sleep, nutrition and general life stress. Our reading: a high value at rest can therefore be the aftermath of yesterday's load or a short night rather than anything happening right now. Which of those factors it was on a given day can't be settled from a single number.</p>
+
+  <p><b>How do I lower my stress level on a Garmin watch?</b><br>
+  There's no setting that turns it down: the number is calculated from heart rate variability while you are inactive, so what moves the number is what moves your body. The vívosmart 3 manual names five things that affect stress level — training, physical activity, sleep, nutrition and general life stress — and gives no weights for them. Our advice, not a Garmin rule: of those five, sleep and training load are the two you can change inside a week, and they are also the two your watch measures, so you can check whether the change worked. Cut the number of hard sessions for a week, go to bed at a steady hour, and compare those seven days against the seven before. And the goal isn't a lower number on the scale — it's your own usual level. Our reading: a value far from your usual in either direction is a reason to look at what changed, not a prize.</p>
+
+  <p><b>Is Garmin's stress level accurate?</b><br>
+  Garmin publishes no accuracy check of its own, and independent ones exist. A preregistered lab study (Stress and Health, 2025) put the vívosmart 4 against a chest strap: the stress score did separate a stress task from rest and it tracked variability measures taken from the strap, but as a predictor of how stressed people said they felt it was marginal, weaker than plain heart rate. A field study of 781 students wearing the same model (Journal of Psychopathology and Clinical Science, 2025) found that for most of them the watch's stress and their own reports of stress had very weak to no association at all. So the number follows something real in the body, and it is a poor guess at what you are feeling. What Garmin does publish about the calculation is the input and the four bands; the averaging window, the thresholds inside a band and the measure of variability used are not published. Our conclusion: read the number as a deviation from your own usual level and set it against how you feel, not as a measurement of your state with a known error — which is why the steps on this page are built on a stretch of days instead of one reading.</p>
+
+  <p><b>What's the difference between stress level, the HRV stress test and HRV status on Garmin?</b><br>
+  Stress level is calculated while you are inactive and gives a 0–100 number with four bands (per the vívosmart 3 manual). The HRV stress test is a one-off: three minutes standing still, and per the Forerunner 935 manual a Garmin chest heart rate monitor is required; the scale is 1–100 with no bands. HRV status arrives after a night and shows one of four categories, comparing your seven-day average against your own baseline range; on the fēnix 8 it appears only after three weeks of consistent sleep data. All three rest on heart rate variability, but the sensors, conditions and horizons differ, so their numbers don't convert into one another.</p>
+
+  <p><b>Does stress level affect Training Readiness on Garmin?</b><br>
+  Yes. Per the fēnix 8 manual, stress history for the last 3 days is one of the seven inputs of Training Readiness, and stress level is one of the four inputs of Body Battery. Whether that's the same number you see in the daily stress glance isn't stated outright on the readiness page — that's our reading. Garmin doesn't publish how much the input weighs, so its contribution to the final number can't be calculated. In practice it means the number most people scroll past still feeds the two numbers they do look at.</p>
+
+  <p><b>Does high stress on a Garmin watch mean I've overreached, or that I'm ill?</b><br>
+  The number can't settle that: what moved your heart rate variability isn't disclosed in the manual. A coach's hypothesis: if high values hold for several days in a row during calm hours — not straight after a workout — and hard training days are running alongside, it looks like you've overreached. Drop one or two hard sessions and see whether the values come down within a week or two. If they don't, or something else shows up alongside — sleep, weight, mood — see a doctor: training isn't the only thing that causes this. That's a coach's guide, not a diagnosis.</p>
+
+  <p><b>What should I do if my Garmin stress stays high for several days?</b><br>
+  Work through it in order. Take seven consecutive daily values from Garmin Connect, so you can see what level is usual for you — the manual sets the bands in fixed figures and says nothing about adapting them to the person. Mark the hard workouts and the short nights next to those values, and check them against overnight HRV status, which answers for a week rather than for one night. Then write the conclusion down in one sentence with a date in it: my usual values are such and such, right now it has been higher for this many days, it lines up with this, and I'm watching until this date. Without a date the observation never ends in a decision. If your usual level hasn't come back by the date you set, or something else shows up alongside it — sleep, weight, mood — see a doctor: training isn't the only thing that does this.</p>
+
+  <h2>In short</h2>
+
+  <ul>
+    <li>Per the vívosmart 3 manual, stress level is calculated from heart rate variability while you are inactive; the scale is 0–100 with four bands: 0–25 resting, 26–50 low, 51–75 medium, 76–100 high.</li>
+    <li>The fēnix 8 manual says it outright: when you're too active, stress measurements are not recorded. That's where the gap in the daily graph during hard training comes from; where the threshold sits isn't named.</li>
+    <li><b>Our reading:</b> the bands describe a general scale — the manual says nothing about adapting them to the person, so your own norm only shows up across a stretch of days.</li>
+    <li>Per the Forerunner 935 manual, the HRV stress test requires a chest heart rate monitor; it runs three minutes standing, on a 1–100 scale with no bands. On the fēnix 8, HRV status is taken from the wrist during sleep, appears after three weeks of data and gives four categories.</li>
+    <li>Stress history for the last 3 days is one of the seven inputs of Training Readiness, and stress level is one of the four inputs of Body Battery. Whether that's the same number as the daily stress glance, the readiness page doesn't spell out — that's our reading. The weights of the inputs aren't published.</li>
+  </ul>
+
+  <h2>What Garmin doesn't disclose</h2>
+
+  <ul>
+    <li>How variability becomes a number from 0 to 100 isn't disclosed: not the averaging window, not the thresholds inside the bands, not which measure of variability is calculated.</li>
+    <li>For the HRV stress test it isn't said which way to read the 1–100 scale or what a given number means. For HRV status the measure (RMSSD, SDNN) isn't named and no numeric cutoffs for the baseline range are given.</li>
+    <li>It isn't stated how a recently finished workout affects a reading taken at rest. The advice to read such readings with more caution is our assumption.</li>
+    <li>The weight of stress level inside Training Readiness and inside Body Battery isn't published, so the contribution of that input can't be calculated.</li>
+    <li>The definition of stress level and the bands are quoted from the vívosmart 3 manual; we found no separate stress level page in the fēnix 8 manual, where the metric is described in one glances row. The chest strap requirement comes from the Forerunner 935 manual. This is a description of the feature in the manuals named, not a guarantee that it applies to any model.</li>
+    <li>Garmin publishes no accuracy check of stress level; the independent ones we found are quoted above, with what follows from them.</li>
+    <li>The link "high values alongside hard days — looks like you've overreached" is our coach's hypothesis, not a Garmin statement.</li>
+    <li>Our explanations are marked "our assumption", "our reading", "our advice" and "hypothesis".</li>
+  </ul>
+
+  <h2>Sources</h2>
+
+  <ol class="src">
+    <li>Garmin vívosmart 3 Owner's Manual, Heart Rate Variability and Stress Level (checked November 21, 2026): "Your device analyzes your heart rate variability while you are inactive to determine your overall stress. The stress level range is from 0 to 100, where 0 to 25 is a resting state, 26 to 50 is low stress, 51 to 75 is medium stress, and 76 to 100 is a high stress state." The same page lists what affects stress level — training, physical activity, sleep, nutrition and general life stress — and notes that the daily stress level and long-term trends are available in Garmin Connect™. <a href="https://www8.garmin.com/manuals/webhelp/vivosmart3/EN-US/GUID-9282196F-D969-404D-B678-F48A13D8D0CB.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Owner's Manual, Glances (edition v10; checked November 21, 2026), the Stress row: "Displays your current stress level and a graph of your stress level." And on the same page: "If you are too active for the watch to determine your stress level, stress measurements are not recorded." Also the HRV status row: "Displays your seven-day average of your overnight heart rate variability." We found no separate stress level page in this manual. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-97EA1540-A780-480F-BA4D-9A9E147FB225.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin Forerunner 935 Owner's Manual, HRV Stress Test (checked November 21, 2026): "Before you can view your heart rate variability (HRV) stress score, you must put on a Garmin chest heart rate monitor and pair it with your device." The same page gives three minutes standing still and a 1–100 scale. <a href="https://www8.garmin.com/manuals/webhelp/forerunner935/EN-US/GUID-13AA1C94-7609-455C-BBBB-B11DA8BD9433.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Owner's Manual, Heart Rate Variability Status (edition v10; checked November 21, 2026): "Your watch analyzes your wrist heart rate readings while you are sleeping to determine your heart rate variability (HRV)." "The watch requires three weeks of consistent sleep data to display your heart rate variability status." Categories: Balanced — "Your seven-day average HRV is within your baseline range"; Unbalanced — "Your seven-day average HRV is above or below your baseline range"; Low — "Your seven-day average HRV is well below your baseline range"; Poor — "Your HRV values are averaging well below the normal range for your age". Modality: "A balanced HRV status may indicate positive signs of health…" and "An unbalanced or poor status may be a sign of fatigue, greater recovery needs, or increased stress." The page gives no numeric HRV value in milliseconds. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-9282196F-D969-404D-B678-F48A13D8D0CB.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Owner's Manual, Training Readiness (edition v10; checked November 21, 2026): among the seven inputs it names stress history for the last three days — "Stress history (last 3 days)". <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-C21BE0C8-A08E-4DA1-B6C6-2E0E2DDDB372.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Owner's Manual, Body Battery (edition v10; checked November 21, 2026): stress level is named as one of the four inputs — "Your watch analyzes your heart rate variability, stress level, sleep quality, and activity data". <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-87E1392B-2C55-40B7-A1FF-3AB9252DA0A0.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Rosenbach, Itzkovitch, Gidron, Schonberg. Assessing Garmin's stress level score against heart rate variability measurements. <i>Stress and Health</i>, 2025. A pilot of 29 participants, then a preregistered main study of 60: the vívosmart 4 and a Polar H10 chest strap recorded simultaneously during rest and mental-stress tasks. The stress score differed significantly between stress and rest and correlated with heart rate, RMSSD and SD2/SD1; against self-reported stress, heart rate showed the strongest association and the stress score had only marginal predictive value. Preprint: <a href="https://doi.org/10.1101/2025.01.06.630177" rel="nofollow noopener" target="_blank">doi.org/10.1101/2025.01.06.630177</a></li>
+    <li>Siepe, Tutunji, Rieble, Proppert, Fried. Associations between ecological momentary assessment and passive sensor data in a large student sample. <i>Journal of Psychopathology and Clinical Science</i>, 2025, vol. 134, no. 8, pp. 912–925. 781 students wore a vívosmart 4 while answering questions four times a day: "for the majority of individuals in our sample, self-report and physiological measures of stress show very weak to no associations", while sleep measures matched self-reports robustly. <a href="https://doi.org/10.1037/abn0001013" rel="nofollow noopener" target="_blank">doi.org/10.1037/abn0001013</a></li>
+  </ol>
+
+  <p class="note">A series of explainers, "Garmin metrics", built from primary sources. Published wording, thresholds and limits come with a link to the Garmin manual; our explanations and assumptions are marked. Fizkult is not affiliated with Garmin; Body Battery™ and Garmin Connect™ are marks owned by their respective owners.</p>
+
+  <div class="cta">
+    <div class="kicker">Connect your Garmin to fizkult.ai</div>
+    <h2>The manual's scale has no "your normal". Fizkult builds one from your own history</h2>
+    <p>62 means very little until you know your own usual level. That's where the manual's scale ends and a coach's work begins: everyone's normal is their own, and it can only be assembled from their own history.</p>
+    <p>Fizkult does that job on the signals your watch sends — stress among them, alongside sleep, recovery and the week's training. It builds your baseline from your own data and says how many days it's calculated over; while the days are too few it says so plainly instead of guessing, and marks each signal as usual, noticeably off or well off. Every morning the breakdown arrives in Telegram, in words: your average stress since midnight against your usual, with its marker — and, in the same letter, the coach's read of the day, where a shorter night or yesterday's hard session gets named.</p>
+    <p>Which covers the first half of what this page has just spent five steps doing by hand: your own usual level, and the days that stand out from it.</p>
+    <p>You connect the watch once; don't skip the Historical Data box — without it the baseline builds only from new days, and more slowly. First week free, everything included. The bot writes in English if your Telegram is set to English; <b>/language</b> switches it either way.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_en_garmin_stress">Connect your watch in Telegram →</a>
+    <p class="note" style="margin-bottom:0">This is a coach's read, not a medical one. If you don't feel yourself recovering, see a doctor.</p>
+  </div>
+
+  <a class="back" href="/en/garmin/">← All Garmin metric explainers</a>
+  <a class="back" href="/en/" style="margin-left:18px">Home</a>
+</div>
+</body>
+</html>

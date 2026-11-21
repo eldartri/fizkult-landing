@@ -149,6 +149,19 @@
     <lastmod>2026-11-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/stress"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/stress"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/stress"/>
+  </url>
+
+  <url>
+    <loc>https://fizkult.ai/en/garmin/stress</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/stress"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/stress"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/stress"/>
   </url>
 
   <url>
@@ -156,6 +169,19 @@
     <lastmod>2026-11-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/training-readiness"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/training-readiness"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/training-readiness"/>
+  </url>
+
+  <url>
+    <loc>https://fizkult.ai/en/garmin/training-readiness</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/training-readiness"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/training-readiness"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/training-readiness"/>
   </url>
 
   <url>

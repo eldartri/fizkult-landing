@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Training Readiness on Garmin watches: seven inputs in one number, and what to do when that number is low</title>
+<meta name="description" content="Garmin builds Training Readiness from seven inputs and returns one number from 1 to 100 across five zones. The inputs are published, their weights are not, and the manual describes no screen that breaks the score down by input. What a 41 means, what it changes about today's session, what the three-week wait for HRV status on a new watch means in our reading, and why the score disappears for a day after a dive.">
+<link rel="canonical" href="https://fizkult.ai/en/garmin/training-readiness">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/training-readiness">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/training-readiness">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/training-readiness">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Fizkult">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:title" content="Training Readiness on Garmin watches: seven inputs in one number, and what to do when that number is low">
+<meta property="og:description" content="Seven inputs fold into one number. The inputs are published, the weights are not, and some of the inputs have glances of their own.">
+<meta property="og:url" content="https://fizkult.ai/en/garmin/training-readiness">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fizkult — a personal coach in Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Training Readiness on Garmin watches: seven inputs in one number, and what to do when that number is low">
+<meta name="twitter:description" content="Seven inputs, five zones, one number. What a 41 means and what it changes about today's session.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .dl { display:inline-flex; align-items:center; gap:10px; margin:0 0 32px; padding:12px 18px;
+    background:var(--panel); border:1.5px solid var(--line); text-decoration:none; color:var(--ink);
+    font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; font-weight:500; }
+  .dl:hover { background:var(--ink); color:var(--bg); }
+  .dl span { color:var(--muted); }
+  .dl:hover span { color:var(--bg); }
+  .tcap { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; color:var(--muted);
+    text-transform:uppercase; margin:28px 0 8px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); min-width:440px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  blockquote { margin:24px 0; padding:18px 20px; background:var(--panel); border:1.5px solid var(--line); }
+  blockquote p { margin:0 0 10px; font-size:16px; }
+  blockquote cite { font-style:normal; font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; color:var(--muted); text-transform:uppercase; }
+  .note { font-size:13px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .src { font-size:13px; color:var(--muted); }
+  .src li { margin-bottom:10px; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Training Readiness on Garmin watches: seven inputs in one number, and what to do when that number is low",
+      "description": "Garmin calculates Training Readiness from seven inputs and returns a number from 1 to 100 across five zones. The inputs are published, their weights are not. The manual describes no screen that breaks the score down by input; some of the inputs have glances of their own, and by our reading assembling the cause from them is manual work.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-21",
+      "dateModified": "2026-11-21",
+      "mainEntityOfPage": "https://fizkult.ai/en/garmin/training-readiness",
+      "image": "https://fizkult.ai/assets/og/og-share.png",
+      "author": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/en/" },
+      "publisher": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/en/" },
+      "about": ["Training Readiness", "Garmin", "Recovery time", "Acute load", "Heart rate variability", "Body Battery"],
+      "citation": [
+        "Garmin. fēnix 8 Owner's Manual: Training Readiness",
+        "Garmin. fēnix 8 Owner's Manual: Recovery Time",
+        "Garmin. fēnix 8 Owner's Manual: Acute Load",
+        "Garmin. fēnix 8 Owner's Manual: Heart Rate Variability Status",
+        "Garmin. fēnix 8 Owner's Manual: Glances",
+        "Garmin. fēnix 8 Owner's Manual: Body Battery"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Fizkult", "item": "https://fizkult.ai/en/" },
+        { "@type": "ListItem", "position": 2, "name": "Garmin metrics explained", "item": "https://fizkult.ai/en/garmin/" },
+        { "@type": "ListItem", "position": 3, "name": "Training Readiness on Garmin watches: seven inputs in one number", "item": "https://fizkult.ai/en/garmin/training-readiness" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Training Readiness on a Garmin watch, in plain words?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It's a readiness score: a number from 1 to 100 with a short message attached, which by Garmin's own description helps you work out how ready you are to train today. The score is recalculated continuously and updated through the day — Garmin states that in a plain sentence. Your history of scores is kept in your Garmin Connect account."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does Garmin calculate Training Readiness from?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Per the fēnix 8 manual there are seven inputs: last night's sleep score, recovery time, HRV status, acute load, sleep history over the last three nights, stress history over the last three days, and dive history over the last 24 hours. Four of them carry a window stated outright — one night, three nights, three days, 24 hours. Recovery time and HRV status carry no window at all, and acute load's window is given in words, \"the last several days\", with no number. How much each input weighs, Garmin doesn't publish."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What are the Training Readiness zones and what does each one mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The scale runs from 1 to 100 and has five zones, each with its own color and short message: Prime 95–100, purple, \"Best possible\"; High 75–94, blue, \"Ready for challenges\"; Moderate 50–74, green, \"Good to go\"; Low 25–49, orange, \"Time to slow down\"; Poor 1–24, red, \"Let your body recover\". That's what the fēnix 8 manual says in edition v10; other models may draw the boundaries differently. A zone is Garmin's marker on a general scale, not your personal norm."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Training Readiness is 41 — does that mean I shouldn't train?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. 41 lands in the Low zone, and Garmin's message for it is \"Time to slow down\" — ease off, not stop. Our coaching advice, not a Garmin recommendation: do the easy or steady session as planned, and move or cut the hard one — intervals, tempo, the long run. Our reading: a familiar one-off cause such as a late night or a flight explains the number, but it doesn't hand the hard session back. One number can't tell you why it's low: a short night, a heavy day yesterday and heart rate variability drifting down all produce much the same score."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I improve Training Readiness on Garmin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There's no direct lever: it isn't a setting, it's a calculation over seven inputs. Our reading, since Garmin describes no direct link: five of them you influence indirectly — last night's sleep, sleep over three nights, stress over three days, and recovery time and acute load, which both follow from your training load and your daily routine. HRV status you can't move on demand: it's a seven-day average, so it takes about that long to shift. The seventh input, dive history, has nothing to do with raising the number at all — it only removes the score for 24 hours after a deep dive. So only the slow route works: bank sleep for several nights running and drop one or two hard sessions, rather than trying to change something in a single morning. The manual names no quick way to lift the number."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my Training Readiness change during the day?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Garmin states plainly that the score is calculated continuously and updated through the day. Some of the inputs move during the day too: recovery time, per the manual, is updated through the day based on changes in sleep, stress, relaxation and physical activity. Our conclusion: read the number in the morning, before training, and treat it as a starting point rather than a verdict on the day; the evening value is answering a different question. What exactly moves the number during the day, and in what steps, Garmin doesn't publish."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is Training Readiness missing or incomplete on a new Garmin watch?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "One of the seven inputs is HRV status, and per the Garmin manual the watch needs three weeks of consistent sleep data before it can show that status; until then there isn't one. Our conclusion: don't expect a full readiness score before that. What the watch actually shows during those first three weeks, and how the score is computed with one input missing, Garmin doesn't describe. While the status is absent, read sleep score and recovery time separately, in their own glances."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is my Training Readiness low?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A low score means one or more of the seven inputs fell through, and the readiness screen doesn't say which one. The usual candidates: a short night, two or three poor nights in a row, recovery time still counting down from a hard session, acute load climbing, or HRV status below your baseline range. Garmin doesn't publish the weights, so the number on its own can't name the cause — you find it by opening the inputs one at a time in their own glances: Sleep score, Recovery, HRV status, Stress. Our coaching advice, not a Garmin recommendation: if the low mornings line up with your hard sessions, swap one or two of them for easy work and watch the number over a week or two; if they line up with nothing and two weeks of easy training change nothing, that's the point to see a doctor rather than to rewrite the plan."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Garmin Training Readiness accurate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Garmin publishes no accuracy check of the score, and we found no independent one: what has been tested is individual inputs, not the number they add up to. The nearest evidence concerns stress, one of the seven. A preregistered lab study (Stress and Health, 2025) found Garmin's stress score did separate a mental-stress task from rest and tracked variability measures taken from a chest strap, but predicted how stressed people said they felt only marginally; a field study of 781 students (Journal of Psychopathology and Clinical Science, 2025) found very weak to no association between the watch's stress and people's own reports, while the same watch's sleep measures matched self-reports robustly. Our conclusion: read the score as a deviation from your own usual mornings rather than as a measurement with a known error."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between Training Readiness and Body Battery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They answer two different questions and run on different inputs. Training Readiness, by Garmin's description, is about how ready you are to train today: seven inputs — last night's sleep, recovery time, HRV status, acute load, sleep over three nights, stress over three days, dives over 24 hours — on a scale of 1 to 100 with five zones: Prime, High, Moderate, Low, Poor. Body Battery is about how much energy you have in reserve: four inputs — heart rate variability, stress level, sleep quality, activity data — on a scale of 5 to 100 with four bands. Our observation: readiness contains recovery time and acute load, which ties it to your training work, while Body Battery takes activity data but has no recovery time in it. So the same morning can produce two different numbers without either of them being wrong."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why did Training Readiness disappear after I went diving?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "That's how the metric is built. Per the fēnix 8 manual, the readiness score is unavailable for 24 hours after a dive deeper than 4.6 m (15 ft) and longer than three minutes. Dive history over the last 24 hours is one of the seven inputs, and in this case the watch shows no number at all rather than a reduced one. A dive shorter or shallower than that threshold doesn't remove the score."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Explainers · Garmin metrics</div>
+    <div class="ends">
+      <a class="lang" href="/garmin/training-readiness" hreflang="ru" lang="ru" aria-label="Переключиться на русский">RU</a>
+      <a class="home" href="/en/" aria-label="Home">FIZKULT.AI</a>
+    </div>
+  </div>
+
+  <h1>Training Readiness on Garmin watches: seven inputs in one number, and what to do when that number is low</h1>
+
+  <p class="lead">The screen says "readiness 41" this morning, orange zone. <b>Our reading:</b> 41 isn't a ban, it's "ease off" — and below we say what to ease off. Recovery time isn't a neighbouring metric here, it's one of the seven inputs of this score; and on a new watch HRV status doesn't show up for the first three weeks. Garmin publishes all seven inputs and the boundaries of all five zones, but doesn't publish how much each input weighs, and describes no screen that breaks the score down by input — though some of the inputs have glances of their own. A breakdown from the current fēnix 8 manual (edition v10, November 2026): what's stated outright, what we read into it, what to do today and how to assemble the cause by hand.</p>
+
+  <h2>What Training Readiness is, and how to read the zones</h2>
+
+  <p>Garmin's definition is short.</p>
+
+  <blockquote>
+    <p>Your training readiness is a score and a short message that helps you determine how ready you are for training each day.</p>
+    <cite>fēnix 8 Owner's Manual, edition v10, Training Readiness</cite>
+  </blockquote>
+
+  <p>The score is calculated continuously and updated through the day — that too is stated in a plain sentence. The scale runs <b>from 1 to 100</b> and splits into five zones, each with its own color and its own short message.</p>
+
+  <p class="tcap">Zones, colors and messages as Garmin gives them — fēnix 8, v10, checked November 21, 2026</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Score</th><th>Zone</th><th>Color</th><th>Garmin's message</th></tr></thead>
+    <tbody>
+      <tr><td class="num">95–100</td><td>Prime</td><td>purple</td><td>Best possible</td></tr>
+      <tr><td class="num">75–94</td><td>High</td><td>blue</td><td>Ready for challenges</td></tr>
+      <tr><td class="num">50–74</td><td>Moderate</td><td>green</td><td>Good to go</td></tr>
+      <tr><td class="num">25–49</td><td>Low</td><td>orange</td><td>Time to slow down</td></tr>
+      <tr><td class="num">1–24</td><td>Poor</td><td>red</td><td>Let your body recover</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Note the second zone: 75–94 is called <b>High</b>, not Ready. Checked against the current v10 edition.</p>
+
+  <p>The 41 from the top of this page is an example; it lands in Low, "Time to slow down". <b>Our reading:</b> the message points a direction rather than forbidding anything — by Garmin's own definition, the score helps you determine how ready you are to train.</p>
+
+  <p>All of this is said about the fēnix 8. We haven't checked other models: their zone boundaries and their set of inputs may differ, and the table shouldn't be carried over to your own watch without checking.</p>
+
+  <h2>What it changes about today's session</h2>
+
+  <p>The usual question about this number isn't "what's it made of" but "do I go or not". The inputs come further down; here's the short answer. What follows is our coaching advice laid over Garmin's zones, not the manufacturer's recommendation: Garmin gives a zone and a message, and what to do with the session is ours to decide.</p>
+
+  <p><b>Prime, High and Moderate (50 and up).</b> Do what you planned. <b>Our reading:</b> all three Garmin messages — "best possible", "ready for challenges", "good to go" — say the same thing: there's no serious reason to change the plan. The difference between 95 and 55 usually doesn't change what you do; we wouldn't rush to chase a PR on a 55.</p>
+
+  <p><b>Low (25–49).</b> Do the easy or steady session as planned. Move or cut the hard one — intervals, tempo, the long run. <b>Our reading:</b> a familiar one-off cause — a late night, a flight, a stressful day — doesn't hand the hard session back: sleep and stress feed the score, and those are exactly what it's reflecting. <b>Our assumption:</b> since those inputs run on three-night and three-day windows, the echo may hold for a few days; Garmin describes no rate of return. It's different when the watch filled the number in without you: the watch was off your wrist overnight, the sleep wasn't recorded, HRV status isn't there yet in the first three weeks. Then trust how you feel — step 4 below says how to check.</p>
+
+  <p><b>Poor (1–24).</b> Don't schedule hard work. Easy work by feel. If this has been going on for more than a day, the five steps further down give a read and a time frame.</p>
+
+  <p>And separately, on "what's a normal number": there isn't one. The zones describe a general scale, not your norm. What's normal for you is what shows up across a stretch of your own mornings. Until you have one, go by the zones; once you have 7–10 mornings logged, go by your own usual. Garmin does measure some individual inputs against your personal baseline — HRV status, for one — but the zone boundaries of the score itself are the same for everybody.</p>
+
+  <h2>What the number is made of</h2>
+
+  <p>There are seven inputs, and Garmin names them outright:</p>
+
+  <ol>
+    <li>last night's sleep score;</li>
+    <li>recovery time;</li>
+    <li>HRV status;</li>
+    <li>acute load;</li>
+    <li>sleep history over the last three nights;</li>
+    <li>stress history over the last three days;</li>
+    <li>dive history over the last 24 hours.</li>
+  </ol>
+
+  <p>Four of the seven carry a stated window: one night, three nights, three days, 24 hours. Recovery time and HRV status carry no window at all; acute load's is given in words but without a number — "the last several days". None of the weights is disclosed.</p>
+
+  <p>Three of the inputs are worth taking separately, because each brings its own caveat into the score.</p>
+
+  <p><b>Recovery time.</b> This isn't a score sitting next to readiness, it's one of the seven inputs. Garmin defines it as the time remaining before you are fully recovered and ready for your next hard workout, and updates it through the day based on changes in sleep, stress, relaxation and physical activity; the maximum is four days. On the same page sits a caveat that matters here: the recommendation uses your VO2 max. estimate and <b>may seem inaccurate at first</b>. So one of the seven inputs is openly built on an estimate Garmin itself hedges — and that estimate carries an error of its own, which we took apart in the <a href="/garmin/vo2max" hreflang="ru" lang="ru">VO2 max. explainer (in Russian)</a>.</p>
+
+  <p><b>Acute load.</b> Garmin gives the definition outright: it's a weighted sum of your excess post-exercise oxygen consumption (EPOC) for the last several days. How many days exactly isn't said; what the weights are isn't said. <b>Our observation:</b> the input responsible for recent training is defined without a day count and without weights.</p>
+
+  <p><b>HRV status.</b> To show it at all, the watch needs three weeks of consistent sleep data. There are four statuses — Balanced, Unbalanced, Low, Poor; the fēnix 8 manual defines all four. If there isn't enough data, there's no status. Of the unbalanced and poor statuses, Garmin says they <b>may be a sign of fatigue, greater recovery needs, or increased stress</b> — three different causes in one sentence. <b>Our conclusion from that:</b> your HRV says the body is under more strain, but not why, and the why can only be worked out from the other inputs.</p>
+
+  <p>The seventh input, diving, works differently from the rest: it's a switch, not a dial. <b>The readiness score is unavailable for 24 hours after a dive deeper than 15 ft (4.6 m) and longer than three minutes.</b> Not reduced — unavailable. The threshold is about diving and freediving; <b>our note:</b> an ordinary pool is usually shallower than that, so swimmers rarely run into it. The other six inputs have nothing to do with diving.</p>
+
+  <h2>How it differs from Body Battery</h2>
+
+  <p>Living next to Training Readiness on the watch is <a href="/en/garmin/body-battery">Body Battery™</a>, a separate scale Garmin compares to a fuel gauge. The two are often taken for the same thing.</p>
+
+  <p class="tcap">Per the fēnix 8 manual, edition v10, checked November 21, 2026</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th></th><th>Training Readiness</th><th>Body Battery</th></tr></thead>
+    <tbody>
+      <tr><td>What it reports, by its description</td><td>how ready you are to train today</td><td>how much energy you have in reserve</td></tr>
+      <tr><td>Inputs</td><td>seven: last night's sleep, recovery time, HRV status, acute load, sleep over 3 nights, stress over 3 days, dives over 24 hours</td><td>four: heart rate variability, stress level, sleep quality, activity data</td></tr>
+      <tr><td>Scale</td><td class="num">1–100, five zones with colors</td><td class="num">5–100, four bands</td></tr>
+      <tr><td>Names</td><td>Prime 95–100, High 75–94, Moderate 50–74, Low 25–49, Poor 1–24</td><td>very low 5–25, low 26–50, medium 51–75, high 76–100</td></tr>
+      <tr><td>Input windows</td><td>stated for four of seven</td><td>stated for none</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p><b>Our observation:</b> the difference shows in what goes in. Readiness contains recovery time and acute load, which ties it to your training work; Body Battery takes activity data but has no recovery time in it. The practical consequence: the same morning can produce two different numbers, and that isn't the watch being wrong — they're two different questions. How much have you got in you? And are you ready for a hard session?</p>
+
+  <h2>Is Training Readiness accurate?</h2>
+
+  <p>Garmin publishes no accuracy check of this score, and in the work we went through there is no independent one either: what has been tested is the parts, not the number they add up to. The nearest evidence is about one of the seven inputs — stress. A preregistered lab study (<i>Stress and Health</i>, 2025) put a Garmin device against a chest strap: its stress score did separate a mental-stress task from rest and it tracked variability measures taken from the strap, but as a predictor of how stressed people said they felt it was marginal, weaker than plain heart rate. A field study of 781 students wearing the same model (<i>Journal of Psychopathology and Clinical Science</i>, 2025) found very weak to no association between the watch's stress and their own reports of it — while the same watch's sleep measures matched self-reports robustly.</p>
+
+  <p><b>Our conclusion:</b> the inputs are following something real in the body, and several of them have been checked against lab equipment on their own; how faithfully seven of them fold into your readiness to train has not been. Read the score as a deviation from your own usual mornings rather than as a measurement with a known error — and when it disagrees with how you feel, let the rule in the fourth step below decide, not the number.</p>
+
+  <h2>What to do with a low score</h2>
+
+  <p>The weights are closed, but the inputs themselves are published. The manual describes no breakdown by input on the readiness screen: the readiness glance, by its description, shows a score and a short message; Garmin Connect™ keeps a history of scores, and the manual says nothing there about a breakdown by input. What some of the inputs do have is glances of their own, and the cause can be pieced together from those by hand.</p>
+
+  <ol>
+    <li><b>Read the zone and the message, not just the number.</b> 41 is Low, "time to slow down"; 20 is Poor, "let your body recover". <b>Our reading:</b> the zone and the message are what matter, and the exact number within the zone is secondary. If the watch is less than three weeks old, remember that HRV status may not exist yet — and it's one of the seven inputs.</li>
+    <li><b>Open the inputs one at a time, in their own glances.</b> Four glances match inputs by name:
+      <ul>
+        <li><b>Sleep score</b> — total sleep time, a score and sleep stages for the previous night;</li>
+        <li><b>Recovery</b> — recovery time, four days maximum;</li>
+        <li><b>HRV status</b> — your seven-day average of overnight heart rate variability;</li>
+        <li><b>Stress</b> — your current stress level and a graph of it.</li>
+      </ul>
+      Two of those cover their input only partly: the sleep glance shows last night, while the input also counts three nights; the stress glance, by its description, shows a current level and a graph, and the description doesn't say what period the graph covers — while the input counts three days. Acute load has no glance of its own in the list; <b>our assumption:</b> look for it in <b>Training status</b>, which shows training load — that it's the same quantity, the manual doesn't say outright. <b>Our reading:</b> one input that clearly fell through explains the number better than seven middling ones.</li>
+    <li><b>Separate one bad night from three.</b> Two of the inputs are sleep history over three nights and stress history over three days. One short night after a normal week, and three in a row, are different mornings even when the number on the screen is the same. The sleep glance shows last night; to see three in a row, look for sleep history in the Garmin Connect™ app — the sources on this page say nothing about it, so check on your own device.</li>
+    <li><b>Check the number against how you feel, and decide which to trust.</b> How the legs feel, what the mood's like, whether you want to train at all. If they agree, go by the number. If they don't, trust how you feel on an easy day and the number on a hard one: the cost of being wrong isn't the same. <b>Our reading:</b> a skipped easy session usually costs nothing, while a hard one forced through can cost a real setback. The exception is when the number was assembled without you — the watch was off, the sleep wasn't recorded, HRV status isn't there yet; then trust how you feel on the hard day too.</li>
+    <li><b>Collect 7–10 mornings and mark the hard sessions next to them.</b> One morning means nothing; a stretch of them shows whether the low scores stick to your hard days or sit there regardless of what you do. Those are two different answers, and each has its own next step below.</li>
+  </ol>
+
+  <p><b>If the low mornings line up with the training — a coach's hypothesis, not a verdict from the device:</b> if readiness stays in Low or Poor for several days running, with hard sessions and poor sleep alongside, it looks like you've overreached and aren't recovering in time. Swap one or two hard sessions for easy ones and see whether the number climbs over a week or two. If it doesn't, or you notice something else alongside — sleep, weight, mood — see a doctor: training isn't the only thing that causes this.</p>
+
+  <p><b>If they don't line up with anything</b> — the week was easy, the nights were normal, and the mornings are still low — then training isn't what's explaining the number, and swapping sessions around won't move it. <b>Our reading:</b> check the plumbing first, because an input that never arrived looks exactly like a low one: whether the watch actually stays on your wrist overnight, whether sleep is being recorded at all, whether HRV status exists yet. If the inputs are all there and two weeks of easy training change nothing, that's the point to see a doctor rather than to rewrite the plan — an infection on its way, low iron or a thyroid problem give the same flat low mornings, and no watch tells them apart from fatigue.</p>
+
+  <h2>Frequently asked questions</h2>
+
+  <p><b>What is Training Readiness on a Garmin watch, in plain words?</b><br>
+  It's a readiness score: a number from 1 to 100 with a short message attached, which by Garmin's own description helps you work out how ready you are to train today. The score is recalculated continuously and updated through the day — Garmin states that in a plain sentence. Your history of scores is kept in your Garmin Connect account.</p>
+
+  <p><b>What does Garmin calculate Training Readiness from?</b><br>
+  Per the fēnix 8 manual there are seven inputs: last night's sleep score, recovery time, HRV status, acute load, sleep history over the last three nights, stress history over the last three days, and dive history over the last 24 hours. Four of them carry a window stated outright — one night, three nights, three days, 24 hours. Recovery time and HRV status carry no window at all, and acute load's window is given in words, "the last several days", with no number. How much each input weighs, Garmin doesn't publish.</p>
+
+  <p><b>What are the Training Readiness zones and what does each one mean?</b><br>
+  The scale runs from 1 to 100 and has five zones, each with its own color and short message: Prime 95–100, purple, "Best possible"; High 75–94, blue, "Ready for challenges"; Moderate 50–74, green, "Good to go"; Low 25–49, orange, "Time to slow down"; Poor 1–24, red, "Let your body recover". That's what the fēnix 8 manual says in edition v10; other models may draw the boundaries differently. A zone is Garmin's marker on a general scale, not your personal norm.</p>
+
+  <p><b>Training Readiness is 41 — does that mean I shouldn't train?</b><br>
+  No. 41 lands in the Low zone, and Garmin's message for it is "Time to slow down" — ease off, not stop. Our coaching advice, not a Garmin recommendation: do the easy or steady session as planned, and move or cut the hard one — intervals, tempo, the long run. Our reading: a familiar one-off cause such as a late night or a flight explains the number, but it doesn't hand the hard session back. One number can't tell you why it's low: a short night, a heavy day yesterday and heart rate variability drifting down all produce much the same score.</p>
+
+  <p><b>How do I improve Training Readiness on Garmin?</b><br>
+  There's no direct lever: it isn't a setting, it's a calculation over seven inputs. Our reading, since Garmin describes no direct link: five of them you influence indirectly — last night's sleep, sleep over three nights, stress over three days, and recovery time and acute load, which both follow from your training load and your daily routine. HRV status you can't move on demand: it's a seven-day average, so it takes about that long to shift. The seventh input, dive history, has nothing to do with raising the number at all — it only removes the score for 24 hours after a deep dive. So only the slow route works: bank sleep for several nights running and drop one or two hard sessions, rather than trying to change something in a single morning. The manual names no quick way to lift the number.</p>
+
+  <p><b>Why does my Training Readiness change during the day?</b><br>
+  Garmin states plainly that the score is calculated continuously and updated through the day. Some of the inputs move during the day too: recovery time, per the manual, is updated through the day based on changes in sleep, stress, relaxation and physical activity. Our conclusion: read the number in the morning, before training, and treat it as a starting point rather than a verdict on the day; the evening value is answering a different question. What exactly moves the number during the day, and in what steps, Garmin doesn't publish.</p>
+
+  <p><b>Why is Training Readiness missing or incomplete on a new Garmin watch?</b><br>
+  One of the seven inputs is HRV status, and per the Garmin manual the watch needs three weeks of consistent sleep data before it can show that status; until then there isn't one. Our conclusion: don't expect a full readiness score before that. What the watch actually shows during those first three weeks, and how the score is computed with one input missing, Garmin doesn't describe. While the status is absent, read sleep score and recovery time separately, in their own glances.</p>
+
+  <p><b>Why is my Training Readiness low?</b><br>
+  A low score means one or more of the seven inputs fell through, and the readiness screen doesn't say which one. The usual candidates: a short night, two or three poor nights in a row, recovery time still counting down from a hard session, acute load climbing, or HRV status below your baseline range. Garmin doesn't publish the weights, so the number on its own can't name the cause — you find it by opening the inputs one at a time in their own glances: Sleep score, Recovery, HRV status, Stress. Our coaching advice, not a Garmin recommendation: if the low mornings line up with your hard sessions, swap one or two of them for easy work and watch the number over a week or two; if they line up with nothing and two weeks of easy training change nothing, that's the point to see a doctor rather than to rewrite the plan.</p>
+
+  <p><b>Is Garmin Training Readiness accurate?</b><br>
+  Garmin publishes no accuracy check of the score, and we found no independent one: what has been tested is individual inputs, not the number they add up to. The nearest evidence concerns stress, one of the seven. A preregistered lab study (Stress and Health, 2025) found Garmin's stress score did separate a mental-stress task from rest and tracked variability measures taken from a chest strap, but predicted how stressed people said they felt only marginally; a field study of 781 students (Journal of Psychopathology and Clinical Science, 2025) found very weak to no association between the watch's stress and people's own reports, while the same watch's sleep measures matched self-reports robustly. Our conclusion: read the score as a deviation from your own usual mornings rather than as a measurement with a known error.</p>
+
+  <p><b>What's the difference between Training Readiness and Body Battery?</b><br>
+  They answer two different questions and run on different inputs. Training Readiness, by Garmin's description, is about how ready you are to train today: seven inputs — last night's sleep, recovery time, HRV status, acute load, sleep over three nights, stress over three days, dives over 24 hours — on a scale of 1 to 100 with five zones: Prime, High, Moderate, Low, Poor. Body Battery is about how much energy you have in reserve: four inputs — heart rate variability, stress level, sleep quality, activity data — on a scale of 5 to 100 with four bands. Our observation: readiness contains recovery time and acute load, which ties it to your training work, while Body Battery takes activity data but has no recovery time in it. So the same morning can produce two different numbers without either of them being wrong.</p>
+
+  <p><b>Why did Training Readiness disappear after I went diving?</b><br>
+  That's how the metric is built. Per the fēnix 8 manual, the readiness score is unavailable for 24 hours after a dive deeper than 4.6 m (15 ft) and longer than three minutes. Dive history over the last 24 hours is one of the seven inputs, and in this case the watch shows no number at all rather than a reduced one. A dive shorter or shallower than that threshold doesn't remove the score.</p>
+
+  <h2>In short</h2>
+
+  <ul>
+    <li>Training Readiness is a Garmin watch feature: a number from 1 to 100 and a short message about how ready you are to train today. Five zones: Prime 95–100, High 75–94, Moderate 50–74, Low 25–49, Poor 1–24. The second zone is called High, not Ready.</li>
+    <li>There are seven inputs: last night's sleep, recovery time, HRV status, acute load, sleep over three nights, stress over three days, dives over 24 hours. Windows are stated for four of the seven, weights for none.</li>
+    <li>Recovery time is an input of readiness rather than its neighbour, and it leans on the VO2 max. estimate; Garmin itself writes that this recommendation may seem inaccurate at first. Acute load is defined as a weighted sum of EPOC over "the last several days" — with no day count and no weights.</li>
+    <li>The manual describes no breakdown by input on the readiness screen, but some inputs have glances of their own: Sleep score, Recovery, HRV status, Stress. The cause gets assembled from those by hand.</li>
+    <li><b>Our coaching advice over the zones, not a Garmin recommendation:</b> 50 and up — do what you planned; Low — keep the easy work, move or cut the hard; Poor — no hard work, easy by feel. If a low score holds for several days running with hard sessions and poor sleep alongside it, our coach's hypothesis is that you've overreached: swap one or two hard sessions for easy ones and see whether the number climbs over a week or two. If it doesn't, or something else shows up alongside — sleep, weight, mood — see a doctor.</li>
+  </ul>
+
+  <h2>What Garmin doesn't disclose</h2>
+
+  <ul>
+    <li>The weights of the seven inputs aren't disclosed: there's no telling which input dominates, or how recovery time converts into points.</li>
+    <li>Acute load's window is given in words — "the last several days" — but not as a number, and the EPOC weighting formula isn't published.</li>
+    <li>Whether the Prime zone is reachable with an unbalanced HRV status isn't stated on the page.</li>
+    <li>It's stated that the score is calculated continuously, but not what moves it during the day or in what steps.</li>
+    <li>It isn't stated how the watch behaves during the first three weeks, while HRV status is absent, or how the score is computed without that input.</li>
+    <li>The manual describes no screen where the seven inputs are laid out separately. That's exactly what we're claiming — that the manual contains no such description — not that no firmware on any model has one.</li>
+    <li>Garmin publishes no accuracy check of the readiness score, and we found no independent one: what exists is work on individual inputs, quoted above with what follows from it. How well the finished score matches actual readiness to train is a separate question, and this page doesn't answer it.</li>
+    <li>Everything above is about the fēnix 8, manual edition v10, November 2026. We haven't checked the set of inputs or the zone boundaries on other models, and editions change.</li>
+    <li>Our explanations are marked "our observation", "our reading", "our assumption", "our conclusion", "hypothesis". Garmin doesn't publish them.</li>
+  </ul>
+
+  <h2>Sources</h2>
+
+  <ol class="src">
+    <li>Garmin fēnix 8 Owner's Manual, Training Readiness (edition v10, November 2026; checked November 21, 2026). Definition: "Your training readiness is a score and a short message that helps you determine how ready you are for training each day." Recalculation: "The score is continuously calculated and updated throughout the day using these factors:" Inputs: sleep score (last night), recovery time, HRV status, acute load, sleep history (last 3 nights), stress history (last 3 days), dive history (last 24 hours). Zones: Purple 95–100 Prime "Best possible", Blue 75–94 High "Ready for challenges", Green 50–74 Moderate "Good to go", Orange 25–49 Low "Time to slow down", Red 1–24 Poor "Let your body recover". The same page states that the score is unavailable for 24 hours after a dive deeper than 4.6 m (15 ft.) and longer than 3 minutes, and that the history of scores is available in Garmin Connect™. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-C21BE0C8-A08E-4DA1-B6C6-2E0E2DDDB372.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Owner's Manual, Recovery Time (edition v10; checked November 21, 2026): "The recovery time recommendation uses your VO2 max. estimate and may seem inaccurate at first." And on the same page: "The device updates your recovery time throughout the day based on changes in sleep, stress, relaxation, and physical activity." <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-DAC27D10-886A-4EA8-8339-674479E9574A.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Owner's Manual, Acute Load (edition v10; checked November 21, 2026): "Acute load is a weighted sum of your excess post-exercise oxygen consumption (EPOC) for the last several days." The page gives no day count and no formula. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-AEDB0872-C5A1-4378-86D5-2239734B59E8.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Owner's Manual, Heart Rate Variability Status (edition v10; checked November 21, 2026): "The watch requires three weeks of consistent sleep data to display your heart rate variability status." Categories: Balanced — "Your seven-day average HRV is within your baseline range"; Unbalanced — "…above or below your baseline range"; Low — "…well below your baseline range"; Poor — "Your HRV values are averaging well below the normal range for your age". "No status means that there is insufficient data to generate a seven-day average." Modality: "An unbalanced or poor status may be a sign of fatigue, greater recovery needs, or increased stress." <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-9282196F-D969-404D-B678-F48A13D8D0CB.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Owner's Manual, Glances (edition v10; checked November 21, 2026) — the descriptions of the glances we send the reader to: Training readiness — "Displays a score and a short message that helps you determine how ready you are for training each day"; Sleep score — "Displays total sleep time, a sleep score, and sleep stage information for the previous night"; HRV status — "Displays your seven-day average of your overnight heart rate variability"; Recovery — "Displays your recovery time. The maximum time is four days"; Stress — "Displays your current stress level and a graph of your stress level"; Training status — "Displays your current training status and training load…". There is no separate acute load glance in the table. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-97EA1540-A780-480F-BA4D-9A9E147FB225.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Owner's Manual, Body Battery (edition v10; checked November 21, 2026): the scale — "The Body Battery level range is from 5 to 100" — bands 5–25 very low, 26–50 low, 51–75 medium, 76–100 high; inputs — heart rate variability, stress level, sleep quality, activity data. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-87E1392B-2C55-40B7-A1FF-3AB9252DA0A0.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Rosenbach, Itzkovitch, Gidron, Schonberg. Assessing Garmin's stress level score against heart rate variability measurements. <i>Stress and Health</i>, 2025. A pilot of 29 participants, then a preregistered main study of 60: the vívosmart 4 and a Polar H10 chest strap recorded simultaneously during rest and mental-stress tasks. The stress score differed significantly between stress and rest and correlated with heart rate, RMSSD and SD2/SD1; against self-reported stress, heart rate showed the strongest association and the stress score had only marginal predictive value. Preprint: <a href="https://doi.org/10.1101/2025.01.06.630177" rel="nofollow noopener" target="_blank">doi.org/10.1101/2025.01.06.630177</a></li>
+    <li>Siepe, Tutunji, Rieble, Proppert, Fried. Associations between ecological momentary assessment and passive sensor data in a large student sample. <i>Journal of Psychopathology and Clinical Science</i>, 2025, vol. 134, no. 8, pp. 912–925. 781 students wore a vívosmart 4 while answering questions four times a day: "for the majority of individuals in our sample, self-report and physiological measures of stress show very weak to no associations", while sleep measures matched self-reports robustly. <a href="https://doi.org/10.1037/abn0001013" rel="nofollow noopener" target="_blank">doi.org/10.1037/abn0001013</a></li>
+  </ol>
+
+  <p class="note">A series of explainers, "Garmin metrics", built from primary sources. Published wording, thresholds and limits come with a link to the Garmin manual; our explanations and assumptions are marked. Fizkult is not affiliated with Garmin; Body Battery™ and Garmin Connect™ are marks owned by their respective owners.</p>
+
+  <div class="cta">
+    <div class="kicker">Connect your Garmin to fizkult.ai</div>
+    <h2>Garmin hands you the number. Fizkult names the signal that pulled it down</h2>
+    <p>Seven inputs collapse into one score, and the screen doesn't say which of them fell through. That's the whole reason this page just spent five steps piecing the cause back together by hand, glance by glance.</p>
+    <p>Fizkult does that step for you. It reads the signals your watch sends — sleep, overnight variability, resting heart rate, stress, the week's load — each against your own usual level, built from your own history, and says how many days that usual is counted over; while the days are too few it says so plainly instead of guessing. Next to every signal stands a marker: as usual, noticeably off, well off.</p>
+    <p>Its own readiness score, out of 100, comes with what Garmin's screen leaves out: the signal that weighed most this morning, by name, and the ones that never arrived — because an input that didn't come in looks exactly like a low one. It's our number, calculated from what your watch sends us, so it and Garmin's Training Readiness don't have to agree.</p>
+    <p>You connect the watch once; don't skip the Historical Data box — without it your norm builds only from new days, and more slowly. First week free, everything included. The bot writes in English if your Telegram is set to English; <b>/language</b> switches it either way.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_en_garmin_readiness">Connect your watch in Telegram →</a>
+    <p class="note" style="margin-bottom:0">This is a coach's read, not a medical one. If you don't feel yourself recovering, see a doctor.</p>
+  </div>
+
+  <a class="back" href="/en/garmin/">← All Garmin metric explainers</a>
+  <a class="back" href="/en/" style="margin-left:18px">Home</a>
+</div>
+</body>
+</html>
