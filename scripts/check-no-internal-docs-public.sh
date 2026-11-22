@@ -136,11 +136,37 @@ MISSING_PATHS=(
 # вернуться, не проверяется никем.
 TIMEOUTS="--connect-timeout 10 --max-time 25"
 
+# Опрос одного адреса. Три попытки, пока ответа нет вовсе.
+#
+# Повод (22.11.2026, вечер): прогон объявил СЛОМАН на несуществующем адресе —
+# «отвечает 000 вместо 404». Руками тот же адрес трижды ответил 404. У curl
+# 000 означает, что ответа не было (обрыв, таймаут, срез под частыми
+# запросами), а не что сервер так ответил. Разница важна в обе стороны:
+# на этой проверке 000 даёт ложную тревогу, а в двух верхних циклах тот же
+# 000 уходил в ветку «закрыт» — то есть открытый внутренний файл выглядел
+# бы закрытым. Три попытки были заведены в тот же день, но только у одного
+# цикла из четырёх; здесь они становятся общими.
+#
+# Печатает: "<код> <content-type>".
+probe() {
+  local url="$1" code ctype
+  for attempt in 1 2 3; do
+    read -r code ctype <<<"$(curl -s $TIMEOUTS -o /dev/null -w "%{http_code} %{content_type}" "$url")"
+    [ "$code" != "000" ] && break
+    [ "$attempt" != "3" ] && sleep 2
+  done
+  echo "$code $ctype"
+}
+
 fail=0
 
 for p in "${PATHS[@]}"; do
-  read -r code ctype <<<"$(curl -s $TIMEOUTS -o /dev/null -w "%{http_code} %{content_type}" "$BASE/$p")"
+  read -r code ctype <<<"$(probe "$BASE/$p")"
   case "$code" in
+    000)
+      echo "СЛОМАН:  $BASE/$p не ответил за три попытки — закрыт он или открыт, неизвестно"
+      fail=1
+      ;;
     30*)
       echo "закрыт:  $p (редирект $code)"
       ;;
@@ -162,8 +188,12 @@ for p in "${PATHS[@]}"; do
 done
 
 for p in "${PATHS_HTML[@]}"; do
-  code=$(curl -s $TIMEOUTS -o /dev/null -w "%{http_code}" "$BASE/$p")
+  read -r code _ <<<"$(probe "$BASE/$p")"
   case "$code" in
+    000)
+      echo "СЛОМАН:  $BASE/$p не ответил за три попытки — закрыт он или открыт, неизвестно"
+      fail=1
+      ;;
     30*)
       echo "закрыт:  $p (редирект $code)"
       ;;
@@ -178,8 +208,11 @@ for p in "${PATHS_HTML[@]}"; do
 done
 
 for p in "${PUBLIC[@]}"; do
-  code=$(curl -s $TIMEOUTS -o /dev/null -w "%{http_code}" "$BASE/$p")
-  if [ "$code" != "200" ]; then
+  read -r code _ <<<"$(probe "$BASE/$p")"
+  if [ "$code" = "000" ]; then
+    echo "СЛОМАН:  $BASE/$p не ответил за три попытки"
+    fail=1
+  elif [ "$code" != "200" ]; then
     echo "СЛОМАН:  $BASE/$p отвечает $code — публичная страница перестала открываться"
     fail=1
   else
@@ -223,9 +256,12 @@ for row in "${PUBLIC_FILES[@]}"; do
 done
 
 for p in "${MISSING_PATHS[@]}"; do
-  code=$(curl -s $TIMEOUTS -o /dev/null -w "%{http_code}" "$BASE/$p")
+  read -r code _ <<<"$(probe "$BASE/$p")"
   if [ "$code" = "404" ]; then
     echo "404:     /$p (как и должно)"
+  elif [ "$code" = "000" ]; then
+    echo "СЛОМАН:  $BASE/$p не ответил за три попытки — 404 это или нет, неизвестно"
+    fail=1
   else
     echo "СЛОМАН:  $BASE/$p отвечает $code вместо 404 — несуществующий адрес выдаёт"
     echo "         страницу, и поисковик складывает такие адреса как дубли. Проверь,"
