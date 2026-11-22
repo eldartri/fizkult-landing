@@ -268,6 +268,19 @@
     <lastmod>2026-11-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/hrv-status"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/hrv-status"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/hrv-status"/>
+  </url>
+
+  <url>
+    <loc>https://fizkult.ai/en/garmin/hrv-status</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/hrv-status"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/hrv-status"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/hrv-status"/>
   </url>
 
   <!--

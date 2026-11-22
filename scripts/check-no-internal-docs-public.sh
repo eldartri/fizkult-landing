@@ -119,6 +119,8 @@ PUBLIC_FILES=(
   "en/garmin/training-status.pdf application/pdf"
   "en/garmin/recovery-time text/html https://fizkult.ai/en/garmin/recovery-time"
   "en/garmin/recovery-time.pdf application/pdf"
+  "en/garmin/hrv-status text/html https://fizkult.ai/en/garmin/hrv-status"
+  "en/garmin/hrv-status.pdf application/pdf"
   # Калькуляторы. Считают в браузере, поэтому открытость адреса — это и есть
   # вся их доставка: страница не отвечает — сервиса нет. Выпустил новый
   # калькулятор, допиши сюда обе строки, русскую и английскую.

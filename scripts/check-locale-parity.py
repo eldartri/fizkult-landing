@@ -101,6 +101,12 @@ ARTICLE_PAIRS = [
         "/en/garmin/recovery-time",
         "/garmin/recovery-time",
     ),
+    (
+        "garmin/hrv-status.html",
+        "en/garmin/hrv-status.html",
+        "/en/garmin/hrv-status",
+        "/garmin/hrv-status",
+    ),
 ]
 
 

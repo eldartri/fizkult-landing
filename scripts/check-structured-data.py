@@ -81,6 +81,7 @@ SITEMAP_FILES = {
     "https://fizkult.ai/en/garmin/training-status": "en/garmin/training-status.html",
     "https://fizkult.ai/en/garmin/training-effect": "en/garmin/training-effect.html",
     "https://fizkult.ai/en/garmin/recovery-time": "en/garmin/recovery-time.html",
+    "https://fizkult.ai/en/garmin/hrv-status": "en/garmin/hrv-status.html",
     "https://fizkult.ai/calc/": "calc/index.html",
     "https://fizkult.ai/en/calc/": "en/calc/index.html",
     "https://fizkult.ai/calc/pace": "calc/pace.html",

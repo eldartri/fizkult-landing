@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garmin HRV status: unbalanced can mean above your range — and that is not a compliment</title>
+<meta name="description" content="The category never says which way you moved: unbalanced means above your baseline range exactly as much as below it — and Garmin itself links abnormally high values relative to your personal baseline to functional overreach. Only the status waits three weeks: the nightly number and the chart are there from the start. Four statuses word for word, what Garmin never published, and what to do tonight.">
+<link rel="canonical" href="https://fizkult.ai/en/garmin/hrv-status">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/hrv-status">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/hrv-status">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/hrv-status">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Fizkult">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Garmin HRV status: unbalanced can mean above your range — and that is not a compliment">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:description" content="Moving above your baseline range is unbalanced too, and Garmin itself links high values relative to your personal baseline to functional overreach. The category never tells you which way you went.">
+<meta property="og:url" content="https://fizkult.ai/en/garmin/hrv-status">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share-en-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fizkult — a personal coach in Telegram">
+<meta name="twitter:title" content="Garmin HRV status: unbalanced can mean above your range — and that is not a compliment">
+<meta name="twitter:description" content="Garmin links a move above your baseline range to overreach, not to good form. And only the status waits three weeks: the number and the overnight chart start on night one.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share-en-v2.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .dl { display:inline-flex; align-items:center; gap:10px; margin:0 0 32px; padding:12px 18px;
+    background:var(--panel); border:1.5px solid var(--line); text-decoration:none; color:var(--ink);
+    font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; font-weight:500; }
+  .dl:hover { background:var(--ink); color:var(--bg); }
+  .dl span { color:var(--muted); }
+  .dl:hover span { color:var(--bg); }
+  .tcap { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; color:var(--muted);
+    text-transform:uppercase; margin:28px 0 8px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); min-width:440px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  blockquote { margin:24px 0; padding:18px 20px; background:var(--panel); border:1.5px solid var(--line); }
+  blockquote p { margin:0 0 10px; font-size:16px; }
+  blockquote cite { font-style:normal; font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; color:var(--muted); text-transform:uppercase; }
+  .note { font-size:13px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .src { font-size:13px; color:var(--muted); }
+  .src li { margin-bottom:10px; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Garmin HRV status: unbalanced can mean above your range — and that is not a compliment",
+      "description": "HRV status compares your seven-day average with your personal baseline range and shows one of four categories. The status needs three weeks of consistent sleep data, but the nightly number and the overnight chart are available from night one. Unbalanced means outside the range in either direction, and Garmin links high values above your baseline to overreach. Which measure of variability is computed, and which window inside the night is used, was never published.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-22",
+      "dateModified": "2026-11-22",
+      "mainEntityOfPage": "https://fizkult.ai/en/garmin/hrv-status",
+      "image": "https://fizkult.ai/assets/og/og-share-en-v2.png",
+      "author": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/" },
+      "publisher": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/" },
+      "about": ["HRV Status", "Heart rate variability", "Garmin", "Baseline range", "Overnight HRV"],
+      "citation": [
+        "Garmin. fēnix 8 Owner's Manual: Heart Rate Variability Status (v10)",
+        "Garmin Technology. Health Science: HRV Status",
+        "Garmin Blog. Understanding the HRV Status on Your Garmin Smartwatch (2024)"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Fizkult", "item": "https://fizkult.ai/" },
+        { "@type": "ListItem", "position": 2, "name": "Garmin metric explainers", "item": "https://fizkult.ai/en/garmin/" },
+        { "@type": "ListItem", "position": 3, "name": "HRV status on a Garmin watch", "item": "https://fizkult.ai/en/garmin/hrv-status" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is HRV status on a Garmin watch?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is a category, not a number. The watch analyzes your wrist heart rate readings while you are sleeping to determine your heart rate variability — that is the manual's own wording. It then takes your seven-day average and compares it with your baseline range: inside the range the status is balanced, outside it unbalanced, well below it low. Poor stands apart: that is when your values average well below the normal range for your age. The boundaries of the range, and what counts as well below, were never published."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do I have no HRV status, and how long is the wait?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Three weeks of consistent sleep data, as the fēnix 8 manual puts it: \"The watch requires three weeks of consistent sleep data to display your heart rate variability status.\" The screen is not blank meanwhile. Garmin's own science page says you can see your average HRV and overnight trends as soon as you start using the device, and the Garmin blog names the intermediate mark: the seven-day average appears after the first seven nights, the comparison with your baseline after three weeks. So three weeks is the wait for a comparison, not for your first number. What missed nights do to the count, Garmin does not say."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does an unbalanced HRV status mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "That your seven-day average has moved outside your baseline range — and the manual names both sides: \"above or below your baseline range\". So unbalanced is not the same as \"my HRV has dropped\": rising above the range earns the same status. Which of the two it was, the category never says; the number next to it does. Garmin describes the meaning carefully: \"may be a sign of fatigue, greater recovery needs, or increased stress\" — may be a sign, not shows."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is high heart rate variability always good?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, and Garmin says so itself. Its science page states that mounting evidence shows a relationship between abnormally high HRV values relative to your personal baseline and functional overreach, especially when that overreach comes from large amounts of low-intensity activity. The Garmin blog puts the same thing in plain words: if you increase your training significantly, your status may go above your personal baseline range, and that is not cause for celebration — your body is working overtime to recover. So the rule to read by is not \"higher is better\" but \"closer to your own range is calmer\"."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does a poor status mean, and why did my baseline range disappear?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Poor is assigned when your personal baseline drops below age-based standards associated with good health. The range is then removed from the screen, and Garmin explains why: to avoid scenarios where your HRV might be considered both balanced and below healthy norms. So the missing range is part of the design, not a glitch. Where the age-based standards come from, and what numbers are in them, Garmin does not publish. Our recommendation, not the watch's conclusion: if poor holds for two or three weeks while your training and sleep are normal for you, that is a reason to see a doctor rather than to change your plan."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which measure of variability does a Garmin watch compute — is it RMSSD?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not stated. RMSSD is named on Garmin's science page as a standard statistical measure of HRV — inside a general explanation of what HRV is. That the device computes RMSSD specifically, over a window of a given length, is not claimed there, and not in the manual either. Something else important is named: the optical wrist sensor reads pulse rate variability, which effectively reflects heart rate variability in the context of this analysis. The practical consequence is simple: HRV numbers from different apps and devices do not compare directly. Compare yourself with yourself, on one device."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is HRV status different from the stress level on the watch?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They rest on the same signal — heart rate variability — but the conditions and the horizons differ. Stress level is computed while you are inactive and gives a 0 to 100 number through the day. HRV status is collected overnight, averaged over seven days and compared with your personal baseline, which takes three weeks to build. They are under no obligation to agree: they answer different questions — \"how am I right now\" and \"how has my week been against my own normal\". There is a third quantity on the same footing nearby: a one-off HRV stress test, which needs a chest strap."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my overnight HRV jump around while the status sits still?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because they are different horizons. The status is computed from the seven-day average, not from last night: one bad night will not drop it and one good night will not lift it. The nightly number, meanwhile, honestly jumps — the watch computes HRV continuously through the night and, by Garmin's description, shows the average across the whole sleep period plus a chart based on five-minute windows. If the status has moved, the week has moved, and that is a signal rather than noise."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What should I do if my HRV status is low?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Look around it first. Garmin lists the reasons an average drops below the baseline, and training is only one of them: training too hard, a lack of quality sleep, stress, a change in physical activity, not meeting nutritional needs, or a drink or two the night before. A coach's hypothesis, not the watch's conclusion: if a low status holds for a week with hard days next to it, it looks like you have overreached — drop one or two hard sessions and see whether the average comes back over a week or two. If it does not come back, or something else shows up alongside it — sleep, weight, mood — see a doctor: training is not the only thing that does this."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Explainers · Garmin metrics</div>
+    <div class="ends">
+      <a class="home" href="/" aria-label="Home">FIZKULT.AI</a>
+      <a class="lang" href="/garmin/hrv-status" hreflang="ru" lang="ru" aria-label="Переключиться на русский">RU</a>
+    </div>
+  </div>
+
+  <h1>Garmin HRV status: unbalanced can mean above your range — and that is not a compliment</h1>
+
+  <p class="lead">The watch says Unbalanced, and the first thought is that your HRV has fallen. But in Garmin's own definition the word has two sides: your average has left your range <b>above or below</b> — and which of the two it was, the category never says at all. And if it went up, hold the celebration: abnormally high values relative to your personal baseline are something Garmin itself ties to overreach, especially when it was built out of large amounts of easy work. Then there is the three weeks the metric gets scolded for: only the status waits that long. The nightly number and the overnight chart, by Garmin's own description, are there from the first days of wearing the device. Below: the four statuses word for word, three different waiting periods, what Garmin never published, and what to do tonight.</p>
+
+  <a class="dl" href="/en/garmin/hrv-status.pdf">Download as PDF <span>· 9 pages</span></a>
+
+  <h2>What Garmin states outright</h2>
+
+  <p>The definition in the manual is one sentence.</p>
+
+  <blockquote>
+    <p>Your watch analyzes your wrist heart rate readings while you are sleeping to determine your heart rate variability (HRV).</p>
+    <cite>Garmin fēnix 8 owner's manual, Heart Rate Variability Status (v10, November 2026)</cite>
+  </blockquote>
+
+  <p>Two things follow from that sentence. First: the source is <b>the night</b>, not the day. Daytime HRV readings that turn up elsewhere in the app are not what this status is made of. Second: the sensor is <b>the wrist</b>, not a chest strap; what that means for the numbers themselves has a section of its own below.</p>
+
+  <p>The same page names the waiting period the metric gets scolded for most.</p>
+
+  <blockquote>
+    <p>The watch requires three weeks of consistent sleep data to display your heart rate variability status.</p>
+    <cite>Garmin fēnix 8 owner's manual, Heart Rate Variability Status (v10, November 2026)</cite>
+  </blockquote>
+
+  <h2>Three weeks is the wait for a comparison, not for your first number</h2>
+
+  <p>That line gets read as though the screen stays blank for three weeks. It does not: on Garmin's own science page the milestones are separated, and there are three of them.</p>
+
+  <p class="tcap">What appears and when — across Garmin's own pages</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>When</th><th>What you can already see</th><th>Where it is stated</th></tr></thead>
+    <tbody>
+      <tr><td class="num">from day one</td><td>your average overnight HRV and overnight trends; a chart based on five-minute windows inside the night, and your highest HRV for any five-minute period</td><td>Garmin science page</td></tr>
+      <tr><td class="num">after 7 nights</td><td>your seven-day average, and a plot of overnight values across those days</td><td>Garmin blog</td></tr>
+      <tr><td class="num">after 3 weeks</td><td>your baseline range and the status itself — that is, the comparison of your seven-day average against your own baseline</td><td>fēnix 8 manual, science page, blog</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>The difference is practical. For those first three weeks you have the number and its direction of travel — what you are missing is the yardstick it gets measured against. So "no status" means "nothing to compare it with yet", not "nothing is being collected".</p>
+
+  <p>Garmin adds that three weeks is the minimum after which the status switches on, and that the baseline keeps being refined afterwards: the analysis can draw on a few months of data to strengthen and validate your range. How many months exactly, and how they are weighted, is not published.</p>
+
+  <h2>Four statuses — and the scale is not symmetrical</h2>
+
+  <p>The categories and their definitions, as the manual states them:</p>
+
+  <p class="tcap">HRV statuses per the fēnix 8 manual</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Status</th><th>What the manual says it means</th></tr></thead>
+    <tbody>
+      <tr><td class="num">Balanced</td><td>your seven-day average is <b>within</b> your baseline range</td></tr>
+      <tr><td class="num">Unbalanced</td><td>your seven-day average is <b>above or below</b> your baseline range</td></tr>
+      <tr><td class="num">Low</td><td>your seven-day average is <b>well below</b> your baseline range</td></tr>
+      <tr><td class="num">Poor</td><td>your values are averaging well below the normal range for your age; no status is shown in this case</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p><b>These names are from the English manual</b> — labels in other languages of Garmin Connect can read differently, and what exactly appears on your screen depends on the device and the firmware version. And one more detail that only shows up when you read three documents in a row: Garmin defines "unbalanced" in three different ways. The manual says above or below the range, the blog says <b>slightly</b> above or below, the science page says outside the range. The difference is not cosmetic: "slightly" hints at nearness to the boundary, which the manual's definition does not contain. We hold to the manual as the shortest and the most official of the three.</p>
+
+  <p><b>Our own observation:</b> the scale is lopsided. Below the range Garmin has three steps — unbalanced, low, and poor standing apart. Above it there is one: unbalanced, and the scale stops there. However far above your baseline the average travels, there is no separate category for it. None of the three Garmin documents this explainer is built from explains why; we record the asymmetry as a property of the scale, not as a fault in it.</p>
+
+  <p>And the frame around all of it, worth reading literally: when Garmin says what the statuses mean, it speaks in the conditional.</p>
+
+  <blockquote>
+    <p>A balanced HRV status <b>may indicate</b> positive signs of health… An unbalanced or poor status <b>may be a sign</b> of fatigue, greater recovery needs, or increased stress.</p>
+    <cite>Garmin fēnix 8 owner's manual, Heart Rate Variability Status</cite>
+  </blockquote>
+
+  <p>Not "shows" but "may indicate". That is the manufacturer's own caution, and it is warranted: you do not draw a conclusion about yourself from one category on a screen.</p>
+
+  <h2>Going above the range is "unbalanced" too. And it is not a compliment</h2>
+
+  <p>A simple rule has grown up around heart rate variability: higher is better. Garmin does not endorse it. The science page puts it this way:</p>
+
+  <blockquote>
+    <p>Mounting evidence shows a relationship between abnormally high HRV values relative to your personal baseline and functional overreach (overtraining), especially when that overreach is achieved through large amounts of low-intensity physical activity.</p>
+    <cite>Garmin Technology, health science page on HRV Status</cite>
+  </blockquote>
+
+  <p>The Garmin blog says the same thing in words meant for a person: if you increase your training significantly, your status may go above your personal baseline range, and it looks like good news, while what it actually means is that your body is working overtime to recover.</p>
+
+  <p>Note the clause about large amounts of easy work — it is addressed to exactly this audience. Someone building base volume lands in that case more often than someone running intervals.</p>
+
+  <p><b>How to read it.</b> The status does not answer "is my variability high or low", it answers "is my current average where it belongs, or has it moved". Where it belongs is a range, not a point: on the science page Garmin gives one as an example, say 33 to 45 milliseconds. That is an illustration of how the scale is built, not a norm — your range is yours, derived from your own measurement history.</p>
+
+  <h2>Why the baseline range vanishes in a poor status</h2>
+
+  <p>This is the part that frightens people most: there was a range, and now there is not. The explanation is published.</p>
+
+  <blockquote>
+    <p>If your personal baseline drops below age-based standards associated with good health, then your HRV status is classified as poor. When this happens, your baseline range is no longer displayed. This is to avoid scenarios where your HRV might be considered both balanced and below healthy norms.</p>
+    <cite>Garmin Technology, health science page on HRV Status</cite>
+  </blockquote>
+
+  <p>So the range is withdrawn deliberately, and for a comprehensible reason: otherwise a person with a low baseline would see "balanced" every single day — the average is inside their own range, after all. The logic is honest, and the limit of the metric follows from it: comparing you with yourself stops working at the point where "yourself" has drifted.</p>
+
+  <p>What is absent here: where the age-based standards come from, what numbers are in them, and at what value "well below" begins. None of that is published.</p>
+
+  <p><b>How to read it.</b> Garmin describes poor in the same words it uses for unbalanced: may be a sign of fatigue, greater recovery needs or stress. The difference is what it leans on — this status is assigned not against your own history but against age-based standards. Our recommendation, not the watch's conclusion: if poor holds for two or three weeks while your training and sleep are normal for you — or if something else has shown up alongside it, how you feel, weight, mood — see a doctor: training is not the only thing that does this.</p>
+
+  <h2>What it is measured with</h2>
+
+  <p>Garmin names the nature of the signal outright, and it is worth knowing before any comparison.</p>
+
+  <blockquote>
+    <p>Technically your device is looking at pulse rate variability which effectively reflects heart rate variability in the context of this analysis and usage scenario.</p>
+    <cite>Garmin Technology, health science page on HRV Status</cite>
+  </blockquote>
+
+  <p>An optical sensor on the wrist does not see the electrical signal of the heart; it sees reflected light changing with the flow of blood. Garmin considers that approximation adequate for this analysis, and says so openly.</p>
+
+  <p>Here is what both pages lack: <b>which measure of variability</b> is actually computed. RMSSD is named on the science page — but inside a general explanation of what HRV is, as a standard statistical measure. The claim "the device computes RMSSD over such-and-such a window" is not there, and it is not in the manual either. Nor is the window inside the night from which the final average is taken; all that is stated is that HRV is computed continuously through the night and the chart is built from five-minute windows.</p>
+
+  <p>The practical consequence is exactly one, and it is unforgiving: <b>HRV numbers from different apps and devices do not compare with each other.</b> Garmin warns in the manual that values vary widely between people by gender, age and fitness level. The only comparison that means anything is you against yourself, on one device.</p>
+
+  <h2>What to do tonight</h2>
+
+  <p>We give no thresholds of the "below so many milliseconds is bad" kind: Garmin does not publish them, and on this metric somebody else's thresholds are doubly meaningless. What there is instead is work you can do by hand in ten minutes.</p>
+
+  <ol>
+    <li><b>Work out which milestone you are at.</b> Count how many nights you have actually slept in the watch. Under seven — you have nightly numbers only. Past seven — you have a seven-day average. Past three weeks — you have a baseline and a status. Most complaints of the "this metric doesn't work" kind are answered by that count.</li>
+    <li><b>Write your baseline range down as numbers.</b> As long as the status is not poor, it is on the screen. Without it the status reads like a grade ("I've been marked unbalanced"); with it, like a comparison, which is what it is.</li>
+    <li><b>If the status has moved, look at which way.</b> The category does not say; the number beside it does. This is a fork: above the range — go to step 4; below it — step 5. The label is the same in both cases, the continuation is not.</li>
+    <li><b>Moved up — compare the last two weeks of volume against the two before them.</b> You are looking for one thing: a noticeable rise in volume, especially of easy work — that is the case Garmin singles out. If it rose, treat the high average as a price rather than a prize; add a full rest day this week and see whether the average comes back into the range. If volume did not rise, this is not the explanation, and the next place to look is the six reasons in step 5.</li>
+    <li><b>Moved down — go through the six reasons before blaming training.</b> Garmin lists all of them: training too hard, a lack of quality sleep, stress, a change in physical activity, not meeting nutritional needs, or a drink or two the night before. Walk through the past week — the match is usually not the first one. A coach's hypothesis, not the watch's conclusion: if a low status holds for a week with hard days beside it, it looks like you have overreached — drop one or two hard sessions and see whether the average returns over a week or two. If it does not, or something else appears alongside it — sleep, weight, mood — see a doctor: training is not the only thing that does this.</li>
+  </ol>
+
+  <h2>How it connects to other metrics</h2>
+
+  <p>This status is not a standalone glance but an input into two other numbers. Overnight HRV, by Garmin's description, feeds training status (<a href="/en/garmin/training-status">our Training Status explainer</a>) and training readiness (<a href="/en/garmin/training-readiness">our Training Readiness explainer</a>) — where it sits in the list of inputs next to sleep score, recovery time and acute load. Which means the three-week wait is not confined to the line labelled "HRV status": while there is no baseline, the neighbouring metrics are short one input.</p>
+
+  <p>One more quantity lives nearby on the same footing — the daytime stress level. It is computed while you are inactive and answers a different question; why the two numbers do not convert into each other is covered in <a href="/en/garmin/stress">our explainer on the word "stress"</a>.</p>
+
+  <h2>Frequently asked questions</h2>
+
+  <p><b>What is HRV status on a Garmin watch?</b><br>
+  It is a category, not a number. The watch analyzes your wrist heart rate readings while you are sleeping to determine your heart rate variability — that is the manual's own wording. It then takes your seven-day average and compares it with your baseline range: inside the range the status is balanced, outside it unbalanced, well below it low. Poor stands apart: that is when your values average well below the normal range for your age. The boundaries of the range, and what counts as well below, were never published.</p>
+
+  <p><b>Why do I have no HRV status, and how long is the wait?</b><br>
+  Three weeks of consistent sleep data, as the fēnix 8 manual puts it: "The watch requires three weeks of consistent sleep data to display your heart rate variability status." The screen is not blank meanwhile. Garmin's own science page says you can see your average HRV and overnight trends as soon as you start using the device, and the Garmin blog names the intermediate mark: the seven-day average appears after the first seven nights, the comparison with your baseline after three weeks. So three weeks is the wait for a comparison, not for your first number. What missed nights do to the count, Garmin does not say.</p>
+
+  <p><b>What does an unbalanced HRV status mean?</b><br>
+  That your seven-day average has moved outside your baseline range — and the manual names both sides: "above or below your baseline range". So unbalanced is not the same as "my HRV has dropped": rising above the range earns the same status. Which of the two it was, the category never says; the number next to it does. Garmin describes the meaning carefully: "may be a sign of fatigue, greater recovery needs, or increased stress" — may be a sign, not shows.</p>
+
+  <p><b>Is high heart rate variability always good?</b><br>
+  No, and Garmin says so itself. Its science page states that mounting evidence shows a relationship between abnormally high HRV values relative to your personal baseline and functional overreach, especially when that overreach comes from large amounts of low-intensity activity. The Garmin blog puts the same thing in plain words: if you increase your training significantly, your status may go above your personal baseline range, and that is not cause for celebration — your body is working overtime to recover. So the rule to read by is not "higher is better" but "closer to your own range is calmer".</p>
+
+  <p><b>What does a poor status mean, and why did my baseline range disappear?</b><br>
+  Poor is assigned when your personal baseline drops below age-based standards associated with good health. The range is then removed from the screen, and Garmin explains why: to avoid scenarios where your HRV might be considered both balanced and below healthy norms. So the missing range is part of the design, not a glitch. Where the age-based standards come from, and what numbers are in them, Garmin does not publish. Our recommendation, not the watch's conclusion: if poor holds for two or three weeks while your training and sleep are normal for you, that is a reason to see a doctor rather than to change your plan.</p>
+
+  <p><b>Which measure of variability does a Garmin watch compute — is it RMSSD?</b><br>
+  Not stated. RMSSD is named on Garmin's science page as a standard statistical measure of HRV — inside a general explanation of what HRV is. That the device computes RMSSD specifically, over a window of a given length, is not claimed there, and not in the manual either. Something else important is named: the optical wrist sensor reads pulse rate variability, which effectively reflects heart rate variability in the context of this analysis. The practical consequence is simple: HRV numbers from different apps and devices do not compare directly. Compare yourself with yourself, on one device.</p>
+
+  <p><b>How is HRV status different from the stress level on the watch?</b><br>
+  They rest on the same signal — heart rate variability — but the conditions and the horizons differ. Stress level is computed while you are inactive and gives a 0 to 100 number through the day. HRV status is collected overnight, averaged over seven days and compared with your personal baseline, which takes three weeks to build. They are under no obligation to agree: they answer different questions — "how am I right now" and "how has my week been against my own normal". There is a third quantity on the same footing nearby: a one-off HRV stress test, which needs a chest strap.</p>
+
+  <p><b>Why does my overnight HRV jump around while the status sits still?</b><br>
+  Because they are different horizons. The status is computed from the seven-day average, not from last night: one bad night will not drop it and one good night will not lift it. The nightly number, meanwhile, honestly jumps — the watch computes HRV continuously through the night and, by Garmin's description, shows the average across the whole sleep period plus a chart based on five-minute windows. If the status has moved, the week has moved, and that is a signal rather than noise.</p>
+
+  <p><b>What should I do if my HRV status is low?</b><br>
+  Look around it first. Garmin lists the reasons an average drops below the baseline, and training is only one of them: training too hard, a lack of quality sleep, stress, a change in physical activity, not meeting nutritional needs, or a drink or two the night before. A coach's hypothesis, not the watch's conclusion: if a low status holds for a week with hard days next to it, it looks like you have overreached — drop one or two hard sessions and see whether the average comes back over a week or two. If it does not come back, or something else shows up alongside it — sleep, weight, mood — see a doctor: training is not the only thing that does this.</p>
+
+  <h2>In short</h2>
+
+  <ul>
+    <li>HRV status is a Garmin™ watch feature: the watch reads your pulse at the wrist while you sleep, averages variability over seven days, and compares that average with your baseline range.</li>
+    <li>Three weeks of consistent nights is the wait for the status and the baseline. The nightly number itself, and the chart of five-minute windows, are visible from the first days by Garmin's description; the seven-day average arrives after seven nights.</li>
+    <li>Unbalanced means outside the range in either direction. Downwards the scale continues — low, then poor; upwards it does not continue at all, there is one category.</li>
+    <li>High values above your personal baseline are what Garmin links to functional overreach, especially when it was built from large amounts of easy work. The rule "higher is better" does not transfer to this metric.</li>
+    <li>In a poor status the baseline range is removed from the screen on purpose — so that a low baseline is not read as "balanced".</li>
+    <li>Never published: which measure of variability is computed, which window inside the night is used, the boundaries of the range, what counts as "well below", and where the age-based standards come from.</li>
+  </ul>
+
+  <h2>Where the line runs</h2>
+
+  <ul>
+    <li>What is published about the computation is the input (overnight wrist heart rate readings), the averaging window (seven days) and the calibration period for the baseline (three weeks). The formula itself, the measure of variability and the boundaries of the range are not published — which means no retelling, ours included, can name a threshold in milliseconds.</li>
+    <li>What missed nights do to the waiting period is stated nowhere by Garmin. Practical consequence: it is safer not to take the watch off at night at all than to guess how many gaps the metric forgives.</li>
+    <li>This explainer is written from three Garmin documents — the fēnix 8 manual, the health science page and the blog. Manuals for other devices may word things differently: we have already seen that happen within these three (see the section on the four statuses).</li>
+    <li>Our own conclusions are marked with the words "our own observation", "how to read it", "a coach's hypothesis", "our recommendation" — Garmin does not publish those. Ours as well, though not separately marked, are the practical consequences: that daytime HRV readings are not what this status is made of, that numbers from different devices do not compare, and that while the baseline is missing the neighbouring metrics are short one input. Those are conclusions drawn from the quoted wording, not quotations.</li>
+  </ul>
+
+  <h2>Sources</h2>
+
+  <ol class="src">
+    <li>Garmin fēnix 8 Series owner's manual, Heart Rate Variability Status (v10, November 2026; checked 22 November 2026). Definition: "Your watch analyzes your wrist heart rate readings while you are sleeping to determine your heart rate variability (HRV)." Waiting period: "The watch requires three weeks of consistent sleep data to display your heart rate variability status." Statuses: Balanced — "Your seven-day average HRV is within your baseline range", Unbalanced — "…is above or below your baseline range", Low — "…is well below your baseline range", Poor — "Your HRV values are averaging well below the normal range for your age". Modality: "A balanced HRV status may indicate positive signs of health… An unbalanced or poor status may be a sign of fatigue, greater recovery needs, or increased stress." On the spread between people: "HRV values can vary widely based on gender, age, and fitness level." <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-9282196F-D969-404D-B678-F48A13D8D0CB.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin Technology, health science page on HRV Status (checked 22 November 2026). Nature of the signal: "technically your device is looking at pulse rate variability which effectively reflects heart rate variability in the context of this analysis". What is visible immediately: "You will be able to see your average HRV and overnight trends as soon as you start using your device." Five-minute windows: "a chart that shows how your HRV changed while you were asleep based on analysis of 5-minute time windows"; "This is where you will find your highest HRV recorded for any 5-minute period during the night." Waiting period and refinement of the baseline: "you need to routinely wear your Garmin device overnight for around three weeks before HRV status becomes fully active… the analysis can utilize a few months of data to strengthen and validate your baseline range". The range: "Your HRV baseline is a range of values (e.g., 33-45 milliseconds) derived from your measurement history". Overreach: "Mounting evidence shows a relationship between abnormally high HRV values relative to your personal baseline and functional overreach (overtraining), especially when that overreach is achieved through large amounts of low-intensity physical activity." Poor status: "If your personal baseline drops below age-based standards associated with good health, then your HRV status is classified as poor. When this happens, your baseline range is no longer displayed. This is to avoid scenarios where your HRV might be considered both balanced and below healthy norms." RMSSD is mentioned on the same page as a standard statistical measure of HRV, without a claim that it is what the device computes. <a href="https://www.garmin.com/en-US/garmin-technology/health-science/hrv-status/" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin blog, "Understanding the HRV Status on Your Garmin Smartwatch", 15 August 2024 (checked 22 November 2026). The intermediate milestone: "After the first 7 days of sleeping with your watch on, you will be able to see your 7-day average… After three weeks, you'll be able to compare your 7-day average to your baseline…" Going above the range: "If you increase your workout routine significantly, you might notice that your HRV status is above your personal baseline range. This may seem like a good thing, but what this really means is that your body is working overtime to recover." Reasons for going below: "An HRV status below your baseline range can also be attributed to training too hard, but it might also be a lack of quality sleep, stress, a change in physical activity, not meeting nutritional needs, or a cocktail or two." <a href="https://www.garmin.com/en-US/blog/fitness/understanding-the-hrv-status-on-your-garmin-smartwatch/" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Our explainer on the word "stress": <a href="/en/garmin/stress">fizkult.ai/en/garmin/stress</a> — how the daytime stress level, the one-off HRV stress test and the overnight status differ from one another while resting on the same signal.</li>
+  </ol>
+
+  <p class="note">Part of the "Garmin metrics" series, written from primary sources. Published wording is cited to the Garmin manual and health science pages; our own explanations and guesses are marked. Fizkult is not affiliated with Garmin or Firstbeat; Garmin™, Garmin Human Performance Lab™ and Firstbeat Analytics™ are marks belonging to their owners.</p>
+
+  <div class="cta">
+    <div class="kicker">Connect Garmin to fizkult.ai</div>
+    <h2>Garmin will say "unbalanced". Which way and why, it will not say</h2>
+    <p>That is not a complaint about the device — it follows from its own description. The category does not name the direction: whether your average went above the range or below it is visible only in the number beside it. It does not name the cause either: Garmin lists six, and training is one of the six.</p>
+    <p>Fizkult prints the number together with what it is being compared against. The line looks like this — the figures here are made up:<br>
+    "Heart rate variability: 54 ms overnight (usually 61 — over 23 days) — how far your nervous system has recovered."</p>
+    <p>While the overnight readings are still few there is no yardstick, and a count is printed instead: "no usual yet: counted from overnight readings, 9 of the 21 needed". If a reading came in during the day rather than at night, the morning note says that too: "not comparing with your usual: the usual is counted from overnight readings". Daytime variability cannot be compared with an overnight baseline — we say so rather than hide it.</p>
+    <p>And this is not a standalone widget. Every morning a read-out arrives in Telegram, in words, where variability is read next to sleep, resting heart rate and yesterday's load — which is exactly where those six causes finally get a chance to separate. You connect the watch once; on Garmin's permission screen tick the separate Historical Data box, and the history from before the day you connected comes along too. The first week is free and complete.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_garmin_hrv_en">Connect your watch in Telegram →</a>
+    <p class="note" style="margin-bottom:0">This is a coach's read, not a medical one. If you are not recovering, see a doctor.</p>
+  </div>
+
+  <a class="back" href="/en/garmin/">← All Garmin metric explainers</a>
+  <a class="back" href="/" style="margin-left:18px">Home</a>
+</div>
+</body>
+</html>
