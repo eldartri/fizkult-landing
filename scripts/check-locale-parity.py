@@ -161,9 +161,18 @@ class Skeleton(HTMLParser):
         self.classes: list[str] = []
         self.links: list[str] = []
 
+    #: Метки подтверждения прав в панелях вебмастеров. Они принадлежат
+    #  ДОМЕНУ, а не странице: панель смотрит на корень сайта и больше никуда.
+    #  Повторять их на английской половине значило бы утверждать то же самое
+    #  там, где никто не читает, и заводить токену второй дом. Поэтому они
+    #  выпадают из скелета, как выпадают слова: сверяем остальное.
+    VERIFICATION = {"yandex-verification", "google-site-verification", "msvalidate.01"}
+
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
-        self.tags.append(tag)
         a = dict(attrs)
+        if tag == "meta" and a.get("name") in self.VERIFICATION:
+            return
+        self.tags.append(tag)
         if a.get("id"):
             self.ids.append(a["id"])
         if a.get("class"):
