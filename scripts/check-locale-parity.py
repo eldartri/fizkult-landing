@@ -89,6 +89,12 @@ ARTICLE_PAIRS = [
         "/en/garmin/training-status",
         "/garmin/training-status",
     ),
+    (
+        "garmin/training-effect.html",
+        "en/garmin/training-effect.html",
+        "/en/garmin/training-effect",
+        "/garmin/training-effect",
+    ),
 ]
 
 

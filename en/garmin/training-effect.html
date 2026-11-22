@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garmin training effect: why your hardest session only maintains</title>
+<meta name="description" content="Training effect is calculated, not measured. In Firstbeat's description of the method, the reference point is the maximum heart rate in your profile — by default 220 minus your age, a formula with a standard error of 7 to 12 beats. What that shifts, which way, and how to check it in five minutes.">
+<link rel="canonical" href="https://fizkult.ai/en/garmin/training-effect">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/training-effect">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/training-effect">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/training-effect">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Fizkult">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:title" content="Training effect: why your hardest session only maintains">
+<meta property="og:description" content="Training effect is a calculation, not a measurement. In Firstbeat's description of the method its reference point is the maximum heart rate in your profile — 220 minus your age until you change it. Where the score goes when that number is wrong, and what to check in the watch.">
+<meta property="og:url" content="https://fizkult.ai/en/garmin/training-effect">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fizkult — a personal coach in Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Training effect: why your hardest session only maintains">
+<meta name="twitter:description" content="A wrong maximum heart rate shifts every score the same way, session after session. From the Firstbeat papers and the fēnix 8 manual: how the number is built and what to check.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .dl { display:inline-flex; align-items:center; gap:10px; margin:0 0 32px; padding:12px 18px;
+    background:var(--panel); border:1.5px solid var(--line); text-decoration:none; color:var(--ink);
+    font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; font-weight:500; }
+  .dl:hover { background:var(--ink); color:var(--bg); }
+  .dl span { color:var(--muted); }
+  .dl:hover span { color:var(--bg); }
+  .tcap { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; color:var(--muted);
+    text-transform:uppercase; margin:28px 0 8px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); min-width:440px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  blockquote { margin:24px 0; padding:18px 20px; background:var(--panel); border:1.5px solid var(--line); }
+  blockquote p { margin:0 0 10px; font-size:16px; }
+  blockquote cite { font-style:normal; font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; color:var(--muted); text-transform:uppercase; }
+  .note { font-size:13px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .src { font-size:13px; color:var(--muted); }
+  .src li { margin-bottom:10px; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Training effect: why your hardest session only maintains",
+      "description": "Garmin's training effect is a calculation, not a measurement. In Firstbeat's description of the method its reference point is the maximum heart rate in your profile, which defaults to 220 minus your age. From the Firstbeat papers and the fēnix 8 manual: which way a wrong setting shifts every score, and what to check in the watch.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-22",
+      "dateModified": "2026-11-22",
+      "mainEntityOfPage": "https://fizkult.ai/en/garmin/training-effect",
+      "image": "https://fizkult.ai/assets/og/og-share.png",
+      "author": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/" },
+      "publisher": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/" },
+      "about": ["Training effect", "Maximum heart rate", "Garmin", "Firstbeat", "EPOC"],
+      "citation": [
+        "Firstbeat Technologies. EPOC Based Training Effect Assessment, 2005/2012",
+        "Firstbeat Technologies. Automated Fitness Level (VO2max) Estimation with Heart Rate and Speed Data, 2014/2017",
+        "Lach J. et al. HR Max Prediction Based on Age, Body Composition, Fitness Level, Testing Modality and Sex in Physically Active Population. Frontiers in Physiology, 2021",
+        "Garmin fēnix 8 Series Owner's Manual, About Training Effect"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Fizkult", "item": "https://fizkult.ai/en/" },
+        { "@type": "ListItem", "position": 2, "name": "Garmin metric explainers", "item": "https://fizkult.ai/en/garmin/" },
+        { "@type": "ListItem", "position": 3, "name": "Training effect: why your hardest session only maintains", "item": "https://fizkult.ai/en/garmin/training-effect" }
+      ]
+    },
+    {
+          "@type": "FAQPage",
+          "mainEntity": [
+                {
+                      "@type": "Question",
+                      "name": "What does a training effect of 3.5 mean?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "It falls in the 3.0 to 3.9 band, which the manual labels as impacting your fitness: the session moves your level rather than holding it. The full table of bands is above. Aerobic 3.5 and anaerobic 3.5 are not the same achievement — one is about endurance, the other about holding short, very hard efforts."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Is training effect the same as training status?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "No, and the words make them easy to confuse. Training effect scores a single session and appears as soon as it ends. Training status describes a stretch of weeks and is built from your VO2 max., acute load and HRV status. \"Maintaining\" is a training status label, not a training effect one: the training effect label for the 2.0 to 2.9 band reads \"Maintains your aerobic fitness\"."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Should I be aiming for 5.0?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "No. The manual labels 5.0 as overreaching and potentially harmful without enough recovery time, and Firstbeat warns explicitly that frequent sessions scoring 3 to 5 without enough recovery raise the risk of overtraining."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "I fixed my maximum heart rate. Will Garmin recalculate the sessions already recorded?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "We could not confirm that it does, and the manual does not say. Treat the history as it stands and judge the change by the sessions that come after the fix."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "My maximum is right and hard sessions still only maintain. What then?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Then the setting is not your answer and the other cause is: the scale measures a session against your current level, so work that once moved your fitness only holds it once you have grown into it. Give it two or three comparable sessions to be sure the score is steady, then change the training rather than the profile — a bigger or a different stimulus, not a different number in the settings."
+                      }
+                }
+          ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Explainers · Garmin metrics</div>
+    <div class="ends">
+      <a class="lang" href="/garmin/training-effect" hreflang="ru" lang="ru" aria-label="Переключиться на русский">RU</a>
+      <a class="home" href="/en/" aria-label="Home">FIZKULT.AI</a>
+    </div>
+  </div>
+
+  <h1>Training effect: why your hardest session only maintains</h1>
+
+  <p class="lead">You finish the hardest work of the week and the watch says the session merely maintains your fitness. Or the opposite: an easy run comes back as highly impacting. One cause you can check in five minutes is the maximum heart rate sitting in your profile. Get that number wrong and every score is off in the same direction, month after month — and if you steer by them, you keep adding load to a body that is not absorbing what it already has. If the setting turns out to be right, the other cause is below.</p>
+
+  <h2>What the watch is actually rating</h2>
+
+  <p>After a workout, Garmin shows a <b>training effect</b> — a number from 0 to 5 with a label. It is not a measurement but a calculation, and the manual names what goes into it: "your user profile information and training history, and heart rate, duration, and intensity of your activity."</p>
+
+  <p>Next to the number there is also a phrase naming the main benefit of the session. The manual counts seven of them and ties them to your training load focus, printing one as its example: "Highly Impacting VO2 Max." The number and the phrase answer different questions — how hard the session hit, and what it hit.</p>
+
+  <p>And there are two scores, not one. <b>Aerobic effect</b> is how much the session develops endurance, the ability to work for a long time on oxygen. <b>Anaerobic</b> is how much it develops short, powerful efforts, where oxygen can't keep up: surges, climbs, the finish.</p>
+
+  <p class="tcap">Bands and labels from the fēnix 8 manual; the right-hand column is our plain-words reading</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Score</th><th>Label in the manual</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr><td class="num">0.0–0.9</td><td>No benefit</td><td>The load is too small to change anything</td></tr>
+      <tr><td class="num">1.0–1.9</td><td>Minor benefit</td><td>Endurance does not grow; work like this helps recovery, and a long version of it builds the base</td></tr>
+      <tr><td class="num">2.0–2.9</td><td>Maintains your aerobic (anaerobic) fitness</td><td>Holds your current level</td></tr>
+      <tr><td class="num">3.0–3.9</td><td>Impacts your aerobic (anaerobic) fitness</td><td>Moves the level rather than holding it</td></tr>
+      <tr><td class="num">4.0–4.9</td><td>Highly impacts your aerobic (anaerobic) fitness</td><td>A strong developing effect; recovery deserves attention</td></tr>
+      <tr><td class="num">5.0</td><td>Overreaching and potentially harmful without enough recovery time</td><td>Excessive load: it needs a long recovery, and repeated often it raises the risk of overtraining</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>The manual is explicit about which work raises which score. Aerobic: steady work at moderate effort, or intervals longer than three minutes. Anaerobic: repeated intervals of 10 to 120 seconds at high intensity. They rest on different inputs, too — the aerobic score uses heart rate, the anaerobic one uses heart rate <b>and speed</b> (or power).</p>
+
+  <p>The main thing to understand about this scale: it does not rate your effort, it rates what the session does to your body <b>relative to its current level</b>. The same run reads as impacting for a beginner and as merely maintaining for a trained runner — the trained runner needs a bigger load for the same effect. For the same reason, 5.0 is not the target of every session: Firstbeat warns explicitly that frequent sessions scoring 3 to 5 without enough recovery raise the risk of overtraining.</p>
+
+  <h2>Where the reference point comes from</h2>
+
+  <p>To rate a session, heart rate on its own is not enough. 160 bpm is moderate work for one person and flat out for another. The method needs a reference, and the one it uses is your <b>maximum heart rate</b> — the highest your heart rate will go in an all-out effort.</p>
+
+  <p>Two things about that number. First, it is not a measure of fitness. Training barely moves it, and a high maximum does not mean you are well prepared, nor a low one the opposite. It varies between people the way shoe size does.</p>
+
+  <p>Second, if you never set it yourself, the watch falls back on an estimate from your age — the familiar "220 minus your age", and the manual says so outright. (On the fēnix 8 that default can later be overwritten by Auto Detection, which is on out of the box — see the checklist below.) The formula describes an average across a large group: its standard error of estimate is about 7 to 12 beats per minute, and a 2021 study of physically active people found it underestimating the maximum by a mean of 9 beats in the youngest group.</p>
+
+  <p>Your percentage of that maximum is how the method decides whether the work was hard or easy. It is not the only input: duration and how trained you are go into the calculation too. What ties them together is <b>EPOC</b> — the extra oxygen your body burns getting back to normal afterwards. The further a session has pushed the body out of balance, the higher the EPOC. You can only measure it directly in a lab; Firstbeat estimates it from heart rate, which is why the reference point matters.</p>
+
+  <p>That is how Firstbeat describes the method, and its own table of error sources names maximum heart rate first. Garmin's manual is less specific: it lists the profile, training history, heart rate, duration and intensity as the inputs without singling the maximum out, and the company does not disclose how closely the current firmware follows the Firstbeat method. So whenever the two differ below, we say which one we are quoting.</p>
+
+  <p>The method is not Garmin's own, either. The calculation grew out of the work of the Finnish company Firstbeat, whose papers are the most detailed published description of it we could find. Garmin bought the company's consumer side in June 2020, and the current fēnix 8 manual signs the training effect with its own name: "Training Effect technology is provided and supported by Garmin Human Performance Lab™." So we read how the method works from Firstbeat, and what is shown on the screen from the Garmin manual.</p>
+
+  <h2>What a wrong setting does</h2>
+
+  <p>Take one session and look at how the watch sees it under two different profile settings. The athlete's real maximum heart rate is 185 beats; during the session the heart rate sits around 170.</p>
+
+  <p class="tcap">One and the same session · 170 bpm · real maximum 185</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Profile says 200</th><th>Profile says 185 — the real one</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b class="num">85%</b> — of maximum, as the watch counts it</td>
+        <td><b class="num">92%</b> — of maximum, as it actually was</td>
+      </tr>
+      <tr>
+        <td>The work looks moderate. The score comes out below what it was worth</td>
+        <td>The work was near the limit. The score matches the load</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">The session is identical. What gives it two different scores is a number in the settings.</p>
+
+  <p>Set it too low and everything flips. Real maximum 195, settings 175, heart rate during the session 160: the watch sees 91% instead of the true 82% and shows a score higher than the session earned.</p>
+
+  <blockquote>
+    <p>TE is underestimated if maximal heart rate, maximal respiration rate or activity class has been set too high. TE is overestimated if maximal heart rate, maximal respiration rate or activity class has been set too low.</p>
+    <cite>Firstbeat, "EPOC Based Training Effect Assessment", table 3</cite>
+  </blockquote>
+
+  <p>And it isn't one session that is off. While the wrong value sits in your profile, every new score comes out of the same shifted input: with a maximum set too high you spend months looking at scores that are too low and, steering by them, add load on top of a load your body is already failing to absorb. Once the setting is fixed, new scores land closer to the work you actually did.</p>
+
+  <p>Don't push the arithmetic too far, though. The percentages show the size of the error at the input, not a ready-made correction to the score: Firstbeat does not publish the conversion formula, and Garmin does not disclose how closely its firmware follows it. The conclusion to draw from the examples is not "mine should have been 3.7 instead of 2.5" but "my scores are shifted in one direction, and that is worth fixing".</p>
+
+  <h2>What else moves the score</h2>
+
+  <p>Maximum heart rate is the main source of drift, but Firstbeat names four more.</p>
+
+  <p class="tcap">Table 3 of the Firstbeat training effect paper; the right-hand column is our plain-words reading</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>What is happening</th><th>Where the score goes</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td>Illness, including one that is only starting</td><td>up</td><td>Heart rate and breathing run above usual at the usual work</td></tr>
+      <tr><td>Heat, humidity, altitude</td><td>up</td><td>The heart has to beat more often to hold the same pace</td></tr>
+      <tr><td>A long period of high volume</td><td>down</td><td>A tired body responds less</td></tr>
+      <tr><td>A period of high intensity</td><td>up</td><td>The body reacts more sharply</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Two things follow for practice. In heat and at altitude, ease the pace — you will get the same score for less work. And falling scores after a hard block do not prove overtraining: Firstbeat makes the point separately that the main sign is a drop in performance, not the numbers on the watch.</p>
+
+  <h2>What to check in the watch</h2>
+
+  <ol>
+    <li><b>Look at the current value.</b> On the fēnix 8 the manual gives this path: hold the menu button → <b>Watch Settings &gt; User Profile &gt; Heart Rate &amp; Power Zones &gt; Heart Rate &gt; Max. Heart Rate</b>. The same value sits in your user settings in the Garmin Connect app, but menu names differ by model and app version, and the path we checked against the manual is the one on the watch. If you never set the maximum yourself, what sits there is the default — 220 minus your age, which the manual says outright — unless Auto Detection has already written something higher.</li>
+    <li><b>Check it against what you have actually produced.</b> Open your history and find the two or three hardest sessions of the last few months: intervals, a race, a long climb. Look at the peak heart rate in each. The highest of those numbers is a floor under your real maximum, so if your profile holds something lower, the setting is very likely too low — provided that peak was read cleanly, which is the first caveat under this list.</li>
+    <li><b>Enter the value and watch the next sessions.</b> After the edit, sync the watch with the app. On the fēnix 8, automatic detection of maximum heart rate is on by default: the watch records the maximum it sees during an activity by itself (<b>Watch Settings &gt; User Profile &gt; Heart Rate &amp; Power Zones &gt; Auto Detection</b>). On other models, check whether that setting exists and whether it is on. We could not confirm whether Garmin recalculates sessions already recorded, so judge by the ones that come after the fix.</li>
+    <li><b>If the maximum was right all along.</b> Then the setting is not your answer, and the other cause is: the session is not a big enough stimulus for the level you have reached. Give it two or three comparable sessions to be sure the score is steady, and if it is, change the training rather than the profile — a bigger or a different stimulus, not a different number in the settings.</li>
+  </ol>
+
+  <p class="note">Two caveats that are not steps. At high heart rates and during sharp accelerations a wrist sensor drops beats and misreads, so a peak from a single session is worth confirming with a chest strap before you type it into your profile. And if you want the real figure rather than a working approximation, a graded test under supervision in a lab gives it, along with a look at how your heart handles maximal work; a do-it-yourself test to exhaustion is not for everyone, and most people do not need one.</p>
+
+  <h2>Frequently asked questions</h2>
+
+  <p><b>What does a training effect of 3.5 mean?</b><br>
+  It falls in the 3.0 to 3.9 band, which the manual labels as impacting your fitness: the session moves your level rather than holding it. The full table of bands is above. Aerobic 3.5 and anaerobic 3.5 are not the same achievement — one is about endurance, the other about holding short, very hard efforts.</p>
+
+  <p><b>Is training effect the same as training status?</b><br>
+  No, and the words make them easy to confuse. Training effect scores a single session and appears as soon as it ends. Training status describes a stretch of weeks and is built from your VO2 max., acute load and HRV status. "Maintaining" is a training status label, not a training effect one: the training effect label for the 2.0 to 2.9 band reads "Maintains your aerobic fitness".</p>
+
+  <p><b>Should I be aiming for 5.0?</b><br>
+  No. The manual labels 5.0 as overreaching and potentially harmful without enough recovery time, and Firstbeat warns explicitly that frequent sessions scoring 3 to 5 without enough recovery raise the risk of overtraining.</p>
+
+  <p><b>I fixed my maximum heart rate. Will Garmin recalculate the sessions already recorded?</b><br>
+  We could not confirm that it does, and the manual does not say. Treat the history as it stands and judge the change by the sessions that come after the fix.</p>
+
+  <p><b>My maximum is right and hard sessions still only maintain. What then?</b><br>
+  Then the setting is not your answer and the other cause is: the scale measures a session against your current level, so work that once moved your fitness only holds it once you have grown into it. Give it two or three comparable sessions to be sure the score is steady, then change the training rather than the profile — a bigger or a different stimulus, not a different number in the settings.</p>
+
+  <h2>In short</h2>
+
+  <ul>
+    <li>The scale does not rate your effort — it rates what the session does to your body relative to its current level, which is why a trained runner's hardest work can come back as merely maintaining.</li>
+    <li>Training effect is calculated, not measured, and in Firstbeat's description of the method the calculation leans on your maximum heart rate.</li>
+    <li>That maximum is an individual trait, not a measure of fitness, and the age formula estimates it with a standard error of about 7 to 12 beats.</li>
+    <li>A maximum set too high lowers your scores, one set too low raises them — and it keeps doing that to every new session until the value is fixed.</li>
+    <li>Illness, heat, altitude and accumulated fatigue move the score in predictable directions.</li>
+    <li>Five minutes in the settings makes every score that follows mean something.</li>
+  </ul>
+
+  <h2>Sources</h2>
+
+  <ol class="src">
+    <li>Firstbeat Technologies. EPOC Based Training Effect Assessment. September 2005, updated March 2012. Table 1 — the effect levels, table 3 — the sources of inaccuracy. The paper describes the principles of the method; how closely current Garmin firmware follows them, the company does not disclose. <a href="https://www.firstbeat.com/wp-content/uploads/2015/10/white_paper_training_effect.pdf" rel="nofollow noopener" target="_blank">firstbeat.com</a></li>
+    <li>Firstbeat Technologies. Automated Fitness Level (VO2max) Estimation with Heart Rate and Speed Data. 2014, updated 30 June 2017 — on how a wrong maximum heart rate affects the calculations. <a href="https://www.firstbeat.com/wp-content/uploads/2017/06/white_paper_VO2max_30.6.2017.pdf" rel="nofollow noopener" target="_blank">firstbeat.com</a></li>
+    <li>Lach J., Wiecha S., Śliż D. et al. HR Max Prediction Based on Age, Body Composition, Fitness Level, Testing Modality and Sex in Physically Active Population. Frontiers in Physiology, vol. 12, 30 July 2021 — the source of the "7 to 12 beats" standard error of estimate for the 220-minus-age formula, quoted there from Robergs and Landwehr (2002), and of the mean 9-beat underestimate in the youngest group. <a href="https://doi.org/10.3389/fphys.2021.695950" rel="nofollow noopener" target="_blank">doi.org/10.3389/fphys.2021.695950</a></li>
+    <li>Garmin fēnix 8 Series Owner's Manual, current revision (checked 22 November 2026). About Training Effect — the bands, the list of inputs, the facts that steady work and intervals over 180 seconds raise the aerobic effect while repeated 10-to-120-second intervals raise the anaerobic one, and the line "Training Effect technology is provided and supported by Garmin Human Performance Lab™". About Heart Rate Zones — "The default maximum heart rate is 220 minus your age." Setting Your Heart Rate Zones and Detecting Performance Measurements Automatically — the paths in the watch menu and the fact that Auto Detection is turned on by default. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/fenix_8_Series_OM_EN-US.pdf" target="_blank" rel="noopener">www8.garmin.com/manuals/…/fenix_8_Series_OM_EN-US.pdf</a></li>
+    <li>Garmin newsroom, 30 June 2020: the announcement of the acquisition of Firstbeat Analytics, the consumer licensing side of Firstbeat. <a href="https://www.garmin.com/en-US/newsroom/press-release/corporate/2020-Garmin-acquires-Firstbeat-Analytics-a-leading-provider-of-physiological-analytics-for-health-fitness-and-performance/" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+  </ol>
+
+  <p class="note">A series of explainers, "Garmin metrics", built from primary sources. Published wording, thresholds and limits come with a link to the Garmin manual, to the Firstbeat papers or to the study quoted; our explanations, calculations and examples are marked. Fizkult is not affiliated with Garmin or Firstbeat; the names belong to their owners.</p>
+
+  <div class="cta">
+    <div class="kicker">Connect your Garmin to fizkult.ai</div>
+    <h2>The watch scores the session. It never says what the score means for your week</h2>
+    <p>Fix the maximum and the number stops misreading the work. It still will not tell you what 3.5 means on the third hard day in a row, after a short night, on top of a block you have not absorbed yet. Reading one against the others is a coach's job, not a table's.</p>
+    <p>Fizkult reads your Garmin data itself and sends a plain-words breakdown to Telegram every morning: what your sleep, recovery and load are saying and what to pay attention to today. It builds your norm from your own history, and while the days are still too few it says so outright: “I don’t know your usual yet: counted over 9 days out of the 14 I need.” You connect the watch once; don't skip the Historical Data box — without it your norm builds only from new days, and more slowly. First week free, everything included. The bot writes in English if your Telegram is set to English; <b>/language</b> switches it either way.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_en_garmin_te">Connect your watch in Telegram →</a>
+    <p class="note" style="margin-bottom:0">This is a coach's read, not a medical one. If you don't feel you're recovering, see a doctor.</p>
+  </div>
+
+  <a class="back" href="/en/garmin/">← All Garmin metric explainers</a>
+  <a class="back" href="/en/" style="margin-left:18px">Home</a>
+</div>
+</body>
+</html>
