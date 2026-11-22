@@ -274,8 +274,19 @@ def main() -> int:
                 "строки `Link: rel=\"canonical\"` в `_headers` у него нет"
             )
 
+    # Файлы подтверждения прав в панелях вебмастеров — не страницы, а
+    # токены: их содержимое задано панелью побайтно, и дописать туда
+    # canonical или noindex значит рисковать самим подтверждением. Робот
+    # панели читает их по прямому адресу, в выдачу они не попадают, потому
+    # что на них ниоткуда не ведёт ссылка. Файл добавляется сюда ровно
+    # тогда, когда его присылает панель, — списком, а не маской: маска
+    # `yandex_*` однажды накроет настоящую страницу.
+    SERVICE_FILES = {"yandex_fa413c079ba916e2.html"}
+
     for path in sorted(sum((list(ROOT.glob(g)) for g in PAGE_GLOBS), [])):
         rel = str(path.relative_to(ROOT))
+        if rel in SERVICE_FILES:
+            continue
         text = path.read_text(encoding="utf-8")
         for raw in LDJSON.findall(text):
             try:

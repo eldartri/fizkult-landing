@@ -185,6 +185,15 @@ def skeleton(text: str) -> Skeleton:
 #  блок на английской — это молча потерянная видимость, а не косметика.
 LDJSON = re.compile(r'<script\b[^>]*type="application/ld\+json"[^>]*>.*?</script>', re.S)
 
+# Счётчик Метрики (22.11.2026) стоит на всех страницах обеих половин и
+# побайтно одинаков — его ставит `scripts/apply-metrika.py` из одного
+# исходника. Для сверки пар это не поведение страницы, а машинерия: если
+# счётчик разъедется, это поймает не сторож пар, а повторный прогон
+# установщика. Поэтому из сверки <script> он исключён так же, как разметка.
+METRIKA = re.compile(
+    r'<script\b[^>]*>\s*\(function\(m,e,t,r,i,k,a\).*?</script>', re.S
+)
+
 
 def blocks(text: str, tag: str) -> list[str]:
     return re.findall(rf"<{tag}\b[^>]*>.*?</{tag}>", text, re.S)
@@ -199,7 +208,11 @@ def one_block(text: str, tag: str, where: str) -> str | None:
     вызывающий. Два и больше — всегда ошибка: сверять побайтно нечего,
     пока не сказано, какой из них главный.
     """
-    hits = [h for h in blocks(text, tag) if not LDJSON.fullmatch(h)]
+    hits = [
+        h
+        for h in blocks(text, tag)
+        if not LDJSON.fullmatch(h) and not METRIKA.fullmatch(h)
+    ]
     if len(hits) > 1:
         sys.exit(f"{where}: ожидали не больше одного блока <{tag}>, нашли {len(hits)}")
     return hits[0] if hits else None
