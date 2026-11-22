@@ -145,9 +145,22 @@
 
   <url>
     <loc>https://fizkult.ai/garmin/training-status</loc>
-    <lastmod>2026-11-21</lastmod>
+    <lastmod>2026-11-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/training-status"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/training-status"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/training-status"/>
+  </url>
+
+  <url>
+    <loc>https://fizkult.ai/en/garmin/training-status</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/training-status"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/training-status"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/training-status"/>
   </url>
 
   <url>

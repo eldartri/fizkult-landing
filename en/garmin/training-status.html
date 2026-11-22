@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garmin training status: why "Unproductive" turns up in the middle of a steady block</title>
+<meta name="description" content="Three steady weeks and the watch still says Unproductive. Which workouts refresh the fitness estimate and which never do — a treadmill run gives none, an indoor ride with power does — plus all nine levels from the manual, the heat and altitude thresholds, the pause switch for injury, and how to tell a drop in fitness from a drop in the measurement.">
+<link rel="canonical" href="https://fizkult.ai/en/garmin/training-status">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/training-status">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/training-status">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/training-status">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Fizkult">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:title" content="Garmin training status: why &quot;Unproductive&quot; turns up in the middle of a steady block">
+<meta property="og:description" content="Three steady weeks, nothing wrong with how you feel — and the watch says Unproductive. From the manuals: what the status is built from, what feeds it, where it goes blind, and how to tell a drop in fitness from a drop in the measurement.">
+<meta property="og:url" content="https://fizkult.ai/en/garmin/training-status">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fizkult — a personal coach in Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Garmin training status: why &quot;Unproductive&quot; turns up in the middle of a steady block">
+<meta name="twitter:description" content="A workout that produced no VO2 max. measurement leaves the fitness estimate untouched. All nine levels from the manual, and seven steps to make the label describe you rather than the conditions you measured in.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .dl { display:inline-flex; align-items:center; gap:10px; margin:0 0 32px; padding:12px 18px;
+    background:var(--panel); border:1.5px solid var(--line); text-decoration:none; color:var(--ink);
+    font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; font-weight:500; }
+  .dl:hover { background:var(--ink); color:var(--bg); }
+  .dl span { color:var(--muted); }
+  .dl:hover span { color:var(--bg); }
+  .tcap { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; color:var(--muted);
+    text-transform:uppercase; margin:28px 0 8px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); min-width:440px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  blockquote { margin:24px 0; padding:18px 20px; background:var(--panel); border:1.5px solid var(--line); }
+  blockquote p { margin:0 0 10px; font-size:16px; }
+  blockquote cite { font-style:normal; font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; color:var(--muted); text-transform:uppercase; }
+  .note { font-size:13px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .src { font-size:13px; color:var(--muted); }
+  .src li { margin-bottom:10px; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Garmin training status: why \"Unproductive\" turns up in the middle of a steady block",
+      "description": "Garmin training status is built from three inputs: changes in VO2 max., acute load and HRV status. The rule that moves it between its nine levels is not published. The status needs at least one VO2 max. measurement per week, and a workout that produces none leaves the fitness estimate untouched.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-22",
+      "dateModified": "2026-11-22",
+      "mainEntityOfPage": "https://fizkult.ai/en/garmin/training-status",
+      "image": "https://fizkult.ai/assets/og/og-share.png",
+      "author": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/en/" },
+      "publisher": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/en/" },
+      "about": ["Training Status", "Garmin", "VO2 max.", "HRV Status", "Unproductive", "Strained"],
+      "citation": [
+        "Garmin. fēnix 8 Series Owner's Manual, revision v10: Training Status, Training Status Levels, Tips for Getting Your Training Status, About VO2 Max. Estimates, Heart Rate Variability Status, Heat and Altitude Performance Acclimation, Pausing and Resuming Your Training Status",
+        "Garmin. fēnix 8 Series Owner's Manual, revision v10: Unified Training Status",
+        "Garmin. Forerunner 945 Owner's Manual: Training Status",
+        "Garmin. Edge 1040 Owner's Manual: Training Status"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Fizkult", "item": "https://fizkult.ai/en/" },
+        { "@type": "ListItem", "position": 2, "name": "Garmin metrics explained", "item": "https://fizkult.ai/en/garmin/" },
+        { "@type": "ListItem", "position": 3, "name": "Garmin training status: why \"Unproductive\" turns up in the middle of a steady block", "item": "https://fizkult.ai/en/garmin/training-status" }
+      ]
+    },
+    {
+          "@type": "FAQPage",
+          "mainEntity": [
+                {
+                      "@type": "Question",
+                      "name": "I'm training hard and it says Unproductive. Is the watch broken?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "No. By Garmin's own definition the load is fine and the fitness estimate — your VO2 max. — is falling. Before you take that personally, run step seven above. If your resting heart rate has been above your usual through those weeks, the estimate is probably held down by the conditions and it's too early to read the status; if it doesn't come back, see \"When the label is worth taking seriously\". If your resting heart rate is settled and a repeat run on a familiar stretch gives the old heart rate, it's the measurement that moved. If your resting heart rate is settled and the heart rate on a familiar pace is consistently higher than a month ago, that's when the label is telling you something about your training."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Should I cut back while Unproductive is showing?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Yes — for one week and with a check at the end, not indefinitely. Garmin says to \"try focusing on rest, nutrition, and stress management\" and names neither a dose nor a deadline. Both are in \"When the label is worth taking seriously\" above, along with the sign that it's time to see a doctor if easing off didn't help. The same frame works for Unproductive, not only for Overreaching."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "It says No Status even though I train every day.",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "The usual reason is that there's nothing to refresh the fitness estimate with: gym, treadmill, bike without a power meter, swimming, strength work. All of it is load, none of it is a VO2 max. measurement. You need an outdoor run with GPS or a ride with a power meter. The second reason only shows up if you own more than one Garmin: training status comes from whichever device is set as Primary Training Device in Garmin Connect, so workouts recorded on the other one may not be the ones feeding it."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Are training status and Training Readiness the same thing?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "No, and they look at different horizons. Status looks across weeks and answers where your training is heading. Training Readiness is a separate Garmin score about today. They can disagree on the same morning, and that isn't a contradiction: the questions are different."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "I'm injured. Will sitting out wreck my training status?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "You can pause it. The manual has a Pause Training Status switch for exactly this — injury or illness — on the training status glance and in Garmin Connect under Performance Stats. While it's paused you can still record activities, but training status, training load focus, recovery feedback and workout suggestions are switched off, so none of them drift while you're out. Turn it back on when you start training again; Garmin notes that for best results you need at least one VO2 max. measurement a week from then on."
+                      }
+                }
+          ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Explainers · Garmin metrics</div>
+    <div class="ends">
+      <a class="lang" href="/garmin/training-status" hreflang="ru" lang="ru" aria-label="Переключиться на русский">RU</a>
+      <a class="home" href="/en/" aria-label="Home">FIZKULT.AI</a>
+    </div>
+  </div>
+
+  <h1>Training status: why "Unproductive" turns up in the middle of a steady block</h1>
+
+  <p class="lead">Three steady weeks, nothing wrong with how you feel — and the watch puts up "Unproductive". It is one of the more galling labels Garmin has. The status is built from three inputs, but the word "productive" answers mainly to one of them: which way your VO2 max. estimate has gone. That is how we read the definitions of the nine levels — Garmin doesn't publish the rule itself. And that estimate is pace against heart rate, so anything that lifts your heart rate at the same pace drags it down. Here: the nine levels verbatim, what the status feeds on, where it goes blind, and what to do so the label describes you rather than the conditions you measured in.</p>
+
+  <h2>What this label is</h2>
+
+  <p>Training status is the place where the watch says a word instead of a number. There are nine words, and each one is a verdict on where your training is heading. Garmin is explicit about what it is assembled from.</p>
+
+  <blockquote>
+    <p>Training status shows you how your training affects your fitness level and performance. Your training status is based on changes to your VO2 max., acute load, and HRV status over an extended time period.</p>
+    <cite>fēnix 8 Series manual, Training Status Levels, revision v10</cite>
+  </blockquote>
+
+  <p>The third input — <b>HRV status</b> — is your seven-day average heart rate variability against your own baseline range, and the watch needs three weeks of consistent sleep data before it will show one at all. The way we read it, that input answers not "how much" but "how your body is taking it". It wasn't always there: in the Forerunner 245, Forerunner 945 and fēnix 5 manuals the definition was shorter — "based on changes to your training load and VO2 max." — two inputs, not three. Worth keeping in mind when you read advice online: <b>some of it was written about a device with two inputs.</b></p>
+
+  <p>The requirement for getting a status at all is stated exactly, and it is the same one for the whole family of performance measurements: two weeks of activities with wrist-based or chest heart rate, and for cycling measurements a power meter on top of that.</p>
+
+  <h2>The nine levels, from the manual</h2>
+
+  <p class="tcap">From the manual, condensed: the wording is shortened by us, and so is the split of each level into "what it says" and "what it tells you to do"</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Level</th><th>What Garmin says</th><th>What it tells you to do</th></tr></thead>
+    <tbody>
+      <tr><td>No Status</td><td>the watch needs multiple activities over two weeks, <b>with VO2 max. results from running or cycling</b></td><td>no advice given</td></tr>
+      <tr><td>Detraining</td><td>a break, or much less training than usual for a week or more; you're unable to maintain your fitness level</td><td>try increasing your training load</td></tr>
+      <tr><td>Recovery</td><td>a lighter load is letting your body recover — essential during extended periods of hard training</td><td>return to a higher load when you feel ready</td></tr>
+      <tr><td>Maintaining</td><td>your current load is enough to maintain your fitness level</td><td>for improvement: more variety, or more volume</td></tr>
+      <tr><td>Productive</td><td>your load is moving fitness and performance in the right direction</td><td>plan recovery periods into your training</td></tr>
+      <tr><td>Peaking</td><td>ideal race condition: a recently reduced load has let your body compensate for earlier training</td><td>plan ahead — the peak holds only briefly</td></tr>
+      <tr><td>Overreaching</td><td>your load is very high and counterproductive; your body needs a rest</td><td>give yourself time to recover, add lighter training</td></tr>
+      <tr><td>Unproductive</td><td><b>your load is at a good level, but your fitness is decreasing</b></td><td>focus on rest, nutrition and stress management</td></tr>
+      <tr><td>Strained</td><td><b>imbalance between your recovery and training load</b>; normal after hard training or a major event, but your body may be struggling to recover</td><td>pay attention to your overall health</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Read the right-hand column as Garmin's wording, not as a plan: none of the nine pieces of advice contains a dose, a number of days or a sign that it is time to see a doctor. What to put in their place for the two alarming levels is in "When the label is worth taking seriously" below.</p>
+
+  <p>Two of them are easy to mix up, and they are different messages. <b>Unproductive</b> — the load is fine, the fitness is falling. <b>Strained</b> — recovery and load have come apart. The first is about the result of the work; the second is about its price.</p>
+
+  <h2>Which input drives the label</h2>
+
+  <p>Garmin doesn't publish the rule that moves the status between its nine levels: not the weights of the three inputs, not what counts as an "extended time period" in days, not how much of a drop in VO2 max. counts as a drop. <b>What follows is our reading of the definitions themselves, not a quote.</b></p>
+
+  <p>In the definition of Unproductive the load is called good and what's decreasing is "fitness". Fitness, in Garmin's vocabulary here, is the VO2 max. estimate — it's what the entry threshold is about, and it's what gets corrected for acclimation. So the productive-to-unproductive axis is mainly a question of which way the VO2 max. estimate has gone; load and HRV, in that pair, explain <i>why</i> it went there.</p>
+
+  <blockquote>
+    <p><b>Why this can be a message about the measurement rather than about you.</b> The VO2 max. estimate is modeled from pace and heart rate — what the work cost you (in detail: <a href="/en/garmin/vo2max">the VO2 max. explainer</a>). Heat and altitude Garmin acknowledges outright: it has a correction for them. Heart rate at the same pace is lifted by more than weather, though — short sleep, dehydration, a cold coming on, the first days after a flight. Garmin describes no correction for any of those, and the list is ours: it is ordinary training physiology, not something the manual sets out. For a single run it doesn't matter. But if two weeks of measurements are all taken that way, the estimate drifts down while your fitness hasn't moved — and the status can then say fitness is falling. <b>It isn't wrong. It answered the question it knows how to ask.</b></p>
+  </blockquote>
+
+  <h2>What the status feeds on</h2>
+
+  <blockquote>
+    <p>The watch needs you to record multiple activities over two weeks, with VO2 max. results from running or cycling, to determine your training status.</p>
+    <cite>fēnix 8 Series manual, Training Status Levels, the No Status level</cite>
+  </blockquote>
+
+  <p>The tips block names the frequency as well: the status depends on updated assessments of your fitness level, <b>including at least one VO2 max. measurement per week</b>. Earlier manuals (Forerunner 245, Forerunner 945, fēnix 5) said <b>two per week</b> — one more reason to check your own manual rather than someone else's advice. The measurement itself comes with one condition: get outdoors and <b>spend at least ten minutes above 70% of your maximum heart rate</b> — that's the number in the tips block. The VO2 max. page of the same revision gives a different one: save the run no earlier than the fifteenth minute. Beyond those two, Garmin publishes no threshold for the measurement.</p>
+
+  <p>The most useful consequence of that: <b>a workout that produced no VO2 max. measurement leaves the fitness estimate untouched.</b> It still goes into your acute load — that input it does feed — but it gives the device nothing to update its opinion of your fitness with.</p>
+
+  <p class="tcap">From the fēnix 8 Series and Edge 1040 manuals</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Workout</th><th>VO2 max. measurement</th></tr></thead>
+    <tbody>
+      <tr><td>Outdoor run with GPS, above 70% of max heart rate, from 10 minutes</td><td>yes</td></tr>
+      <tr><td>Indoor run, treadmill</td><td><b>no</b> — and Garmin gives the reason in the tips block: indoor runs don't generate an estimate "in order to preserve the accuracy of your fitness level trend"</td></tr>
+      <tr><td>Trail and ultra</td><td>yes by default, but you can exclude them by hand — check whether yours are switched off</td></tr>
+      <tr><td>Bike with a power meter</td><td>yes, <b>indoors included</b> — the Edge manual says so outright</td></tr>
+      <tr><td>Bike without a power meter</td><td><b>no</b> — the load is recorded, the fitness estimate isn't updated</td></tr>
+      <tr><td>Swimming, strength, yoga, skiing</td><td>no</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <blockquote>
+    <p><b>The winter skew: a cyclist refreshes the fitness estimate all winter, a treadmill runner doesn't.</b> Being indoors isn't itself the problem — a trainer with a power meter produces a measurement, a treadmill doesn't. Our reading across the manuals: a measurement comes from workouts where the work was <i>measured</i> by an instrument, by power or by GPS pace. Two people train equally honestly, and the device has nothing to update its opinion of fitness with for the second one: the status sits still, or drops to No Status. The difference isn't in their fitness — it's in which workouts are admitted to the measurement. Garmin doesn't set those two halves side by side; the comparison is ours.</p>
+  </blockquote>
+
+  <p>There is one lifeline, and it's in the same tips block: wearing the watch at night. <b>A valid HRV status, Garmin says, "can help maintain a valid training status when you do not have as many activities with VO2 max. measurements".</b> It is not a substitute — the requirement for getting a status is still written in VO2 max. measurements — but through a treadmill winter, sleeping in the watch is the cheapest thing you can do for the status.</p>
+
+  <h2>Heat and altitude: there is a correction, but only above a threshold</h2>
+
+  <blockquote>
+    <p>Your fēnix watch provides acclimation notifications and corrections to your VO2 max. estimate and training status when the temperature is above 22ºC (72ºF) and when the altitude is above 800 m (2625 ft.). […] The heat acclimation feature is available only for GPS activities and requires weather data from your connected phone.</p>
+    <cite>fēnix 8 Series manual, Heat and Altitude Performance Acclimation</cite>
+  </blockquote>
+
+  <p>Three things here are worth reading literally. The correction starts <b>at the threshold</b>: twenty degrees Celsius (68 °F) and a muggy morning is already harder on your heart rate, but not yet grounds for a correction. It works only for GPS activities and needs weather from your phone — without the phone nearby the watch doesn't know what you ran in. And the size of the correction isn't published: how much was added back for the heat, the screen won't tell you.</p>
+
+  <p>The important part of that quote isn't the thresholds, though — it's that it exists at all. <b>Only a measurement that depends on conditions needs correcting for them.</b> Garmin corrects it, so the dependence is acknowledged; it simply begins earlier than the correction switches on.</p>
+
+  <h2>If you're injured or ill, pause it</h2>
+
+  <p>There is a switch most people never find. Garmin lets you <b>pause your training status</b> — on the training status glance, or in Garmin Connect under Performance Stats. While it's paused you can go on recording activities, but training status, training load focus, recovery feedback and workout suggestions are temporarily disabled, so none of them spend your layoff drifting toward Detraining. You resume it when you're ready to train again; from then on, Garmin notes, best results need at least one VO2 max. measurement a week.</p>
+
+  <p>Two weeks off with a torn calf is not information about your training. Pausing is how you keep the device from recording it as if it were.</p>
+
+  <h2>What to do about it</h2>
+
+  <ol>
+    <li><b>Put one control measurement in the week.</b> One outdoor run that is scheduled, not left to the weather: flat ground, phone with you, fifteen minutes above 70% of your maximum heart rate. Fifteen rather than ten: the tips block says ten, the VO2 max. page of the current revision asks you to save no earlier than the fifteenth minute — take the larger. That's the workout the device is guaranteed to get a fresh measurement from.</li>
+    <li><b>Check the maximum heart rate in your profile.</b> It's what "70% of maximum" is counted from: a maximum set too high raises the bar you have to clear, and the measurement may not register at all. If you've never set it yourself, what's in there is an estimate from your age — compare it with the highest heart rate you have actually seen on hard work.</li>
+    <li><b>On the bike, use power.</b> Without a power meter, rides never move the fitness estimate, however many of them there are: they go into your load, but they produce no measurement. With one, a trainer counts too.</li>
+    <li><b>Sleep in the watch, especially in winter.</b> A valid HRV status helps hold a valid training status through the weeks when VO2 max. measurements are scarce. It costs nothing and it's the only input that doesn't need you outdoors.</li>
+    <li><b>In winter, look at the date of the last measurement rather than at the word.</b> If the last outdoor measurement was a while ago, the status may sit still or drop to No Status. In the first case <b>a label last refreshed in November is describing the November you</b>: the device has had no fresh fitness measurements since.</li>
+    <li><b>Don't read the status in the first week after heat, illness, a flight or a stretch of short nights.</b> Those are exactly the weeks when heart rate runs higher at the same pace — which means the fitness estimate is being held down by something other than your fitness.</li>
+    <li><b>Separate "my fitness moved" from "the measurement moved" with a clean repeat.</b> The word itself doesn't tell the two apart — a repeat measurement in normal conditions does. First look at your resting heart rate over those two weeks against your own usual. If it's running high, measuring now is pointless: accumulated fatigue from volume reads that way, and so do short sleep, dehydration, a cold coming on and the first days after a flight. Wait until it comes back to usual; if it hasn't in two or three weeks, that's the conversation in "When the label is worth taking seriously". Once it has, run a familiar stretch at a familiar pace — rested, early, in the cool, on flat ground — and compare the heart rate with what it was a month ago (every workout's history is in Garmin Connect). We deliberately name no number of beats here: the noise on your stretch depends on its surface, its wind and your own day, and a figure we invented would be worse than none. The criterion is repeatability instead — treat a difference as a signal only if it shows up right away and repeats on a second, similar stretch. Same heart rate — the measurement moved, not your fitness. Consistently higher — it isn't the measurement; whether it's fatigue or a real drop will be shown by the easy week in that same section.</li>
+  </ol>
+
+  <h2>When the label is worth taking seriously</h2>
+
+  <p>Two levels are more alarming than the rest — Overreaching and Strained: both say your body is having a hard time. <b>Unproductive belongs here too</b> once step seven has ruled out the measurement: a fitness estimate that keeps falling in clean conditions is the same conversation. The advice for the first is to give yourself time to recover, for the second to pay attention to your overall health. Neither piece of advice contains a number of days, and neither names the sign that tells you it's time to see a doctor. You have to build both yourself.</p>
+
+  <p>A sensible frame goes like this. The coaching step first: one week that is clearly easier than usual — in volume and in how much hard work it contains — and after it a control measurement in normal conditions: no heat, rested, healthy. If heart rate at a familiar pace has come back, it was fatigue. But if the conditions are ordinary and the fitness estimate doesn't recover for <b>two or three weeks</b> — <b>or</b> something else is alongside it: resting heart rate that won't come down, weight dropping, irritability that stays — that's a reason to see a doctor. Training isn't the only thing that produces this.</p>
+
+  <p><b>This is a coach's frame, not a medical one.</b> The device doesn't diagnose, and neither do we: if you're not recovering, see a doctor.</p>
+
+  <h2>Frequently asked questions</h2>
+
+  <p><b>I'm training hard and it says Unproductive. Is the watch broken?</b><br>
+  No. By Garmin's own definition the load is fine and the fitness estimate — your VO2 max. — is falling. Before you take that personally, run step seven above. If your resting heart rate has been above your usual through those weeks, the estimate is probably held down by the conditions and it's too early to read the status; if it doesn't come back, see "When the label is worth taking seriously". If your resting heart rate is settled and a repeat run on a familiar stretch gives the old heart rate, it's the measurement that moved. If your resting heart rate is settled and the heart rate on a familiar pace is consistently higher than a month ago, that's when the label is telling you something about your training.</p>
+
+  <p><b>Should I cut back while Unproductive is showing?</b><br>
+  Yes — for one week and with a check at the end, not indefinitely. Garmin says to "try focusing on rest, nutrition, and stress management" and names neither a dose nor a deadline. Both are in "When the label is worth taking seriously" above, along with the sign that it's time to see a doctor if easing off didn't help. The same frame works for Unproductive, not only for Overreaching.</p>
+
+  <p><b>It says No Status even though I train every day.</b><br>
+  The usual reason is that there's nothing to refresh the fitness estimate with: gym, treadmill, bike without a power meter, swimming, strength work. All of it is load, none of it is a VO2 max. measurement. You need an outdoor run with GPS or a ride with a power meter. The second reason only shows up if you own more than one Garmin: training status comes from whichever device is set as Primary Training Device in Garmin Connect, so workouts recorded on the other one may not be the ones feeding it.</p>
+
+  <p><b>Are training status and Training Readiness the same thing?</b><br>
+  No, and they look at different horizons. Status looks across weeks and answers where your training is heading. <a href="/en/garmin/training-readiness">Training Readiness</a> is a separate Garmin score about today. They can disagree on the same morning, and that isn't a contradiction: the questions are different.</p>
+
+  <p><b>I'm injured. Will sitting out wreck my training status?</b><br>
+  You can pause it. The manual has a Pause Training Status switch for exactly this — injury or illness — on the training status glance and in Garmin Connect under Performance Stats. While it's paused you can still record activities, but training status, training load focus, recovery feedback and workout suggestions are switched off, so none of them drift while you're out. Turn it back on when you start training again; Garmin notes that for best results you need at least one VO2 max. measurement a week from then on.</p>
+
+  <h2>In short</h2>
+
+  <ul>
+    <li>Training status is a label made of nine words, assembled from three inputs: changes in VO2 max., acute load and HRV status.</li>
+    <li>The productive-to-unproductive axis is first of all about the direction of the VO2 max. estimate: in the definition of Unproductive the load is called good and what falls is fitness. That's our reading of the definitions — Garmin doesn't publish the rule that moves the word.</li>
+    <li>The VO2 max. estimate is pace against heart rate, so it depends on the conditions you measured in. The word can't tell a drop in fitness from a drop in the measurement — a repeat measurement in clean conditions can, once your resting heart rate is back to usual.</li>
+    <li>The status needs at least one VO2 max. measurement per week (it used to ask for two). A measurement comes from an outdoor run above 70% of max heart rate — ten minutes by the tips block, fifteen by the VO2 max. page of the same revision — or from a ride with a power meter, trainer included. A treadmill run produces none; sleeping in the watch helps hold the status through those weeks.</li>
+    <li>The heat and altitude correction switches on above 22 °C and above 800 m, works only for GPS activities and needs weather from your phone. The size of the correction isn't published.</li>
+    <li>Injured or ill, you can pause the status outright, and nothing drifts while you're out.</li>
+  </ul>
+
+  <h2>Where the limits are</h2>
+
+  <ul>
+    <li>The weights of the three inputs aren't published. So "the axis is mainly about the VO2 max. estimate" is our reading of the level definitions, not a published rule: it's possible that some combination of load and HRV moves the word with no movement in the fitness estimate at all.</li>
+    <li>"Extended time period" is nowhere converted into days, and how much of a drop in VO2 max. counts as a drop isn't named. Which means you can't predict a change of status from your own numbers — only watch for it.</li>
+    <li>Requirements differ between generations of devices: two VO2 max. measurements a week used to be required, now one; the definition used to name two inputs, now three. Check your own model's manual rather than someone else's advice. The "what produces a VO2 max. measurement" table we also assembled from several places across the fēnix and Edge manuals — Garmin doesn't publish one table of it by sport.</li>
+    <li>We know of no independent validation of training status. VO2 max. has a reference standard — a gas analyzer; we know of no accepted instrument for measuring "how productive your training is", so there's nothing to compare the status against.</li>
+  </ul>
+
+  <h2>Sources</h2>
+
+  <ol class="src">
+    <li>Garmin fēnix 8 Series Owner's Manual, Training Status Levels (revision v10, November 2026; checked 22 November 2026). The table of levels above condenses this page; the wording there is ours, the definitions below are Garmin's. Definition: "Training status shows you how your training affects your fitness level and performance. Your training status is based on changes to your VO2 max., acute load, and HRV status over an extended time period." The nine level descriptions on this page are the source of our table. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-6F81BF5B-B49A-4506-95E2-0F4A04D8B319.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Same page, the block Tips for Getting Your Training Status: "The training status feature depends on updated assessments of your fitness level, including at least one VO2 max. measurement per week"; "Indoor run activities do not generate a VO2 max. estimate in order to preserve the accuracy of your fitness level trend."; "At least one time per week, run or ride outdoors with a power meter, and reach a heart rate higher than 70% of your maximum heart rate for at least 10 minutes."; "Wear the watch consistently while you sleep, to continue generating an up-to-date HRV status. Having a valid HRV status can help maintain a valid training status when you do not have as many activities with VO2 max. measurements."</li>
+    <li>Garmin fēnix 8 Series Owner's Manual, Training Status: "The measurements require you to complete activities for two weeks using wrist-based heart rate or a compatible chest heart rate monitor. Cycling performance measurements require a heart rate monitor and a power meter." <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-44C7BB4B-EFF7-4A42-AC03-8A6AABB94807.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Series Owner's Manual, About VO2 Max. Estimates (revision v10, checked 22 November 2026): "Run outdoors at a moderate or high intensity, reaching at least 70% of your maximum heart rate", "After at least 15 minutes, select Save"; credit line "VO2 max. data is provided by Garmin Human Performance Lab™. VO2 max. analysis is provided with permission from The Cooper Institute®." The change of credit line from Firstbeat is covered in <a href="/en/garmin/vo2max">the VO2 max. explainer</a>. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-3E971364-A756-4057-B22D-C41250B2A82B.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Series Owner's Manual, Pausing and Resuming Your Training Status: "If you are injured or sick, you can pause your training status. You can continue to record fitness activities, but your training status, training load focus, recovery feedback, and workout recommendations are temporarily disabled."; "For best results, you need at least one VO2 max. measurement each week." <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-79A4D3A0-BD44-4BE3-9A06-98F90268A483.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Series Owner's Manual, Unified Training Status: "Primary Training Device — Sets the priority data source for training metrics like your training status and load focus." <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-9AC57AC3-A6C7-425E-98F8-A5B48FB2A158.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Series Owner's Manual, Heat and Altitude Performance Acclimation: "Your fēnix watch provides acclimation notifications and corrections to your VO2 max. estimate and training status when the temperature is above 22ºC (72ºF) and when the altitude is above 800 m (2625 ft.)"; "The heat acclimation feature is available only for GPS activities and requires weather data from your connected phone." <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-70386BCC-5682-4C5C-9A87-C32AF9B6473B.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Series Owner's Manual, Heart Rate Variability Status: "The watch requires three weeks of consistent sleep data to display your heart rate variability status"; the Balanced level — "Your seven-day average HRV is within your baseline range." <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-9282196F-D969-404D-B678-F48A13D8D0CB.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin Forerunner 245, Forerunner 945 and fēnix 5 manuals: the earlier wording of the same tips block — "at least two VO2 max. measurements per week"; and the earlier definition of the status — "based on changes to your training load and VO2 max." <a href="https://www8.garmin.com/manuals-apac/webhelp/forerunner945/EN-SG/GUID-6CC225C9-01C6-4B58-A40D-6B1A80091092-1111.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin Edge 1040 Owner's Manual, Training Status: the VO2 max. estimate updates "after both indoor and outdoor rides with power".</li>
+  </ol>
+
+  <p class="note">A series of explainers, "Garmin metrics", built from primary sources. Published wording, thresholds and limits come with a link to the Garmin manual or to a peer-reviewed paper; our explanations, calculations and examples are marked. Fizkult is not affiliated with Garmin, Firstbeat or The Cooper Institute; the names belong to their owners.</p>
+
+  <div class="cta">
+    <div class="kicker">Connect your Garmin to fizkult.ai</div>
+    <h2>The word on the screen won't say whether it's about you or about the conditions</h2>
+    <p>If the measurement was taken in heat or after a short night, the status may be answering more about the conditions than about your fitness. Fizkult puts that pair into words in the morning breakdown: whether your resting heart rate is above your own norm, counted over your own days, and whether the night came out shorter than usual. Those are exactly the conditions under which a fresh fitness estimate is too early to read.</p>
+    <p>Fizkult reads your Garmin data itself and sends a plain-words breakdown to Telegram every morning: what your sleep, recovery and load are saying and what to pay attention to today. It builds your norm from your own history, and while the days are still too few it says so outright: “I don’t know your usual yet: counted over 9 days out of the 14 I need.” You connect the watch once; don't skip the Historical Data box — without it your norm builds only from new days, and more slowly. First week free, everything included. The bot writes in English if your Telegram is set to English; <b>/language</b> switches it either way.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_en_garmin_ts">Connect your watch in Telegram →</a>
+    <p class="note" style="margin-bottom:0">This is a coach's read, not a medical one. If you don't feel you're recovering, see a doctor.</p>
+  </div>
+
+  <a class="back" href="/en/garmin/">← All Garmin metric explainers</a>
+  <a class="back" href="/en/" style="margin-left:18px">Home</a>
+</div>
+</body>
+</html>
