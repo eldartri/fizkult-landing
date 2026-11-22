@@ -93,6 +93,7 @@ PUBLIC_FILES=(
   "garmin/stress text/html https://fizkult.ai/garmin/stress"
   "garmin/training-readiness.pdf application/pdf"
   "garmin/training-readiness text/html https://fizkult.ai/garmin/training-readiness"
+  "garmin/recovery-time.pdf application/pdf"
   "garmin/recovery-time text/html https://fizkult.ai/garmin/recovery-time"
   # Английская половина серии. Догоняет русскую (заказ владельца 21.11.2026
   # — обе половины за две недели) — выпустил близнец, допиши сюда строку. PDF у
@@ -178,17 +179,27 @@ for p in "${PUBLIC[@]}"; do
   fi
 done
 
+# Три попытки на адрес. Повод (22.11.2026): три прогона подряд дали три
+# разных одиночных отказа — 000, обрезанное тело, снова полный ответ, —
+# и каждый раз curl вручную показывал страницу целиком. Это не находка,
+# а срез под частыми последовательными запросами; сторож, который врёт
+# раз в прогон, перестаёт читаться как сторож.
 for row in "${PUBLIC_FILES[@]}"; do
   read -r p want marker <<<"$row"
-  read -r code ctype <<<"$(curl -s -o /dev/null -w "%{http_code} %{content_type}" "$BASE/$p")"
-  case "$ctype" in
-    "$want"*) typeok=1 ;;
-    *)        typeok=0 ;;
-  esac
-  markerok=1
-  if [ -n "$marker" ] && ! curl -s "$BASE/$p" | grep -qF "$marker"; then
-    markerok=0
-  fi
+  typeok=0; markerok=0; code=000
+  for attempt in 1 2 3; do
+    read -r code ctype <<<"$(curl -s --retry 2 --retry-all-errors -o /dev/null -w "%{http_code} %{content_type}" "$BASE/$p")"
+    case "$ctype" in
+      "$want"*) typeok=1 ;;
+      *)        typeok=0 ;;
+    esac
+    markerok=1
+    if [ -n "$marker" ] && ! curl -s --retry 2 --retry-all-errors "$BASE/$p" | grep -qF "$marker"; then
+      markerok=0
+    fi
+    [ "$code" = "200" ] && [ "$typeok" = "1" ] && [ "$markerok" = "1" ] && break
+    [ "$attempt" != "3" ] && sleep 2
+  done
   if [ "$code" != "200" ]; then
     echo "СЛОМАН:  $BASE/$p отвечает $code — публичный файл не отдаётся"
     fail=1
