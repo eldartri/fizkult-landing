@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garmin sleep score and sleep efficiency: how the two numbers differ</title>
+<meta name="description" content="A score of 64 out of 100 and 93% sleep efficiency for the same night. Built from Garmin's blogs, Firstbeat's documents and independent validations: what goes into the sleep score, what sleep efficiency actually measures, why the two disagree, and which of them to read every day.">
+<link rel="canonical" href="https://fizkult.ai/en/garmin/sleep-score">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/sleep-score">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/sleep-score">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/sleep-score">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Fizkult">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:title" content="Garmin sleep score and sleep efficiency: how the two numbers differ">
+<meta property="og:description" content="The sleep score is a composite built from three parts. Sleep efficiency is a plain share of time in bed spent asleep. Why they disagree, and which one to read every day. Built from primary sources.">
+<meta property="og:url" content="https://fizkult.ai/en/garmin/sleep-score">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fizkult — a personal coach in Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Garmin sleep score and sleep efficiency: how the two numbers differ">
+<meta name="twitter:description" content="A score for the night and a share of time in bed measure different things — which is why they disagree and why both are right. Built from primary sources.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .dl { display:inline-flex; align-items:center; gap:10px; margin:0 0 32px; padding:12px 18px;
+    background:var(--panel); border:1.5px solid var(--line); text-decoration:none; color:var(--ink);
+    font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; font-weight:500; }
+  .dl:hover { background:var(--ink); color:var(--bg); }
+  .dl span { color:var(--muted); }
+  .dl:hover span { color:var(--bg); }
+  .tcap { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; color:var(--muted);
+    text-transform:uppercase; margin:28px 0 8px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); min-width:440px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  blockquote { margin:24px 0; padding:18px 20px; background:var(--panel); border:1.5px solid var(--line); }
+  blockquote p { margin:0 0 10px; font-size:16px; }
+  blockquote cite { font-style:normal; font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; color:var(--muted); text-transform:uppercase; }
+  .note { font-size:13px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .src { font-size:13px; color:var(--muted); }
+  .src li { margin-bottom:10px; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Garmin sleep score and sleep efficiency: how the two numbers differ",
+      "description": "The sleep score is a composite from 0 to 100 built on three parts: duration and quality against age-based standards, plus overnight recovery. Sleep efficiency is the share of time in bed spent asleep. Built from Garmin's blogs, Firstbeat's documents, an independent validation of the Vivosmart 4 and the National Sleep Foundation's recommendations.",
+      "inLanguage": "en",
+      "datePublished": "2026-10-30",
+      "dateModified": "2026-11-22",
+      "mainEntityOfPage": "https://fizkult.ai/en/garmin/sleep-score",
+      "image": "https://fizkult.ai/assets/og/og-share.png",
+      "author": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/" },
+      "publisher": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/" },
+      "about": ["Sleep score", "Sleep efficiency", "Sleep", "Garmin", "Firstbeat", "Polysomnography"],
+      "citation": [
+        "Garmin. How Garmin watches track your sleep, calculate sleep score",
+        "Garmin. Garmin Sleep Score and Sleep Insights",
+        "Garmin. How well do you sleep? New data examines Garmin users' sleep",
+        "Firstbeat Technologies. A Sleep Analysis Method Based on Heart Rate Variability, 2019",
+        "Ohayon M. et al. National Sleep Foundation's sleep quality recommendations: first report. Sleep Health, 2017;3(1):6-19",
+        "Mouritzen N. J. et al. Assessing the performance of a commercial multisensory sleep tracker. PLoS One, 2020;15(12):e0243214"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Fizkult", "item": "https://fizkult.ai/en/" },
+        { "@type": "ListItem", "position": 2, "name": "Garmin metric explainers", "item": "https://fizkult.ai/en/garmin/" },
+        { "@type": "ListItem", "position": 3, "name": "Garmin sleep score and sleep efficiency: how the two numbers differ", "item": "https://fizkult.ai/en/garmin/sleep-score" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What counts as a good sleep score?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Garmin's bands: 90–100 excellent, 80–89 good, 60–79 fair, below 60 poor. Across all users over the year from February 1, 2024 to January 31, 2025 the average score was 72 — the middle of the “fair” band — and 7% of people held an average in the top band. Your 78 against your own 85 says more than your 78 against someone else's 92."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between sleep score and sleep efficiency?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The score is a composite from 0 to 100 over three parts: duration, quality and overnight recovery; Garmin doesn't publish how much each part weighs. Efficiency is the share of time in bed you spent asleep — a plain division you can check by hand. The main difference is that the score responds to the evening before (recovery is read from heart rate variability), while the share knows nothing about your evening. Read the score by default."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is 95% sleep efficiency good?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The number alone doesn't answer that. The National Sleep Foundation panel calls 85% and above a marker of good sleep, and 74% and below (64% for young adults) not a marker of it. But those figures come from laboratory methods, and the number on your wrist is biased upward, so you can't hold one against the other. And a high share doesn't mean you got enough sleep: 95% of five hours in bed is 4 hours 45 minutes asleep. The answer comes from a baseline of your own: write the morning number down for two or three weeks and take the middle value. After that 95% reads not as a grade but as “above my usual” or “same as always”."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is my sleep score low when I slept for a long time?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "One possible reason is the third part of the score: overnight recovery, which is read from heart rate variability. Garmin names strenuous activity late in the evening and alcohol among the things that commonly lower it. Another reason is a different mix of sleep stages at the same duration. That's why two nights of equal length and equal efficiency can come out with different scores. What to do next: look at the share for the same night. If it held at its usual level, look at the evening before and the load of the last few days; if it dropped along with the score, the night was broken into pieces."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I compare a Garmin sleep score with another brand's?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Every manufacturer has its own scale, and Garmin doesn't disclose its own: it doesn't publish how much of the hundred points goes to duration, to stages and to recovery. The only comparison that means anything is your score against your score."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Explainers · Garmin metrics</div>
+    <div class="ends">
+      <a class="lang" href="/garmin/sleep-score" hreflang="ru" lang="ru" aria-label="Переключиться на русский">RU</a>
+      <a class="home" href="/en/" aria-label="Home">FIZKULT.AI</a>
+    </div>
+  </div>
+
+  <h1>Sleep score and sleep efficiency: two numbers about one night</h1>
+
+  <p class="lead">A score of 64 out of 100 — and right next to it, 93% sleep efficiency. One night, one device, numbers for illustration. It isn't a glitch: the two measure different things, and the second one flatters you on top of that — the worse the night, the more. Worth sorting out once: after that it takes five seconds to tell which of the two answers the question you have today.</p>
+
+  <h2>In brief: how they differ</h2>
+
+  <p class="tcap">The watch computes both of them from the same night</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th></th><th>Sleep score</th><th>Sleep efficiency</th></tr></thead>
+    <tbody>
+      <tr><td>What it is</td><td>a composite score for the night</td><td>the share of time in bed spent asleep</td></tr>
+      <tr><td>Scale</td><td>0–100, the manufacturer's own</td><td>percent, a measure from sleep medicine</td></tr>
+      <tr><td>Built from</td><td>duration, quality, overnight recovery</td><td>two numbers: time in bed and time asleep</td></tr>
+      <tr><td>How it's computed</td><td>formula and weights not disclosed</td><td>a division you can see</td></tr>
+      <tr><td>What it reacts to</td><td>the evening before, among other things: recovery is read from heart rate variability</td><td>minutes asleep and minutes in bed, nothing else</td></tr>
+      <tr><td>The question it answers</td><td>what the night was like overall</td><td>how much of your time in bed went to sleep</td></tr>
+      <tr><td>What 100 means</td><td>the top of the scale: an average in the 90–100 band belongs to 7% of users over the year</td><td>fell asleep instantly and never woke; the expert marker is 85% and up</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>The sleep score: one number from three parts</h2>
+
+  <p>This is the figure everybody pushes toward a hundred. Garmin describes it briefly on its blog.</p>
+
+  <blockquote>
+    <p>Your sleep score, powered by Firstbeat Analytics™, is based on how long and how well you slept.</p>
+    <cite>Garmin, blog post “How Garmin watches track your sleep, calculate sleep score”</cite>
+  </blockquote>
+
+  <p>Behind that sentence sit three parts, and Garmin names them. <b>The first is duration, the second is quality:</b> both are measured against age-based standards — in Garmin's own words, “sleep quantity and sleep quality are assessed by comparing your recorded sleep to age-based standards”. Quality takes in awakenings — how many times you woke up, when in the night it happened, how long you lay awake in total — along with time spent in each sleep stage and restlessness, “excessive tossing and turning”. <b>The third is overnight recovery:</b> the same science as daytime stress — the balance between the two branches of the autonomic nervous system, read from heart rate variability.</p>
+
+  <p>The third part is what keeps the score from being plain arithmetic. Garmin states outright that a hard session late in the evening and alcohol usually pull overnight recovery down. Hence nights that came out identical on hours and awakenings yet carry different scores: one followed a quiet evening, the other a late glass or a brutal interval session. That is the score's real advantage over the share, which has none of it: the score reacts to your evening.</p>
+
+  <p><b>What Garmin doesn't name is the weights.</b> Not one of its pages says how much of the hundred points goes to duration, how much to stages, how much to recovery. So a score that came out lower won't tell you which part pulled it down. Nor can you hold it against another brand's score: every scale is its own, and Garmin keeps its own under wraps.</p>
+
+  <p>The scale itself, though, is well documented — Garmin published both the bands and how real people fill them. The bands, in its words: “excellent (90-100), good (80-89), fair (60-79) and poor (0-60)”. The fill is for the year from February 1, 2024 to January 31, 2025.</p>
+
+  <p class="tcap">Garmin, blog post “How well do you sleep? New data examines Garmin users' sleep”. The average score across all users for that year was 72</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Band</th><th>Score</th><th>Share of users, year average</th></tr></thead>
+    <tbody>
+      <tr><td>Excellent</td><td class="num">90–100</td><td><b class="num">7%</b></td></tr>
+      <tr><td>Good</td><td class="num">80–89</td><td class="num">31%</td></tr>
+      <tr><td>Fair</td><td class="num">60–79</td><td class="num">43%</td></tr>
+      <tr><td>Poor</td><td class="num">below 60</td><td class="num">19%</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Seven percent of people hold an average score in the top band. Not seven percent of nights — of people: this is an average across the year. Worth keeping in mind if you're disappointed by a 78 and waiting for a hundred: even “good” goes to a third of users, and the average across everyone is 72, which is the middle of the “fair” band. Your 78 against your own 85 says more than your 78 against someone else's 92.</p>
+
+  <p>The score doesn't stay on the sleep screen, either. It's one of the seven inputs to <a href="/en/garmin/training-readiness">Training Readiness</a> — last night's score, by Garmin's own list. So a bad night turns up a second time, inside a number that mentions sleep nowhere.</p>
+
+  <h2>Sleep efficiency: a simple fraction</h2>
+
+  <p>The second number didn't come from a watchmaker. It comes from sleep medicine, and there's no formula behind it you have to take on faith. Firstbeat — the Finnish company whose algorithms sit behind part of Garmin's metrics — writes the definition out in full.</p>
+
+  <blockquote>
+    <p>Sleep efficiency = percentage of time spent asleep from the overall time between going to bed and awakening.</p>
+    <cite>Firstbeat Technologies, “A Sleep Analysis Method Based on Heart Rate Variability”, November 2019, key terms section</cite>
+  </blockquote>
+
+  <p>So: a fraction of two quantities, and the watch decides both of them itself. The denominator is how long you lay there, from the moment you went to bed to the moment you got up. The numerator is how much of that you were asleep. The gap between them is wakefulness — the minutes it took you to fall asleep and the ones that piled up in the middle of the night. Take a night and count it through: to bed at 11:10 p.m., up at 6:40 a.m., so seven and a half hours in bed; of those, six hours fifty-two minutes asleep and thirty-eight minutes awake. That works out to <b class="num">91.6%</b> (arithmetic for illustration, not a measurement).</p>
+
+  <p><b>The fraction says nothing about duration or stages.</b> Ninety-five percent of five hours in bed is four hours forty-five minutes of sleep: a fine share and not much sleep. And seven hours of shallow sleep and seven hours with a normal amount of deep sleep give exactly the same efficiency.</p>
+
+  <p><b>Where to find it.</b> Garmin shows the score itself, in large type. We found no separate “sleep efficiency” line in Garmin's blogs or manuals, but what's on the screen depends on the model and the app version — check your own. If the line isn't there, the number takes ten seconds by hand: time asleep divided by the time from lights out to getting up. The app shows both of those.</p>
+
+  <h2>What share counts as good</h2>
+
+  <p>Garmin publishes no threshold of its own: interruptions and awakenings are named among the things that feed quality, but the share of wakefulness isn't mentioned on its own. There are expert figures, though, and Firstbeat cites them — the first report of the National Sleep Foundation panel on sleep quality. The panel pooled specialists' judgments by age group, and on sleep efficiency the conclusion came out the same for every age. Alongside it the report sets figures for falling asleep and for awakenings:</p>
+
+  <ul>
+    <li><b class="num">85%</b> and above — a marker of good sleep in all age groups;</li>
+    <li><b class="num">74%</b> and below — no longer a marker of good sleep (for young adults the line sits lower, at 64%);</li>
+    <li>falling asleep in half an hour or less;</li>
+    <li>wakefulness after sleep onset — twenty minutes or less;</li>
+    <li>awakenings longer than five minutes — no more than one a night.</li>
+  </ul>
+
+  <p>A night that hits those figures exactly comes out around <b>90%</b>: eight hours in bed, half an hour to fall asleep, twenty minutes of awakenings — fifty minutes out of four hundred and eighty (our arithmetic). So a hundred percent isn't the target here either.</p>
+
+  <p><b>But you can't hold those percentages against the number on your screen.</b> The panel's figures are a consensus about sleep measured by laboratory methods, and your number came off a wrist — and it's biased upward, as the rest of this page shows. “Mine says 86, theirs says 85, so I'm fine” compares two different quantities.</p>
+
+  <p><b>So what counts as your own baseline?</b> The same fraction, but yours. Write the morning number down for two or three weeks — that's fourteen to twenty-one values; the middle one is your usual level. From then on you read the departure from it rather than the value itself: five points down is roughly twenty-four minutes of eight hours that you lay through instead of sleeping, and that's already a reason to think back over the night. The question “I've got 88, is that good?” has no answer until you know whether your usual is 88 or 94.</p>
+
+  <h2>Why the two disagree</h2>
+
+  <p>Two numbers pulling apart is the easiest thing to take for a broken device. It isn't: here are three cases, built by us on invented numbers (not measurements, not Garmin data). In each one, both numbers are counted honestly by their own rules.</p>
+
+  <ol>
+    <li><b>High share, low score — the pair from the first line of this page.</b> Five hours forty-five minutes in bed, five hours twenty asleep: that's 93%, an almost perfect share. The score will most likely drop — into the “fair” band or below: duration is measured against an age-based standard, and you slept very little. The share says “you barely lay awake”, the score says “you barely slept”. There's no contradiction: you efficiently slept far too little.</li>
+    <li><b>Low share, decent score.</b> Nine hours in bed, seven and a half asleep — a share of 83%, below the expert figure. But the hours added up, and if the stages fell into place and recovery went well, the score can come out good: the hour and a half lost inside a long night costs less than the hours missing from a short one.</li>
+    <li><b>Same share, scores jumping.</b> Two nights, both at 91%, scores of 82 and 68. One possible cause is the third part: Garmin itself names alcohol and a hard late session among the things that usually pull overnight recovery down. Another is different duration or different stages at the same share. The share knows nothing about your evening.</li>
+  </ol>
+
+  <p>Neither number names a cause at all. Noise, a stuffy room, a hard late session, anxiety — to them these are the same minutes and the same points.</p>
+
+  <p>Which gives you a working division of labor. The question “how much of my time in bed went to sleep” belongs to the share: it's simple, you can check it by hand, and it points straight at where the minutes went. The question “how did the night go overall” belongs to the score: it takes in the hours, the stages and how far the body recovered. <b>Read the score by default</b> — it's broader, and it reacts to your evening. <b>Go to the share when the score dropped and you seem to have slept enough:</b> if the share dropped too, the night was broken into pieces; if the share held at its usual level, the cause isn't awakenings but whatever happened the day before.</p>
+
+  <h2>What the watch sees well and what it doesn't</h2>
+
+  <p>Watches can't read your brain. In a laboratory, sleep is scored from an electroencephalogram — the waves of brain activity, plus eye movement and muscle tone. None of that reaches your wrist. What the algorithm gets instead is the intervals between heartbeats, the breathing rate derived from them, the movement of your arm and the time of day, and from your profile — age, height, weight and sex. From those features a neural network decides, for every stretch of the night, whether it was sleep, and if so which stage. Both quantities hang on that one decision: the share and the score alike. That's how the Firstbeat method of 2019 works; how closely today's firmware follows it, the company doesn't say.</p>
+
+  <p>How well that decision matches a laboratory's, though, Firstbeat published itself — a rarity in this series of explainers. The comparison was against polysomnography: 110 adults, 780 hours of sleep, the recordings cut into 557,776 five-second epochs (the human experts scored in thirty-second ones).</p>
+
+  <p class="tcap">Firstbeat, same document. Heart rate in the validation came from an ECG sensor and movement from an accelerometer: this tests the method, not the watch</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>What was tested</th><th>Agreement with the lab</th></tr></thead>
+    <tbody>
+      <tr><td>Sleep that the expert scored as sleep</td><td><b class="num">94%</b></td></tr>
+      <tr><td>Wakefulness that the expert scored as wakefulness</td><td><b class="num">63%</b></td></tr>
+      <tr><td>Hitting the exact sleep stage</td><td class="num">66% (69% without the watch's memory and power limits)</td></tr>
+      <tr><td>For comparison: two experts agreeing with each other</td><td class="num">around 82%</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>That last row isn't about the device: it's how far trained humans drift apart looking at the same recording of a brain (their set of stages is finer, so the comparison is rough). And on heart rate from an optical sensor on the wrist the numbers may differ from the published ones — more on that below.</p>
+
+  <p>The gap between the first row and the second is the point. Sleep the method recognizes almost every time. Wakefulness, about two times in three. Firstbeat doesn't explain why; our explanation is simple: someone lying still with their eyes closed, waiting for sleep, looks nearly identical to a sleeper as far as heart rate and an accelerometer are concerned.</p>
+
+  <blockquote>
+    <p><b>And what about the watches themselves.</b> Danish researchers compared a Garmin Vivosmart 4 band against polysomnography (Mouritzen and colleagues, PLoS One, 2020, 18 adults, one night each). The band recognized sleep almost every time and wakefulness about three times in ten. That's a different device, a different year and a small sample: the numbers themselves can't be carried over to today's watches. The value lies elsewhere: an independent study found the bias leaning the same way, and on that band it leaned noticeably further than it does for the ECG-based method. It is one study, and an old one; how much further the bias leans on today's watches, nobody has published.</p>
+  </blockquote>
+
+  <h2>Why the share on your screen usually beats the real one</h2>
+
+  <p>There are two errors here, and they don't weigh the same. The first: quiet wakefulness is filed as sleep, and the numerator grows. The second, the opposite one: a stretch of sleep is taken for wakefulness, and the numerator falls. Let's find where they balance, using Firstbeat's own numbers: out of a hundred minutes of real sleep the watch will file 94 as sleep, and out of a hundred minutes of wakefulness 37 go unrecognized into sleep. The balance point lands at a share of about <b class="num">86%</b> (our arithmetic): below it the screen overstates, above it the screen understates slightly.</p>
+
+  <p>But that is the balance point of the ECG-based method. For the one band that was independently validated the numbers are different — 0.98 and 0.28 — and the same arithmetic moves the balance point to roughly <b class="num">97%</b> (our arithmetic). On that band, then, the overstatement stays on almost any night, and the band where the screen understates narrows to nearly perfect nights. Which of the two balance points is closer to your own watch, nobody has published: this is one old study of one band.</p>
+
+  <p>The worse the night, the bigger the overstatement, and the same arithmetic shows why: the watch errs on minutes of wakefulness, and the more broken the night, the more of them there are. Hence the feeling that something's off: a bad night looks presentable. This isn't a defect in the device, it's the limit of the method.</p>
+
+  <p>A rule for reading follows from it. Nights built alike are also misjudged alike — which is why a run of several weeks of your own is steadier than any single value. A night that stands out from that run really did stand out; how far it fell is probably being understated. Two or three of those in a row ahead of a heavy week are a plausible explanation for why a familiar pace suddenly feels harder.</p>
+
+  <p><b>The score inherits this bias</b> but dilutes it: sleep counted generously pulls both duration and quality upward, while the third part — recovery — is read from heart rate variability rather than from the sleep scoring, and depends little on the “asleep or awake” decision. So the score, by our explanation, reacts more gently than the share does to awakenings that went unnoticed.</p>
+
+  <h2>What to check</h2>
+
+  <ol>
+    <li><b>Check the boundaries of the night against what you remember.</b> Lights out and getting up are the denominator of the share and the input for duration in the score; Firstbeat has not published how accurate this step is. If the watch decided you went to bed at half past ten when you went at ten past eleven, both numbers for that night came from the wrong boundaries — they aren't worth reading.</li>
+    <li><b>Look at the stretches of wakefulness, not just the total.</b> Part of the wakefulness shown is really sleep, so this is a prompt to think back over the night rather than proof of anything: what woke you, and when. The reverse holds even less: an empty screen is no proof there were no awakenings — those are precisely what the watch misses most often.</li>
+    <li><b>Check how the watch sits on your wrist.</b> In Garmin's own science document, movement is named as by far the most common cause of unreliable beats, and the fit of the watch is listed separately among the causes of a poor signal. The same document says outright that the signal can be all but extinguished if you're lying on that arm and pressing down on the watch (quotations are in the sources). Strap snug but not pinching; the watch a little above the wrist bone; and try not to sleep on that arm.</li>
+    <li><b>Collect your own two usual numbers — the score and the share.</b> The price is known up front: two or three weeks, two numbers in a note every morning, and at the end you take the middle value of each. After that, watch the departure rather than the values, and read the two as a pair: the share dropped while the score held — look for what was waking you; the score dropped at the same share — look at the evening before and the load of the last few days.</li>
+  </ol>
+
+  <h2>Frequently asked questions</h2>
+
+  <p><b>What counts as a good sleep score?</b><br>
+  Garmin's bands: 90–100 excellent, 80–89 good, 60–79 fair, below 60 poor. Across all users over the year from February 1, 2024 to January 31, 2025 the average score was 72 — the middle of the “fair” band — and 7% of people held an average in the top band. Your 78 against your own 85 says more than your 78 against someone else's 92.</p>
+
+  <p><b>What's the difference between sleep score and sleep efficiency?</b><br>
+  The score is a composite from 0 to 100 over three parts: duration, quality and overnight recovery; Garmin doesn't publish how much each part weighs. Efficiency is the share of time in bed you spent asleep — a plain division you can check by hand. The main difference is that the score responds to the evening before (recovery is read from heart rate variability), while the share knows nothing about your evening. Read the score by default.</p>
+
+  <p><b>Is 95% sleep efficiency good?</b><br>
+  The number alone doesn't answer that. The National Sleep Foundation panel calls 85% and above a marker of good sleep, and 74% and below (64% for young adults) not a marker of it. But those figures come from laboratory methods, and the number on your wrist is biased upward, so you can't hold one against the other. And a high share doesn't mean you got enough sleep: 95% of five hours in bed is 4 hours 45 minutes asleep. The answer comes from a baseline of your own: write the morning number down for two or three weeks and take the middle value. After that 95% reads not as a grade but as “above my usual” or “same as always”.</p>
+
+  <p><b>Why is my sleep score low when I slept for a long time?</b><br>
+  One possible reason is the third part of the score: overnight recovery, which is read from heart rate variability. Garmin names strenuous activity late in the evening and alcohol among the things that commonly lower it. Another reason is a different mix of sleep stages at the same duration. That's why two nights of equal length and equal efficiency can come out with different scores. What to do next: look at the share for the same night. If it held at its usual level, look at the evening before and the load of the last few days; if it dropped along with the score, the night was broken into pieces.</p>
+
+  <p><b>Can I compare a Garmin sleep score with another brand's?</b><br>
+  No. Every manufacturer has its own scale, and Garmin doesn't disclose its own: it doesn't publish how much of the hundred points goes to duration, to stages and to recovery. The only comparison that means anything is your score against your score.</p>
+
+  <h2>In short</h2>
+
+  <ul>
+    <li>The sleep score is a composite from 0 to 100 built on three parts: duration and quality against age-based standards, plus overnight recovery from heart rate variability. Garmin doesn't name the weights, so a score that came out lower won't say which part pulled it down.</li>
+    <li>Sleep efficiency isn't a score but a share: how much you slept out of how long you lay there. You can check it by hand, and it knows nothing about duration, stages or your evening.</li>
+    <li>The average score across Garmin users for the year was 72, and 7% hold an average in the top band. The share has an expert figure — 85% and up — but you can't hold it against your own screen: it was obtained by laboratory methods.</li>
+    <li>The method recognizes sleep in 94 cases out of a hundred and wakefulness in 63; on those numbers the share is overstated below roughly 86%. On the one band independently validated, wakefulness was recognized worse still, and the same arithmetic moves the line to 97% — so for that band the overstatement stays on almost any night. Which of the two lines is closer to today's watches, nobody has published; the worse the night, the bigger the overstatement either way.</li>
+    <li>Read the score by default; go to the share when the score dropped on enough sleep. Both need a baseline of your own: two or three weeks of watching give you your usual level, and from then on the departure from it is what works.</li>
+  </ul>
+
+  <h2>Sources</h2>
+
+  <ol class="src">
+    <li>Garmin, blog post “How Garmin watches track your sleep, calculate sleep score”: “Your sleep score, powered by Firstbeat Analytics™, is based on how long and how well you slept”; the 0–100 scale; inputs — heart rate, heart rate variability and movement, and on some models respiration and blood oxygen saturation. <a href="https://www.garmin.com/en-US/blog/health/how-garmin-watches-track-your-sleep/" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin, blog post “Garmin Sleep Score and Sleep Insights”: the three parts of the score. Duration and quality — “sleep quantity and sleep quality are assessed by comparing your recorded sleep to age-based standards”. Quality — “how many times you woke up during the night, when awakenings occurred”, time awake and time in each stage; restlessness — “excessive tossing and turning”. The third part — “a personal recovery metric”, the same science as daytime stress; “strenuous activity late in the evening and alcohol consumption commonly reduce overnight recovery”. The page gives no weights for the parts. <a href="https://www.garmin.com/en-US/blog/health/garmin-sleep-score-and-sleep-insights/" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin, blog post “How well do you sleep? New data examines Garmin users' sleep”: “Your sleep score ranges from 0-100 based on this ranking: excellent (90-100), good (80-89), fair (60-79) and poor (0-60)”. From February 1, 2024 to January 31, 2025 the average user score was 72; averaged over the year, excellent for 7%, good for 31%, fair for 43%, poor for 19%. Garmin doesn't give the sample size. <a href="https://www.garmin.com/en-US/blog/health/how-well-do-you-sleep/" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Firstbeat Technologies. A Sleep Analysis Method Based on Heart Rate Variability. November 7, 2019. The definition of efficiency is in the key terms section: “Sleep efficiency = percentage of time spent asleep from the overall time between going to bed and awakening.” The validation against polysomnography (110 adults, 780 hours, 557,776 five-second epochs) is in the results section: sensitivity to sleep 94%, specificity to wakefulness 63%, stage agreement 66%. Heart rate data in the validation came as interbeat intervals from an ECG sensor, plus an accelerometer. The document describes the principles of the method; how closely today's Garmin firmware follows them, the company doesn't say. <a href="https://www.firstbeat.com/en/science-and-physiology/white-papers-and-publications/" rel="nofollow noopener" target="_blank">firstbeat.com</a></li>
+    <li>Ohayon M., Wickwire E. M., Hirshkowitz M. et al. National Sleep Foundation's sleep quality recommendations: first report. Sleep Health, 2017;3(1):6–19. Verbatim: “Across all age groups, a sleep efficiency of ≥85% (ie, 85%-94% or ≥95%) was judged as an appropriate indicator of good sleep quality.” The same report carries the thresholds for sleep onset, awakenings longer than five minutes and wakefulness after sleep onset. <a href="https://pubmed.ncbi.nlm.nih.gov/28346153/" rel="nofollow noopener" target="_blank">pubmed.ncbi.nlm.nih.gov</a></li>
+    <li>Mouritzen N. J., Larsen L. H., Lauritzen M. H., Kjær T. W. Assessing the performance of a commercial multisensory sleep tracker. PLoS One, 2020;15(12):e0243214. A Garmin Vivosmart 4 against polysomnography, 18 adults, one night each: sensitivity to sleep 0.98; specificity to wakefulness 0.28 in the article's summary and 0.30 ± 0.17 in the results section. The device and the algorithm predate today's ones — the numbers don't transfer to current watches. <a href="https://doi.org/10.1371/journal.pone.0243214" rel="nofollow noopener" target="_blank">doi.org</a></li>
+    <li>Garmin Health's science document on interbeat intervals, November 2023: movement is “by far the most common” cause of unreliable beats, the fit of the watch is “simply a fit issue”, and on pressure during sleep: “the signal can be almost extinguished if the wearer lays on the limb and puts a lot of pressure on the watch”. <a href="https://www.garmin.com/en-US/garmin-technology/health-science/" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+  </ol>
+
+  <p class="note">A series of explainers, "Garmin metrics", built from primary sources. Published wording, thresholds and limits come with a link to the Garmin manual, the Garmin blog or Firstbeat, or to a peer-reviewed paper; our explanations, calculations and examples are marked. Fizkult is not affiliated with Garmin or Firstbeat; the names belong to their owners.</p>
+
+  <div class="cta">
+    <div class="kicker">Connect your Garmin to fizkult.ai</div>
+    <h2>Neither number means much without a baseline of your own</h2>
+    <p>Either number is only readable against a baseline of your own, and keeping one in a note for three weeks is work. Fizkult builds both baselines itself: the morning breakdown says “the night scored 78 — usually 83”, and the share sits with its own baseline on the “My data” screen — “Sleep efficiency: 88% (usually 92 — over 20 days)”. The colored marker next to the score says whether it has dropped noticeably.</p>
+    <p>Fizkult reads your Garmin data itself and sends a plain-words breakdown to Telegram every morning: what your sleep, recovery and load are saying and what to pay attention to today. It builds your norm from your own history, and while the days are still too few it says so outright: “I don’t know your usual yet: counted over 9 nights out of the 14 I need.” You connect the watch once; don't skip the Historical Data box — without it your norm builds only from new days, and more slowly. First week free, everything included. The bot writes in English if your Telegram is set to English; <b>/language</b> switches it either way.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_en_garmin_sleep">Connect your watch in Telegram →</a>
+    <p class="note" style="margin-bottom:0">This is a coach's read, not a medical one. If you don't feel you're recovering, see a doctor.</p>
+  </div>
+
+  <a class="back" href="/en/garmin/">← All Garmin metric explainers</a>
+  <a class="back" href="/en/" style="margin-left:18px">Home</a>
+</div>
+</body>
+</html>

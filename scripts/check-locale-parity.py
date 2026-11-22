@@ -77,6 +77,12 @@ ARTICLE_PAIRS = [
         "/en/garmin/vo2max",
         "/garmin/vo2max",
     ),
+    (
+        "garmin/sleep-score.html",
+        "en/garmin/sleep-score.html",
+        "/en/garmin/sleep-score",
+        "/garmin/sleep-score",
+    ),
 ]
 
 

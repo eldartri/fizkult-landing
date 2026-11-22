@@ -104,6 +104,7 @@ PUBLIC_FILES=(
   "en/garmin/stress text/html https://fizkult.ai/en/garmin/stress"
   "en/garmin/training-readiness text/html https://fizkult.ai/en/garmin/training-readiness"
   "en/garmin/vo2max text/html https://fizkult.ai/en/garmin/vo2max"
+  "en/garmin/sleep-score text/html https://fizkult.ai/en/garmin/sleep-score"
   # Калькуляторы. Считают в браузере, поэтому открытость адреса — это и есть
   # вся их доставка: страница не отвечает — сервиса нет. Выпустил новый
   # калькулятор, допиши сюда обе строки, русскую и английскую.
