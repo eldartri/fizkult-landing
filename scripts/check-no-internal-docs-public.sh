@@ -95,16 +95,30 @@ PUBLIC_FILES=(
   "garmin/training-readiness text/html https://fizkult.ai/garmin/training-readiness"
   "garmin/recovery-time.pdf application/pdf"
   "garmin/recovery-time text/html https://fizkult.ai/garmin/recovery-time"
+  "garmin/hrv-status.pdf application/pdf"
+  "garmin/hrv-status text/html https://fizkult.ai/garmin/hrv-status"
   # Английская половина серии. Догоняет русскую (заказ владельца 21.11.2026
-  # — обе половины за две недели) — выпустил близнец, допиши сюда строку. PDF у
-  # английских разборов пока нет: русский генератор построен на русских
-  # заголовках, и английский пак делается отдельной работой.
+  # — обе половины за две недели) — выпустил близнец, допиши сюда обе строки,
+  # страницу и PDF. Английские PDF появились 22.11.2026: пак собирается прямо
+  # со страницы (`marketing-office/scripts/pdf-pack/from_page.py`), поэтому
+  # отдельного английского текста заводить не пришлось.
   "en/garmin/ text/html https://fizkult.ai/en/garmin/"
   "en/garmin/body-battery text/html https://fizkult.ai/en/garmin/body-battery"
+  "en/garmin/body-battery.pdf application/pdf"
   "en/garmin/stress text/html https://fizkult.ai/en/garmin/stress"
+  "en/garmin/stress.pdf application/pdf"
   "en/garmin/training-readiness text/html https://fizkult.ai/en/garmin/training-readiness"
+  "en/garmin/training-readiness.pdf application/pdf"
   "en/garmin/vo2max text/html https://fizkult.ai/en/garmin/vo2max"
+  "en/garmin/vo2max.pdf application/pdf"
   "en/garmin/sleep-score text/html https://fizkult.ai/en/garmin/sleep-score"
+  "en/garmin/sleep-score.pdf application/pdf"
+  "en/garmin/training-effect text/html https://fizkult.ai/en/garmin/training-effect"
+  "en/garmin/training-effect.pdf application/pdf"
+  "en/garmin/training-status text/html https://fizkult.ai/en/garmin/training-status"
+  "en/garmin/training-status.pdf application/pdf"
+  "en/garmin/recovery-time text/html https://fizkult.ai/en/garmin/recovery-time"
+  "en/garmin/recovery-time.pdf application/pdf"
   # Калькуляторы. Считают в браузере, поэтому открытость адреса — это и есть
   # вся их доставка: страница не отвечает — сервиса нет. Выпустил новый
   # калькулятор, допиши сюда обе строки, русскую и английскую.

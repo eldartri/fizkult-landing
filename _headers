@@ -37,3 +37,32 @@
 
 /garmin/recovery-time.pdf
   Link: <https://fizkult.ai/garmin/recovery-time>; rel="canonical"
+
+/garmin/hrv-status.pdf
+  Link: <https://fizkult.ai/garmin/hrv-status>; rel="canonical"
+
+# Английские PDF появились 22.11.2026 — они собираются прямо со своих страниц,
+# и канонический адрес у них тот же: английская страница разбора.
+/en/garmin/training-effect.pdf
+  Link: <https://fizkult.ai/en/garmin/training-effect>; rel="canonical"
+
+/en/garmin/vo2max.pdf
+  Link: <https://fizkult.ai/en/garmin/vo2max>; rel="canonical"
+
+/en/garmin/stress.pdf
+  Link: <https://fizkult.ai/en/garmin/stress>; rel="canonical"
+
+/en/garmin/sleep-score.pdf
+  Link: <https://fizkult.ai/en/garmin/sleep-score>; rel="canonical"
+
+/en/garmin/training-status.pdf
+  Link: <https://fizkult.ai/en/garmin/training-status>; rel="canonical"
+
+/en/garmin/body-battery.pdf
+  Link: <https://fizkult.ai/en/garmin/body-battery>; rel="canonical"
+
+/en/garmin/training-readiness.pdf
+  Link: <https://fizkult.ai/en/garmin/training-readiness>; rel="canonical"
+
+/en/garmin/recovery-time.pdf
+  Link: <https://fizkult.ai/en/garmin/recovery-time>; rel="canonical"
