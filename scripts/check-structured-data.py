@@ -75,6 +75,7 @@ SITEMAP_FILES = {
     "https://fizkult.ai/en/garmin/body-battery": "en/garmin/body-battery.html",
     "https://fizkult.ai/en/garmin/stress": "en/garmin/stress.html",
     "https://fizkult.ai/en/garmin/training-readiness": "en/garmin/training-readiness.html",
+    "https://fizkult.ai/en/garmin/vo2max": "en/garmin/vo2max.html",
     "https://fizkult.ai/calc/": "calc/index.html",
     "https://fizkult.ai/en/calc/": "en/calc/index.html",
     "https://fizkult.ai/calc/pace": "calc/pace.html",

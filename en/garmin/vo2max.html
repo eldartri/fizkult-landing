@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VO2 max. on Garmin watches: how accurate it is, and why it reads low for trained runners</title>
+<meta name="description" content="Two independent lab validations against a gas analyzer: above 55 ml/kg/min the watch underestimates VO2 max. by 3–6 ml/kg/min (both studies); below 45 it overestimates by about 7% (one of the two samples). Built from the Garmin manual and peer-reviewed work: where the number comes from, why it freezes over winter, and how to read the Cooper Institute rating table.">
+<link rel="canonical" href="https://fizkult.ai/en/garmin/vo2max">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/vo2max">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/vo2max">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/vo2max">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Fizkult">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:title" content="VO2 max. on Garmin watches: how accurate it is, and why it reads low for trained runners">
+<meta property="og:description" content="The watch pulls everyone toward the middle: it flatters the weaker and shortchanges the strong. On the rating table that is one or two rungs. Built from primary sources and two lab validations.">
+<meta property="og:url" content="https://fizkult.ai/en/garmin/vo2max">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fizkult — a personal coach in Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VO2 max. on Garmin watches: how accurate it is, and why it reads low for trained runners">
+<meta name="twitter:description" content="The estimate's error is not flat across the scale — it depends on how strong you are. Two lab validations, and what to do with a number like that.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .dl { display:inline-flex; align-items:center; gap:10px; margin:0 0 32px; padding:12px 18px;
+    background:var(--panel); border:1.5px solid var(--line); text-decoration:none; color:var(--ink);
+    font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; font-weight:500; }
+  .dl:hover { background:var(--ink); color:var(--bg); }
+  .dl span { color:var(--muted); }
+  .dl:hover span { color:var(--bg); }
+  .tcap { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; color:var(--muted);
+    text-transform:uppercase; margin:28px 0 8px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); min-width:440px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  blockquote { margin:24px 0; padding:18px 20px; background:var(--panel); border:1.5px solid var(--line); }
+  blockquote p { margin:0 0 10px; font-size:16px; }
+  blockquote cite { font-style:normal; font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; color:var(--muted); text-transform:uppercase; }
+  .note { font-size:13px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .src { font-size:13px; color:var(--muted); }
+  .src li { margin-bottom:10px; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "VO2 max. on Garmin watches: how accurate it is, and why it reads low for trained runners",
+      "description": "The VO2 max. estimate on a Garmin watch comes from a closed model: in edition v9 of the manual the data was credited to Firstbeat, in the current v10 to Garmin Human Performance Lab. The rating levels come from Cooper Institute tables. Two independent validations against a gas analyzer found the error depends on the athlete's level: above 55 ml/kg/min the watch reads low (both studies saw it), below 45 it reads high (seen in one of the two samples).",
+      "inLanguage": "en",
+      "datePublished": "2026-11-22",
+      "dateModified": "2026-11-22",
+      "mainEntityOfPage": "https://fizkult.ai/en/garmin/vo2max",
+      "image": "https://fizkult.ai/assets/og/og-share.png",
+      "author": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/en/" },
+      "publisher": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/en/" },
+      "about": ["VO2 max.", "Garmin", "Firstbeat", "Cooper Institute", "Fitness level", "Running"],
+      "citation": [
+        "Garmin. fēnix 8 Owner's Manual: VO2 max., Heat and Altitude Acclimation, Performance Measurements",
+        "Düking P., Van Hooren B., Sperlich B. Assessment of Peak Oxygen Uptake with a Smartwatch and its Usefulness for Training of Runners. Int J Sports Med, 2022;43(7):642-647",
+        "Engel F. A., Masur L., Sperlich B., Düking P. Validity of VO2max estimates from the forerunner 245 smartwatch in highly vs. moderately trained endurance athletes. Eur J Appl Physiol, 2026;126(1):591-603"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Fizkult", "item": "https://fizkult.ai/en/" },
+        { "@type": "ListItem", "position": 2, "name": "Garmin metrics explained", "item": "https://fizkult.ai/en/garmin/" },
+        { "@type": "ListItem", "position": 3, "name": "VO2 max. on Garmin watches: how accurate it is, and why it reads low for trained runners", "item": "https://fizkult.ai/en/garmin/vo2max" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Running and cycling — one number or two?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The manual phrases the requirement as “run outside with GPS or ride with a power meter”, which describes one estimate that either sport can update. It does not say either way whether the device keeps a separate running and cycling value — that is an open question, not a claim of ours. You can settle it on yourself in a couple of days: note the number after an outdoor run, then again after a ride with a power meter."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How far can the number jump after a single workout?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not published. Garmin names neither a step size nor the weight a new run carries against earlier ones. One practical conclusion follows: a single reading decides nothing, you need a series."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "The number dropped after a hard or hot race — have I lost fitness?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The screen does not support that. Above 22 °C and above 800 m Garmin adjusts the estimate itself, and the size of the adjustment is not published; on top of that, an all-out effort is not the condition the model is described for. Read the series, not the last point."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "The watch reads low — so am I stronger than it shows?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If your level is above 55, that is how it came out in both samples. But these are group means, not a correction you can subtract for yourself: both studies also reported the spread inside the groups. The correct reading is “my real number is probably higher than the screen”, not “my real number equals the screen plus six”."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Explainers · Garmin metrics</div>
+    <div class="ends">
+      <a class="lang" href="/garmin/vo2max" hreflang="ru" lang="ru" aria-label="Переключиться на русский">RU</a>
+      <a class="home" href="/en/" aria-label="Home">FIZKULT.AI</a>
+    </div>
+  </div>
+
+  <h1>VO2 max. on a watch: low for the strong, high for the rest</h1>
+
+  <p class="lead">Two independent validations against a gas analyzer agree wherever their samples overlap: if your true VO2 max. is above 55, the watch reads 3–6 ml/kg/min low. The bottom end appeared in only one of them — below 45 the watch reads about 7% high. Together that is a single picture: the watch pulls everyone toward the middle. On the rating table it is one or two rungs in either direction, so an athlete who belongs in the top band ends up reading the middle one as their own. Here is where the number comes from, why the error depends on your level, and what to do with a number you cannot take at face value.</p>
+
+  <h2>What the number is</h2>
+
+  <p>VO2 max. is the largest volume of oxygen a person can take up per minute per kilogram of body weight at maximum effort. A lab measures it directly: mask, gas analyzer, a graded test to exhaustion. A watch does not measure it — it <b>estimates</b> it, from the heart rate and pace of an ordinary run, with no maximum effort anywhere in sight.</p>
+
+  <blockquote>
+    <p>VO2 max. is the maximum volume of oxygen (in milliliters) you can consume per minute per kilogram of body weight at your maximum performance.</p>
+    <cite>fēnix 8 Owner's Manual, VO2 max.</cite>
+  </blockquote>
+
+  <p>As of edition v9 of the manual, Garmin was not the one doing the math. The model belonged to Firstbeat, the Finnish company Garmin bought in 2020; the rating scale is borrowed too — a table from the American Cooper Institute, reprinted with permission. For a Garmin metric that is unusual: most of the others say neither whose model computes them nor where their levels came from.</p>
+
+  <blockquote>
+    <p>VO2 max. data is provided by Firstbeat Analytics™. VO2 max. analysis is provided with permission from The Cooper Institute®.</p>
+    <cite>fēnix 8 Owner's Manual, trademark section, edition v9</cite>
+  </blockquote>
+
+  <p class="note"><b>Checked against the manual on November 21, 2026.</b> This credit line has changed. The explainer was written from edition v9, which we read on October 29, 2026. In the current edition v10 (November 2026) the VO2 max. page reads "VO2 max. data is provided by Garmin Human Performance Lab™" — Firstbeat is no longer mentioned there. The Cooper Institute permission survived word for word. Garmin does not say what sits behind the change — a move to an in-house model, or only a different name over the same one. The measurement conditions on that page changed as well: read the sections on indoor running and on run duration below with the v10 correction, marked in place and in the sources.</p>
+
+  <h2>How close this is to a lab</h2>
+
+  <p>Garmin has published no validation of its own VO2 max. estimate — at least not in the body of primary sources we went through. The Firstbeat white papers from before 2020 describe the estimate, but those are the model's own documents, not an independent check. What there is instead: two outside studies, both against a gas analyzer in a graded lab test, both on a Forerunner 245.</p>
+
+  <p class="tcap">Düking: 23 recreational runners, three outdoor runs, mean error across the whole group 5.7%. Engel: 35 athletes (mean level 60.1) and two fifteen-minute runs, mean error 7.9% and 7.2%</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>True VO2 max.</th><th>What the watch showed</th><th>Study</th></tr></thead>
+    <tbody>
+      <tr><td class="num">below 45</td><td><b>reads high</b> by 7.1%</td><td>Düking, 2022</td></tr>
+      <tr><td class="num">45 to 55</td><td>error 4.1% — in this sample the authors called the watch and the lab interchangeable</td><td>Düking, 2022</td></tr>
+      <tr><td class="num">55 to 61</td><td><b>reads low</b> by 6.2% — that is 3.0 ml/kg/min</td><td>Düking, 2022</td></tr>
+      <tr><td class="num">up to 59.8</td><td>error 4.1% and 2.8% across two runs</td><td>Engel, 2026</td></tr>
+      <tr><td class="num">above 59.8</td><td><b>reads low</b> by 6.3 ml/kg/min, error 10.4% and 9.4%</td><td>Engel, 2026</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Two different samples, different years, different authors — one picture. <b>The error is not flat across the scale: it depends on how strong you are.</b> The watch pulls a strong athlete down — both studies saw that. It lifts a weaker one up — one study saw that: the second sample had no group below 45, its mean level being 60.1. The watch is at its most accurate in the middle, around the level of an ordinary recreational runner. The authors of the second study say it outright: in well-trained athletes the estimate is less valid, and where precision matters the lab is still the answer.</p>
+
+  <blockquote>
+    <p><b>Why three milliliters is two rungs.</b> A gap of three to six milliliters looks like small change until the number is read off the table. For men aged 20–29 the top level starts at 55.4, the next at 51.1, the middle one at 45.4. An athlete whose true value is 55.4 will see 52.4 if the watch reads them 3.0 low — a level below their own; read 6.3 low, they see 49.1, two rungs down. The scale compresses the same way from the other end: a runner whose true value is 44, read 7% high, sees 47.1 and climbs a rung. The arithmetic is ours, done on the published Cooper Institute boundaries — neither Garmin nor the study authors made this conversion.</p>
+  </blockquote>
+
+  <p>That leads to one cautious conclusion — again, ours. If the error depends on your level, then your own number today means more set against your own number from last month than against somebody else's rung. But that series is a ruler with a catch: as you get stronger the underestimate grows with you, so the climb on screen looks smaller than the real one. Neither study checked the estimate over time — they had two or three runs each.</p>
+
+  <p>The bias does not stay put, either. Garmin builds recovery time on this estimate — the manual says so outright — and recovery time is one of the seven inputs to <a href="/en/garmin/training-readiness">Training Readiness</a>. An estimate that reads low for a strong athlete travels into the morning readiness score with them.</p>
+
+  <h2>How Garmin tells you to read the scale</h2>
+
+  <p>Garmin's interpretations are built the same way almost everywhere: a number is explained not by a mechanism but by <b>a place in the crowd</b>. For VO2 max. the scale is the Cooper Institute table, split by sex and by six age bands, from 20–29 to 70–79. The levels are tied to percentiles — to the share of people of your sex and age you are ahead of: 95 means you are ahead of 95 people out of 100.</p>
+
+  <p class="tcap">One band out of twelve, as an example. The full tables are in the manual's appendix</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Level</th><th>Percentile</th><th>Men 20–29, ml/kg/min</th></tr></thead>
+    <tbody>
+      <tr><td>Superior</td><td class="num">95</td><td class="num">from 55.4</td></tr>
+      <tr><td>Excellent</td><td class="num">80</td><td class="num">from 51.1</td></tr>
+      <tr><td>Good</td><td class="num">60</td><td class="num">from 45.4</td></tr>
+      <tr><td>Fair</td><td class="num">40</td><td class="num">from 41.7</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>That frame is worth taking literally. A level answers the question "where do I stand among people of my sex and age" — and does not answer the question "what is happening to me". There is no bridge between the two.</p>
+
+  <h2>What the watch folds into the number</h2>
+
+  <p>The calculation leans on two signals at once: how much work was done, and what it cost you. Heart rate gives the cost — from the wrist or from a chest strap. Outdoors, GPS gives the work: speed there is measured independently of the body producing it. That is our explanation, not a quote: Garmin does not publish how heart rate and pace are converted into milliliters of oxygen.</p>
+
+  <p>Garmin adjusts for conditions on its own. Two thresholds are named: <b>above 22 °C (72 °F)</b> and <b>above 800 m (2,600 ft)</b> of altitude — beyond them both the VO2 max. estimate and training status are adjusted. Whether the thresholds work independently or only together, and in which direction and by how much the number shifts, the manual does not say. One thing it does say: the correction needs weather data from your phone. No "correction applied" marker is described anywhere, so you can only reason from the thresholds and from whether the phone was with you.</p>
+
+  <h2>Why the number freezes over winter</h2>
+
+  <blockquote>
+    <p>Indoor run activities do not generate a VO2 max. estimate in order to preserve the accuracy of your fitness level trend.</p>
+    <cite>fēnix 8 Owner's Manual, VO2 max., edition v9. This sentence is not on the page in the current v10</cite>
+  </blockquote>
+
+  <p><b>This section was written from edition v9</b> — see the November 21 note above. The reason is stated plainly, and it is not "the treadmill is worse". <b>What follows is our explanation.</b> A treadmill announces its own speed, and how honestly it does so depends on its calibration — and the watch has no way of knowing whether anyone has calibrated it. For a single workout that does not matter. For a series built up over years it does: you cannot let a value measured by a different method into it. Garmin's wording here is precisely about the accuracy of the trend.</p>
+
+  <p>The consequence is worth saying out loud: <b>the number you see on screen in March, after a winter spent indoors, was taken off you in autumn.</b> The watch does not recalculate it and does not flag it as stale — it simply had nothing to update it from.</p>
+
+  <p>Load and training effect are still calculated indoors. In the list of exclusions Garmin gives separately, indoor running is listed in the row for the fitness estimate and running economy — not for load.</p>
+
+  <h2>What it takes for the number to update</h2>
+
+  <p class="tcap">From the current edition v10 of the fēnix 8 manual, checked November 21, 2026. In edition v9, which the explainer above was written from, the minimum duration was named differently in two places — "at least 10" and "at least 15 minutes". The runs in both validations above were fifteen minutes long</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>What</th><th>Condition</th></tr></thead>
+    <tbody>
+      <tr><td>Running</td><td>outdoors with GPS; per the current v10 — <b>at least 15 minutes</b> at no less than 70% of maximum heart rate (v9 said both "10" and "15")</td></tr>
+      <tr><td>Cycling</td><td>a power meter <b>and</b> a heart rate monitor, moderate intensity</td></tr>
+      <tr><td>Accuracy conditions on a bike</td><td>a ride of at least 20 minutes, heart rate above 70% of maximum, steady power</td></tr>
+      <tr><td>What to avoid on a bike</td><td>hilly terrain and riding in a group on someone's wheel: power there is ragged and heart rate cannot keep up with it</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>What to do with a number like this</h2>
+
+  <ol>
+    <li><b>Build your own series.</b> It is the only thing that turns a biased number into a useful one. One outdoor run a week — by the calendar, not by the weather; six values in six weeks. Write them down with the date: the cost is one line a week.</li>
+    <li><b>Check the weight in your profile.</b> The metric is defined per kilogram of body weight, so weight enters it directly: an error in weight carries into the number point for point, and someone three kilos (7 lb) lighter will see a rise their fitness hasn't earned. That follows from the definition, not from a separate Garmin rule.</li>
+    <li><b>Check maximum heart rate, sex and age.</b> The "70% of maximum" in the measurement conditions is counted off your maximum — an inflated maximum raises the bar you have to clear. Sex and age do not change the number, but they change the word next to it: the table is split into six age bands.</li>
+    <li><b>Don't take the table's level as yours.</b> If you need it for real — for selection, for a classification, for a conversation with a coach — a lab test gives it, not a screen. At the edges of the scale the watch is off by one or two rungs, and the screen will not say which way it is off for you.</li>
+    <li><b>In winter, look at the date, not the number.</b> If the indoor rule from edition v9 still holds, the number has neither fallen nor risen — it simply has not updated since your last outdoor run. In the current v10 that caveat is not on the page, so the date is worth checking either way.</li>
+  </ol>
+
+  <h2>Frequently asked questions</h2>
+
+  <p><b>Running and cycling — one number or two?</b><br>
+  The manual phrases the requirement as “run outside with GPS or ride with a power meter”, which describes one estimate that either sport can update. It does not say either way whether the device keeps a separate running and cycling value — that is an open question, not a claim of ours. You can settle it on yourself in a couple of days: note the number after an outdoor run, then again after a ride with a power meter.</p>
+
+  <p><b>How far can the number jump after a single workout?</b><br>
+  Not published. Garmin names neither a step size nor the weight a new run carries against earlier ones. One practical conclusion follows: a single reading decides nothing, you need a series.</p>
+
+  <p><b>The number dropped after a hard or hot race — have I lost fitness?</b><br>
+  The screen does not support that. Above 22 °C and above 800 m Garmin adjusts the estimate itself, and the size of the adjustment is not published; on top of that, an all-out effort is not the condition the model is described for. Read the series, not the last point.</p>
+
+  <p><b>The watch reads low — so am I stronger than it shows?</b><br>
+  If your level is above 55, that is how it came out in both samples. But these are group means, not a correction you can subtract for yourself: both studies also reported the spread inside the groups. The correct reading is “my real number is probably higher than the screen”, not “my real number equals the screen plus six”.</p>
+
+  <h2>In short</h2>
+
+  <ul>
+    <li>VO2 max. on a watch is an estimate, not a measurement. The model is closed, but Garmin does put a credit under the data — a rarity among its metrics. Edition v9 of the manual credited Firstbeat (a company Garmin has owned since 2020), the current v10 credits Garmin Human Performance Lab™. The rating scale has been borrowed throughout: Cooper Institute tables, reprinted with permission.</li>
+    <li>Two independent validations on a Forerunner 245 agree at the top end: above 55 ml/kg/min the watch <b>reads low</b> (by 3.0–6.3 ml/kg/min, error up to 10.4%). The bottom end came from one sample only: below 45 the watch <b>reads high</b> (by about 7%). In the middle of the scale it is at its most accurate.</li>
+    <li>On the Cooper table that is one or two rungs either way: the error shows up less in the figure than in the word beside it.</li>
+    <li>For the number to update you need outdoors with GPS; per the current v10, at least 15 minutes at no less than 70% of maximum heart rate (v9 said 10 and 15). On a bike both heart rate and power are required. The sentence about indoor running not generating an estimate "in order to preserve the accuracy of your fitness level trend" was in v9; it is not on the page in v10, so we cannot state it as today's rule.</li>
+    <li>Above 22 °C (72 °F) and above 800 m (2,600 ft) Garmin adjusts the estimate itself. The size and direction of the adjustment are not published, and the correction needs weather from your phone.</li>
+  </ul>
+
+  <h2>Where the line runs</h2>
+
+  <ul>
+    <li>How heart rate and pace become milliliters of oxygen is not disclosed: neither the averaging window, nor the weight of history, nor the way temperature and altitude enter the formula.</li>
+    <li>Both validations were done on a Forerunner 245 and on people stronger than average: Düking's groups ran from 39 to 61, Engel's mean was 60.1. Carrying their numbers over to another model or to a beginner is our assumption, not their result.</li>
+    <li>Neither study looked at how the estimate behaves over time: Düking had three runs, Engel two, two or three days apart. So "your own series beats someone else's rung" is our conclusion from the shape of the error, not a measured fact. It has a flip side: since the underestimate grows with your level, real gains can look smaller on screen than they are, and the seasonal heat correction adds a shift of its own to the series.</li>
+    <li>Garmin names the conditions under which the estimate is more accurate, but publishes no error figure — it has neither a validation of its own nor a promise of accuracy once the conditions are met.</li>
+  </ul>
+
+  <h2>Sources</h2>
+
+  <ol class="src">
+    <li>Garmin fēnix 8 Owner's Manual (edition v9), VO2 max. Definition: "VO2 max. is the maximum volume of oxygen (in milliliters) you can consume per minute per kilogram of body weight at your maximum performance." On indoor running: "Indoor run activities do not generate a VO2 max. estimate in order to preserve the accuracy of your fitness level trend." Requirements: "You must run either outside with GPS or ride with a compatible power meter at a moderate level of intensity for several minutes"; the update follows an outdoor activity of at least 15 minutes, while the Performance Measurements section says "at least 10 minutes". The quotes are taken from edition v9. As of November 21, 2026 the current edition is v10 (November 2026): the indoor sentence is no longer on this page, and the running requirement is phrased as "After at least 15 minutes, select Save." at an intensity of at least 70% of maximum heart rate. The link points to the current edition. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-3E971364-A756-4057-B22D-C41250B2A82B.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Owner's Manual, Appendix, "VO2 Max. Standard Ratings" (current edition v10): "Data reprinted with permission from The Cooper Institute®". The credit under the model itself sits not here but on the VO2 max. page (source 1): in edition v9 it read "VO2 max. data is provided by Firstbeat Analytics™. VO2 max. analysis is provided with permission from The Cooper Institute®", and in the current v10 "VO2 max. data is provided by Garmin Human Performance Lab™", with no mention of Firstbeat. The rating tables by sex and six age bands are published there as well: for men 20–29, Superior from 55.4; Excellent from 51.1; Good from 45.4; Fair from 41.7 (Percentile column: 95, 80, 60, 40; Poor is given as "&lt;41.7" with a range of 0–40). The units are not labeled in the table itself. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-1FBCCD9E-19E1-4E4C-BD60-1793B5B97EB3.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Owner's Manual, Heat and Altitude Acclimation: the correction switches on above 22 °C and above 800 m of altitude, adjusting the VO2 max. estimate and training status; weather data from the phone is required for it. The size and direction of the adjustment are not published. <a href="https://support.garmin.com/en-US/?faq=NIYvZCEXbd0dDjVnhW7Pn7" rel="nofollow noopener" target="_blank">support.garmin.com</a></li>
+    <li>Düking P., Van Hooren B., Sperlich B. Assessment of Peak Oxygen Uptake with a Smartwatch and its Usefulness for Training of Runners. International Journal of Sports Medicine, 2022;43(7):642–647. 23 recreational runners, three outdoor runs, compared against a gas analyzer in a graded test. Verbatim from the abstract: "MAPE between the smartwatch and criterion measure was 7.1, 4.1 and −6.2 % when analyzing… ranging from 39–45 ml∙min⁻¹∙kg⁻¹, 45–55 ml∙min⁻¹∙kg⁻¹ or 55–61 ml∙min⁻¹∙kg⁻¹, respectively." Overall error across the sample — 5.7%. From the discussion: in the lower group the watch's values "tend to overestimate the runners' actual VO2peak", in the upper one "values tend to be underestimated"; for the 45–55 range the authors write that watch and lab "can be employed interchangeably". <a href="https://doi.org/10.1055/a-1686-9068" rel="nofollow noopener" target="_blank">doi.org</a></li>
+    <li>Engel F. A., Masur L., Sperlich B., Düking P. Validity of V̇O2max estimates from the forerunner 245 smartwatch in highly vs. moderately trained endurance athletes. European Journal of Applied Physiology, 2026;126(1):591–603 (online — August 2025). 35 Tier 2–3 athletes, VO2 max. 60.1 ± 8.2 ml/kg/min, two fifteen-minute runs at above 70% of maximum heart rate. Across the whole sample the watch underestimated by 4.73 and 4.05 ml/kg/min, MAPE 7.9% and 7.2%. In the subgroup up to 59.8 — MAPE 4.1–2.8%; above 59.8 — underestimation by 6.3 ml/kg/min, MAPE 10.4–9.4%. The authors' conclusion: "Laboratory-based gas analysis remains the preferred method when precision is required." <a href="https://doi.org/10.1007/s00421-025-05923-x" rel="nofollow noopener" target="_blank">doi.org</a></li>
+  </ol>
+
+  <p class="note">A series of explainers, "Garmin metrics", built from primary sources. Published wording, thresholds and limits come with a link to the Garmin manual or to a peer-reviewed paper; our explanations, calculations and examples are marked. Fizkult is not affiliated with Garmin, Firstbeat or The Cooper Institute; the names belong to their owners.</p>
+
+  <div class="cta">
+    <div class="kicker">Connect your Garmin to fizkult.ai</div>
+    <h2>One number a week is not a picture yet</h2>
+    <p>The thing that matters most about the VO2 max. on your watch is not the number but the date it was taken — and that date isn't on the screen, so a value you read in March may have been measured back in October. Fizkult prints VO2 max. with the date of the estimate and its age beside it — "last estimate October 12, 41 days ago" — and labels an old one in words: "old data, possibly out of date by now."</p>
+    <p>Fizkult reads your Garmin data itself and sends a plain-words breakdown to Telegram every morning: what your sleep, recovery and load are saying and what to pay attention to today. It builds your norm from your own history, and while the days are still too few it says so outright: “I don’t know your usual yet — counted from 9 days of the 14 needed.” You connect the watch once; don't skip the Historical Data box — without it your norm builds only from new days, and more slowly. First week free, everything included. The bot writes in English if your Telegram is set to English; <b>/language</b> switches it either way.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_en_garmin_vo2max">Connect your watch in Telegram →</a>
+    <p class="note" style="margin-bottom:0">This is a coach's read, not a medical one. If you don't feel you're recovering, see a doctor.</p>
+  </div>
+
+  <a class="back" href="/en/garmin/">← All Garmin metric explainers</a>
+  <a class="back" href="/en/" style="margin-left:18px">Home</a>
+</div>
+</body>
+</html>

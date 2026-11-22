@@ -103,6 +103,7 @@ PUBLIC_FILES=(
   "en/garmin/body-battery text/html https://fizkult.ai/en/garmin/body-battery"
   "en/garmin/stress text/html https://fizkult.ai/en/garmin/stress"
   "en/garmin/training-readiness text/html https://fizkult.ai/en/garmin/training-readiness"
+  "en/garmin/vo2max text/html https://fizkult.ai/en/garmin/vo2max"
   # Калькуляторы. Считают в браузере, поэтому открытость адреса — это и есть
   # вся их доставка: страница не отвечает — сервиса нет. Выпустил новый
   # калькулятор, допиши сюда обе строки, русскую и английскую.
@@ -128,10 +129,16 @@ MISSING_PATHS=(
   "garmin/zzz-such-page-never-existed"
 )
 
+# Потолок на запрос. Повод (22.11.2026): прогон завис на восемнадцать минут —
+# у curl не было ни --max-time, ни --connect-timeout, и одно подвисшее
+# соединение остановило весь сторож молча. Сторож, который может не
+# вернуться, не проверяется никем.
+TIMEOUTS="--connect-timeout 10 --max-time 25"
+
 fail=0
 
 for p in "${PATHS[@]}"; do
-  read -r code ctype <<<"$(curl -s -o /dev/null -w "%{http_code} %{content_type}" "$BASE/$p")"
+  read -r code ctype <<<"$(curl -s $TIMEOUTS -o /dev/null -w "%{http_code} %{content_type}" "$BASE/$p")"
   case "$code" in
     30*)
       echo "закрыт:  $p (редирект $code)"
@@ -154,7 +161,7 @@ for p in "${PATHS[@]}"; do
 done
 
 for p in "${PATHS_HTML[@]}"; do
-  code=$(curl -s -o /dev/null -w "%{http_code}" "$BASE/$p")
+  code=$(curl -s $TIMEOUTS -o /dev/null -w "%{http_code}" "$BASE/$p")
   case "$code" in
     30*)
       echo "закрыт:  $p (редирект $code)"
@@ -170,7 +177,7 @@ for p in "${PATHS_HTML[@]}"; do
 done
 
 for p in "${PUBLIC[@]}"; do
-  code=$(curl -s -o /dev/null -w "%{http_code}" "$BASE/$p")
+  code=$(curl -s $TIMEOUTS -o /dev/null -w "%{http_code}" "$BASE/$p")
   if [ "$code" != "200" ]; then
     echo "СЛОМАН:  $BASE/$p отвечает $code — публичная страница перестала открываться"
     fail=1
@@ -188,13 +195,13 @@ for row in "${PUBLIC_FILES[@]}"; do
   read -r p want marker <<<"$row"
   typeok=0; markerok=0; code=000
   for attempt in 1 2 3; do
-    read -r code ctype <<<"$(curl -s --retry 2 --retry-all-errors -o /dev/null -w "%{http_code} %{content_type}" "$BASE/$p")"
+    read -r code ctype <<<"$(curl -s $TIMEOUTS --retry 2 --retry-all-errors -o /dev/null -w "%{http_code} %{content_type}" "$BASE/$p")"
     case "$ctype" in
       "$want"*) typeok=1 ;;
       *)        typeok=0 ;;
     esac
     markerok=1
-    if [ -n "$marker" ] && ! curl -s --retry 2 --retry-all-errors "$BASE/$p" | grep -qF "$marker"; then
+    if [ -n "$marker" ] && ! curl -s $TIMEOUTS --retry 2 --retry-all-errors "$BASE/$p" | grep -qF "$marker"; then
       markerok=0
     fi
     [ "$code" = "200" ] && [ "$typeok" = "1" ] && [ "$markerok" = "1" ] && break
@@ -215,7 +222,7 @@ for row in "${PUBLIC_FILES[@]}"; do
 done
 
 for p in "${MISSING_PATHS[@]}"; do
-  code=$(curl -s -o /dev/null -w "%{http_code}" "$BASE/$p")
+  code=$(curl -s $TIMEOUTS -o /dev/null -w "%{http_code}" "$BASE/$p")
   if [ "$code" = "404" ]; then
     echo "404:     /$p (как и должно)"
   else

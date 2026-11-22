@@ -71,6 +71,12 @@ ARTICLE_PAIRS = [
         "/en/garmin/training-readiness",
         "/garmin/training-readiness",
     ),
+    (
+        "garmin/vo2max.html",
+        "en/garmin/vo2max.html",
+        "/en/garmin/vo2max",
+        "/garmin/vo2max",
+    ),
 ]
 
 
