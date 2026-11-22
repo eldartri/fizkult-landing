@@ -2,6 +2,12 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8"/>
+<!-- Внутренняя страница производства: с неё снимаются PNG для Instagram.
+     Человеку она не адресована, в карте сайта её нет — но до 22.11.2026
+     она лежала открытой и индексировалась бы при первой же внешней ссылке.
+     Закрываем метой, а не robots.txt: Disallow помешал бы роботу прочитать
+     саму мету, и адрес мог бы попасть в выдачу без описания. -->
+<meta name="robots" content="noindex, nofollow"/>
 <title>E1 — 5 МЕТРИКИ GARMIN КОТОРЫЕ МЕНЯЮТ ТРЕНИРОВКУ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

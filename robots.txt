@@ -88,3 +88,9 @@ User-agent: YandexAdditionalBot
 Allow: /
 
 Sitemap: https://fizkult.ai/sitemap.xml
+
+# IndexNow: сообщаем Яндексу и Bing о новых и изменённых страницах сразу,
+# не дожидаясь обхода. Ключ лежит открыто по адресу ниже — так устроен
+# протокол, это не секрет. Отправка — scripts/indexnow.sh после пуша.
+# Google IndexNow не поддерживает: ему карта сайта и Search Console.
+# Host: fizkult.ai  Key: https://fizkult.ai/e6b724d2ecf947ea5fbe75d96485c88a.txt
