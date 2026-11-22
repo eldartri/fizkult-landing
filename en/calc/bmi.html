@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMI Calculator: Body Mass Index and Waist-to-Height Ratio</title>
+<meta name="description" content="Calculates body mass index and a second measure alongside it, waist-to-height ratio: it is measured at your waist, not on the scales, so muscle you have put on does not move it the way it moves the index. The WHO bands are shown not as index numbers but as a corridor of pounds for your height, and the calculator says how wide that corridor is — a different number for every height. Runs in your browser; the numbers you type never leave it.">
+<link rel="canonical" href="https://fizkult.ai/en/calc/bmi">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/calc/bmi">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/calc/bmi">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/calc/bmi">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Fizkult">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:title" content="BMI Calculator: Body Mass Index and Waist-to-Height Ratio">
+<meta property="og:description" content="Two numbers about one body — and an honest account of where each one goes blind.">
+<meta property="og:url" content="https://fizkult.ai/en/calc/bmi">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fizkult — a personal coach in Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BMI Calculator: Body Mass Index and Waist-to-Height Ratio">
+<meta name="twitter:description" content="Two numbers about one body — and an honest account of where each one goes blind.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .calc { background:var(--panel); border:1.5px solid var(--line); padding:22px 20px; margin:0 0 10px; }
+  .modes { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+  .modes button { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    font-weight:700; padding:8px 12px; border:1.5px solid var(--line); background:transparent; color:var(--ink); cursor:pointer; }
+  .modes button[aria-pressed="true"] { background:var(--ink); color:var(--bg); }
+  .fields { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:18px; }
+  .field label { display:block; font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+  .field input, .field select { width:100%; font-family:"Geist Mono",monospace; font-size:17px; padding:10px 12px;
+    border:1.5px solid var(--line); background:var(--bg); color:var(--ink); }
+  .field input:focus, .field select:focus { outline:2px solid var(--accent); outline-offset:-2px; }
+  .field input:disabled, .field select:disabled { opacity:.45; }
+  .hint { font-size:12px; color:var(--muted); margin:6px 0 0; }
+  .leg { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--muted); margin:22px 0 10px; padding-top:14px; border-top:1.5px solid var(--line); }
+  .out { display:flex; flex-wrap:wrap; gap:24px; margin-top:20px; padding-top:18px; border-top:1.5px solid var(--line); }
+  .out div { min-width:120px; }
+  .out span { display:block; font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--muted); }
+  .out strong { font-family:"Geist Mono",monospace; font-size:24px; font-weight:700; letter-spacing:-.02em; }
+  .out .big { font-size:34px; color:var(--accent); }
+  .out em { font-style:normal; font-size:14px; color:var(--muted); display:block; }
+  .hit { font-size:17px; font-weight:700; margin:18px 0 0; padding-top:16px; border-top:1.5px solid var(--line); }
+  .err { color:var(--accent); font-weight:700; margin:14px 0 0; }
+  .nudge { background:var(--panel); border:1.5px dashed var(--line); padding:14px 18px; margin:0 0 10px;
+    display:flex; flex-wrap:wrap; align-items:center; gap:12px; font-size:15px; }
+  .nudge button { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    font-weight:700; padding:8px 12px; border:1.5px solid var(--line); background:var(--ink); color:var(--bg); cursor:pointer; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); }
+  .scroll table { min-width:560px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  tr.mark td { background:#F6EFE2; font-weight:700; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  .mk { font-family:"Geist",system-ui,sans-serif; font-size:12px; font-weight:400; color:var(--accent); white-space:nowrap; }
+  .note { font-size:13px; color:var(--muted); }
+  .src { font-size:14px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "name": "BMI Calculator",
+      "url": "https://fizkult.ai/en/calc/bmi",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any browser",
+      "inLanguage": "en",
+      "description": "Calculates body mass index by the WHO definition — weight in kilograms divided by height in metres squared — and alongside it the ratio of waist circumference to height. The WHO bands are converted into a corridor of weight for your particular height, and the waist bands into inches, so both scales appear in units you can actually measure. When the two measures disagree, the calculator says so outright. Everything runs in your browser; the numbers you type are never sent anywhere.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "publisher": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Fizkult", "item": "https://fizkult.ai/" },
+        { "@type": "ListItem", "position": 2, "name": "BMI Calculator", "item": "https://fizkult.ai/en/calc/bmi" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do you calculate BMI?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Divide weight in kilograms by height in metres squared — that is the WHO definition word for word, and there is nothing else in the formula. In imperial units it is the same arithmetic after a conversion: 5 ft 10 in and 163 lb comes out at 23.4. Age, sex and training history are not inputs; the index knows nothing about you beyond those two numbers. The Fizkult BMI calculator does the arithmetic and also shows the corridor of weight that falls inside each WHO band at your height."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What BMI counts as normal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The WHO calls 18.5 to 24.9 normal weight, below 18.5 underweight, 25.0 and above overweight, 30.0 and above obesity. The top of the band is printed as 24.9 because it has been rounded to one decimal; the boundary itself is a single number, 25, and it belongs to the band above. The more useful fact is the width: at 5 ft 10 in, normal weight runs from 129 to 174 lb — a spread of forty-five pounds. Two people of that height, one at 132 lb and one at 174 lb, both land inside it, and those two bodies look nothing alike."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does BMI call an athlete overweight?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because the index measures relative weight, not body composition — that is the wording of the authors of a study of 33,595 school athletes. Muscle is heavier than the same volume of fat, and mass built by training raises the index exactly as fat does: the formula has no term that separates them. In the 2011 study by Etchison and colleagues, those athletes aged 11 to 19 in Georgia and Alabama were measured both ways: BMI called 13.31 percent of them obese, skinfold calipers 5.95 percent, and of those BMI flagged, 62 percent were not confirmed by the calipers. They were adolescents, and the exact percentages have been disputed, so hold them as an order of magnitude — the mechanism does not change. Hence the second measure on this page: waist-to-height is measured at the waist, not on the scales."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is waist-to-height ratio?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Waist circumference divided by height, both measured in the same units — inches or centimetres, the ratio comes out the same. The NHS rule is one line long: keep your waist to less than half your height. Reference handbooks summarising the British guideline NG246 split that into three bands: 0.4 to 0.49 is the healthy range, 0.5 to 0.59 increased, 0.6 and above high. What makes the measure worth adding is precisely where the index goes blind: it looks at where the weight sits rather than how much of it there is. By those same summaries it is applied across both sexes, all ethnic groups and adults with high muscle mass. One caveat matters: from a BMI of 35 up these bands are not used."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you measure your waist correctly?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not at the belt and not at the narrowest point. The NHS describes it like this: find the bottom of your ribs and the top of your hips, and run the tape exactly halfway between them — roughly at navel level. Measure against bare skin, keep the tape horizontal, breathe out normally and do not pull your stomach in. Do not measure over trousers: the waistband does not sit at the right height. Height for this ratio should be your measured height rather than the one on your documents: it changes over time."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why doesn't this calculator tell me what I should weigh?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because the formula does not know. The corridor the calculator prints is not a target weight but the width of a band: at 5 ft 10 in, forty-five pounds fit inside normal weight, and the index gives you no way to pick your own number out of them. For a runner or a triathlete what matters is not landing in a band but direction — where weight and body composition have moved over months, under what training load and what sleep. That is a series rather than a single measurement, and no calculator substitutes for it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can BMI diagnose anything?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No, and that comes from the sources themselves rather than from caution. The commission convened in 2025 by The Lancet Diabetes & Endocrinology — 58 experts, endorsed by 76 organisations — put it plainly: BMI-based measures should be used only as a surrogate measure of health risk at a population level, and they give inadequate information about health at the individual level. To confirm excess body fat the commission requires either a direct measurement of fat or at least one additional anthropometric measure alongside the index. This calculator diagnoses nothing: it shows two numbers and says honestly where each one goes blind. If weight is changing on its own, with no change in food or training, give it a couple of weeks and see whether it comes back; if it doesn't, or something else joins it, from sleep to race results, see a doctor."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Tools · Calculators</div>
+    <div class="ends">
+      <a class="lang" href="/calc/bmi" hreflang="ru" lang="ru" aria-label="Перейти на русскую версию">RU</a>
+      <a class="home" href="/en/calc/" aria-label="All calculators">CALCULATORS</a>
+    </div>
+  </div>
+
+  <h1>BMI Calculator</h1>
+
+  <p class="lead">If you are putting on muscle, the index can file it as excess: a pound of muscle enters the formula exactly as a pound of fat does. So a second measure is counted beside it here, waist to height: it is measured at your waist, not on the scales, so muscle you have put on does not move it the way it moves the index. The WHO bands are shown not as index numbers but as a corridor of pounds for your height, and the calculator says how wide that corridor is — at 5'10" that is forty-five pounds, at 5'5" noticeably fewer. It runs in your browser: the numbers you type never leave it.</p>
+
+  <div class="calc">
+    <div class="modes" role="group" aria-label="Units">
+      <button type="button" id="m-metric" aria-pressed="false">Metres and kilograms</button>
+      <button type="button" id="m-imperial" aria-pressed="true">Feet and pounds</button>
+    </div>
+
+    <div class="fields">
+      <div class="field">
+        <label for="height" id="l-height">Height, feet</label>
+        <input id="height" inputmode="decimal" value="5">
+        <p class="hint">Your measured height, not the one on your documents: it changes over time</p>
+      </div>
+
+      <div class="field" id="f-height-in">
+        <label for="height-in" id="l-height-in">Height, inches</label>
+        <input id="height-in" inputmode="decimal" value="10">
+        <p class="hint">The remainder above whole feet — 0 to 11</p>
+      </div>
+
+      <div class="field">
+        <label for="weight" id="l-weight">Weight, pounds</label>
+        <input id="weight" inputmode="decimal" value="163">
+        <p class="hint">Morning, before eating — it swings less</p>
+      </div>
+
+      <div class="field">
+        <label for="waist" id="l-waist">Waist circumference, inches</label>
+        <input id="waist" inputmode="decimal" value="">
+        <p class="hint">Optional. Halfway between the bottom of your ribs and the top of your hips — fill it in and the second measure appears</p>
+      </div>
+    </div>
+
+    <p class="note" style="margin-top:14px">The fields hold an example — put your own numbers in.</p>
+
+    <div class="out" aria-live="polite">
+      <div><span>Body mass index</span><strong class="big" id="o-bmi">—</strong><em id="o-bmi-note">Weight ÷ height²</em></div>
+      <div><span>Waist to height</span><strong id="o-ratio">—</strong><em id="o-ratio-note">Needs a waist measurement</em></div>
+      <div><span>"Normal weight" at your height</span><strong id="o-range">—</strong><em id="o-range-note">The WHO band from 18.5 to 25</em></div>
+    </div>
+
+    <p class="hit" id="o-hit" hidden></p>
+
+    <p class="err" id="err" hidden></p>
+  </div>
+
+  <div class="scroll">
+  <table>
+    <thead><tr><th>WHO band</th><th>Index</th><th>Weight at your height</th></tr></thead>
+    <tbody id="rows">
+      <tr><td>Underweight</td><td class="num">below 18.5</td><td class="num">up to 129 lb</td></tr>
+      <tr><td>Normal weight</td><td class="num">18.5–25.0</td><td class="num">129–174 lb</td></tr>
+      <tr><td>Overweight</td><td class="num">25.0–30.0</td><td class="num">174–209 lb</td></tr>
+      <tr><td>Obesity</td><td class="num">30.0 and above</td><td class="num">from 209 lb</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p class="note">The bands and their names come from WHO material. The top of "normal weight" is printed there as 24.9: that is the same boundary of 25, rounded to one decimal, and it belongs to the band above. The weight column is our own arithmetic — the same bands converted into a quantity you can step on a scale and read. Right at a boundary the printed index and the band can disagree in the last digit: both numbers are rounded to one decimal.</p>
+
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Band</th><th>Waist ÷ height</th><th>Waist at your height</th></tr></thead>
+    <tbody id="wrows">
+      <tr><td>Healthy range</td><td class="num">below 0.50</td><td class="num">up to 35.0 in</td></tr>
+      <tr><td>Increased</td><td class="num">0.50–0.60</td><td class="num">35.0–42.0 in</td></tr>
+      <tr><td>High</td><td class="num">0.60 and above</td><td class="num">from 42.0 in</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p class="note">The handbooks describe the healthy range as 0.4 to 0.49 and say nothing at all about values below 0.4 — which is why our first row is called "below 0.50" rather than carrying a floor we invented, and below a ratio of 0.40 the calculator names no band either. The bands themselves are meant for an index under 35: from that mark up they are not applied, and the calculator then prints the ratio without naming a band.</p>
+
+  <div class="nudge" id="nudge">
+    <div>The second measure is empty: it needs your waist circumference. Don't measure at the belt — find the bottom of your ribs and the top of your hips, and run the tape halfway between them, roughly at navel level. Breathe out normally, don't pull your stomach in.</div>
+    <button type="button" id="to-waist">Add waist</button>
+  </div>
+
+  <p class="note">What no index will show you: where weight has moved between weigh-ins weeks apart, and what training and sleep were doing meanwhile. That is <a href="https://t.me/fizkult_ai_bot?start=site_calc_bmi_out_en">Fizkult</a>, not a calculator.</p>
+
+  <h2>Where 18.5 and 25 come from</h2>
+
+  <p><b>The formula itself contains nothing but two numbers.</b> Weight in kilograms divided by height in metres squared — that is how the WHO defines the index, and neither sex nor age nor way of life enters it. Everything else — the bands, the names, the thresholds — was hung on that fraction afterwards and has nothing to do with the arithmetic.</p>
+
+  <p><b>The "normal weight" band is wider than it sounds.</b> The WHO draws its lines at 18.5, 25.0 and 30.0; at 5 ft 10 in that works out to 129 lb, 174 lb and 209 lb. So normal weight at a single height is stretched across forty-five pounds: two people of that height, one at 132 lb and one at 174 lb, both fall inside it — and the two bodies differ so much you could not confuse them. That is exactly why the table on this page converts the bands into pounds: in index units the width is unreadable, and in pounds it reads instantly.</p>
+
+  <p><b>And the boundaries themselves are round numbers on a continuous scale.</b> Nothing happens in a body between 24.9 and 25.0; it is one and the same point that landed on opposite sides of a line. The WHO prints a caveat next to its bands that rarely gets quoted: the index may not correspond to the same degree of fatness across different populations, partly because of different body proportions. That is said about populations, not about an individual.</p>
+
+  <h2>What the index doesn't know</h2>
+
+  <p><b>It cannot tell what the weight is made of.</b> A kilogram of muscle and a kilogram of fat enter the formula identically, because there is no term in it that would separate them. For a runner that sounds harmless; for a rower or a track cyclist it is not: mass built by work pushes the index up in exactly the same way fat does.</p>
+
+  <p><b>How far off it goes was once measured on athletes directly.</b> In 2011 Etchison and colleagues gathered school sports physicals from Georgia and Alabama covering 1985 to 2003: 33,595 people aged 11 to 19, each with both an index and a caliper measurement. The index called 13.31 percent obese; the calipers called 5.95 percent. Of those the index flagged, 62 percent were not confirmed by the calipers. The error hardly went the other way at all: of those the index did not flag, 99 percent were not flagged by the calipers either. The authors' conclusion fits in one line: BMI is a measurement of relative body weight, not body composition. These were adolescents, so the exact proportion cannot be carried across to an adult athlete one for one — it has the direction right, and the figure is worth holding as an order of magnitude (the objections raised to this study are in source 4).</p>
+
+  <p><b>And it doesn't know where the weight sits.</b> The same number, two different bodies: one carries that weight all over, the other at the waistline. For risk those are different stories, and this is exactly where the second measure goes in.</p>
+
+  <h2>The second measure: waist to height</h2>
+
+  <p><b>The NHS rule is one line long:</b> keep your waist to less than half your height. You can divide in whatever units you like — inches or centimetres — and the ratio comes out the same. Handbooks summarising the British guideline NG246 split it into three bands: 0.4 to 0.49 is the healthy range, 0.5 to 0.59 increased, 0.6 and above high.</p>
+
+  <p><b>What it is good for is exactly where the index is blind.</b> It looks not at how much weight there is but at where it lies. By those same NG246 summaries it is applied across both sexes, across all ethnic groups and including adults with high muscle mass. For an athlete that is the whole reason to add a second line: a measure taken at the waist rather than on the scales.</p>
+
+  <p><b>It has limits of its own.</b> From an index of 35 up these bands are not used — in that case the calculator prints the ratio but names no band. The rule is not meant for children under five, for pregnancy, for eating disorders or for growth disorders. And separately: neither of these two numbers diagnoses anything. If weight is changing on its own, with no change in food or training, give it a couple of weeks and see whether it comes back; if it doesn't, or something else joins it, from sleep to race results, see a doctor.</p>
+
+  <h2>What to do with all this</h2>
+
+  <p><b>The sharpest statement here was not made by us.</b> In 2025 The Lancet Diabetes &amp; Endocrinology convened a commission of 58 experts, its conclusions were endorsed by 76 organisations, and its summary table records this: BMI-based measures should be used only as a surrogate measure of health risk at a population level, and they provide inadequate information about health at the individual level. To speak of excess body fat in a particular person the commission requires either a direct measurement of fat or at least one additional anthropometric measure alongside the index — and with two such measures the index is not needed at all. It notes separately that above 40 excess fat can pragmatically be assumed without further measurement, but that is a practical allowance rather than one more threshold.</p>
+
+  <p><b>And for someone who trains, a different number matters more — not today's, but yesterday's set beside today's.</b> A single weigh-in says little: in our own measurements, of 186 days with a recorded weight 22 carried more than one weigh-in, and the gap between the first and the last within a day ran to 1.3 kg; food, water and time of day are the usual explanation. Meaning appears in a series: where weight has moved, under what load and what sleep. No calculator works that out, because it does not have your history.</p>
+
+  <p>This is a coach's reading, not a medical one. If weight is changing by itself, or something else is worrying you, see a doctor.</p>
+
+  <h2>Frequently asked questions</h2>
+
+  <p><b>How do you calculate BMI?</b><br>
+  Divide weight in kilograms by height in metres squared — that is the WHO definition word for word, and there is nothing else in the formula. In imperial units it is the same arithmetic after a conversion: 5 ft 10 in and 163 lb comes out at 23.4. Age, sex and training history are not inputs; the index knows nothing about you beyond those two numbers. The Fizkult BMI calculator does the arithmetic and also shows the corridor of weight that falls inside each WHO band at your height.</p>
+
+  <p><b>What BMI counts as normal?</b><br>
+  The WHO calls 18.5 to 24.9 normal weight, below 18.5 underweight, 25.0 and above overweight, 30.0 and above obesity. The top of the band is printed as 24.9 because it has been rounded to one decimal; the boundary itself is a single number, 25, and it belongs to the band above. The more useful fact is the width: at 5 ft 10 in, normal weight runs from 129 to 174 lb — a spread of forty-five pounds. Two people of that height, one at 132 lb and one at 174 lb, both land inside it, and those two bodies look nothing alike.</p>
+
+  <p><b>Why does BMI call an athlete overweight?</b><br>
+  Because the index measures relative weight, not body composition — that is the wording of the authors of a study of 33,595 school athletes. Muscle is heavier than the same volume of fat, and mass built by training raises the index exactly as fat does: the formula has no term that separates them. In the 2011 study by Etchison and colleagues, those athletes aged 11 to 19 in Georgia and Alabama were measured both ways: BMI called 13.31 percent of them obese, skinfold calipers 5.95 percent, and of those BMI flagged, 62 percent were not confirmed by the calipers. They were adolescents, and the exact percentages have been disputed, so hold them as an order of magnitude — the mechanism does not change. Hence the second measure on this page: waist-to-height is measured at the waist, not on the scales.</p>
+
+  <p><b>What is waist-to-height ratio?</b><br>
+  Waist circumference divided by height, both measured in the same units — inches or centimetres, the ratio comes out the same. The NHS rule is one line long: keep your waist to less than half your height. Reference handbooks summarising the British guideline NG246 split that into three bands: 0.4 to 0.49 is the healthy range, 0.5 to 0.59 increased, 0.6 and above high. What makes the measure worth adding is precisely where the index goes blind: it looks at where the weight sits rather than how much of it there is. By those same summaries it is applied across both sexes, all ethnic groups and adults with high muscle mass. One caveat matters: from a BMI of 35 up these bands are not used.</p>
+
+  <p><b>How do you measure your waist correctly?</b><br>
+  Not at the belt and not at the narrowest point. The NHS describes it like this: find the bottom of your ribs and the top of your hips, and run the tape exactly halfway between them — roughly at navel level. Measure against bare skin, keep the tape horizontal, breathe out normally and do not pull your stomach in. Do not measure over trousers: the waistband does not sit at the right height. Height for this ratio should be your measured height rather than the one on your documents: it changes over time.</p>
+
+  <p><b>Why doesn't this calculator tell me what I should weigh?</b><br>
+  Because the formula does not know. The corridor the calculator prints is not a target weight but the width of a band: at 5 ft 10 in, forty-five pounds fit inside normal weight, and the index gives you no way to pick your own number out of them. For a runner or a triathlete what matters is not landing in a band but direction — where weight and body composition have moved over months, under what training load and what sleep. That is a series rather than a single measurement, and no calculator substitutes for it.</p>
+
+  <p><b>Can BMI diagnose anything?</b><br>
+  No, and that comes from the sources themselves rather than from caution. The commission convened in 2025 by The Lancet Diabetes &amp; Endocrinology — 58 experts, endorsed by 76 organisations — put it plainly: BMI-based measures should be used only as a surrogate measure of health risk at a population level, and they give inadequate information about health at the individual level. To confirm excess body fat the commission requires either a direct measurement of fat or at least one additional anthropometric measure alongside the index. This calculator diagnoses nothing: it shows two numbers and says honestly where each one goes blind. If weight is changing on its own, with no change in food or training, give it a couple of weeks and see whether it comes back; if it doesn't, or something else joins it, from sleep to race results, see a doctor.</p>
+
+  <h2>Sources</h2>
+
+  <p class="src">1. World Health Organization. Body mass index (BMI): <a href="https://www.who.int/data/gho/data/themes/topics/topic-details/GHO/body-mass-index" rel="nofollow">who.int</a>. The definition of the index — weight in kilograms divided by height in metres squared — and the cut-offs 18.5 / 25.0 / 30.0 as they appear in the indicator names come from there.<br>
+  2. World Health Organization. Nutrition Landscape Information System, indicator help: <a href="https://apps.who.int/nutrition/landscape/help.aspx?menu=0&amp;helpid=392&amp;lang=EN" rel="nofollow">apps.who.int</a>. Source of the 18.5–24.9 band labelled "normal weight" and the other band names, and of the caveat that the index may not correspond to the same degree of fatness across different populations, partly because of different body proportions. That is said about populations, not about an individual.<br>
+  3. Rubino F. et al. Definition and diagnostic criteria of clinical obesity. <i>The Lancet Diabetes &amp; Endocrinology</i>, 2025, 13(3), 221–262. A commission of 58 experts, endorsed by 76 organisations. Source of: BMI-based measures should be used only as a surrogate measure of health risk at a population level; they provide inadequate information about health at the individual level; the requirement to confirm excess fat by direct measurement or by additional anthropometric measures.<br>
+  4. Etchison W. C. et al. Body Mass Index and Percentage of Body Fat as Indicators for Obesity in an Adolescent Athletic Population. <i>Sports Health</i>, 2011, 3(3), 249–252. Source of the sample size (33,595 people aged 11 to 19, Georgia and Alabama, 1985–2003), the figures 13.31 percent and 5.95 percent, the 62 percent unconfirmed, the 99 percent not flagged in the other direction, and the line that the index measures relative body weight rather than body composition. The same journal carries the letter objecting that the Jackson–Pollock equation underestimates fat in adolescents, and the authors' reply, in which they withdraw one of their own sentences and concede that reproducibility was not tested.<br>
+  5. NHS. Calculate your waist-to-height ratio: <a href="https://www.nhs.uk/health-assessment-tools/calculate-your-waist-to-height-ratio/" rel="nofollow">nhs.uk</a>. Source of the rule itself — waist less than half your height — of the measuring procedure, and of the list of people it does not apply to.<br>
+  6. The three ratio bands (0.4–0.49 / 0.5–0.59 / 0.6 and above) we take from handbooks summarising the British guideline NICE NG246: <a href="https://gpnotebook.com/pages/nutrition/waist-to-height-ratio" rel="nofollow">GPnotebook</a> and the <a href="https://www.bhf.org.uk/informationsupport/heart-matters-magazine/wellbeing/healthy-weight/waist-to-height-ratio" rel="nofollow">British Heart Foundation</a>; their numbers agree. The half-your-height boundary is confirmed by the NHS in its own words, but the upper boundary of 0.6, the "index below 35" mark and the application across both sexes, all ethnic groups and adults with high muscle mass rest on those summaries alone: we did not get to the primary document, and we are not going to pass the second off as the first.</p>
+
+  <div class="cta">
+    <div class="kicker">Fizkult in Telegram</div>
+    <h2>One weigh-in is not a trend</h2>
+    <p>It keeps your weight as every weigh-in with its own time, not as one number a day: in our own measurements the spread between the first and the last of a day ran to 1.3 kg, close to three pounds. On the data screen a change is counted not as yesterday against today but between weigh-ins at least three weeks apart — something like "−1.4 kg over 34 d", about three pounds. If your scales report body composition — percentages of fat, water, muscle and bone — it prints those too.</p>
+    <p>There is a field for body mass index, but only the scales themselves can fill it — the product does not work the number out. As of September 2026 not one of 3,518 daily records held that number. What a coach wants is something else: your run of measurements next to training load and sleep.</p>
+    <p>And every morning Fizkult writes to you without being asked: it reads your sleep, your recovery and the training week in words rather than as rows of a report, and it compares them not with somebody else's band but with your own norm — and it says how many days that norm was built from. The first week is free, all of it.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_calc_bmi_en">Try it in Telegram →</a>
+    <p class="note" style="margin-bottom:0">This is a coach's reading, not a medical one. If weight is changing by itself, or something else is worrying you, see a doctor.</p>
+  </div>
+
+  <p style="margin-top:32px"><a href="/en/calc/hr-zones">Heart rate zone calculator</a> — two scales for one heart rate. <a href="/en/calc/predict">Race time predictor</a> — what your current form turns into over a distance. <a href="/en/calc/pace">Pace calculator</a> — how to break that distance down mile by mile.</p>
+
+  <a class="back" href="/en/">← Home</a>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // The numbers and the logic are shared between the two languages; only the
+  // strings differ — see CALC_PAIRS in scripts/check-locale-parity.py. The
+  // guard compares this block with string literals blanked and comments
+  // stripped, so a change to the arithmetic has to land on both pages, while
+  // a change to the wording lands only on its own.
+  //
+  // Default units are the one thing the two pages genuinely differ on. The
+  // guard blanks the literal, so the Russian page opens in metres and this
+  // one in feet and pounds, while the code stays common — same as in the
+  // pace calculator.
+  var UNIT0 = "imperial";
+
+  // The WHO bands in index units. A boundary belongs to the band above it:
+  // exactly 25.0 is already overweight. The WHO prints the top of "normal
+  // weight" as 24.9 — the same number, rounded to one decimal.
+  var BMI_CUTS = [18.5, 25, 30];
+  // Waist-to-height bands. The half-your-height boundary is confirmed by the
+  // NHS itself; 0.6 comes from handbooks summarising NICE NG246.
+  var WAIST_CUTS = [0.5, 0.6];
+  var WAIST_LOW = 0.4;
+  // Above this index the waist bands are not applied — the source says so
+  // itself. Staying quiet about that is not an option, so the number lives in
+  // the code rather than in prose: above it no band is named at all.
+  var WAIST_OFF = 35;
+  var IN_CM = 2.54;
+  var LB_KG = 0.45359237;
+  // Input limits. Not physiology but protection against a typo: without them
+  // "height 17" would quietly produce an index in the thousands.
+  var H_MIN = 120;
+  var H_MAX = 230;
+  var W_MIN = 30;
+  var W_MAX = 300;
+  var WA_MIN = 40;
+  var WA_MAX = 200;
+  var IN_MAX = 12;
+
+  var T = {
+    dot: ".",
+    kg: " kg",
+    lb: " lb",
+    cm: " cm",
+    inch: " in",
+    dash: "—",
+    below: "below ",
+    andUp: " and above",
+    upTo: "up to ",
+    from: "from ",
+    labHeightM: "Height, cm",
+    labHeightI: "Height, feet",
+    labWeightM: "Weight, kg",
+    labWeightI: "Weight, pounds",
+    labWaistM: "Waist circumference, cm",
+    labWaistI: "Waist circumference, inches",
+    noteBmi: "Weight ÷ height²",
+    noteRatioNone: "Needs a waist measurement",
+    noteRatioOff: "From an index of 35 up these bands are not applied",
+    noteRatioLow: "Below 0.40 the handbooks name no band",
+    rangeA: "The WHO band from 18.5 to 25 is ",
+    rangeB: " wide",
+    badHeightM: "Height needs to be a number between 120 and 230 cm.",
+    badHeightI: "Height needs to be between 4 and 7 feet: whole feet in the first field, the remainder in inches in the second.",
+    badInch: "Inches need to be a number between 0 and 11 — put whole feet in the field beside it.",
+    badWeightM: "Weight needs to be a number between 30 and 300 kg.",
+    badWeightI: "Weight needs to be a number between 67 and 661 pounds.",
+    badWaistM: "Waist circumference needs to be a number between 40 and 200 cm. Measure against the body, not over the belt.",
+    badWaistI: "Waist circumference needs to be a number between 16 and 78 inches. Measure against the body, not over the belt.",
+    badSwap: "Waist came out larger than height — check whether the fields got swapped.",
+    mkYou: "← you are here",
+    hitA: "BMI ",
+    hitB: " — that is ",
+    hitC: ".",
+    hitNoWaistOff: " The waist bands are meant for an index below 35, so a second measure would add nothing here: at an index like that the conversation is no longer about a calculator — it is one for a doctor or a coach, not for a table.",
+    hitNoWaist: " Where that weight sits — all over you or at the waistline — the index does not know; the second measure does. Half your height is ",
+    hitNoWaistEnd: ": the NHS rule is that your waist should be under half your height.",
+    hitWaist: " Waist is ",
+    hitOff: " of your height. The waist bands are meant for an index below 35 — from that mark up they are not applied, so no band is named. At an index like that the conversation is no longer about a calculator: it is one for a doctor or a coach, not for a table.",
+    hitIs: " of your height — that is ",
+    hitIsEnd: ". ",
+    hitLow: " of your height. The handbooks start their bands at 0.40 and run no band below it, so this one has no name — but the rule itself, a waist under half your height, is met with room to spare. ",
+    verdict: [
+      "An index below 18.5 is the other half of the scale: the waist bands describe what is carried at the waistline and say nothing about being underweight. If weight is falling on its own, with no change in food or training, give it a couple of weeks and see whether it comes back; if it doesn't, or something else joins it, from sleep to race results, see a doctor. If this is simply what you have always weighed and your results are not dropping, there is nothing here to decide: watch the run of measurements and whether the weight holds on the same work.",
+      "The numbers do not disagree. Which means what to watch is not the numbers themselves but where they are heading: write both down as a starting point and measure again in a month under the same conditions — morning, before eating, tape in the same place.",
+      "The numbers disagree, and the disagreement makes sense: this is what happens when the weight was not built at the waistline — muscle, for instance — and catching exactly this case is why the second measure is here. Which one to trust: waist-to-height is measured at the waist, not on the scales, and it is applied to adults with high muscle mass as well — for someone who trains it is closer to the point than the index. Measure both again in a month: if the waist holds or falls while the weight rises, the weight is not going on at the waistline.",
+      "The numbers disagree, and this is the case where the index alone is not enough: by the index everything is fine, yet the weight sits in a way that puts the ratio outside the healthy range in the handbooks. Measure again in a month under the same conditions. If the waist is growing on the same food and the same training, or something else has turned up — sleep, how you feel — see a doctor.",
+      "Both measures are in the upper bands, but the index is in the lower of those — between 25 and 30. That is the zone where a pair of numbers proves nothing yet: it also holds the rider with heavy legs whose waist has sat right at the 0.50 cut for years. So what comes next is not a conclusion but a measurement: take both again in a month under the same conditions. If the waist grows on the same food and the same training, the weight is going on at the waistline, and then the conversation is about habits you can hold for a year rather than two weeks of dieting. If it holds or falls, there is nothing to work out. If the waist grows at the same weight, or something else has turned up — sleep, how you feel — see a doctor: it is not only food and training that do this.",
+      "Both numbers are high, and both measures said the same thing: the index looks at mass, the ratio at where that mass sits. The Lancet commission asks exactly this — not to conclude from the index alone, but to confirm it with at least one additional body measure, and here that measure is in. \"It's muscle\" is a poor fit for a pair of numbers like these: muscle adds little at the waistline. There is nothing further to calculate; from here it is work, and it is better started not as two weeks of dieting but as something you can hold for a year, with the run of measurements next to training load and sleep. If after a month the weight or the waist is still rising on the same food and the same training, or something else has turned up — sleep, how you feel — see a doctor: it is not only food and training that do this."
+    ],
+    bmiBands: [
+      "Underweight",
+      "Normal weight",
+      "Overweight",
+      "Obesity"
+    ],
+    bmiNote: [
+      "WHO band: below 18.5",
+      "WHO band: 18.5–25",
+      "WHO band: 25–30",
+      "WHO band: 30 and above"
+    ],
+    bmiSaid: [
+      "the WHO band below 18.5",
+      "the WHO band 18.5–25",
+      "the WHO band 25–30",
+      "the WHO band 30 and above"
+    ],
+    waistBands: [
+      "Healthy range",
+      "Increased",
+      "High"
+    ],
+    waistSaid: [
+      "the band below 0.50",
+      "the band 0.50–0.60",
+      "the band 0.60 and above"
+    ],
+    waistNote: [
+      "Band: below 0.50",
+      "Band: 0.50–0.60",
+      "Band: 0.60 and above"
+    ]
+  };
+
+  var unit = UNIT0;
+  var el = {};
+  ["height", "height-in", "f-height-in", "weight", "waist", "m-metric", "m-imperial",
+   "l-height", "l-height-in", "l-weight", "l-waist", "o-bmi", "o-bmi-note", "o-ratio", "o-ratio-note",
+   "o-range", "o-range-note", "o-hit", "err", "rows", "wrows", "nudge", "to-waist"]
+    .forEach(function (id) { el[id] = document.getElementById(id); });
+
+  function imp() {
+    return unit === "imperial";
+  }
+
+  function num(v) {
+    v = String(v).replace(",", ".").trim();
+    if (!v) return NaN;
+    var n = Number(v);
+    return isFinite(n) && n > 0 ? n : NaN;
+  }
+
+  // Inches are the one field where zero means something: a height of six feet
+  // exactly.
+  function num0(v) {
+    v = String(v).replace(",", ".").trim();
+    if (!v) return 0;
+    var n = Number(v);
+    return isFinite(n) && n >= 0 ? n : NaN;
+  }
+
+  function one(v) {
+    return (Math.round(v * 10) / 10).toFixed(1).replace(".", T.dot);
+  }
+
+  function two(v) {
+    return (Math.round(v * 100) / 100).toFixed(2).replace(".", T.dot);
+  }
+
+  // Weight prints in the units it was typed in: a "normal weight" corridor in
+  // somebody else's units would have to be converted in your head, and that
+  // is precisely the work a calculator gets opened for.
+  function massN(v) {
+    return imp() ? String(Math.round(v / LB_KG)) : one(v);
+  }
+
+  function lenN(v) {
+    return imp() ? one(v / IN_CM) : String(Math.round(v));
+  }
+
+  function unitMass() {
+    return imp() ? T.lb : T.kg;
+  }
+
+  function unitLen() {
+    return imp() ? T.inch : T.cm;
+  }
+
+  function mass(v) {
+    return massN(v) + unitMass();
+  }
+
+  function len(v) {
+    return lenN(v) + unitLen();
+  }
+
+  // Inside a range the unit prints once, at the end: "129–174 lb", not
+  // "129 lb–174 lb". Otherwise the line breaks in half in a narrow column.
+  function massRange(lo, hi) {
+    return massN(lo) + "–" + massN(hi) + unitMass();
+  }
+
+  function lenRange(lo, hi) {
+    return lenN(lo) + "–" + lenN(hi) + unitLen();
+  }
+
+  // An error never wipes the last valid answer: a two-digit number is always
+  // typed through a one-digit state. The error text shows only on leaving the
+  // field — while you are still typing, we stay quiet.
+  function fail(msg, loud) {
+    if (!loud) return;
+    el.err.textContent = msg;
+    el.err.hidden = false;
+  }
+
+  // Height is always held in centimetres inside: keeping it in feet and
+  // inches would fork half the arithmetic.
+  function heightCm() {
+    var a = num(el.height.value);
+    if (!isFinite(a)) return NaN;
+    if (!imp()) return a;
+    var b = num0(el["height-in"].value);
+    if (!isFinite(b) || b >= IN_MAX) return NaN;
+    return (a * IN_MAX + b) * IN_CM;
+  }
+
+  function weightKg() {
+    var w = num(el.weight.value);
+    return imp() ? w * LB_KG : w;
+  }
+
+  function waistCm() {
+    if (String(el.waist.value).trim() === "") return NaN;
+    var w = num(el.waist.value);
+    return imp() ? w * IN_CM : w;
+  }
+
+  function band(v, cuts) {
+    var i;
+    for (i = 0; i < cuts.length; i++) {
+      if (v < cuts[i]) return i;
+    }
+    return cuts.length;
+  }
+
+  // The WHO bands converted into weight at this height. This column is the
+  // reason the page exists: in index units the width of a band is unreadable,
+  // in pounds it reads at a glance.
+  function bmiRows(h2, mark) {
+    var html = "", i;
+    for (i = 0; i <= BMI_CUTS.length; i++) {
+      var lo = i === 0 ? NaN : BMI_CUTS[i - 1];
+      var hi = i === BMI_CUTS.length ? NaN : BMI_CUTS[i];
+      var idx = isFinite(lo)
+        ? (isFinite(hi) ? one(lo) + "–" + one(hi) : one(lo) + T.andUp)
+        : T.below + one(hi);
+      var kg = isFinite(lo)
+        ? (isFinite(hi) ? massRange(lo * h2, hi * h2) : T.from + mass(lo * h2))
+        : T.upTo + mass(hi * h2);
+      if (i === mark) kg += ' <span class="mk">' + T.mkYou + "</span>";
+      html += '<tr class="' + (i === mark ? "mark" : "") +
+        '"><td>' + T.bmiBands[i] +
+        '</td><td class="num">' + idx +
+        '</td><td class="num">' + kg + "</td></tr>";
+    }
+    el.rows.innerHTML = html;
+  }
+
+  function waistRows(h, mark) {
+    var html = "", i;
+    for (i = 0; i <= WAIST_CUTS.length; i++) {
+      var lo = i === 0 ? NaN : WAIST_CUTS[i - 1];
+      var hi = i === WAIST_CUTS.length ? NaN : WAIST_CUTS[i];
+      var rat = isFinite(lo)
+        ? (isFinite(hi) ? two(lo) + "–" + two(hi) : two(lo) + T.andUp)
+        : T.below + two(hi);
+      var size = isFinite(lo)
+        ? (isFinite(hi) ? lenRange(lo * h, hi * h) : T.from + len(lo * h))
+        : T.upTo + len(hi * h);
+      if (i === mark) size += ' <span class="mk">' + T.mkYou + "</span>";
+      html += '<tr class="' + (i === mark ? "mark" : "") +
+        '"><td>' + T.waistBands[i] +
+        '</td><td class="num">' + rat +
+        '</td><td class="num">' + size + "</td></tr>";
+    }
+    el.wrows.innerHTML = html;
+  }
+
+  function calc(loud) {
+    el.err.hidden = true;
+
+    var a = num(el.height.value);
+    if (!isFinite(a)) return fail(imp() ? T.badHeightI : T.badHeightM, loud);
+    if (imp()) {
+      var b = num0(el["height-in"].value);
+      if (!isFinite(b)) return fail(T.badInch, loud);
+      if (b >= IN_MAX) return fail(T.badInch, loud);
+    }
+
+    var h = heightCm();
+    if (!isFinite(h) || h < H_MIN || h > H_MAX) return fail(imp() ? T.badHeightI : T.badHeightM, loud);
+
+    var w = weightKg();
+    if (!isFinite(w) || w < W_MIN || w > W_MAX) return fail(imp() ? T.badWeightI : T.badWeightM, loud);
+
+    var wa = NaN;
+    if (String(el.waist.value).trim() !== "") {
+      wa = waistCm();
+      if (!isFinite(wa) || wa < WA_MIN || wa > WA_MAX) return fail(imp() ? T.badWaistI : T.badWaistM, loud);
+      if (wa >= h) return fail(T.badSwap, loud);
+    }
+
+    var m = h / 100;
+    var h2 = m * m;
+    var bmi = w / h2;
+    var ratio = isFinite(wa) ? wa / h : NaN;
+    var bi = band(bmi, BMI_CUTS);
+    // The waist bands are meant for an index below 35. Above it we print the
+    // ratio but name no band: the source does not go past that line, and
+    // neither will we.
+    // The waist bands apply only below an index of 35 — that limit comes
+    // from the source itself and does not depend on whether a waist was typed.
+    var inBandRange = bmi < WAIST_OFF;
+    var usable = isFinite(ratio) && inBandRange;
+    var wi = usable ? band(ratio, WAIST_CUTS) : -1;
+
+    // Under a person's own number we print the band's edges, not its name:
+    // "Obesity" as a caption to your result is a label, not a measurement.
+    // The band name stays in the table, where it belongs to the WHO.
+    el["o-bmi"].textContent = one(bmi);
+    el["o-bmi-note"].textContent = T.bmiNote[bi];
+
+    el["o-ratio"].textContent = isFinite(ratio) ? two(ratio) : T.dash;
+    el["o-ratio-note"].textContent = isFinite(ratio)
+      ? (usable ? (ratio < WAIST_LOW ? T.noteRatioLow : T.waistNote[wi]) : T.noteRatioOff)
+      : T.noteRatioNone;
+
+    var lo = BMI_CUTS[0] * h2;
+    var hi = BMI_CUTS[1] * h2;
+    el["o-range"].textContent = massRange(lo, hi);
+    el["o-range-note"].textContent = T.rangeA + mass(hi - lo) + T.rangeB;
+
+    el.nudge.hidden = isFinite(ratio) || !inBandRange;
+
+    // The hit line is what the two measures are here for: when they disagree,
+    // that carries more information than either of them on its own.
+    var head = T.hitA + one(bmi) + T.hitB + T.bmiSaid[bi] + T.hitC;
+    if (!isFinite(ratio)) {
+      // Someone with no tape still leaves with something: half their height
+      // is the very number they will measure against later. But sending for a
+      // tape someone the waist bands are not applied to is sending for a no.
+      el["o-hit"].textContent = inBandRange
+        ? head + T.hitNoWaist + len(WAIST_CUTS[0] * h) + T.hitNoWaistEnd
+        : head + T.hitNoWaistOff;
+    } else if (!usable) {
+      el["o-hit"].textContent = head + T.hitWaist + two(ratio) + T.hitOff;
+    } else {
+      // Six outcomes. "Both agree" low and "both agree" high are different
+      // conversations, and the high one splits again: in the 25-30 band a
+      // pair of numbers proves nothing, and a strong conclusion there would
+      // be borrowed from a source that reasons about an index of 30 and up.
+      var v = 0;
+      if (bi > 0) {
+        var heavy = bi >= 2;
+        var wide = wi >= 1;
+        v = heavy === wide ? (heavy ? (bi >= 3 ? 5 : 4) : 1) : (heavy ? 2 : 3);
+      }
+      // Below 0.40 the handbooks are silent — we name no band here either.
+      var tail = ratio < WAIST_LOW
+        ? T.hitLow
+        : T.hitIs + T.waistSaid[wi] + T.hitIsEnd;
+      el["o-hit"].textContent = head + T.hitWaist + two(ratio) + tail + T.verdict[v];
+    }
+    el["o-hit"].hidden = false;
+
+    bmiRows(h2, bi);
+    waistRows(h, wi);
+  }
+
+  // Field labels and the visibility of the inches field are everything the
+  // units change in the markup. The arithmetic runs in centimetres and
+  // kilograms either way.
+  function applyUnit() {
+    el["m-metric"].setAttribute("aria-pressed", String(!imp()));
+    el["m-imperial"].setAttribute("aria-pressed", String(imp()));
+    el["f-height-in"].hidden = !imp();
+    el["l-height"].textContent = imp() ? T.labHeightI : T.labHeightM;
+    el["l-weight"].textContent = imp() ? T.labWeightI : T.labWeightM;
+    el["l-waist"].textContent = imp() ? T.labWaistI : T.labWaistM;
+    calc(false);
+  }
+
+  // Switching units converts the numbers instead of wiping them: the person
+  // has already typed them in, and empty fields after a click would read as a
+  // breakage.
+  function setUnit(next) {
+    if (next === unit) return;
+    var h = heightCm();
+    var w = weightKg();
+    var wa = waistCm();
+    unit = next;
+    if (isFinite(h)) {
+      if (imp()) {
+        var total = h / IN_CM;
+        var ft = Math.floor(total / IN_MAX);
+        var inch = Math.round(total - ft * IN_MAX);
+        if (inch >= IN_MAX) {
+          ft += 1;
+          inch = 0;
+        }
+        el.height.value = String(ft);
+        el["height-in"].value = String(inch);
+      } else {
+        el.height.value = String(Math.round(h));
+        el["height-in"].value = "";
+      }
+    }
+    if (isFinite(w)) {
+      el.weight.value = imp() ? String(Math.round(w / LB_KG)) : one(w);
+    }
+    if (isFinite(wa)) {
+      el.waist.value = imp() ? one(wa / IN_CM) : String(Math.round(wa));
+    }
+    applyUnit();
+  }
+
+  ["height", "height-in", "weight", "waist"].forEach(function (id) {
+    el[id].addEventListener("input", function () { calc(false); });
+    el[id].addEventListener("blur", function () { calc(true); });
+  });
+
+  el["m-metric"].addEventListener("click", function () { setUnit("metric"); });
+  el["m-imperial"].addEventListener("click", function () { setUnit("imperial"); });
+  // The button sits below the fields: without moving focus, the field you are
+  // being asked to fill stays above the top of the screen.
+  el["to-waist"].addEventListener("click", function () { el.waist.focus(); });
+
+  applyUnit();
+})();
+</script>
+</body>
+</html>

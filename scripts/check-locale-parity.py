@@ -50,6 +50,9 @@ PAIRS = [
 # языками снова станет тихим.
 ARTICLE_PAIRS = [
     ("garmin/index.html", "en/garmin/index.html", "/en/garmin/", "/garmin/"),
+    # Витрина калькуляторов — та же порода, что витрина разборов: текст и
+    # ссылки свои, а оформление и языковая обвязка общие.
+    ("calc/index.html", "en/calc/index.html", "/en/calc/", "/calc/"),
     (
         "garmin/body-battery.html",
         "en/garmin/body-battery.html",
@@ -89,6 +92,7 @@ CALC_PAIRS = [
     ("calc/pace.html", "en/calc/pace.html", "/en/calc/pace", "/calc/pace"),
     ("calc/predict.html", "en/calc/predict.html", "/en/calc/predict", "/calc/predict"),
     ("calc/hr-zones.html", "en/calc/hr-zones.html", "/en/calc/hr-zones", "/calc/hr-zones"),
+    ("calc/bmi.html", "en/calc/bmi.html", "/en/calc/bmi", "/calc/bmi"),
 ]
 
 #: Строковый литерал и строчный комментарий — всё, чем двум языкам разрешено

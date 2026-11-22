@@ -28,6 +28,7 @@ import json
 import pathlib
 import re
 import sys
+from html import unescape
 import xml.etree.ElementTree as ET
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -74,12 +75,16 @@ SITEMAP_FILES = {
     "https://fizkult.ai/en/garmin/body-battery": "en/garmin/body-battery.html",
     "https://fizkult.ai/en/garmin/stress": "en/garmin/stress.html",
     "https://fizkult.ai/en/garmin/training-readiness": "en/garmin/training-readiness.html",
+    "https://fizkult.ai/calc/": "calc/index.html",
+    "https://fizkult.ai/en/calc/": "en/calc/index.html",
     "https://fizkult.ai/calc/pace": "calc/pace.html",
     "https://fizkult.ai/en/calc/pace": "en/calc/pace.html",
     "https://fizkult.ai/calc/predict": "calc/predict.html",
     "https://fizkult.ai/en/calc/predict": "en/calc/predict.html",
     "https://fizkult.ai/calc/hr-zones": "calc/hr-zones.html",
     "https://fizkult.ai/en/calc/hr-zones": "en/calc/hr-zones.html",
+    "https://fizkult.ai/calc/bmi": "calc/bmi.html",
+    "https://fizkult.ai/en/calc/bmi": "en/calc/bmi.html",
 }
 
 # Страницы, которые сверяются на canonical/noindex: корень, английская версия
@@ -179,7 +184,12 @@ def main() -> int:
 
     for rel in FAQ_PAGES:
         text = (ROOT / rel).read_text(encoding="utf-8")
-        page = visible_faq(text)
+        # Сверять надо то, что человек читает, а не то, как это записано в
+        # файле: в разметке страницы амперсанд обязан быть «&amp;», в JSON-LD
+        # он после разбора уже «&». Без снятия подстановок пара расходилась бы
+        # на ровном месте — поймано 22.11.2026 на названии журнала
+        # «The Lancet Diabetes & Endocrinology».
+        page = [(unescape(q), unescape(a)) for q, a in visible_faq(text)]
         marked: list[tuple[str, str]] = []
         for n in nodes(text):
             if n.get("@type") == "FAQPage":
