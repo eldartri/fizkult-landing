@@ -25,7 +25,8 @@ handoff/
     landing-inside.jsx           (секции «Что внутри» + «Что НЕ делаем»)
   assets/
     icons/   morning, portrait, coach, anomaly, plan, race, logo-mark, check, arrow (SVG)
-    og/      og-share.png (беж, для соцсетей) + og-onsite.png (красный, on-site) · 1200×630
+    og/      og-share.png (RU) + og-share-en.png (EN) + og-onsite.png (красный, не используется) · 1200×630
+             ↑ слова на карточках живут НЕ в PNG, а в marketing-office/scripts/og/gen_og.py
     favicon/ favicon-16/32/96/192/512.png
 ```
 
