@@ -104,6 +104,8 @@ PUBLIC_FILES=(
   "garmin/training-load text/html https://fizkult.ai/garmin/training-load"
   "garmin/race-predictor.pdf application/pdf"
   "garmin/race-predictor text/html https://fizkult.ai/garmin/race-predictor"
+  "garmin/lactate-threshold.pdf application/pdf"
+  "garmin/lactate-threshold text/html https://fizkult.ai/garmin/lactate-threshold"
   # Английская половина серии. Догоняет русскую (заказ владельца 21.11.2026
   # — обе половины за две недели) — выпустил близнец, допиши сюда обе строки,
   # страницу и PDF. Английские PDF появились 22.11.2026: пак собирается прямо
@@ -132,6 +134,8 @@ PUBLIC_FILES=(
   "en/garmin/training-load.pdf application/pdf"
   "en/garmin/race-predictor text/html https://fizkult.ai/en/garmin/race-predictor"
   "en/garmin/race-predictor.pdf application/pdf"
+  "en/garmin/lactate-threshold text/html https://fizkult.ai/en/garmin/lactate-threshold"
+  "en/garmin/lactate-threshold.pdf application/pdf"
   # Калькуляторы. Считают в браузере, поэтому открытость адреса — это и есть
   # вся их доставка: страница не отвечает — сервиса нет. Выпустил новый
   # калькулятор, допиши сюда обе строки, русскую и английскую.

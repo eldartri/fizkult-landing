@@ -119,6 +119,12 @@ ARTICLE_PAIRS = [
         "/en/garmin/race-predictor",
         "/garmin/race-predictor",
     ),
+    (
+        "garmin/lactate-threshold.html",
+        "en/garmin/lactate-threshold.html",
+        "/en/garmin/lactate-threshold",
+        "/garmin/lactate-threshold",
+    ),
 ]
 
 

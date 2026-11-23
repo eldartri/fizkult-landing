@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garmin lactate threshold: the guided test is gone from the manuals, the number stayed</title>
+<meta name="description" content="The definition in the fēnix 8 manual ends with a sentence almost nobody quotes: &quot;For average runners, the lactate threshold often occurs well below 90% of maximum heart rate.&quot; The guided threshold test has been removed from current manuals — its page returns 404 on fēnix 8, FR970 and FR255, and opens on fēnix 6. Gone with it: the chest strap requirement, the &quot;steady, high intensity&quot; condition, and Garmin's own advice to lower your maximum heart rate by hand when the estimate will not come. Written from the manuals, word for word, with links.">
+<link rel="canonical" href="https://fizkult.ai/en/garmin/lactate-threshold">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/lactate-threshold">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/lactate-threshold">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/lactate-threshold">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Fizkult">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Garmin lactate threshold: the guided test is gone from the manuals, the number stayed">
+<meta property="og:description" content="The guided test page returns 404 on fēnix 8, FR970 and FR255 — and opens on fēnix 6. Everything that explained where the number comes from left the documentation with it. Written from the manuals.">
+<meta property="og:url" content="https://fizkult.ai/en/garmin/lactate-threshold">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share-en-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fizkult — a personal coach in Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Garmin lactate threshold: the guided test is gone from the manuals, the number stayed">
+<meta name="twitter:description" content="&quot;For average runners, the lactate threshold often occurs well below 90% of maximum heart rate&quot; — same manual, same paragraph as the 90% everyone quotes. And that is only the first of five dropped conditions.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share-en-v2.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .dl { display:inline-flex; align-items:center; gap:10px; margin:0 0 32px; padding:12px 18px;
+    background:var(--panel); border:1.5px solid var(--line); text-decoration:none; color:var(--ink);
+    font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; font-weight:500; }
+  .dl:hover { background:var(--ink); color:var(--bg); }
+  .dl span { color:var(--muted); }
+  .dl:hover span { color:var(--bg); }
+  .tcap { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; color:var(--muted);
+    text-transform:uppercase; margin:28px 0 8px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); min-width:440px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  blockquote { margin:24px 0; padding:18px 20px; background:var(--panel); border:1.5px solid var(--line); }
+  blockquote p { margin:0 0 10px; font-size:16px; }
+  blockquote cite { font-style:normal; font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; color:var(--muted); text-transform:uppercase; }
+  .note { font-size:13px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .src { font-size:13px; color:var(--muted); }
+  .src li { margin-bottom:10px; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Garmin lactate threshold: the guided test is gone from the manuals, the number stayed",
+      "description": "Lactate threshold on a Garmin watch is the exercise intensity at which lactate starts to accumulate in the bloodstream; the fēnix 8 manual ties it to approximately 90% of maximum heart rate for experienced runners and says outright that for average runners it often occurs well below 90%. The guided threshold test has been removed from current manuals: its page returns 404 on fēnix 8, FR970 and FR255, and opens on fēnix 6 and Forerunner 630. Gone with it: the chest strap requirement, the steady high intensity condition, and the advice to lower maximum heart rate manually. Auto Detection is on by default. The Zone 4 / Zone 5 boundary claim holds only when zones are set using %LTHR.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-23",
+      "dateModified": "2026-11-23",
+      "mainEntityOfPage": "https://fizkult.ai/en/garmin/lactate-threshold",
+      "image": "https://fizkult.ai/assets/og/og-share-en-v2.png",
+      "author": {
+        "@type": "Organization",
+        "name": "Fizkult",
+        "url": "https://fizkult.ai/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Fizkult",
+        "url": "https://fizkult.ai/"
+      },
+      "about": [
+        "Lactate threshold",
+        "LTHR",
+        "Heart rate zones",
+        "Garmin",
+        "Running metrics"
+      ],
+      "citation": [
+        "Garmin. fēnix 8 Series Owner's Manual: Lactate Threshold, Detecting Performance Measurements Automatically, Setting Your Heart Rate Zones, Heart Rate Zone Calculations",
+        "Garmin. fēnix 6 Owner's Manual: Performing a Guided Test to Determine Your Lactate Threshold",
+        "Garmin Technology. Running Science: Lactate Threshold",
+        "Schlie J. et al. Garmin Fēnix 7 Underestimates Performance at the Lactate Threshold in Comparison to Standardized Blood Lactate Field Test. Open Access Journal of Sports Medicine, 2024",
+        "Lu C. et al. Validity of smartwatch-estimated lactate threshold in recreational runners. Frontiers in Physiology, 2025, 16:1621996"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Fizkult",
+          "item": "https://fizkult.ai/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Garmin metric explainers",
+          "item": "https://fizkult.ai/en/garmin/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Lactate threshold",
+          "item": "https://fizkult.ai/en/garmin/lactate-threshold"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is the lactate threshold really 90% of maximum heart rate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For experienced runners only — and that condition sits in the same paragraph the number is usually taken from. The full definition in the fēnix 8 manual is two sentences about percentages, not one: \"For experienced runners, the threshold occurs at approximately 90% of their maximum heart rate and between 10 km and half-marathon race pace\", followed immediately by \"For average runners, the lactate threshold often occurs well below 90% of maximum heart rate\". How far below, Garmin never says. So 90% is not a formula to plug your own maximum into; it is the upper end of the range, for a trained runner. Taking 0.9 of your max and building threshold work on it is the most common way to end up with \"threshold\" sessions that actually sit above your threshold."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is there no lactate threshold test in my watch?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because the guided test is no longer in the documentation of the newer devices. Anyone can check: the page \"Performing a Guided Test to Determine Your Lactate Threshold\" has a fixed address inside the manuals, and in the fēnix 8, Forerunner 970 and Forerunner 255 manuals that address returns 404, while in the fēnix 6 manual it opens. In the complete topic list of the current manuals, the word lactate appears exactly once — on the metric page itself. What replaced the test is Auto Detection: per the fēnix 8 manual it is turned on by default and looks for the threshold during ordinary activities. The switch lives at Watch Settings > User Profile > Heart Rate & Power Zones > Auto Detection."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a chest strap for the lactate threshold?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not everyone does, but Garmin is careful with two words. Its technology page carries both \"Compatible Garmin devices estimate your lactate threshold\" and \"Select Garmin devices can estimate your lactate threshold with wrist heart rate or a paired HRM\". So wrist-based threshold estimation belongs to select devices, not to all compatible ones, and the page names no model at all. A chest strap also adds a separate layer: on the same page, running with a paired monitor means changes in heart rate, heart rate variability and the respiration rate derived from it are analysed, and the result is \"factored into your overall estimate\" — added to it as a part, not a replacement for it. The 2025 study on the Forerunner 265 puts it more strictly still: there a chest strap was mandatory for the test to start at all."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why doesn't my threshold match the Zone 4 / Zone 5 boundary?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because the claim comes with a condition that usually gets cut in retelling. Garmin writes: \"When you set your zones using %LTHR, your lactate threshold marks the boundary between Zone 4 and Zone 5.\" By default zones are not built from the threshold but from maximum heart rate: the fēnix 8 manual lists four bases — BPM, %Max. HR, %HRR, %LTHR — and the fourth has to be chosen by hand. In the official zone table, built from maximum heart rate, Zone 4 is 80–90% and Zone 5 is 90–100%. So the 4/5 boundary coincides with the threshold exactly for the runner whose threshold is 90% of maximum — the experienced one. For the average runner, the one Garmin describes in the same manual as \"well below 90%\", the threshold falls inside Zone 3–4 at default settings, and nothing is broken about that."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How accurate is a watch-estimated lactate threshold?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Two peer-reviewed checks give the same shape of answer: heart rate close, pace not. The 2024 study on the fēnix 7 (26 participants) found threshold heart rate 1.71% off a blood-lactate field test, not statistically significant, while pace was 11.96% lower and significant; the authors conclude the accuracy is enough for recreational runners and likely not enough for professionals. The 2025 study on the Forerunner 265 (23 participants, against the laboratory modified Dmax method) again found no significant difference in heart rate, with pace overestimated by 25.78%. Note that the two studies disagree on pace even in sign — one device underestimated it, the other overestimated — so \"watches always overestimate pace\" cannot be said. Separately: Garmin returned a value on the first attempt in 65.22% of cases, and the error systematically pulls everyone toward the middle, overestimating the threshold for runners whose threshold is low and underestimating it for those whose threshold is high."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What do I do when the watch will not find my threshold?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The current manuals have no answer at all — that is exactly the part that left with the test page. The fēnix 6 manual carried a direct piece of advice for this case: \"If you are having trouble getting a lactate threshold estimate, try manually lowering your maximum heart rate value.\" The sentence matters less as advice than as evidence of how the estimate is built: the threshold is computed from the maximum heart rate you entered, and that input is editable by hand. The same page named a condition the new documentation does not: auto detection expects a run \"at a steady, high intensity\", not any run. Practical version for tonight: check that the maximum heart rate in your profile resembles reality, and give the watch a steady hard block rather than a broken interval session. How long that block should be, Garmin never wrote in any manual — only the steadiness condition itself is named."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What in the watch depends on the lactate threshold?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "At least two things Garmin names outright: \"Garmin Run Coach uses your lactate threshold to fine-tune workout intensity\" and \"Real-time stamina tracking relies on your lactate threshold estimate to model fatigue and remaining performance capacity during your runs\". So the threshold sets the intensity of the sessions in your plan and feeds the stamina figure you read mid-run. Plus the zones themselves, if you set them using %LTHR. That is what makes the number uninteresting in itself and important by consequence: an error in it does not stay in it."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=114508365', 'ym');
+
+    ym(114508365, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/114508365" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Explainers · Garmin metrics</div>
+    <div class="ends">
+      <a class="home" href="/" aria-label="Home">FIZKULT.AI</a>
+      <a class="lang" href="/garmin/lactate-threshold" hreflang="ru" lang="ru" aria-label="Переключиться на русский">RU</a>
+    </div>
+  </div>
+
+  <h1>Garmin lactate threshold: the guided test is gone from the manuals, the number stayed</h1>
+
+  <p class="lead">The definition of the threshold in the fēnix 8 manual is two sentences about percentages. The first is the one everybody quotes: for experienced runners the threshold sits at approximately 90% of maximum heart rate. The second follows immediately and is almost never quoted: <b>"for average runners, the lactate threshold often occurs well below 90% of maximum heart rate"</b>. That is only the first of five dropped conditions. The next one is bigger: the guided threshold test <b>has been removed from the current manuals</b> — its page returns 404 on fēnix 8, Forerunner 970 and Forerunner 255, and opens quietly on fēnix 6. Gone from the documentation with it: the chest strap requirement, the "steady, high intensity" condition, and Garmin's own advice to lower your maximum heart rate by hand when the estimate will not come. Written from the manuals, word for word, with a link to every page.</p>
+
+  <a class="dl" href="/en/garmin/lactate-threshold.pdf">Download as PDF <span>· 12 pages</span></a>
+
+  <h2>What is stated outright</h2>
+
+  <p>The definition is identical word for word across the current manuals — we checked six: fēnix 8, Forerunner 970, Forerunner 265, Forerunner 255, vívoactive 6 and the old fēnix 6.</p>
+
+  <blockquote>
+    <p>Lactate threshold is the exercise intensity at which lactate (lactic acid) starts to accumulate in the bloodstream. In running, this intensity level is estimated in terms of pace, heart rate, or power. When a runner exceeds the threshold, fatigue starts to increase at an accelerating rate. For experienced runners, the threshold occurs at approximately 90% of their maximum heart rate and between 10 km and half-marathon race pace. <b>For average runners, the lactate threshold often occurs well below 90% of maximum heart rate.</b></p>
+    <cite>Garmin fēnix 8 Owner's Manual, Lactate Threshold (checked 23 Nov 2026)</cite>
+  </blockquote>
+
+  <p><b>That last sentence is the whole point.</b> "Ninety per cent" is not a formula to plug your own maximum into — it is the upper end, for a trained runner. How far below it sits for an average one, Garmin never says anywhere. Hence the most common error in this topic: take 0.9 of your max, call it your threshold, and run "threshold" sessions that in fact sit above the threshold — which does not build endurance, it accumulates fatigue.</p>
+
+  <p><b>Our observation.</b> The same metric has a <b>second</b>, shorter definition in the same manual, on the neighbouring Performance Measurements page: "lactate threshold is the point where your muscles start to rapidly fatigue. Your watch measures your lactate threshold level using heart rate and pace." No lactate, no percentages. Two definitions of one quantity inside one document is no longer news in this series: <a href="/en/garmin/training-load">training load</a> is built the same way.</p>
+
+  <h2>The five per cent that decide everything</h2>
+
+  <p>The best illustration of what a threshold is was written by Garmin itself — on its technology page, not in a manual:</p>
+
+  <blockquote>
+    <p>An experienced runner's marathon pace is often only about <b>5% slower</b> than their lactate threshold. But if that same runner goes <b>5% faster</b> than threshold, they might only be able to hold that pace for about <b>20 minutes</b>.</p>
+    <cite>Garmin Technology, Running Science: Lactate Threshold (checked 23 Nov 2026)</cite>
+  </blockquote>
+
+  <p>Five per cent slower than threshold: a pace an experienced runner carries through a whole marathon. Five per cent faster: about twenty minutes. That is the answer to "why should I care about my threshold at all" — near it, pace stops behaving like a continuous scale where slightly faster means slightly harder. It behaves like a cliff edge.</p>
+
+  <p>And it is also the price of an error in the number itself. If the watch set your threshold five per cent above the real one, your "threshold" session lands on the far side of the cliff: instead of a pace that holds for a long time, you get one that holds for about twenty minutes. Not because you are weak.</p>
+
+  <h2>The test that existed — and vanished</h2>
+
+  <p>Garmin's documentation of the lactate threshold has three generations, not two. The check is mechanical and anyone can repeat it: every page inside the manuals has a fixed address, and the same address can be requested in the manuals of different devices.</p>
+
+  <div class="tcap">The page "Performing a Guided Test to Determine Your Lactate Threshold"</div>
+  <div class="scroll">
+  <table>
+    <tr><th>Manual</th><th>On the metric page</th><th>Guided test</th></tr>
+    <tr><td>Forerunner 630, 735XT</td><td>definition + entering your own value</td><td><b>the only route</b>, its own page</td></tr>
+    <tr><td>fēnix 6, Forerunner 645 / 935 / 945</td><td>the same + auto detection</td><td>present, next to auto detection</td></tr>
+    <tr><td>fēnix 8, FR 970, FR 265, FR 255, vívoactive 6</td><td>the same, word for word</td><td><b>no page: 404</b></td></tr>
+  </table>
+  </div>
+
+  <p class="note">Checked 23 Nov 2026 by requesting the manuals. The test page lived at two addresses — one in the Forerunner 630 and 735XT manuals, another in fēnix 6 and Forerunner 645/935/945; <b>both return 404 in the current manuals</b>, and the second opens in the fēnix 6 manual. In the complete topic list of the current manuals, the word lactate appears exactly once — on the metric page itself.</p>
+
+  <p>What replaced the test is auto detection, and it is on by default:</p>
+
+  <blockquote>
+    <p>The Auto Detection feature is turned on by default. The watch can automatically detect your maximum heart rate and lactate threshold during an activity.</p>
+    <cite>Garmin fēnix 8 Owner's Manual, Detecting Performance Measurements Automatically</cite>
+  </blockquote>
+
+  <p>The switch lives at Watch Settings &gt; User Profile &gt; Heart Rate &amp; Power Zones &gt; Auto Detection. Your own threshold value goes in next to it, in the LTHR field of the heart rate zone settings.</p>
+
+  <h2>What left with the test page</h2>
+
+  <p>The guided test page in the fēnix 6 manual is the most detailed document Garmin ever published about the lactate threshold. Not one line of it survives in the current manuals. Here is what stood there:</p>
+
+  <blockquote>
+    <p>This feature requires a Garmin® chest heart rate monitor. […] The device uses your user profile information from the initial setup and your VO2 max. estimate to estimate your lactate threshold. The device will automatically detect your lactate threshold during runs at a <b>steady, high intensity</b> with heart rate. <b>TIP:</b> The device requires a few runs with a chest heart rate monitor to get an accurate maximum heart rate value and VO2 max. estimate. <b>If you are having trouble getting a lactate threshold estimate, try manually lowering your maximum heart rate value.</b> […] If this is your first lactate threshold estimate, the device prompts you to update your heart rate zones based on your lactate threshold heart rate. For each additional lactate threshold estimate, the device prompts you to accept or decline the estimate.</p>
+    <cite>Garmin fēnix 6 Owner's Manual, Performing a Guided Test to Determine Your Lactate Threshold (checked 23 Nov 2026)</cite>
+  </blockquote>
+
+  <p>Three things here are worth more than everything else in this explainer.</p>
+
+  <p><b>First, the advice to lower your maximum heart rate.</b> This is the company's own admission that the threshold estimate rests on the maximum heart rate value you entered, and that this input is edited by hand until an answer appears. The sentence exists nowhere else in Garmin's documentation. It is also the single most practical piece of advice in the whole topic — and there is now nowhere to read it.</p>
+
+  <p><b>Second, the "steady, high intensity" condition.</b> Auto detection is not waiting for any run, it is waiting for a steady hard block. The current manuals contain this condition in no form at all: they simply say "during an activity". Someone whose threshold has not been computed for months is running broken intervals and has no way to learn that something else is wanted of them.</p>
+
+  <p><b>Third, "accept or decline".</b> The first estimate asked you to rewrite your zones; every later one asked for your agreement. The dialogue is gone — the number simply changes.</p>
+
+  <p><b>How to read this.</b> We are not claiming the computation got worse: it almost certainly got different, and possibly better. We are saying exactly what the documents show: <b>the explanation left along with the procedure</b>. There used to be something a runner could check when the number did not add up. There no longer is.</p>
+
+  <h2>The chest strap: there was an explanation, no replacement was announced</h2>
+
+  <p>Garmin's technology page today keeps two words carefully apart. Side by side:</p>
+
+  <blockquote>
+    <p>"<b>Compatible</b> Garmin devices estimate your lactate threshold…"</p>
+    <p>"<b>Select</b> Garmin devices can estimate your lactate threshold with wrist heart rate or a paired HRM."</p>
+    <cite>Garmin Technology, Running Science: Lactate Threshold</cite>
+  </blockquote>
+
+  <p>So wrist-based estimation belongs to select devices, not to all compatible ones, and <b>the page names not a single model</b>. Which makes "the chest strap is no longer needed" a claim Garmin does not make; what it makes is "some models can do it without one".</p>
+
+  <p>And back when the strap was mandatory, there was an explanation of why. It came from Firstbeat — the Finnish company whose algorithms sit behind Garmin's running metrics, acquired by Garmin in 2020:</p>
+
+  <blockquote>
+    <p>You'll also need a heart rate monitor chest strap. The reason a chest strap is needed for this is not about selling chest straps. It's simply about the need for quality heart rate variability data during strenuous physical efforts. The ability to <b>precisely identify the moment your heart beats</b> with an ECG-type strap makes this possible.</p>
+    <cite>Firstbeat Analytics™, Lactate Threshold and How to Run Faster for Longer (snapshot 20 Sep 2020; the company's own domain closed after the Garmin acquisition)</cite>
+  </blockquote>
+
+  <p>And the condition from the same source: such analysis "requires a range of good heart rate data, both above and below your current threshold heart rate". The same thought stands on Garmin's page today: running with a paired monitor means changes in heart rate, in its variability and in the respiration rate derived from it are analysed, and the results are "<b>factored into your overall estimate</b>" — added to it as a part, not as a replacement.</p>
+
+  <p>🔴 <b>The hole nobody closed.</b> In 2020 the supplier explained that the strap was needed for the electrical precision of beat timing, which wrist optics does not have. In 2026 Garmin writes that select models estimate the threshold from wrist heart rate. <b>How the wrist came to replace ECG-grade timing is explained in none of the primary sources we could find.</b> This is not "the watch is lying": it is a missing explanation. It is the main finding of this explainer.</p>
+
+  <h2>The Zone 4 / Zone 5 boundary — under one setting only</h2>
+
+  <p>The most repeated sentence about the threshold runs: the lactate threshold is the boundary between Zone 4 and Zone 5. Garmin does say it. With a condition that gets cut first in retelling:</p>
+
+  <blockquote>
+    <p><b>When you set your zones using %LTHR</b>, your lactate threshold marks the boundary between Zone 4 and Zone 5.</p>
+    <cite>Garmin Technology, Running Science: Lactate Threshold</cite>
+  </blockquote>
+
+  <p>The condition is substantive, and here is why:</p>
+
+  <ul>
+    <li><b>By default, zones are computed not from the threshold but from maximum heart rate.</b> The fēnix 8 manual lists four bases to choose from: BPM, %Max. HR, %HRR and %LTHR. The fourth has to be selected by hand.</li>
+    <li><b>The official zone table is built from the maximum:</b> Zone 4 is 80–90% of maximum heart rate, Zone 5 is 90–100%.</li>
+    <li>Which means the 4/5 boundary coincides with the threshold <b>exactly for the runner whose threshold is 90% of maximum</b> — the experienced one, from the first half of the definition. For the average runner, the one Garmin describes in the same manual as "well below 90%", the threshold at default settings falls inside Zone 3–4.</li>
+  </ul>
+
+  <p>Practical conclusion: if you have never changed the basis of your zones, your Zone 5 and your threshold are <b>two different numbers</b>, and they are under no obligation to coincide. Nothing about that is broken. The only broken thing is an expectation built on half a quotation.</p>
+
+  <h2>What the watch builds on this number</h2>
+
+  <p>The threshold matters not in itself but through what is computed from it. Garmin names two things outright:</p>
+
+  <ul>
+    <li><b>Garmin Run Coach</b> "uses your lactate threshold to fine-tune workout intensity" — the threshold sets how hard the sessions in your plan are.</li>
+    <li><b>Real-time stamina</b> "relies on your lactate threshold estimate to model fatigue and remaining performance capacity during your runs."</li>
+  </ul>
+
+  <p>Plus the zones themselves, if you set them using %LTHR. <b>How to read this:</b> an error in the threshold does not stay in the threshold. It travels into the intensity of the sessions the watch will hand you, and into the number you use mid-race to decide whether you can hold on.</p>
+
+  <h2>Two thresholds, not one</h2>
+
+  <p>Another thing Garmin has nowhere and its supplier had. There are two thresholds:</p>
+
+  <ul>
+    <li><b>LT1, aerobic</b> — the intensity at which lactate only begins to rise above resting level.</li>
+    <li><b>LT2, anaerobic</b> — the one above which the body stops keeping up with clearance. "LT2 is normally what people are talking about when they refer to 'lactate threshold'," Firstbeat writes. And, from the same piece: "Your lactate threshold (LT2) is the primary indicator of your endurance" — a runner with a lower VO2 max but a higher threshold can beat one with a higher VO2 max and a low threshold.</li>
+  </ul>
+
+  <p>That taxonomy exposes a discrepancy inside Garmin's own definition, and it is not our quibble but the classification of Garmin's own supplier: "the intensity at which lactate <b>starts</b> to accumulate" describes LT1, while the numeric anchors — 90% of maximum, pace between 10 km and half marathon — are characteristics of LT2. In practice the watch estimates LT2: that is what both the pace and the heart rate, and the 20 minutes in the example above, belong to.</p>
+
+  <p>The same piece gives a simple functional yardstick: <b>the threshold is roughly the intensity you can hold for about an hour.</b> For estimating your own number it is more honest than percentages — think of the heart rate you held in your last time trial or hard hour, and the threshold is near it.</p>
+
+  <h2>What the independent measurements showed</h2>
+
+  <p>There are few peer-reviewed checks of a watch-estimated threshold, and two of them compared Garmin with the laboratory directly.</p>
+
+  <div class="tcap">Watch versus laboratory: what matched, what did not</div>
+  <div class="scroll">
+  <table>
+    <tr><th>Study</th><th>Device, participants</th><th>Threshold heart rate</th><th>Threshold pace</th></tr>
+    <tr><td>Schlie et al., 2024</td><td>fēnix 7, n=26, vs a blood-lactate field test</td><td class="num">1.71% lower, <b>not significant</b></td><td class="num"><b>11.96%</b> lower, significant</td></tr>
+    <tr><td>Lu et al., 2025</td><td>Forerunner 265/265s, n=23, vs laboratory modified Dmax</td><td class="num">no significant difference</td><td class="num"><b>25.78%</b> higher, significant</td></tr>
+  </table>
+  </div>
+
+  <p>Both results have the same shape: <b>on heart rate the watch lands, on pace it does not.</b> The 2024 authors' conclusion, verbatim: "the accuracy of the fēnix 7's lactate threshold estimates is sufficient for recreational runners. For professional athletes, it can be assumed that the accuracy is not sufficient to provide fine-grained data for high-quality training management."</p>
+
+  <p>From there the two studies part ways — and not in magnitude but <b>in sign</b>: the fēnix 7 underestimated pace, the Forerunner 265 overestimated it. They compared against different references and measured different procedures, so neither supports a sentence like "watches always overestimate pace". The honest summary: <b>on heart rate both measurements agreed with the laboratory on average; on pace both diverged widely, in opposite directions.</b></p>
+
+  <p>Two more things from the 2025 study worth knowing:</p>
+
+  <ul>
+    <li><b>First-attempt success rate — 65.22% for Garmin</b> (Huawei 78%, Coros 47%). Roughly one attempt in three returns no value at all. That is the "my watch won't find my threshold" people bring to forums.</li>
+    <li><b>The character of the error is compression toward the middle:</b> the authors report that the watches tend to overestimate the value for runners whose threshold heart rate is low and underestimate it for those whose is high. That is not noise but a systematic shift — and it hits the edges hardest, meaning beginners and the well-trained.</li>
+    <li>And the authors' own recommendation: the mean heart rate error "may affect the accuracy of training zone determination, so runners are advised to interpret the watch's threshold estimate <b>together with their subjective perception of effort</b>".</li>
+  </ul>
+
+  <h2>What to do tonight</h2>
+
+  <ol>
+    <li><b>Check what your zones are built from.</b> If the basis is a percentage of maximum heart rate — the default — then the Zone 4 / Zone 5 boundary has nothing to do with your threshold. If you want it to, switch the basis to %LTHR; only then does the sentence from the internet start to be about you.</li>
+    <li><b>Check the maximum heart rate in your profile.</b> The threshold is computed from it. If it still holds "220 minus age", or a figure from one hard session three years ago, the threshold inherits that error whole.</li>
+    <li><b>If the threshold will not compute, give it a steady hard block.</b> An even effort instead of broken intervals: that is precisely the condition the deleted instruction named. It named no minutes — there is not a single duration in it, only "a steady, high intensity".</li>
+    <li><b>Check the number against yourself.</b> The threshold is roughly the heart rate you can hold for about an hour. If the watch shows a heart rate at which you fall apart in twenty minutes, the thing that is right is your perception, not the number.</li>
+    <li><b>Do not chase the number upward.</b> Garmin has published no good/bad scale for the threshold; what is useful is not its absolute value but where it is heading across your own history.</li>
+  </ol>
+
+  <h2>How it connects to the other metrics</h2>
+
+  <ul>
+    <li><b><a href="/en/garmin/vo2max">VO2 max</a></b> — an input to the threshold estimate, named by Garmin outright: in the old instruction the device used your VO2 max estimate to estimate your lactate threshold. An error in one number travels into the other.</li>
+    <li><b><a href="/en/garmin/race-predictor">Race predictor</a></b> — both an input and a neighbour: per Garmin's technology page, the threshold estimate takes in, among other things, "your race time predictions". The metrics cite each other in a circle, and that is worth holding in mind while looking at any one of them.</li>
+    <li><b><a href="/en/garmin/training-load">Training load</a></b> — the same documentation mechanics: two different definitions of one quantity inside one manual, and a window that disappeared from the definition.</li>
+  </ul>
+
+  <h2>Frequently asked questions</h2>
+
+  <p><b>Is the lactate threshold really 90% of maximum heart rate?</b><br>
+  For experienced runners only — and that condition sits in the same paragraph the number is usually taken from. The full definition in the fēnix 8 manual is two sentences about percentages, not one: "For experienced runners, the threshold occurs at approximately 90% of their maximum heart rate and between 10 km and half-marathon race pace", followed immediately by "For average runners, the lactate threshold often occurs well below 90% of maximum heart rate". How far below, Garmin never says. So 90% is not a formula to plug your own maximum into; it is the upper end of the range, for a trained runner. Taking 0.9 of your max and building threshold work on it is the most common way to end up with "threshold" sessions that actually sit above your threshold.</p>
+
+  <p><b>Why is there no lactate threshold test in my watch?</b><br>
+  Because the guided test is no longer in the documentation of the newer devices. Anyone can check: the page "Performing a Guided Test to Determine Your Lactate Threshold" has a fixed address inside the manuals, and in the fēnix 8, Forerunner 970 and Forerunner 255 manuals that address returns 404, while in the fēnix 6 manual it opens. In the complete topic list of the current manuals, the word lactate appears exactly once — on the metric page itself. What replaced the test is Auto Detection: per the fēnix 8 manual it is turned on by default and looks for the threshold during ordinary activities. The switch lives at Watch Settings > User Profile > Heart Rate &amp; Power Zones > Auto Detection.</p>
+
+  <p><b>Do I need a chest strap for the lactate threshold?</b><br>
+  Not everyone does, but Garmin is careful with two words. Its technology page carries both "Compatible Garmin devices estimate your lactate threshold" and "Select Garmin devices can estimate your lactate threshold with wrist heart rate or a paired HRM". So wrist-based threshold estimation belongs to select devices, not to all compatible ones, and the page names no model at all. A chest strap also adds a separate layer: on the same page, running with a paired monitor means changes in heart rate, heart rate variability and the respiration rate derived from it are analysed, and the result is "factored into your overall estimate" — added to it as a part, not a replacement for it. The 2025 study on the Forerunner 265 puts it more strictly still: there a chest strap was mandatory for the test to start at all.</p>
+
+  <p><b>Why doesn't my threshold match the Zone 4 / Zone 5 boundary?</b><br>
+  Because the claim comes with a condition that usually gets cut in retelling. Garmin writes: "When you set your zones using %LTHR, your lactate threshold marks the boundary between Zone 4 and Zone 5." By default zones are not built from the threshold but from maximum heart rate: the fēnix 8 manual lists four bases — BPM, %Max. HR, %HRR, %LTHR — and the fourth has to be chosen by hand. In the official zone table, built from maximum heart rate, Zone 4 is 80–90% and Zone 5 is 90–100%. So the 4/5 boundary coincides with the threshold exactly for the runner whose threshold is 90% of maximum — the experienced one. For the average runner, the one Garmin describes in the same manual as "well below 90%", the threshold falls inside Zone 3–4 at default settings, and nothing is broken about that.</p>
+
+  <p><b>How accurate is a watch-estimated lactate threshold?</b><br>
+  Two peer-reviewed checks give the same shape of answer: heart rate close, pace not. The 2024 study on the fēnix 7 (26 participants) found threshold heart rate 1.71% off a blood-lactate field test, not statistically significant, while pace was 11.96% lower and significant; the authors conclude the accuracy is enough for recreational runners and likely not enough for professionals. The 2025 study on the Forerunner 265 (23 participants, against the laboratory modified Dmax method) again found no significant difference in heart rate, with pace overestimated by 25.78%. Note that the two studies disagree on pace even in sign — one device underestimated it, the other overestimated — so "watches always overestimate pace" cannot be said. Separately: Garmin returned a value on the first attempt in 65.22% of cases, and the error systematically pulls everyone toward the middle, overestimating the threshold for runners whose threshold is low and underestimating it for those whose threshold is high.</p>
+
+  <p><b>What do I do when the watch will not find my threshold?</b><br>
+  The current manuals have no answer at all — that is exactly the part that left with the test page. The fēnix 6 manual carried a direct piece of advice for this case: "If you are having trouble getting a lactate threshold estimate, try manually lowering your maximum heart rate value." The sentence matters less as advice than as evidence of how the estimate is built: the threshold is computed from the maximum heart rate you entered, and that input is editable by hand. The same page named a condition the new documentation does not: auto detection expects a run "at a steady, high intensity", not any run. Practical version for tonight: check that the maximum heart rate in your profile resembles reality, and give the watch a steady hard block rather than a broken interval session. How long that block should be, Garmin never wrote in any manual — only the steadiness condition itself is named.</p>
+
+  <p><b>What in the watch depends on the lactate threshold?</b><br>
+  At least two things Garmin names outright: "Garmin Run Coach uses your lactate threshold to fine-tune workout intensity" and "Real-time stamina tracking relies on your lactate threshold estimate to model fatigue and remaining performance capacity during your runs". So the threshold sets the intensity of the sessions in your plan and feeds the stamina figure you read mid-run. Plus the zones themselves, if you set them using %LTHR. That is what makes the number uninteresting in itself and important by consequence: an error in it does not stay in it.</p>
+  <h2>In short</h2>
+
+  <ul>
+    <li>Lactate threshold is a Garmin™ watch feature: the exercise intensity at which lactate starts to accumulate in the bloodstream, estimated in terms of pace, heart rate or power.</li>
+    <li>The definition is two sentences about percentages, not one: 90% of maximum heart rate for experienced runners, "well below 90%" for average ones. The second is almost never quoted.</li>
+    <li>Garmin itself supplied the best illustration: marathon pace is often about 5% below threshold, while 5% above threshold the same runner might hold on for about 20 minutes.</li>
+    <li>The guided threshold test has been removed from current manuals: the page returns 404 on fēnix 8, Forerunner 970 and Forerunner 255, and opens on fēnix 6 and Forerunner 630.</li>
+    <li>Gone with it: the chest strap requirement, the "steady, high intensity" condition, the accept-or-decline dialogue, and the advice to lower your maximum heart rate by hand when the estimate will not come.</li>
+    <li>Auto detection is on by default: Watch Settings &gt; User Profile &gt; Heart Rate &amp; Power Zones &gt; Auto Detection.</li>
+    <li>Wrist-based threshold estimation belongs to "select" devices; Garmin names none of them. The supplier's explanation of why an ECG-type strap was needed has not been replaced by a new one.</li>
+    <li>The threshold coincides with the Zone 4 / Zone 5 boundary only when zones are set using %LTHR; by default they are built from maximum heart rate, where Zone 4 is 80–90%.</li>
+    <li>Built on the threshold: workout intensity in Garmin Run Coach, the Real-time stamina calculation, and %LTHR zones.</li>
+    <li>Two peer-reviewed checks: on heart rate the watch lands, on pace it diverges widely and in opposite directions. A value comes on the first attempt roughly two times in three.</li>
+  </ul>
+
+  <h2>Where the line runs</h2>
+
+  <ul>
+    <li>The claim "there is no guided test" is about the <b>documentation</b>: about the topic lists and page addresses of the fēnix 8 (v10), Forerunner 970 (v7), Forerunner 265 (v9), Forerunner 255 (v12) and vívoactive 6 (v7) manuals, checked 23 Nov 2026. We did not open the devices and do not claim there is no test of any kind inside them — we say its page returns 404 in these manuals and opens in the older ones.</li>
+    <li>The fēnix 6 quotation is given as <b>historical</b>: it is the document of an older device, not an instruction for a new one. We show the maximum-heart-rate advice as evidence of how the estimate is built, not as Garmin's recommendation today.</li>
+    <li>On accuracy: we name exactly the devices and comparisons the studies used — fēnix 7 against a blood-lactate field test, Forerunner 265 against the laboratory modified Dmax. These percentages cannot be carried over to other models. <b>We deliberately do not quote a per-device mean error in beats:</b> in the 2025 study the discussion and Table 4 assign two values to different devices in mutually opposite ways, and until that is resolved, a figure for a specific device would be invented precision. The pace figure in the same study has no such conflict — which is why we do quote 25.78%.</li>
+    <li>The LT1/LT2 taxonomy and the "about an hour" yardstick belong to Firstbeat Analytics™, not to Garmin: they are the algorithm supplier's explanation, and we label them as such.</li>
+    <li>Our own conclusions are marked "our observation", "how to read this", "our read". That includes the main one: we call the disappearance of the explanation a disappearance of the explanation, not a degradation of the computation — about the computation itself we have no data.</li>
+  </ul>
+
+  <h2>Sources</h2>
+
+  <ol class="src">
+    <li>Garmin fēnix 8 Series Owner's Manual, Lactate Threshold (checked 23 Nov 2026; the same definition word for word in the Forerunner 970, 265, 255 and vívoactive 6 manuals). "Lactate threshold is the exercise intensity at which lactate (lactic acid) starts to accumulate in the bloodstream. In running, this intensity level is estimated in terms of pace, heart rate, or power. When a runner exceeds the threshold, fatigue starts to increase at an accelerating rate. For experienced runners, the threshold occurs at approximately 90% of their maximum heart rate and between 10 km and half-marathon race pace. For average runners, the lactate threshold often occurs well below 90% of maximum heart rate. If you already know your lactate threshold heart rate value, you can enter it in your user profile settings. You can turn on the Auto Detection feature to automatically record your lactate threshold during an activity." <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-3ED97FFE-025E-47EA-9C70-DD86156617BD.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Series Owner's Manual, Detecting Performance Measurements Automatically (checked 23 Nov 2026). "The Auto Detection feature is turned on by default. The watch can automatically detect your maximum heart rate and lactate threshold during an activity." Setting path: Watch Settings &gt; User Profile &gt; Heart Rate &amp; Power Zones &gt; Auto Detection. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-0EDC68E3-D886-48D2-B624-AA634739B421.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Series Owner's Manual, Setting Your Heart Rate Zones and Heart Rate Zone Calculations (checked 23 Nov 2026). Four zone bases — BPM, %Max. HR, %HRR, %LTHR — and the LTHR field in the settings; the zone table in percentages of maximum heart rate: Zone 4 is 80–90%, Zone 5 is 90–100%. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-A8716C0B-B267-4C42-B45F-B9C7928BCA19.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 6 Owner's Manual, Performing a Guided Test to Determine Your Lactate Threshold (checked 23 Nov 2026; in the fēnix 8, Forerunner 970 and Forerunner 255 manuals this page returns 404). "This feature requires a Garmin® chest heart rate monitor… The device uses your user profile information from the initial setup and your VO2 max. estimate to estimate your lactate threshold. The device will automatically detect your lactate threshold during runs at a steady, high intensity with heart rate. TIP: The device requires a few runs with a chest heart rate monitor to get an accurate maximum heart rate value and VO2 max. estimate. If you are having trouble getting a lactate threshold estimate, try manually lowering your maximum heart rate value… If this is your first lactate threshold estimate, the device prompts you to update your heart rate zones based on your lactate threshold heart rate. For each additional lactate threshold estimate, the device prompts you to accept or decline the estimate." <a href="https://www8.garmin.com/manuals/webhelp/fenix6-6ssport/EN-US/GUID-1B0C9B93-01CD-4A0C-A30F-B815C0347159.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin Technology, Running Science: Lactate Threshold (checked 23 Nov 2026). Source of the 5% and 20 minutes quotation, of "compatible" versus "select" devices, of the heart rate variability and respiration rate contribution, of Garmin Run Coach and Real-time stamina, and of the "when you set your zones using %LTHR" condition on the Zone 4 / Zone 5 boundary. <a href="https://www.garmin.com/en-US/garmin-technology/running-science/physiological-measurements/lactate-threshold/" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Firstbeat Analytics™. Lactate Threshold and How to Run Faster for Longer (snapshot 20 Sep 2020 — the company's own domain closed after the Garmin acquisition). Source of the LT1/LT2 distinction, the "about an hour" yardstick, and the explanation of why an ECG-type chest strap was required for the analysis. <a href="https://web.archive.org/web/20200920041926/https://www.firstbeat.com/en/blog/lactate-threshold-and-how-to-run-faster-for-longer/" rel="nofollow noopener" target="_blank">web.archive.org</a></li>
+    <li>Schlie J., Rappelt L., Held S., Donath L. et al. Garmin Fēnix 7 Underestimates Performance at the Lactate Threshold in Comparison to Standardized Blood Lactate Field Test. Open Access Journal of Sports Medicine, 2024. 26 participants; threshold pace 11.96% lower (significant, d = −1.19), heart rate 1.71% lower (not significant). <a href="https://www.dovepress.com/garmin-fnix-7-underestimates-performance-at-the-lactate-threshold-in-c-peer-reviewed-fulltext-article-OAJSM" rel="nofollow noopener" target="_blank">dovepress.com</a></li>
+    <li>Lu C., Cui W., Zhu Z., Wu Y. et al. Frontiers in Physiology, 2025, 16:1621996. Huawei GT Runner, Garmin Forerunner 265/265s and Coros Pace3 against the laboratory modified Dmax method; first-attempt success 78% / 65.22% / 47.06%; threshold pace overestimated by all devices, by 25.78% for Garmin; heart rate with no significant difference, with estimates compressed toward the middle. <a href="https://doi.org/10.3389/fphys.2025.1621996" rel="nofollow noopener" target="_blank">doi.org</a></li>
+    <li>Our VO2 max explainer: <a href="/en/garmin/vo2max">fizkult.ai/en/garmin/vo2max</a> — the number that feeds the threshold estimate.</li>
+    <li>Our race predictor explainer: <a href="/en/garmin/race-predictor">fizkult.ai/en/garmin/race-predictor</a> — the second input to the same estimate.</li>
+  </ol>
+
+  <p class="note">A series of explainers, "Garmin metrics", built from primary sources. Published wording is cited to the Garmin manuals; our own explanations and assumptions are marked. Fizkult is not affiliated with Garmin or Firstbeat; Garmin™, Garmin Human Performance Lab™ and Firstbeat Analytics™ are marks belonging to their owners.</p>
+
+  <div class="cta">
+    <div class="kicker">Connect Garmin to fizkult.ai</div>
+    <h2>The number everything rests on, the watch changes in silence</h2>
+    <p>The threshold is computed from your maximum heart rate — and that input the watch edits itself: auto detection is on by default and updates the maximum during a workout. The dialogue the fēnix 6 had — "accept or reject" — is gone. And the explanation left the documentation together with the procedure: when the estimate disagrees with what you feel, there is nothing left to check.</p>
+    <p>The authors of the 2025 study recommend exactly the half a watch has no way to obtain: read the threshold estimate <b>together with your perceived exertion</b>. That half is what Fizkult asks for — every morning. In the morning letter, next to the numbers, sits the question "How do you feel?" on a scale of one to five, and the values themselves carry your personal norm: "usually this much — a norm over N days". Not someone else's good/bad scale, but your own history, which is exactly how a threshold is worth watching.</p>
+    <p>The maximum heart rate it does not silently rewrite either. While going through your workout, Fizkult offers the value it <b>has actually seen in your own records</b> — and waits for your word. If what it observes later drifts from what is on file by <b>more than 12 beats</b>, it comes back and asks; your word stands for at least three months. The first week is free, with everything switched on.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_garmin_lt_en">Connect your watch in Telegram →</a>
+    <p class="note">You connect the watch once; on Garmin's permission screen, check the Historical Data box as well — with it your history from before the connection day comes across too.</p>
+    <p class="note" style="margin-bottom:0">This is a coach's read, not a medical one. If you are not recovering, see a doctor.</p>
+  </div>
+
+  <a class="back" href="/en/garmin/">← All Garmin metric explainers</a>
+  <a class="back" href="/" style="margin-left:18px">Home</a>
+</div>
+</body>
+</html>

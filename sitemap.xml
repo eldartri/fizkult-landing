@@ -323,6 +323,26 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/race-predictor"/>
   </url>
 
+  <url>
+    <loc>https://fizkult.ai/garmin/lactate-threshold</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/lactate-threshold"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/lactate-threshold"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/lactate-threshold"/>
+  </url>
+
+  <url>
+    <loc>https://fizkult.ai/en/garmin/lactate-threshold</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/lactate-threshold"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/lactate-threshold"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/lactate-threshold"/>
+  </url>
+
   <!--
     Калькуляторы. Отдельный раздел `/calc/`: это не разбор прибора, а
     сервис, которым пользуются, — у него своя частота обновления и свой
