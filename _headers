@@ -41,6 +41,9 @@
 /garmin/hrv-status.pdf
   Link: <https://fizkult.ai/garmin/hrv-status>; rel="canonical"
 
+/garmin/training-load.pdf
+  Link: <https://fizkult.ai/garmin/training-load>; rel="canonical"
+
 # Английские PDF появились 22.11.2026 — они собираются прямо со своих страниц,
 # и канонический адрес у них тот же: английская страница разбора.
 /en/garmin/training-effect.pdf
@@ -69,3 +72,6 @@
 
 /en/garmin/hrv-status.pdf
   Link: <https://fizkult.ai/en/garmin/hrv-status>; rel="canonical"
+
+/en/garmin/training-load.pdf
+  Link: <https://fizkult.ai/en/garmin/training-load>; rel="canonical"

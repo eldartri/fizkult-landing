@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garmin training load: 0.8–1.4 is published, the acute load scale has no numbers at all</title>
+<meta name="description" content="The acute load gauge reads Low, Optimal, High or Very High, and the manuals never say where those steps begin. Load ratio does carry exact numbers: 0.8 to 1.4 is optimal. Of the three metrics on these screens, only the ratio comes with thresholds — and our read is that this follows from how a ratio works, not from generosity. Three different definitions of acute load, chronic load with no definition at all, and the load focus windows, straight from the manuals.">
+<link rel="canonical" href="https://fizkult.ai/en/garmin/training-load">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/training-load">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/training-load">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/training-load">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Fizkult">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Garmin training load: 0.8–1.4 is published, the acute load scale has no numbers at all">
+<meta property="og:description" content="Of the three metrics on the training load screens, only the ratio comes with published thresholds. Our read: a ratio is dimensionless and gives away neither of its halves. Written from the manuals.">
+<meta property="og:url" content="https://fizkult.ai/en/garmin/training-load">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share-en-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fizkult — a personal coach in Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Garmin training load: 0.8–1.4 is published, the acute load scale has no numbers at all">
+<meta name="twitter:description" content="Where the published numbers are, where they are not, and our read of why the ratio is the one place where printing them cost nothing.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share-en-v2.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .dl { display:inline-flex; align-items:center; gap:10px; margin:0 0 32px; padding:12px 18px;
+    background:var(--panel); border:1.5px solid var(--line); text-decoration:none; color:var(--ink);
+    font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; font-weight:500; }
+  .dl:hover { background:var(--ink); color:var(--bg); }
+  .dl span { color:var(--muted); }
+  .dl:hover span { color:var(--bg); }
+  .tcap { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; color:var(--muted);
+    text-transform:uppercase; margin:28px 0 8px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); min-width:440px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  blockquote { margin:24px 0; padding:18px 20px; background:var(--panel); border:1.5px solid var(--line); }
+  blockquote p { margin:0 0 10px; font-size:16px; }
+  blockquote cite { font-style:normal; font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; color:var(--muted); text-transform:uppercase; }
+  .note { font-size:13px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .src { font-size:13px; color:var(--muted); }
+  .src li { margin-bottom:10px; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Garmin training load: 0.8–1.4 is published, the acute load scale has no numbers at all",
+      "description": "Acute load on a Garmin watch is a weighted sum of EPOC over the last several days; the boundaries of its four steps are not published and are derived from your own history. Load ratio is the one metric of the three with published thresholds: below 0.8 low, 0.8 to 1.4 optimal, 1.5 to 1.9 high, 2.0 and above very high. Chronic load has no standalone definition in the manuals. Load focus splits work across three intensity categories, and its windows are named: 7 days and 4 weeks.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-23",
+      "dateModified": "2026-11-23",
+      "mainEntityOfPage": "https://fizkult.ai/en/garmin/training-load",
+      "image": "https://fizkult.ai/assets/og/og-share-en-v2.png",
+      "author": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/" },
+      "publisher": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/" },
+      "about": ["Training load", "Acute load", "Load ratio", "Training load focus", "Garmin", "EPOC"],
+      "citation": [
+        "Garmin. fēnix 8 Series Owner's Manual: Acute Load, Training Load Focus, Load Ratio",
+        "Garmin. fēnix 8 Series Owner's Manual: Training Status",
+        "Garmin. Edge 530 Owner's Manual: Training Load (v7, August 2024)"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Fizkult", "item": "https://fizkult.ai/" },
+        { "@type": "ListItem", "position": 2, "name": "Garmin metric explainers", "item": "https://fizkult.ai/en/garmin/" },
+        { "@type": "ListItem", "position": 3, "name": "Training load on a Garmin watch", "item": "https://fizkult.ai/en/garmin/training-load" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is acute load on a Garmin watch?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is the accumulated volume of your recent days expressed as one number. The fēnix 8 manual puts it this way: \"Acute load is a weighted sum of your excess post-exercise oxygen consumption (EPOC) for the last several days.\" EPOC is an estimate of how far a session pushed you out of balance: the longer and harder the work, the larger its contribution. The gauge reads one of four steps — Low, Optimal, High or Very High. Where those steps begin is not published. The manual says only that the optimal range is based on your individual fitness level and training history, and that it moves as your training time and intensity change."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many days does acute load cover — is it seven?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It used to say seven. Now it says several. The Edge 530 manual still carries the old wording under the same help topic: \"Training load is a measurement of your training volume over the last seven days. It is the sum of your EPOC measurements for the last seven days.\" In the fēnix 8 manual, under that same topic identifier, the number seven is gone and the sum has become weighted: \"a weighted sum… for the last several days.\" What that means in practice is not spelled out. The manual says only that the contributions carry weights. What they are weighted by — recency, type of work, anything else — is not stated in the manuals we checked, and the length of the window is no longer named either."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is load ratio and what counts as normal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Load ratio is acute load divided by chronic load: \"Load ratio is the ratio of your acute (short-term) training load to your chronic (long-term) training load.\" The thresholds are published: below 0.8 is Low, 0.8 to 1.4 is Optimal, 1.5 to 1.9 is High, 2.0 and above is Very High. Before two weeks of training there is no ratio at all: \"Load ratio will be visible after 2 weeks of training.\" Of the three metrics on these screens — acute load, load ratio, load focus — numeric boundaries are published for the ratio only."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my load ratio show no status?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There are two different reasons. The first is that there is nothing to compare against: the ratio is a fraction with a long window underneath, and until that window fills there is no fraction. The manual names the wait outright — load ratio becomes visible after two weeks of training. Load focus is separate and waits on its own terms: at least 7 days of training before it can call your load low, optimal or high, and 4 weeks of history before the detailed targets appear. The second reason is the device itself: the set of training metrics differs from model to model. The Edge 530 manual, for instance, has training load but no load ratio at all. So check first whether your model carries the metric, and only then wait for data to accumulate."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why did my load ratio change when I trained the same?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because what changed is not your week but the longer-term load it is compared against. The denominator is a long window, and old weeks drop out of it one by one. A hard week falls out of the window, the denominator comes down, and the very same current work now reads as a higher ratio even though you added nothing. It works the same way in reverse: after a holiday or an illness the numerator collapses, and the fraction drops into Low even once you are back to your usual volume. Hence the practical rule: the ratio answers the question \"are my recent days heavier or lighter than my usual longer-term load\", not the question \"how much do I train\". If the number moved and the week was ordinary, look at acute load itself. If that is holding steady, the denominator moved, and that is no reason to change the plan."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is chronic load on Garmin, and is it really a 28-day average?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There is no standalone definition of chronic load in the manuals. The term appears exactly once, in parentheses inside the definition of the ratio: \"your chronic (long-term) training load.\" No window, no method, no page of its own. The claim that chronic load is a rolling 28-day average does not appear anywhere in the manuals we checked. A four-week window is well known from the sports-science literature on load ratios, but the manuals we checked never name it, and it cannot be passed off as an official figure. Four weeks does appear in this family of metrics — but as the window of load focus, the distribution across intensity categories, which is a different metric in a different place."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is load ratio the same as the ACWR from sports-science articles?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "At heart it is the same idea: a short window divided by a long one. But the name ACWR does not appear in these manuals, and the thresholds from the literature cannot be carried over to this gauge. In those studies the ratio is built from kilometers, minutes or arbitrary load units; here it is built from a quantity whose internals are undisclosed. The 0.8 and 1.4 on your watch belong to Garmin's load and to nothing else. The useful comparison is against your own earlier weeks on the same device, not against someone else's table."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is training load focus and how long before it fills in?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Load focus shows how your work has split across three intensity categories: low aerobic, high aerobic and anaerobic. The manual states the logic plainly: \"In order to maximize performance and fitness gains, training should be distributed across three categories.\" The windows are named too: at least 7 days of training before it can call your load low, optimal or high, and 4 weeks of history before the detailed targets appear. The distribution shown covers the last 4 weeks. Where the boundaries between the three intensity categories actually fall is not published."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "My load ratio is 1.6 — do I need to back off right now?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On its own, 1.6 means one thing: your recent days are roughly one and a half times heavier than your usual longer-term load. That is exactly what a hard week looks like, and there is nothing wrong with it — that is how you get fitter. The question is not today's number but how long it has been there. A coach's read, not a device's verdict: one week in High is ordinary work, a second week in a row without a down week is accumulation, and that is the point to stop adding rather than add more. And do not watch the fraction alone: if you are flat in the mornings and your resting heart rate is sitting above its usual level, that is the same signal from another side. How long to give it, and when it stops being a training question: if a week without adding anything goes by and how you feel and your resting heart rate still have not come back, see a doctor — this is no longer only about training."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why did my load go up while training status stayed the same?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because training status is not computed from load alone. The fēnix 8 manual says: \"Your training status is based on changes to your VO2 max., acute load, and HRV status over an extended time period.\" Acute load is one of three inputs there, and its rise on its own is not the whole story behind the label. So \"load is high but status is productive\" is not a contradiction: these are different questions asked of the same sessions."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=114508365', 'ym');
+
+    ym(114508365, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/114508365" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Explainers · Garmin metrics</div>
+    <div class="ends">
+      <a class="home" href="/" aria-label="Home">FIZKULT.AI</a>
+      <a class="lang" href="/garmin/training-load" hreflang="ru" lang="ru" aria-label="Переключиться на русский">RU</a>
+    </div>
+  </div>
+
+  <h1>Garmin training load: 0.8–1.4 is published, the acute load scale has no numbers at all</h1>
+
+  <p class="lead">Your watch says your load is High. There is no way to find out what High means: the manuals we checked never put a single number on that scale. One gauge over, the ratio is specified to one decimal place — 0.8 to 1.4 is optimal, 1.5 and up reads High. Of the three metrics on these screens, <b>only the ratio comes with numbers</b>, and our read is that this is not generosity: a ratio can be printed precisely because both of its halves stay undisclosed. Below: the full threshold table and the answer people come here for, then three different definitions of acute load — two of them in the same manual — chronic load with no definition at all, and what all of it means for the week ahead.</p>
+
+  <a class="dl" href="/en/garmin/training-load.pdf">Download as PDF <span>· 11 pages</span></a>
+
+  <h2>What the manual actually says</h2>
+
+  <p>The definition of acute load in the fēnix 8 manual is one sentence, and two words in it do all the work.</p>
+
+  <blockquote>
+    <p>Acute load is a <b>weighted sum</b> of your excess post-exercise oxygen consumption (EPOC) for the last <b>several days</b>.</p>
+    <cite>Garmin fēnix 8 owner's manual, Acute Load (checked 23 November 2026)</cite>
+  </blockquote>
+
+  <p>EPOC estimates how far a session pushed you out of balance: how much extra oxygen your body will burn afterwards on its way back to rest. Long, hard work contributes more; short, easy work contributes less. Acute load adds those contributions over your recent days into a single number.</p>
+
+  <p>And immediately after it, the gauge itself:</p>
+
+  <blockquote>
+    <p>The gauge indicates whether your current load is low, optimal, high, or very high. The optimal range is based on your individual fitness level and training history. The range adjusts as your training time and intensity increase or decrease.</p>
+    <cite>Garmin fēnix 8 owner's manual, Acute Load</cite>
+  </blockquote>
+
+  <p>So there are steps, and the steps have no numbers: the line between Optimal and High is yours alone and is computed from your own history.</p>
+
+  <h2>Load ratio — the only table with numbers on this page</h2>
+
+  <blockquote>
+    <p>Load ratio is the ratio of your acute (short-term) training load to your chronic (long-term) training load. It's helpful for tracking your training load changes.</p>
+    <cite>Garmin fēnix 8 owner's manual, Load Ratio</cite>
+  </blockquote>
+
+  <p class="tcap">Load ratio statuses, fēnix 8 manual</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Status</th><th>Value</th><th>What the manual says</th></tr></thead>
+    <tbody>
+      <tr><td class="num">No Status</td><td class="num">None</td><td>load ratio will be visible after 2 weeks of training</td></tr>
+      <tr><td class="num">Low</td><td class="num">Lower than 0.8</td><td>your short-term training load is lower than your long-term training load</td></tr>
+      <tr><td class="num">Optimal</td><td class="num">0.8 to 1.4</td><td>the short-term and long-term training loads are balanced; the optimal range is based on your individual fitness level and training history</td></tr>
+      <tr><td class="num">High</td><td class="num">1.5 to 1.9</td><td>your short-term training load is higher than your long-term training load</td></tr>
+      <tr><td class="num">Very High</td><td class="num">2.0 or higher</td><td>your short-term training load is significantly higher than your long-term training load</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p><b>The wording in the table is Garmin's own, from the fēnix 8 manual</b> — what your device shows can differ with the model, the firmware version and the language it runs in.</p>
+
+  <p>Look closely at the Optimal row. It carries exact boundaries — 0.8 and 1.4 — and, in the same breath, the caveat that the range is based on your individual fitness level and training history. The two statements pull against each other: either the boundaries are the same for everyone, or they are yours. Garmin does not explain how both hold, and we are not going to guess for them.</p>
+
+  <p><b>Where to look for this row — and why it may not be there.</b> In the fēnix 8 manual the three metrics are not separate pages: acute load, training load focus and load ratio are all subtopics of training status. On the watch and in Garmin Connect they live in the same place, next to training status, not among your daily health figures. And the set differs by model: in the Edge 530 manual the same place carries training load only — no load ratio, no threshold table at all. So an empty spot on your device may not mean "not enough data yet" — it may mean this model never had the metric in the first place.</p>
+
+  <p><b>About the number people come here for.</b> On its own, 1.6 is neither a grade nor a verdict. It says one thing: your recent days are about one and a half times heavier than your usual longer-term load. That is what any hard week looks like, and it is how people get fitter. The number only acquires meaning together with a duration — <b>the question is not "how much today" but "how many weeks in a row"</b>. One week above 1.4 is a hard week. A second in a row with no down week is accumulation, and that is the point to stop adding. This is a coach's read, not a device's verdict: Garmin says nothing about weeks in a row.</p>
+
+  <h2>The seven days that vanished from the definition</h2>
+
+  <p>The same section of the manual used to read differently. The help topic identifier in Garmin's documentation did not change — the text did.</p>
+
+  <p class="tcap">One help topic, two device generations</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Where</th><th>How it is worded</th></tr></thead>
+    <tbody>
+      <tr><td class="num">Edge 530<br>(rev. v7, August 2024)</td><td>"Training load is a measurement of your training volume over the <b>last seven days</b>. It is the sum of your EPOC measurements for the last seven days." Gauge: low, high, or within the optimal range — <b>three</b> steps</td></tr>
+      <tr><td class="num">fēnix 8<br>(checked 23 Nov 2026)</td><td>"Acute load is a <b>weighted sum</b> of your EPOC for the last <b>several days</b>." Gauge: low, optimal, high, very high — <b>four</b> steps</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Three changes, all in the same direction. The sum became <b>weighted</b> — the contributions now carry weights, though what they are weighted by is never said. Seven became "several days", so the length of the window is no longer named. And the gauge grew a fourth step, Very High, with boundaries published for none of them.</p>
+
+  <p><b>Our read.</b> The computation may well have improved: a flat seven-day sum treats every contribution alike, a weighted one does not. But the metric got harder to follow. The window used to be named, so you could line a week of work up against the number; now you cannot. We saw the same drift in the readiness score — see our <a href="/en/garmin/training-readiness">Training Readiness explainer</a>.</p>
+
+  <h2>A third definition of the same metric</h2>
+
+  <p>That makes two definitions already: "the sum of EPOC over seven days" on the Edge 530, and "a weighted sum of EPOC over the last several days" on the fēnix 8. The third sits in that same fēnix 8 manual, one page over — on the training status page, acute load is defined differently from how it is defined on its own page:</p>
+
+  <blockquote>
+    <p>Acute load is a weighted sum of your <b>recent exercise load scores including exercise duration and intensity</b>.</p>
+    <cite>Garmin fēnix 8 owner's manual, Training Status (checked 23 November 2026)</cite>
+  </blockquote>
+
+  <p>The word EPOC does not appear at all. In its place: exercise load scores including duration and intensity. Two definitions of the same metric inside one document, each describing the input in different terms.</p>
+
+  <p><b>Our read.</b> There is probably no contradiction here: EPOC is itself derived from duration and intensity, so the second is the first retold without the term. But the difference matters to a reader, and it is a practical one. The first definition makes it obvious that load is tied to heart rate. The second hides it.</p>
+
+  <h2>A session with no heart rate does not fully count</h2>
+
+  <p>This is the most testable consequence on the page, and it follows straight from the definition. Load is computed from EPOC. EPOC is an estimate of oxygen debt, and it is computed from heart rate. So a session with no heart rate in the record <b>will not count toward acute load in full</b>.</p>
+
+  <p>That is our read, not a quotation: the manuals we checked do not say what the watch does with a session that has no heart rate. But the consequence is testable against your own log. A pool swim where the watch lost contact, a trainer ride with no chest strap, a gym session you did not wear the watch for — after a week like that the number will be lower than the work was. The most common case is swimming: three pool sessions a week, and that work is not reflected in the number in full.</p>
+
+  <p><b>What this does to the fraction.</b> What gets understated first is <b>acute load</b>, not the ratio. As long as the gaps are even — say, the pool every week — both halves of the fraction are understated and it stays meaningful. But if the heart rate is missing specifically from your recent days, only the numerator is understated, and the ratio will show a drop that never actually happened.</p>
+
+  <h2>Chronic load: the metric exists, the definition does not</h2>
+
+  <p>Load ratio divides acute load by chronic load. You would expect the second half of the fraction to have a page of its own. It does not.</p>
+
+  <p>Across the documentation the term appears exactly once, in parentheses, inside the definition of the ratio itself: "your <b>chronic (long-term)</b> training load". No window, no method, no section.</p>
+
+  <p>Which brings us to the main warning here. The line "chronic load is a rolling 28-day average" gets repeated across articles as common knowledge. <b>In the Garmin manuals we checked, that number does not appear.</b> The 7/28 window is a staple of the sports-science literature on load ratios, and that is where it gets carried over from; the manuals we checked never name it. Four weeks does show up in this family — but as the window of <b>load focus</b>, the distribution across intensity categories, named in a different place for a different reason.</p>
+
+  <p>Why it matters in practice: if you believe the denominator is exactly 28 days, you will plan your down weeks against a calendar the device may not keep. The week after an illness will not "drop out" when you expect it to, and the number will move the wrong way.</p>
+
+  <h2>Why the numbers ended up where they did</h2>
+
+  <p>Acute load is a number in Garmin's own units, derived from EPOC. Publishing a threshold for it would mean disclosing how the scale is built: you cannot say "High starts at 900" without explaining what 900 is. So acute load gets no numbers, only "an optimal range based on your history".</p>
+
+  <p>The ratio is built differently: it is the same metric divided by itself over a different window. <b>The units cancel.</b> 1.5 stays 1.5 no matter what load is measured in. Publishing those thresholds costs nothing — they say nothing about the internal scale.</p>
+
+  <p><b>Our read.</b> Being dimensionless has a flip side, and the flip side is yours to live with. The fraction answers one question honestly — are my recent days heavier or lighter than my usual longer-term load — and answers nothing at all about absolutes. A ratio of 1.0 looks the same for someone running four hours a week and someone running twelve. So the ratio is useful as <b>an indicator of change</b> and useless as a measure of volume. For volume you need acute load — which is exactly the number with no thresholds.</p>
+
+  <h2>Load focus: windows named, boundaries not</h2>
+
+  <p>The third metric in this family answers not "how much" but "what kind".</p>
+
+  <blockquote>
+    <p>In order to maximize performance and fitness gains, training should be distributed across three categories: low aerobic, high aerobic, and anaerobic. Training load focus shows you how much of your training is currently in each category and provides training targets.</p>
+    <cite>Garmin fēnix 8 owner's manual, Training Load Focus</cite>
+  </blockquote>
+
+  <p>Here, unlike acute load, the windows are named outright: <b>at least 7 days</b> of training to place your load as low, optimal or high, and <b>4 weeks</b> of history before the detailed targets appear. The distribution shown covers the last 4 weeks.</p>
+
+  <p class="tcap">The nine load focus states, fēnix 8 manual</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>State</th><th>What the manual says</th></tr></thead>
+    <tbody>
+      <tr><td class="num">Below targets</td><td>your 4-week training load is lower than optimal in all intensity categories</td></tr>
+      <tr><td class="num">Low aerobic shortage</td><td>try adding more low aerobic activities to provide recovery and balance for your higher intensity activities</td></tr>
+      <tr><td class="num">High aerobic shortage</td><td>try adding more high aerobic activities to help improve your lactate threshold and VO2 max. over time</td></tr>
+      <tr><td class="num">Anaerobic shortage</td><td>try adding a few more intense, anaerobic activities to improve your speed and anaerobic capacity over time</td></tr>
+      <tr><td class="num">Balanced</td><td>your training load is balanced and provides all-around fitness benefits as you continue training</td></tr>
+      <tr><td class="num">Low aerobic focus</td><td>your training load is mostly low aerobic activity; this provides a solid foundation and prepares you for adding more intense workouts</td></tr>
+      <tr><td class="num">High aerobic focus</td><td>your training load is mostly high aerobic activity; these activities help to improve lactate threshold, VO2 max. and endurance</td></tr>
+      <tr><td class="num">Anaerobic focus</td><td>your training load is mostly intense activity; this leads to rapid fitness gains, but should be balanced with low aerobic activities</td></tr>
+      <tr><td class="num">Above targets</td><td>your 4-week training load is higher than optimal</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p><b>What is missing here:</b> where the boundaries between the three intensity categories fall. At what heart rate or what power work crosses from low aerobic into high aerobic is not published. So the device names the state for you, but you cannot recompute it from your own log.</p>
+
+  <p><b>Our read.</b> Load focus is the only one of the three that says outright what to do: its states are written as recommendations ("try adding more low aerobic activities"). But it is computed over a four-week window, so it answers your corrections in weeks, not days. Trying to fix the distribution on the basis of what it shows today is a reliable way to swing it back and forth.</p>
+
+  <h2>What to do tonight</h2>
+
+  <p>Nobody can give you a threshold like "more than X units is too much" for acute load: the manuals do not publish one either, and the scale runs in its own units. What you can do instead takes ten minutes by hand and clears up most of the questions these screens raise.</p>
+
+  <ol>
+    <li><b>Check whether you have a load ratio at all.</b> Look next to training status, not among your daily health figures. Nothing there means one of two things: the watch is less than two weeks old (that is the wait before the first fraction, not a fault), or your model was never given the metric at all, as on the Edge 530.</li>
+    <li><b>Write today's three numbers side by side — acute load, ratio, focus — and read them together.</b> Separately they tell you little; together they give three different answers. What follows is a coach's read, not a rule from the manual. High load with the ratio inside 0.8–1.4 means you train a lot and have been doing it long enough that your longer-term load has caught up with the week: that by itself is no reason to back off. Modest load with the ratio above 1.4 means the volume is small, but you got there unusually fast for yourself — and that is exactly the case for easing off even though the figures look harmless. Focus answers neither question; it says what kind of work built the total, and it shifts over months, so it is worth checking every few weeks, not tonight.</li>
+    <li><b>Start counting weeks.</b> The real question about the fraction is how many weeks in a row it has been above 1.4, and today's screen cannot answer it — it only knows today. If you have no history to hand, write today's value down anywhere and come back to the note in a week. One week above 1.4 is a hard week. Two in a row without a down week is a reason to stop adding and hold the volume where it is.</li>
+    <li><b>If the ratio reads Low after illness or a holiday, plan the way back tonight — over two to three weeks, not one.</b> Write down the weekly volume you had before the break and split the return into steps. The fraction fell not because you slacked off, but because the denominator remembers a long stretch while the numerator remembers your recent days. You can push it back into 0.8–1.4 with one big session — and that is precisely the kind of spike the ratio shows.</li>
+    <li><b>Open your last two weeks of sessions and check that each one has heart rate.</b> This is the check from the section above, and it takes a minute. If you find sessions without it, treat acute load as understated; if you find them only in the last few days, do not trust the dip in the ratio either.</li>
+  </ol>
+
+  <h2>How it connects to other metrics</h2>
+
+  <p>Acute load is not a standalone screen: in the manual it sits inside the training status section and feeds it. The fēnix 8 manual is explicit: "Your training status is based on changes to your VO2 max., acute load, and HRV status over an extended time period" (<a href="/en/garmin/training-status">Training Status explainer</a>, <a href="/en/garmin/hrv-status">HRV Status explainer</a>). Which is why a rise in load on its own is not the whole story behind the status label: it is one input of three.</p>
+
+  <p>The second neighbor is the training effect of each individual session. It is tagged with the same categories: "Each label is color coded and corresponds to your training load focus." Our read of that link: focus is built from the same categories that label every single session — which means you can only correct it over a month of training, not in a single workout (<a href="/en/garmin/training-effect">Training Effect explainer</a>).</p>
+
+  <p>And the third is recovery time, which answers "when can I go hard again", while the ratio answers "is my month growing too fast" (<a href="/en/garmin/recovery-time">Recovery Time explainer</a>).</p>
+
+  <h2>Frequently asked questions</h2>
+
+  <p><b>What is acute load on a Garmin watch?</b><br>
+  It is the accumulated volume of your recent days expressed as one number. The fēnix 8 manual puts it this way: "Acute load is a weighted sum of your excess post-exercise oxygen consumption (EPOC) for the last several days." EPOC is an estimate of how far a session pushed you out of balance: the longer and harder the work, the larger its contribution. The gauge reads one of four steps — Low, Optimal, High or Very High. Where those steps begin is not published. The manual says only that the optimal range is based on your individual fitness level and training history, and that it moves as your training time and intensity change.</p>
+
+  <p><b>How many days does acute load cover — is it seven?</b><br>
+  It used to say seven. Now it says several. The Edge 530 manual still carries the old wording under the same help topic: "Training load is a measurement of your training volume over the last seven days. It is the sum of your EPOC measurements for the last seven days." In the fēnix 8 manual, under that same topic identifier, the number seven is gone and the sum has become weighted: "a weighted sum… for the last several days." What that means in practice is not spelled out. The manual says only that the contributions carry weights. What they are weighted by — recency, type of work, anything else — is not stated in the manuals we checked, and the length of the window is no longer named either.</p>
+
+  <p><b>What is load ratio and what counts as normal?</b><br>
+  Load ratio is acute load divided by chronic load: "Load ratio is the ratio of your acute (short-term) training load to your chronic (long-term) training load." The thresholds are published: below 0.8 is Low, 0.8 to 1.4 is Optimal, 1.5 to 1.9 is High, 2.0 and above is Very High. Before two weeks of training there is no ratio at all: "Load ratio will be visible after 2 weeks of training." Of the three metrics on these screens — acute load, load ratio, load focus — numeric boundaries are published for the ratio only.</p>
+
+  <p><b>Why does my load ratio show no status?</b><br>
+  There are two different reasons. The first is that there is nothing to compare against: the ratio is a fraction with a long window underneath, and until that window fills there is no fraction. The manual names the wait outright — load ratio becomes visible after two weeks of training. Load focus is separate and waits on its own terms: at least 7 days of training before it can call your load low, optimal or high, and 4 weeks of history before the detailed targets appear. The second reason is the device itself: the set of training metrics differs from model to model. The Edge 530 manual, for instance, has training load but no load ratio at all. So check first whether your model carries the metric, and only then wait for data to accumulate.</p>
+
+  <p><b>Why did my load ratio change when I trained the same?</b><br>
+  Because what changed is not your week but the longer-term load it is compared against. The denominator is a long window, and old weeks drop out of it one by one. A hard week falls out of the window, the denominator comes down, and the very same current work now reads as a higher ratio even though you added nothing. It works the same way in reverse: after a holiday or an illness the numerator collapses, and the fraction drops into Low even once you are back to your usual volume. Hence the practical rule: the ratio answers the question "are my recent days heavier or lighter than my usual longer-term load", not the question "how much do I train". If the number moved and the week was ordinary, look at acute load itself. If that is holding steady, the denominator moved, and that is no reason to change the plan.</p>
+
+  <p><b>What is chronic load on Garmin, and is it really a 28-day average?</b><br>
+  There is no standalone definition of chronic load in the manuals. The term appears exactly once, in parentheses inside the definition of the ratio: "your chronic (long-term) training load." No window, no method, no page of its own. The claim that chronic load is a rolling 28-day average does not appear anywhere in the manuals we checked. A four-week window is well known from the sports-science literature on load ratios, but the manuals we checked never name it, and it cannot be passed off as an official figure. Four weeks does appear in this family of metrics — but as the window of load focus, the distribution across intensity categories, which is a different metric in a different place.</p>
+
+  <p><b>Is load ratio the same as the ACWR from sports-science articles?</b><br>
+  At heart it is the same idea: a short window divided by a long one. But the name ACWR does not appear in these manuals, and the thresholds from the literature cannot be carried over to this gauge. In those studies the ratio is built from kilometers, minutes or arbitrary load units; here it is built from a quantity whose internals are undisclosed. The 0.8 and 1.4 on your watch belong to Garmin's load and to nothing else. The useful comparison is against your own earlier weeks on the same device, not against someone else's table.</p>
+
+  <p><b>What is training load focus and how long before it fills in?</b><br>
+  Load focus shows how your work has split across three intensity categories: low aerobic, high aerobic and anaerobic. The manual states the logic plainly: "In order to maximize performance and fitness gains, training should be distributed across three categories." The windows are named too: at least 7 days of training before it can call your load low, optimal or high, and 4 weeks of history before the detailed targets appear. The distribution shown covers the last 4 weeks. Where the boundaries between the three intensity categories actually fall is not published.</p>
+
+  <p><b>My load ratio is 1.6 — do I need to back off right now?</b><br>
+  On its own, 1.6 means one thing: your recent days are roughly one and a half times heavier than your usual longer-term load. That is exactly what a hard week looks like, and there is nothing wrong with it — that is how you get fitter. The question is not today's number but how long it has been there. A coach's read, not a device's verdict: one week in High is ordinary work, a second week in a row without a down week is accumulation, and that is the point to stop adding rather than add more. And do not watch the fraction alone: if you are flat in the mornings and your resting heart rate is sitting above its usual level, that is the same signal from another side. How long to give it, and when it stops being a training question: if a week without adding anything goes by and how you feel and your resting heart rate still have not come back, see a doctor — this is no longer only about training.</p>
+
+  <p><b>Why did my load go up while training status stayed the same?</b><br>
+  Because training status is not computed from load alone. The fēnix 8 manual says: "Your training status is based on changes to your VO2 max., acute load, and HRV status over an extended time period." Acute load is one of three inputs there, and its rise on its own is not the whole story behind the label. So "load is high but status is productive" is not a contradiction: these are different questions asked of the same sessions.</p>
+
+  <h2>In short</h2>
+
+  <ul>
+    <li>Acute load is a Garmin™ watch feature: a weighted sum of EPOC over the last several days. The gauge has four steps — low, optimal, high, very high — and their boundaries are not published; they are derived from your own history.</li>
+    <li>The same place in the manual used to name the window outright — "the last seven days" — and had three steps. Now the window is "several days" and the sum is weighted. Our read: the computation may have improved, the reader lost the ability to check it.</li>
+    <li>Inside one fēnix 8 manual acute load is defined twice and differently: on its own page through EPOC, on the training status page through "exercise load scores including duration and intensity".</li>
+    <li>Chronic load has no standalone definition at all: the term appears once, in parentheses. The popular "28 days" comes from the sports-science literature, not from Garmin's documentation.</li>
+    <li>Load ratio is the one metric of the three with published thresholds: below 0.8 low, 0.8 to 1.4 optimal, 1.5 to 1.9 high, 2.0 and above very high; visible after two weeks of training.</li>
+    <li>The numbers could be printed here because the ratio is dimensionless: the load units cancel. The flip side is that the fraction speaks about change and says nothing about volume.</li>
+    <li>Load focus has its windows named — 7 days and 4 weeks — while the boundaries of the three intensity categories are not published.</li>
+    <li>A practical consequence of the definition (our read): a session with no recorded heart rate does not count toward acute load in full. The pool, a trainer ride with no strap, a gym session without the watch — the week looks lighter than it was.</li>
+  </ul>
+
+  <h2>Where we draw the line</h2>
+
+  <ul>
+    <li>On how acute load is computed, the manuals publish two things: the input (EPOC) and the kind of sum (weighted). The weights, the length of the window and the boundaries of the four steps are not published — which means no retelling, ours included, can name a threshold in load units.</li>
+    <li>Our statement that chronic load is absent from the documentation refers to the training-metric sections of the fēnix 8 manual and to the Training Load page of the Edge 530 manual, both checked on 23 November 2026. We are not claiming the definition exists nowhere in Garmin's documentation at large — we are saying it is not in these documents, and the number 28 is not there either.</li>
+    <li>This page is written from two manuals, fēnix 8 and Edge 530. Manuals for other devices may word things differently: we showed that directly with the seven days that disappeared.</li>
+    <li>Our own conclusions are marked "our read" or "a coach's read". Three practical consequences belong to us as well, derived from the quoted wording rather than taken from it: that a session with no recorded heart rate does not count toward load in full, that 0.8–1.4 can be published precisely because the ratio is dimensionless, and that the ratio works as an indicator of change but not as a measure of volume.</li>
+    <li>We checked which metrics a given device carries against two manuals, not against the devices themselves: when we say load ratio is absent, we mean it is absent from the Edge 530 manual — not that we have a list of models without it.</li>
+  </ul>
+
+  <h2>Sources</h2>
+
+  <ol class="src">
+    <li>Garmin fēnix 8 Series owner's manual, Acute Load with its Training Load Focus and Load Ratio subtopics (checked 23 November 2026). Acute load: "Acute load is a weighted sum of your excess post-exercise oxygen consumption (EPOC) for the last several days. The gauge indicates whether your current load is low, optimal, high, or very high. The optimal range is based on your individual fitness level and training history. The range adjusts as your training time and intensity increase or decrease." Load focus: "In order to maximize performance and fitness gains, training should be distributed across three categories: low aerobic, high aerobic, and anaerobic… Training load focus requires at least 7 days of training to determine if your training load is low, optimal, or high. After 4 weeks of training history, your training load estimate will have more detailed target information to help you balance your training activities." Ratio: "Load ratio is the ratio of your acute (short-term) training load to your chronic (long-term) training load. It's helpful for tracking your training load changes." Thresholds: No Status — "Load ratio will be visible after 2 weeks of training", Low — "Lower than 0.8", Optimal — "0.8 to 1.4", High — "1.5 to 1.9", Very High — "2.0 or higher". Training effect and focus: "Each label is color coded and corresponds to your training load focus." <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-AEDB0872-C5A1-4378-86D5-2239734B59E8.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 Series owner's manual, Training Status (checked 23 November 2026). Inputs of the status: "Your training status is based on changes to your VO2 max., acute load, and HRV status over an extended time period." The second definition of acute load: "Acute load is a weighted sum of your recent exercise load scores including exercise duration and intensity." The focus window: "Your watch displays your load distribution over the last 4 weeks." <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-44C7BB4B-EFF7-4A42-AC03-8A6AABB94807.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin Edge 530 owner's manual, Training Load (rev. v7, August 2024; checked 23 November 2026). The older definition with an explicit window: "Training load is a measurement of your training volume over the last seven days. It is the sum of your excess post-exercise oxygen consumption (EPOC) measurements for the last seven days. The gauge indicates whether your current load is low, high, or within the optimal range to maintain or improve your fitness level. The optimal range is determined based on your individual fitness level and training history." The help topic identifier matches the one of Acute Load in the fēnix 8 manual; the manual folders differ. <a href="https://www8.garmin.com/manuals/webhelp/edge530/EN-US/GUID-AEDB0872-C5A1-4378-86D5-2239734B59E8.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Our training status explainer: <a href="/en/garmin/training-status">fizkult.ai/en/garmin/training-status</a> — what a label assembled from three inputs at once does with acute load.</li>
+    <li>Our training effect explainer: <a href="/en/garmin/training-effect">fizkult.ai/en/garmin/training-effect</a> — where the categories that make up load focus come from.</li>
+  </ol>
+
+  <p class="note">Part of the "Garmin metrics" series, written from primary sources. Published wording is cited to the Garmin manuals; our own explanations and guesses are marked. Fizkult is not affiliated with Garmin or Firstbeat; Garmin™, Garmin Human Performance Lab™ and Firstbeat Analytics™ are marks belonging to their owners.</p>
+
+  <div class="cta">
+    <div class="kicker">Connect Garmin to fizkult.ai</div>
+    <h2>The number comes to you before you open a screen</h2>
+    <p>It all comes down to one thing: today's number decides nothing, the number of weeks in a row decides everything. That is what the screen cannot show you — it knows only today, and it waits for you to come to it.</p>
+    <p>Fizkult works out a ratio of the same kind at heart — from our own count of your sessions, not from Garmin's load: the last <b>seven days</b> against your usual <b>four weeks</b>, both windows named, not "several days". Our threshold is named too — <b>one and a half times</b> — and both halves of the fraction are built from your own record. When it is crossed and there is enough training behind it for the number not to be noise, the message arrives on its own, no more often than once every three days:</p>
+    <p>"⚡ You've built up fast<br>
+    The last seven days carry 1.6 times the load of your usual four weeks. I'm counting from your own workouts, not from someone else's norm.<br>
+    Building up is right, but not this steeply and not two weeks running. Here's what I'd do: don't add anything this week. Keep the volume where it is and watch your morning readiness — if it holds, you can keep growing.<br>
+    How are you?"</p>
+    <p>The difference is not the number — you already have the number. The difference is that this arrives <b>before</b> you open any screen, and it brings a next step and a timeframe to check it against. The first week is free, with everything switched on.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_garmin_load_en">Connect your watch in Telegram →</a>
+    <p class="note">You connect the watch once; on Garmin's permission screen, check the Historical Data box as well — with it your history from before the connection day comes across too.</p>
+    <p class="note" style="margin-bottom:0">This is a coach's read, not a medical one. If you are not recovering, see a doctor.</p>
+  </div>
+
+  <a class="back" href="/en/garmin/">← All Garmin metric explainers</a>
+  <a class="back" href="/" style="margin-left:18px">Home</a>
+</div>
+</body>
+</html>

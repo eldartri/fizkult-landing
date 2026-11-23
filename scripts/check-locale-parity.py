@@ -107,6 +107,12 @@ ARTICLE_PAIRS = [
         "/en/garmin/hrv-status",
         "/garmin/hrv-status",
     ),
+    (
+        "garmin/training-load.html",
+        "en/garmin/training-load.html",
+        "/en/garmin/training-load",
+        "/garmin/training-load",
+    ),
 ]
 
 
