@@ -44,6 +44,9 @@
 /garmin/training-load.pdf
   Link: <https://fizkult.ai/garmin/training-load>; rel="canonical"
 
+/garmin/race-predictor.pdf
+  Link: <https://fizkult.ai/garmin/race-predictor>; rel="canonical"
+
 # Английские PDF появились 22.11.2026 — они собираются прямо со своих страниц,
 # и канонический адрес у них тот же: английская страница разбора.
 /en/garmin/training-effect.pdf
@@ -75,3 +78,6 @@
 
 /en/garmin/training-load.pdf
   Link: <https://fizkult.ai/en/garmin/training-load>; rel="canonical"
+
+/en/garmin/race-predictor.pdf
+  Link: <https://fizkult.ai/en/garmin/race-predictor>; rel="canonical"

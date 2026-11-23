@@ -113,6 +113,12 @@ ARTICLE_PAIRS = [
         "/en/garmin/training-load",
         "/garmin/training-load",
     ),
+    (
+        "garmin/race-predictor.html",
+        "en/garmin/race-predictor.html",
+        "/en/garmin/race-predictor",
+        "/garmin/race-predictor",
+    ),
 ]
 
 

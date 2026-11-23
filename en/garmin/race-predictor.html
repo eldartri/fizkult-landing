@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garmin race predictions: how accurate they are, and how to measure it on yourself</title>
+<meta name="description" content="Nobody has checked Garmin's marathon prediction against a real marathon; the only study we found covers a half marathon and 20 runners. For methods that turn one fitness number into a finish time, the error follows the runner's level: across 7,663 Valencia finishers, 1.11% for those under 2:30 and 17.73% for those finishing between 5:30 and 6:00. Plus a way to measure your own miss in a single tune-up race.">
+<link rel="canonical" href="https://fizkult.ai/en/garmin/race-predictor">
+<link rel="alternate" hreflang="ru" href="https://fizkult.ai/garmin/race-predictor">
+<link rel="alternate" hreflang="en" href="https://fizkult.ai/en/garmin/race-predictor">
+<link rel="alternate" hreflang="x-default" href="https://fizkult.ai/garmin/race-predictor">
+<link rel="icon" href="/assets/favicon/favicon-32.png">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Fizkult">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:title" content="Garmin race predictions: how accurate they are, and how to measure it on yourself">
+<meta property="og:description" content="The Daniels table misses by 1.11% for runners under 2:30 and by 17.73% for those finishing after 5:30. What Garmin's manuals say, what has been measured, and the line that quietly left the manuals.">
+<meta property="og:url" content="https://fizkult.ai/en/garmin/race-predictor">
+<meta property="og:image" content="https://fizkult.ai/assets/og/og-share-en-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fizkult — a personal coach in Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Garmin race predictions: how accurate they are, and how to measure it on yourself">
+<meta name="twitter:description" content="What Garmin's manuals say, what science has measured, and how one tune-up race tells you your own miss.">
+<meta name="twitter:image" content="https://fizkult.ai/assets/og/og-share-en-v2.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#EFE6D6; --panel:#FFFFFF; --ink:#1A1A1A; --muted:#5B5347; --accent:#C8261A; --line:#1A1A1A; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:"Geist",system-ui,sans-serif; line-height:1.65; }
+  .wrap { max-width:820px; margin:0 auto; padding:48px 20px 80px; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:8px; }
+  .ends { display:flex; align-items:center; gap:8px; }
+  .kicker { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+  .home, .lang { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:.18em; font-weight:700;
+    text-decoration:none; color:var(--ink); border:1.5px solid var(--line); padding:4px 9px; white-space:nowrap; }
+  .home:hover, .lang:hover { background:var(--ink); color:var(--bg); }
+  h1 { font-size:clamp(26px,5.4vw,40px); font-weight:900; letter-spacing:-.03em; line-height:1.12; margin:0 0 14px; }
+  .lead { font-size:17px; color:var(--muted); border-left:3px solid var(--accent); padding-left:16px; margin:0 0 28px; }
+  h2 { font-size:19px; font-weight:800; text-transform:uppercase; letter-spacing:-.01em;
+    margin:44px 0 14px; padding-top:14px; border-top:2px solid var(--line); }
+  p, li { font-size:16px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:8px; }
+  a { color:var(--accent); }
+  b { font-weight:700; }
+  .dl { display:inline-flex; align-items:center; gap:10px; margin:0 0 32px; padding:12px 18px;
+    background:var(--panel); border:1.5px solid var(--line); text-decoration:none; color:var(--ink);
+    font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; font-weight:500; }
+  .dl:hover { background:var(--ink); color:var(--bg); }
+  .dl span { color:var(--muted); }
+  .dl:hover span { color:var(--bg); }
+  .tcap { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:.06em; color:var(--muted);
+    text-transform:uppercase; margin:28px 0 8px; }
+  .scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:10px; }
+  table { border-collapse:collapse; width:100%; background:var(--panel); border:1.5px solid var(--line); min-width:440px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid #D8CDB8; font-size:14px; vertical-align:top; }
+  th { font-size:11px; font-family:"Geist Mono",monospace; letter-spacing:.08em; text-transform:uppercase;
+    border-bottom:1.5px solid var(--line); }
+  tr:last-child td { border-bottom:none; }
+  .num { white-space:nowrap; font-family:"Geist Mono",monospace; }
+  blockquote { margin:24px 0; padding:18px 20px; background:var(--panel); border:1.5px solid var(--line); }
+  blockquote p { margin:0 0 10px; font-size:16px; }
+  blockquote cite { font-style:normal; font-family:"Geist Mono",monospace; font-size:11px;
+    letter-spacing:.06em; color:var(--muted); text-transform:uppercase; }
+  .note { font-size:13px; color:var(--muted); }
+  .cta { background:var(--ink); color:var(--bg); padding:26px 24px; margin:52px 0 0; }
+  .cta .kicker { color:#E8A79F; }
+  .cta h2 { color:var(--bg); border-top:none; padding-top:0; margin:10px 0 12px; font-size:22px; }
+  .cta p { font-size:15px; }
+  .cta a.btn { display:inline-block; margin-top:8px; padding:13px 22px; background:var(--accent); color:#fff;
+    text-decoration:none; font-weight:700; letter-spacing:.02em; }
+  .cta a.btn:hover { background:#A81E14; }
+  .cta .note { color:#BDB3A2; }
+  .src { font-size:13px; color:var(--muted); }
+  .src li { margin-bottom:10px; }
+  .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Garmin race predictions: how accurate they are, and how to measure it on yourself",
+      "description": "Garmin's race time prediction is built on the VO2 max. estimate and training history; the formula is not published. The only peer-reviewed study of a Garmin prediction we found covers a half marathon and 20 recreational runners: the watch was 7.58 minutes more optimistic than the result. Nobody has checked the marathon prediction against a real marathon. For methods that turn a single fitness number into a finish time, the error follows the runner's level: the Daniels table, tested on 7,663 Valencia finishers, missed by 1.11% for those under 2:30 and 17.73% for those finishing between 5:30 and 6:00 — and for the fastest it beat the formula the authors built to replace it. A line saying the prediction assumes proper training for the race stood in the Forerunner 230/235 manual and is absent from current manuals. The closing section shows how to measure your own miss in a single tune-up race.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-23",
+      "dateModified": "2026-11-23",
+      "mainEntityOfPage": "https://fizkult.ai/en/garmin/race-predictor",
+      "image": "https://fizkult.ai/assets/og/og-share-en-v2.png",
+      "author": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/en/" },
+      "publisher": { "@type": "Organization", "name": "Fizkult", "url": "https://fizkult.ai/en/" },
+      "about": ["Race time prediction", "Garmin", "Firstbeat", "Daniels table", "Marathon", "Half marathon"],
+      "citation": [
+        "Garmin. fēnix 8, Forerunner 970, vívoactive 6, Forerunner 255 and Forerunner 230/235 manuals: VO2 max., race time predictions, calendar events",
+        "Howard J. et al. Validity of the Garmin Forerunner 265 to predict VO2max and race performance times. J Med Eng Technol, 2026. PMID 42822520",
+        "Oficial-Casado F. et al. Front Physiol, 2026. PMID 41631237",
+        "Vickers A. J., Vertosick E. A. BMC Sports Sci Med Rehabil, 2016. PMID 27570626",
+        "Blythe D. A. J., Király F. J. PLoS ONE, 2016",
+        "Firstbeat. Automated Fitness Level (VO2max) Estimation with Heart Rate and Speed Data, 2014 (rev. 2017), section Race time prediction"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Fizkult", "item": "https://fizkult.ai/en/" },
+        { "@type": "ListItem", "position": 2, "name": "Garmin metrics explained", "item": "https://fizkult.ai/en/garmin/" },
+        { "@type": "ListItem", "position": 3, "name": "Garmin race predictions: how accurate they are, and how to measure it on yourself", "item": "https://fizkult.ai/en/garmin/race-predictor" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Has anyone tested Garmin's prediction against a real marathon?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Of the studies we found, no. The only study of a Garmin prediction (Howard et al., 2026) looked at a half marathon: 20 recreational runners wearing a Forerunner 265, the watch predicting 129.97 minutes against an actual 137.55. Nobody has checked Garmin's marathon prediction against a real marathon. The popular figures of the form “on a marathon the watch is off by so many minutes” that we traced back to a source led to a roundup of impressions from the running community, not to a measurement."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Garmin warn that the prediction assumes you have trained for the distance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Forerunner 230/235 manual did: the projection “presumes you have completed the proper training for the race”. The fēnix 8, Forerunner 970, vívoactive 6 and Forerunner 255 manuals do not have that line; all that is left is “the predictions may seem inaccurate at first”, and that is about your first weeks with a new watch, not about your readiness for the distance. Whether you have run enough for that number to be about you is now entirely your own question."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "I run a marathon in five to six hours. Should I trust the prediction less?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For runners like you there is no measurement of Garmin's prediction. There is a measurement of a method of the same kind, one that gets a time out of a single fitness number: the Daniels table, tested on 7,663 Valencia finishers, missed by 1.11% on average for those who finished under 2:30 and by 17.73% for those finishing between 5:30 and 6:00, and between those edges the error climbed step by step across all eight finishing bands. The study does not say in which direction, and it tested the table, not the watch. In practice: you can measure your own miss in a single tune-up race — compare what you ran with what the watch predicted for that same distance."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the prediction for my race account for heat, wind and altitude?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The fēnix 8, Forerunner 970, vívoactive 6 and Forerunner 255 manuals do not say that the environment enters the time calculation: next to the goal or predicted finish time they show the weather, with historical conditions for the place and date available at once and the forecast about 14 days before the start. That the environment does enter it was said by a Garmin employee on the company’s official forum, February 27, 2024: “elevation changes, heat, wind, and altitude”. That is an employee’s word, not documentation, and the sentence gives no size for the adjustment."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need a chest strap, and how many runs until the first number?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It depends on the watch. The fēnix 8, Forerunner 970 and Forerunner 255 manuals do not require one: they say “wrist-based heart rate or a compatible chest heart rate monitor”, so the watch alone is enough. The vívoactive 6 manual says only “a compatible heart rate monitor” in the same place, with no mention of the wrist, and does not explain whether that means a separate strap. The second requirement is common to all four: a maximum heart rate set in your profile. You have to run outside with GPS: the VO2 max. estimate the prediction is computed from requires an outdoor run with GPS, according to the fēnix 8 manual. How many runs the first number takes, Garmin does not say: the manuals use “a few runs” and “several weeks of your training data”, with no figures, and we are not supplying ours."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=114508365', 'ym');
+
+    ym(114508365, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/114508365" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Explainers · Garmin metrics</div>
+    <div class="ends">
+      <a class="lang" href="/garmin/race-predictor" hreflang="ru" lang="ru" aria-label="Переключиться на русский">RU</a>
+      <a class="home" href="/en/" aria-label="Home">FIZKULT.AI</a>
+    </div>
+  </div>
+
+  <h1>Garmin race predictions: how accurate they are, and how to measure it on yourself</h1>
+
+  <p class="lead">For methods that turn a single fitness number into a finish time, the error follows the runner's level. Across 7,663 Valencia finishers, the Daniels table missed by 1.11% for those who broke 2:30 and by 17.73% for those who finished between 5:30 and 6:00. In minutes that is under two minutes against more than an hour — one table, one and the same race. Those percentages belong to the table, not to the watch: nobody has checked Garmin's own marathon prediction against a marathon, and the only study of a Garmin prediction we found covers a half marathon and twenty runners. Below: what the primary sources actually say, the line that used to sit beside the prediction in older manuals and is gone from the current ones, and a way to measure your own miss in a single tune-up race.</p>
+
+  <a class="dl" href="/en/garmin/race-predictor.pdf">Download as PDF <span>· 11 pages</span></a>
+
+  <h2>What the watch does</h2>
+
+  <p>Garmin describes two separate predictions.</p>
+
+  <p><b>The first is the general one.</b> On November 23, 2026 we pulled the "Viewing Your Predicted Race Times" page out of four manuals — fēnix 8 (v10), Forerunner 970 (v7), vívoactive 6 (v7) and Forerunner 255 (v12) — and the text matches letter for letter in all four: the watch takes your VO2 max. estimate and your training history and shows a target race time.</p>
+
+  <p>The credit under that calculation, though, changed over the past year, and the boundary runs by date. The Forerunner 255 manual in its June 2025 edition says "provided and supported by Firstbeat Analytics™" — the Finnish company Garmin bought in 2020. In the three manuals dated 2026, the same spot already says "provided and supported by Garmin Human Performance Lab™", and Firstbeat is not named at all. So this is not a split between expensive and cheap models: the vívoactive 6 is a far simpler watch than the fēnix 8, and they carry the same credit. We caught the same change on the VO2 max. page. Whether it marks a move to a model of Garmin's own or only a new name over the same one, Garmin does not say, and the formula has never been published in any edition.</p>
+
+  <blockquote>
+    <p>Your watch uses the VO2 max. estimate and your training history to provide a target race time.</p>
+    <cite>fēnix 8 (v10), Forerunner 970 (v7), vívoactive 6 (v7) and Forerunner 255 (v12) manuals, "Viewing Your Predicted Race Times"</cite>
+  </blockquote>
+
+  <p>The distances are 5K, 10K, half marathon and marathon: that is how the Forerunner 230/235 manual lists them. Current manuals have no list, only "Scroll to view predictions for other distances". Two inputs are named, the VO2 max. estimate and training history. Personal records from past races are not named as an input in any of these manuals.</p>
+
+  <p>How training history enters the calculation, Garmin does not publish. There is exactly one place where it is spelled out, and that place is a <b>Firstbeat page from 2020</b>, taken from an archived copy of a dead site: the calculation takes in long- and short-term trends in weekly mileage and training load, and how longer runs contributed to the overall load. It cannot be read as the make-up of today's calculation: the credit has changed since, and what the current watches compute has not been published. This is the most detailed description that exists anywhere, and it is six years old.</p>
+
+  <p><b>The second is built for a specific race.</b> Add a race from the Garmin Connect calendar, up to 365 days ahead, and the watch shows a countdown, your goal time or predicted finish time (running events only), and the weather. Historical weather for the place and date is there immediately; the local forecast appears about 14 days before the start. Whether the environment enters the time calculation itself, the manuals do not say. A Garmin employee did, on the company's official forum on February 27, 2024: the prediction includes the VO2 max. estimate and training history, "and will also take into consideration environmental factors such as elevation changes, heat, wind, and altitude". The same reply adds that predictions shown on different screens can differ, because each estimate uses its own metrics. That is an employee on a forum, not documentation, and we quote it as such.</p>
+
+  <p class="note"><b>Checked against the manuals on November 23, 2026.</b> Wording and figures belong to specific models and manual editions. The prediction page was pulled from four manuals and matches in all four; the Performance Measurements page from the same four; the race calendar page from the fēnix 8 only. On other models the text may differ — and further down there is a place where it already does.</p>
+
+  <h2>What has been measured on the watch itself</h2>
+
+  <p>In the documents we went through, Garmin has published no accuracy check of its prediction. The supplier's document carries no accuracy figure for the prediction either: the numbers Firstbeat quotes concern the VO2 max. estimate, not the finish time. The one independent study we found comes from Howard and colleagues, who followed twenty recreational runners (VO2 max. around 41–42) through twelve weeks of half-marathon training on a Forerunner 265 and then into an official race.</p>
+
+  <p class="tcap">Howard et al., 2026: what the watch showed against what happened, n = 20</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Compared</th><th>Watch</th><th>Reality</th></tr></thead>
+    <tbody>
+      <tr><td>Half marathon time</td><td class="num">129.97 ± 18.29 min</td><td class="num">137.55 ± 21.03 min, p = 0.003</td></tr>
+      <tr><td>VO2 max.</td><td class="num">43.95</td><td class="num">41.10 in the lab, p = 0.009</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>The watch was 7.58 minutes more optimistic, about 5.5% of the actual time (that division is ours; the paper gives no percentage). The spread in each column is wider than the shift itself, and that is not a reading error: the runners differ from one another, so the comparison is not between two piles of numbers but between each runner and his or her own prediction. That is the comparison that yields p = 0.003 — the shift holds person after person instead of emerging from the spread. One more thing stands out: the watch also overestimated VO2 max. itself, one of the prediction's two inputs. The paper does not analyze a link between the two shifts; how that estimate errs for different runners is in <a href="/en/garmin/vo2max">our explainer on VO2 max.</a></p>
+
+  <p>Three things the study does not say. It is not about the marathon: <b>nobody has checked Garmin's marathon prediction against a real marathon.</b> It is not about other models, nor about runners clearly faster or slower than these twenty. And it is not about people who skipped training: the participants prepared for twelve weeks and the optimism stayed. It is one small sample, but it shows that "I prepared" and "the prediction came true" are different things.</p>
+
+  <h2>The part that matters: the error follows the runner's level</h2>
+
+  <p>The watch itself has been tested on a single half marathon, so what follows is a detour — and Garmin's own documents are what justifies it. The old Forerunner 230/235 manual named the prediction's second input outright: "published data sources". That is, the watch leaned not only on your runs but on an external, already printed table of correspondences. Which one, Garmin did not say then and does not say now. Firstbeat, for its part, describes race prediction in its VO2 max. document as a consequence of VO2 max. and immediately gives an example of such a calculation: the table of Jack Daniels. It does not say "this is what we compute with", and that cannot be claimed. But both sides have named the kind of method: a time is derived from a single fitness number using a published table. That kind has been tested — on a sample next to which any test of a watch looks tiny.</p>
+
+  <blockquote>
+    <p>In sedentary runners, improvements in VO2max most probably result in improvement in race time, and therefore, the prediction of race time based on VO2max is quite straightforward. In elite endurance athletes, VO2max is not the only determinant of a good race performance…</p>
+    <cite>Firstbeat, "Automated Fitness Level (VO2max) Estimation with Heart Rate and Speed Data", Race time prediction. The Daniels table follows as the example</cite>
+  </blockquote>
+
+  <p>That is the only caveat in the supplier's document, and it concerns elite athletes. There is not a word on what is special about a marathon: tapering, glycogen, endurance.</p>
+
+  <p>Oficial-Casado and colleagues took 7,663 runners who finished both the half marathon and the marathon in Valencia in the same year. From the half marathon result they computed a prediction and compared it with the same people's marathon, using the Daniels tables (4th edition) and the authors' own formula. The error is a mean absolute error, as a percentage of the time: how far the prediction misses on average, whichever way it misses. The runners were sorted into eight bands of marathon finishing time; the bands run consecutively and are not nested, so "under 3:00" means the people who finished between 2:30 and 3:00.</p>
+
+  <p class="tcap">Mean absolute error by marathon finishing band, %. All bands together: Daniels table 7.92%, authors' formula 5.67%</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Finishing band</th><th>Daniels table</th><th>Authors' formula</th></tr></thead>
+    <tbody>
+      <tr><td class="num">under 2:30</td><td class="num"><b>1.11</b></td><td class="num">4.06</td></tr>
+      <tr><td class="num">under 3:00</td><td class="num"><b>2.22</b></td><td class="num">3.79</td></tr>
+      <tr><td class="num">under 3:30</td><td class="num">3.90</td><td class="num">3.85</td></tr>
+      <tr><td class="num">under 4:00</td><td class="num">5.96</td><td class="num">4.10</td></tr>
+      <tr><td class="num">under 4:30</td><td class="num">7.61</td><td class="num">4.76</td></tr>
+      <tr><td class="num">under 5:00</td><td class="num">10.43</td><td class="num">5.56</td></tr>
+      <tr><td class="num">under 5:30</td><td class="num">14.38</td><td class="num">8.92</td></tr>
+      <tr><td class="num">under 6:00</td><td class="num"><b>17.73</b></td><td class="num">10.33</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>The ladder climbs without a single step back: 1.11 → 2.22 → 3.90 → 5.96 → 7.61 → 10.43 → 14.38 → 17.73. These are not two hand-picked extremes but a pattern running through the whole sample — the slower the runner, the wider the miss. Between the edges the gap is almost sixteen-fold. In minutes: 1.11% of 2:30 is under two minutes, and 17.73% of 6:00 is more than an hour (our arithmetic, taken at each band's edge). So "how accurate is the prediction on a marathon" has no answer until you add "for whom".</p>
+
+  <p>And straight away, the part that turns the usual reading around: <b>for the fast runners, the Daniels table beat the authors' own formula</b> — 1.11% against 4.06% in the first band and 2.22% against 3.79% in the second. The authors say so plainly. So the conclusion is not "the old table is bad" but "every method has a range where it is good", and for the table that range is the fast runner.</p>
+
+  <p>Three limits come with these numbers. First, this is absolute error with no sign, so the study cannot tell you which way the table misses, only that it misses far more for slower runners. Second, what was tested is the Daniels table, not the watch, and Firstbeat names it as an example, not as its own method. Third, the input was a half marathon result, while the watch's input is a VO2 max. estimate plus training history. Which is why these percentages cannot be carried over to your own Garmin; what does follow from them for you personally is at the end, in one tune-up race.</p>
+
+  <h2>Why long distances outrun formulas</h2>
+
+  <p>The previous section was about who misses by more. This one is about where everyone misses by more, and it rests on a different study of a different method. Vickers and Vertosick tested Riegel's formula, which stretches a result at one distance onto another, on 2,303 runners: at 10K and the half marathon it did not diverge from reality (p = 0.9 and 0.3); at the marathon it did (p &lt; 0.0001). The median prediction was faster than the result by 10 minutes 9 seconds, and for almost one runner in four it was faster by more than twenty minutes.</p>
+
+  <p>The reason shows up in Blythe and Király's 101,775 runners: real people lose noticeably more on the lengthening distance than the formula allows for. Hence the optimism at the marathon. This is about Riegel's formula, not about watches, and the two findings cannot be added into one: the runner's level and the length of the distance are two different axes, measured in different studies on different methods. They have one thing in common — in both, the hard spot is the marathon.</p>
+
+  <h2>The warning that left the manuals</h2>
+
+  <p>In the Forerunner 230/235 manual, a plain line stood next to the prediction:</p>
+
+  <blockquote>
+    <p>This projection also presumes you have completed the proper training for the race.</p>
+    <cite>Forerunner 230/235 manual, race time predictions</cite>
+  </blockquote>
+
+  <p>We set that page beside its present-day version in four manuals — fēnix 8, Forerunner 970, vívoactive 6 and Forerunner 255. What vanished from it is not one line but three. First, the hardware requirement: "This feature requires a heart rate monitor." Second, the named input: the old manual said the device uses the VO2 max. estimate and "published data sources", where the current one says "and your training history" in the same place. Third, the warning about training for the race itself. What remains is the milder "The predictions may seem inaccurate at first."</p>
+
+  <p>The first disappearance has a simple explanation, and the explanation is ours rather than Garmin's: wrist-based heart rate arrived and a separate chest strap stopped being mandatory — which is exactly what the neighbouring page now says. The second is more interesting. "Published data sources" states outright that the calculation has an external, already printed input besides your own runs. Which one, Garmin did not name even then. The current wording drops the mention of an external input altogether, leaving only "your training history".</p>
+
+  <p>Of the three disappearances, only the third was about you. The first concerned hardware, the second the make-up of the calculation, and the third said: the prediction describes a runner who has <b>trained</b> for this race. The sentence that remains, about things seeming inaccurate at first, is no substitute for it: it is about your first weeks with a new watch, not about your readiness for a distance. So "have I run enough for this number to be about me" is now entirely yours to ask: the old manual asked it in words, the current ones do not. Why the line was dropped, Garmin does not say.</p>
+
+  <p>The supplier has the same thought on a consumer page of Firstbeat (archived June 30, 2020, the site is dead): predicted times assume you have been training for that particular event, "so don't expect to just hit the road and match your predicted times." Those are the supplier's words, not Garmin's.</p>
+
+  <h2>What it takes for a number to appear</h2>
+
+  <p class="tcap">From the fēnix 8, Forerunner 970, vívoactive 6 and Forerunner 255 manuals, checked November 23, 2026</p>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>What</th><th>Condition</th></tr></thead>
+    <tbody>
+      <tr><td>Where to run</td><td>outdoors with GPS. The VO2 max. estimate the prediction rests on requires an outdoor run with GPS according to the fēnix 8 manual; our inference is that treadmill runs do not count toward the prediction</td></tr>
+      <tr><td>Heart rate in your profile</td><td>a maximum heart rate must be set: "For the most accurate estimate, complete the user profile setup, and set your maximum heart rate"</td></tr>
+      <tr><td>What measures the heart rate</td><td>on the fēnix 8, Forerunner 970 and Forerunner 255 — "wrist-based heart rate or a compatible chest heart rate monitor", so the watch alone is enough. The vívoactive 6 says only "a compatible heart rate monitor" in the same place, with no mention of the wrist</td></tr>
+      <tr><td>How many runs before the first number</td><td><b>not stated.</b> The wording is "a few runs" and "several weeks of your training data", with no figures. We do not supply one</td></tr>
+      <tr><td>The early period</td><td>"The predictions may seem inaccurate at first"</td></tr>
+      <tr><td>A prediction for a race</td><td>an event in the Garmin Connect calendar within the next 365 days; weather — historical at once, forecast about 14 days out</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>How to measure the miss on yourself</h2>
+
+  <p>Every percentage above belongs to somebody else: other samples, other methods, another input. Your own number takes one race. The order matters: the prediction is written down <b>before</b> the start, or there is nothing to measure against.</p>
+
+  <ol>
+    <li><b>Write down what the watch predicts for you at 10K</b> — with the date, before the race. Take the prediction for the distance you are actually going to run, not for the marathon.</li>
+    <li><b>Run that 10K for real.</b> An official race or a tune-up outdoors with GPS, at race effort. A long run at conversational pace will not do the job.</li>
+    <li><b>Subtract: result minus prediction.</b> The sign matters more than the size. Plus means the watch is more optimistic than you are; minus means it is underrating you. As a percentage, it is the difference divided by your actual time.</li>
+  </ol>
+
+  <p>What to do with that number next. If the watch turned out to be the optimistic one, the same shift very likely sits in its prediction for the longer distance too, and there it is probably larger: the only study of the watch we found caught optimism at a half marathon, and the studies of stretching a result onto a longer distance found that optimism grows toward the marathon. You cannot carry your percentage from 10K to the marathon by arithmetic — those are two different axes, measured separately. But it gives you the direction and the order of magnitude, which is exactly what no one else's sample can give you.</p>
+
+  <p>It is worth repeating the measurement a season later. One race speaks as much about your day as about the prediction; two measurements a few months apart start to show whether the shift is systematic or whether it was simply heat and wind.</p>
+
+  <h2>What to do with the number</h2>
+
+  <ol>
+    <li><b>Check your profile and your maximum heart rate.</b> Those are the two things the manuals ask you to set for the most accurate estimate. Make sure the heart rate is yours, not an age formula's.</li>
+    <li><b>Run outside if you want the number to move.</b> The fēnix 8 manual requires an outdoor run with GPS for the VO2 max. estimate the prediction rests on; by our inference, treadmill runs do not count toward it.</li>
+    <li><b>Put what you have actually run next to the prediction.</b> A recent race result, or a tune-up at a shorter distance, weighs more than the number on the screen. And ask the question the manuals dropped: have I run enough for a prediction at this distance to be about me?</li>
+    <li><b>Write the number down once a week, with the date.</b> The watch refines its predictions from several weeks of data, a single value tells you little, and two months show where it is heading.</li>
+    <li><b>Ask for the measurement behind popular figures.</b> If you meet "on a marathon the watch is off by so many minutes", ask where it comes from. Figures of this kind that we traced to a source turned out to be a roundup of running-community impressions, not a measurement.</li>
+  </ol>
+
+  <h2>Frequently asked questions</h2>
+
+  <p><b>Has anyone tested Garmin's prediction against a real marathon?</b><br>
+  Of the studies we found, no. The only study of a Garmin prediction (Howard et al., 2026) looked at a half marathon: 20 recreational runners wearing a Forerunner 265, the watch predicting 129.97 minutes against an actual 137.55. Nobody has checked Garmin's marathon prediction against a real marathon. The popular figures of the form “on a marathon the watch is off by so many minutes” that we traced back to a source led to a roundup of impressions from the running community, not to a measurement.</p>
+
+  <p><b>Does Garmin warn that the prediction assumes you have trained for the distance?</b><br>
+  The Forerunner 230/235 manual did: the projection “presumes you have completed the proper training for the race”. The fēnix 8, Forerunner 970, vívoactive 6 and Forerunner 255 manuals do not have that line; all that is left is “the predictions may seem inaccurate at first”, and that is about your first weeks with a new watch, not about your readiness for the distance. Whether you have run enough for that number to be about you is now entirely your own question.</p>
+
+  <p><b>I run a marathon in five to six hours. Should I trust the prediction less?</b><br>
+  For runners like you there is no measurement of Garmin's prediction. There is a measurement of a method of the same kind, one that gets a time out of a single fitness number: the Daniels table, tested on 7,663 Valencia finishers, missed by 1.11% on average for those who finished under 2:30 and by 17.73% for those finishing between 5:30 and 6:00, and between those edges the error climbed step by step across all eight finishing bands. The study does not say in which direction, and it tested the table, not the watch. In practice: you can measure your own miss in a single tune-up race — compare what you ran with what the watch predicted for that same distance.</p>
+
+  <p><b>Does the prediction for my race account for heat, wind and altitude?</b><br>
+  The fēnix 8, Forerunner 970, vívoactive 6 and Forerunner 255 manuals do not say that the environment enters the time calculation: next to the goal or predicted finish time they show the weather, with historical conditions for the place and date available at once and the forecast about 14 days before the start. That the environment does enter it was said by a Garmin employee on the company’s official forum, February 27, 2024: “elevation changes, heat, wind, and altitude”. That is an employee’s word, not documentation, and the sentence gives no size for the adjustment.</p>
+
+  <p><b>Do I need a chest strap, and how many runs until the first number?</b><br>
+  It depends on the watch. The fēnix 8, Forerunner 970 and Forerunner 255 manuals do not require one: they say “wrist-based heart rate or a compatible chest heart rate monitor”, so the watch alone is enough. The vívoactive 6 manual says only “a compatible heart rate monitor” in the same place, with no mention of the wrist, and does not explain whether that means a separate strap. The second requirement is common to all four: a maximum heart rate set in your profile. You have to run outside with GPS: the VO2 max. estimate the prediction is computed from requires an outdoor run with GPS, according to the fēnix 8 manual. How many runs the first number takes, Garmin does not say: the manuals use “a few runs” and “several weeks of your training data”, with no figures, and we are not supplying ours.</p>
+
+  <h2>In short</h2>
+
+  <ul>
+    <li>Garmin's race prediction is built on the VO2 max. estimate and training history; the formula is not published. The algorithm came to Garmin along with Firstbeat, and the credit under it changed between editions: the current manuals say Garmin Human Performance Lab™ and do not name Firstbeat at all.</li>
+    <li>There is one study of it that we found: twenty recreational runners, a half marathon, the watch 7.58 minutes more optimistic than the result (p = 0.003). Nobody has checked the marathon prediction against a real marathon.</li>
+    <li>For methods that get a time out of a single fitness number, the error follows the runner's level: the Daniels table on Valencia finishers, 1.11% in the fastest band against 17.73% in the slowest, climbing step by step in between. That is about the table, not the watch.</li>
+    <li>In that same study, the old table beat the formula the authors built to replace it — for the fastest runners. Newer does not mean more accurate for everyone.</li>
+    <li>The Forerunner 230/235 manual put a line about proper training for the race next to the prediction. The fēnix 8, Forerunner 970, vívoactive 6 and Forerunner 255 manuals do not have it.</li>
+    <li>For a number to appear you need outdoor runs with GPS and a maximum heart rate in your profile. How many runs it takes, Garmin does not say.</li>
+    <li>Your own miss takes one race to measure: write down the 10K prediction before the start, run it, subtract. The sign matters more than the size.</li>
+  </ul>
+
+  <h2>Where the evidence stops</h2>
+
+  <ul>
+    <li>Garmin's prediction formula is not published, and how training history enters it is unknown. "A kind of method" rests on the supplier's description, not on a disclosed formula.</li>
+    <li>The Valencia percentages are about the Daniels table: an absolute error with no sign, computed from a half marathon result rather than from a VO2 max. estimate.</li>
+    <li>The only study of a Garmin prediction we found has twenty recreational runners, one half marathon and a Forerunner 265. The marathon and other models are untested.</li>
+    <li>We checked the disappearance of the warning in the Forerunner 230/235, fēnix 8, Forerunner 970, vívoactive 6 and Forerunner 255 manuals. We did not reread other models' manuals or every other page of these ones line by line.</li>
+    <li>The measurement described above compares one race. It tells you about your prediction at that distance and proves nothing about Garmin's prediction in general.</li>
+    <li>The sentence about environmental factors is a Garmin employee's reply on the company's official forum of February 27, 2024, not documentation.</li>
+    <li>Firstbeat's page on race time prediction no longer exists; we cite an archived copy of June 30, 2020.</li>
+  </ul>
+
+  <h2>Sources</h2>
+
+  <ol class="src">
+    <li>Garmin fēnix 8 Series Owner's Manual, "Viewing Your Predicted Race Times" (edition v10, November 2026; checked November 23, 2026): "For the most accurate estimate, complete the user profile setup, and set your maximum heart rate. Your watch uses the VO2 max. estimate and your training history to provide a target race time. The watch analyzes several weeks of your training data to refine the race time estimates… Scroll to view predictions for other distances. NOTE: The predictions may seem inaccurate at first. The watch requires a few runs to learn about your running performance." <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-31B2458A-859A-4A34-AB83-224E4A29387A.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin Forerunner 970 (edition v7, November 2026), vívoactive 6 (edition v7, September 2026) and Forerunner 255 Series (edition v12, June 2025) manuals, the same page — the text matches fēnix 8 word for word; only the button names differ. <a href="https://www8.garmin.com/manuals/webhelp/GUID-025D75CF-3445-49E1-8D81-1AA74AB4E00F/EN-US/GUID-31B2458A-859A-4A34-AB83-224E4A29387A.html" rel="nofollow noopener" target="_blank">Forerunner 970</a>, <a href="https://www8.garmin.com/manuals/webhelp/GUID-8C2C402F-55AC-431F-9CF2-1442B89CE149/EN-US/GUID-31B2458A-859A-4A34-AB83-224E4A29387A.html" rel="nofollow noopener" target="_blank">vívoactive 6</a>, <a href="https://www8.garmin.com/manuals/webhelp/GUID-676967A0-1B23-4384-9BC9-76F3D643F1C8/EN-US/GUID-31B2458A-859A-4A34-AB83-224E4A29387A.html" rel="nofollow noopener" target="_blank">Forerunner 255</a></li>
+    <li>The "Performance Measurements" page in four manuals — this is where the credit line and the heart-rate requirement sit, and where the boundary runs by date. fēnix 8 (v10), Forerunner 970 (v7) and vívoactive 6 (v7): "These estimates are provided and supported by Garmin Human Performance Lab™", with Firstbeat not named. Forerunner 255 (v12, June 2025) in the same place: "These estimates are provided and supported by Firstbeat Analytics™". The heart-rate requirement on the fēnix 8, Forerunner 970 and Forerunner 255: "The measurements require a few activities using wrist-based heart rate or a compatible chest heart rate monitor"; on the vívoactive 6: "The measurements require a few activities using a compatible heart rate monitor", with no mention of the wrist. <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-F5BF67CE-C94E-4842-AE96-A7A05C85B732.html" rel="nofollow noopener" target="_blank">fēnix 8</a>, <a href="https://www8.garmin.com/manuals/webhelp/GUID-8C2C402F-55AC-431F-9CF2-1442B89CE149/EN-US/GUID-F5BF67CE-C94E-4842-AE96-A7A05C85B732.html" rel="nofollow noopener" target="_blank">vívoactive 6</a>, <a href="https://www8.garmin.com/manuals/webhelp/GUID-676967A0-1B23-4384-9BC9-76F3D643F1C8/EN-US/GUID-F5BF67CE-C94E-4842-AE96-A7A05C85B732.html" rel="nofollow noopener" target="_blank">Forerunner 255</a></li>
+    <li>Garmin fēnix 8 Series manual, "Race Calendar and Primary Race" (v10; checked November 23, 2026) — the race-specific prediction: an event in the Garmin Connect calendar within the next 365 days, "The watch displays a countdown to the event, your goal time or predicted finish time (running events only), and weather information"; "Historical weather information for the location and date is available right away. Local forecast data appears approximately 14 days before the event". <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-8186A9FE-DFC1-4DC3-89B2-221883A60B6A.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin Forerunner 230/235 manual (edition v5), the same prediction page — it still carries everything the current manuals have dropped: "This feature requires a heart rate monitor… Your device uses the VO2 max. estimate and published data sources to provide a target race time based on your current state of fitness. This projection also presumes you have completed the proper training for the race… Your projected race times appear for 5K, 10K, half marathon, and marathon distances." <a href="https://www8.garmin.com/manuals/webhelp/forerunner230/EN-US/GUID-696A4BC6-70DC-4D51-BB35-CA16C9CAADB2.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Garmin fēnix 8 manual, VO2 max. Requirement: "You must run either outside with GPS or ride with a compatible power meter at a moderate level of intensity for several minutes". <a href="https://www8.garmin.com/manuals/webhelp/GUID-EECCAC99-90D6-4AB1-9A3A-EC433D3365E2/EN-US/GUID-3E971364-A756-4057-B22D-C41250B2A82B.html" rel="nofollow noopener" target="_blank">garmin.com</a></li>
+    <li>Reply from a Garmin employee on the company's official forum, February 27, 2024: "This prediction includes your VO2 Max estimate, training history, and will also take into consideration environmental factors such as elevation changes, heat, wind, and altitude"; "Predictions listed in each glance can be different because of the metrics used to generate each estimate". This is not documentation.</li>
+    <li>Firstbeat. "Automated Fitness Level (VO2max) Estimation with Heart Rate and Speed Data", November 7, 2014 (rev. June 30, 2017), section "Race time prediction": "In sedentary runners, improvements in VO2max most probably result in improvement in race time, and therefore, the prediction of race time based on VO2max is quite straightforward. In elite endurance athletes, VO2max is not the only determinant of a good race performance…", followed by "See an example of Jack Daniels race time prediction in Table 4".</li>
+    <li>Firstbeat, consumer page "Race Time Predictor" (archived copy of June 30, 2020, the site no longer exists): "VO2max provides a strong basis for predicting how you will perform in an endurance event, but your VO2max isn't the only thing that matters"; the calculation takes in "long- and short-term trends in your weekly running mileage totals" and load trends, "along with specific details like how longer runs contributed to your overall load"; "Predicted times assume you have been training for that particular event, so don't expect to just hit the road and match your predicted times."</li>
+    <li>Howard J. et al., <i>J Med Eng Technol</i> 2026, PMID 42822520 — the only scientific study of Garmin's race prediction we found: n=20, half marathon, predicted 129.97 min against an actual 137.55 min, p=0.003. Nobody has checked Garmin's marathon prediction against a real marathon. "Validity of the Garmin Forerunner 265 to predict VO2max and race performance times". Twelve weeks of preparation, then an official race; the watch's VO2 max. 43.95 against 41.10 in the lab (p = 0.009). <a href="https://pubmed.ncbi.nlm.nih.gov/42822520/" rel="nofollow noopener" target="_blank">PubMed</a></li>
+    <li>Oficial-Casado F. et al., <i>Front Physiol</i> 2026, PMID 41631237 — the 7,663 runners in question. Runners who finished both the Valencia half marathon and marathon in the same year; Daniels tables (4th edition) against the authors' formula, mean absolute error across eight finishing bands: 1.11% (under 2:30), 2.22%, 3.90%, 5.96%, 7.61%, 10.43%, 14.38%, 17.73% (under 6:00); all together, 7.92% against 5.67%. In the first two bands the Daniels table beat the authors' formula (4.06% and 3.79%). <a href="https://pubmed.ncbi.nlm.nih.gov/41631237/" rel="nofollow noopener" target="_blank">PubMed</a></li>
+    <li>Vickers &amp; Vertosick 2016 (PMID 27570626) and Blythe &amp; Király 2016 — on Riegel's formula, for context on long extrapolation. Vickers A. J., Vertosick E. A., <i>BMC Sports Sci Med Rehabil</i>, 2016: n = 2,303, at the marathon the formula differs from reality (p &lt; 0.0001), median error 10:09, for almost 25% of runners the prediction is faster than the result by more than 20 minutes. Blythe D. A. J., Király F. J., <i>PLoS ONE</i>, 2016: n = 101,775, an exponent of 1.06 in the formula against a median of 1.12 among real runners (percentiles 1.10 to 1.15). <a href="https://pubmed.ncbi.nlm.nih.gov/27570626/" rel="nofollow noopener" target="_blank">PubMed</a></li>
+  </ol>
+
+  <p class="note">A series of explainers, "Garmin metrics", built from primary sources. Published wording, thresholds and limits come with a link to the Garmin manual or to a peer-reviewed paper; our explanations, calculations and examples are marked. Fizkult is not affiliated with Garmin or Firstbeat; Garmin™, Garmin Human Performance Lab™ and Firstbeat Analytics™ are marks belonging to their owners.</p>
+
+  <div class="cta">
+    <div class="kicker">Connect your Garmin to fizkult.ai</div>
+    <h2>The question the manuals dropped</h2>
+    <p>A prediction describes a runner who has trained for this race. Garmin used to say that in as many words; the line is gone from the current manuals. Whether you have put in that work is a question only your own history answers: how many weeks in a row, what the volume was, how the long runs ended. Fizkult reads that history and talks about it in sentences — and tells you plainly when there are still too few days to say.</p>
+    <p>Fizkult reads your Garmin data itself and sends a plain-words breakdown to Telegram every morning: what your sleep, recovery and load are saying and what to pay attention to today. It builds your norm from your own history, and while the days are still too few it says so outright: “I don’t know your usual yet: counted over 9 days out of the 14 I need.” You connect the watch once; don't skip the Historical Data box — without it your norm builds only from new days, and more slowly. First week free, everything included. The bot writes in English if your Telegram is set to English; <b>/language</b> switches it either way.</p>
+    <a class="btn" href="https://t.me/fizkult_ai_bot?start=site_en_garmin_race_predictor">Connect your watch in Telegram →</a>
+    <p class="note" style="margin-bottom:0">This is a coach's read, not a medical one. If you don't feel you're recovering, see a doctor.</p>
+  </div>
+
+  <a class="back" href="/en/garmin/">← All Garmin metric explainers</a>
+  <a class="back" href="/en/" style="margin-left:18px">Home</a>
+</div>
+</body>
+</html>

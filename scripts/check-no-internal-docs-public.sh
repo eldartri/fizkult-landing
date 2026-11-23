@@ -97,6 +97,13 @@ PUBLIC_FILES=(
   "garmin/recovery-time text/html https://fizkult.ai/garmin/recovery-time"
   "garmin/hrv-status.pdf application/pdf"
   "garmin/hrv-status text/html https://fizkult.ai/garmin/hrv-status"
+  # Нагрузка (23.11) в список не попала в день выпуска — дописана вместе
+  # с прогнозом в ту же ночь. Выпустил разбор — допиши обе строки сразу:
+  # сторож проверяет ровно то, что в нём перечислено, и молчит про остальное.
+  "garmin/training-load.pdf application/pdf"
+  "garmin/training-load text/html https://fizkult.ai/garmin/training-load"
+  "garmin/race-predictor.pdf application/pdf"
+  "garmin/race-predictor text/html https://fizkult.ai/garmin/race-predictor"
   # Английская половина серии. Догоняет русскую (заказ владельца 21.11.2026
   # — обе половины за две недели) — выпустил близнец, допиши сюда обе строки,
   # страницу и PDF. Английские PDF появились 22.11.2026: пак собирается прямо
@@ -121,6 +128,10 @@ PUBLIC_FILES=(
   "en/garmin/recovery-time.pdf application/pdf"
   "en/garmin/hrv-status text/html https://fizkult.ai/en/garmin/hrv-status"
   "en/garmin/hrv-status.pdf application/pdf"
+  "en/garmin/training-load text/html https://fizkult.ai/en/garmin/training-load"
+  "en/garmin/training-load.pdf application/pdf"
+  "en/garmin/race-predictor text/html https://fizkult.ai/en/garmin/race-predictor"
+  "en/garmin/race-predictor.pdf application/pdf"
   # Калькуляторы. Считают в браузере, поэтому открытость адреса — это и есть
   # вся их доставка: страница не отвечает — сервиса нет. Выпустил новый
   # калькулятор, допиши сюда обе строки, русскую и английскую.
