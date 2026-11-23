@@ -89,11 +89,15 @@
 
   /* header */
   header { border-bottom:1.5px solid var(--line); background:var(--bg); position:sticky; top:0; z-index:10; }
-  .nav { display:flex; align-items:center; justify-content:space-between; padding:14px 0; gap:16px; }
+  /* Горизонтальный отступ задаётся здесь, а не наследуется от `.wrap`:
+     у этого элемента оба класса сразу, и `padding:14px 0` перебивал
+     `padding:0 20px` целиком — шапка стояла на 20px левее остальной
+     страницы, а на узком экране её текст упирался в самый край. */
+  .nav { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; gap:16px; }
   .logo { display:flex; align-items:center; gap:10px; font-weight:900; font-size:18px;
     text-transform:uppercase; letter-spacing:-.02em; }
   .logo svg { flex-shrink:0; display:block; }
-  .nav-links { display:flex; align-items:center; gap:22px; font-family:"Geist Mono",monospace;
+  .nav-links { display:flex; align-items:center; gap:18px; font-family:"Geist Mono",monospace;
     font-size:11px; letter-spacing:.1em; text-transform:uppercase; }
   .nav-links a { text-decoration:none; }
   .nav-links a:hover { color:var(--accent); }
@@ -324,6 +328,10 @@
   /* responsive */
   @media (max-width:1120px) {
     .plans { grid-template-columns:1fr 1fr; }
+    /* Меню стало на две ссылки длиннее, и ровно здесь оно упирается в край.
+       Печать «EST. 2026» — украшение (aria-hidden), ссылка — дорога:
+       украшение уступает первым. */
+    .est { display:none; }
   }
   @media (max-width:1000px) {
     .grid { grid-template-columns:repeat(2,1fr); }
@@ -332,7 +340,15 @@
     .ticket { transform:none; justify-self:start; }
     .duo { grid-template-columns:1fr; gap:16px; }
     .duo .arrow svg { transform:rotate(90deg); }
-    .nav-links { display:none; }
+    /* Узкий экран. Раньше здесь пряталось меню целиком — и вместе с якорями
+       пропадали ссылки на отдельные страницы (разборы, калькуляторы, тарифы),
+       до которых с телефона дороги не оставалось вовсе, кроме подвала.
+       Якорь — это ярлык к прокрутке, его на телефоне заменяет сама прокрутка;
+       страница — единственная дверь. Поэтому прячем только якоря, а двери
+       переносим второй строкой под логотип. */
+    .nav { flex-wrap:wrap; row-gap:0; }
+    .nav-links { order:3; width:100%; gap:16px; padding:0 0 10px; }
+    .nav-links a.jump { display:none; }
   }
   @media (max-width:900px) {
     .steps { grid-template-columns:1fr; }
@@ -535,13 +551,17 @@
       <svg width="22" height="22" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="29" stroke="#C8261A" stroke-width="13"/><rect x="44" y="6" width="12" height="88" fill="#1A1A1A"/></svg>
       FIZKULT
     </div>
+    <!-- On-page anchors first (class="jump" — hidden on a phone, where
+         scrolling does their job), then the separate pages: those have no
+         other door of their own. -->
     <nav class="nav-links" aria-label="Sections">
-      <a href="#chat">Dialogue</a>
-      <a href="#scenarios">What it does</a>
-      <a href="#trainers">For coaches</a>
-      <a href="#clubs">For clubs</a>
+      <a class="jump" href="#scenarios">What it does</a>
+      <a class="jump" href="#trainers">For coaches</a>
+      <a class="jump" href="#clubs">For clubs</a>
+      <a class="jump" href="#faq">Questions</a>
       <a href="/en/pricing">Pricing</a>
-      <a href="#faq">Questions</a>
+      <a href="/en/garmin/">Metrics</a>
+      <a href="/en/calc/">Calculators</a>
     </nav>
     <span class="est mono" aria-hidden="true">EST. 2026</span>
     <a class="lang" href="/" hreflang="ru" lang="ru" aria-label="Переключиться на русский">RU</a>

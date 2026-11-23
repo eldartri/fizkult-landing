@@ -76,11 +76,15 @@
 
   /* header */
   header { border-bottom:1.5px solid var(--line); background:var(--bg); position:sticky; top:0; z-index:10; }
-  .nav { display:flex; align-items:center; justify-content:space-between; padding:14px 0; gap:16px; }
+  /* Горизонтальный отступ задаётся здесь, а не наследуется от `.wrap`:
+     у этого элемента оба класса сразу, и `padding:14px 0` перебивал
+     `padding:0 20px` целиком — шапка стояла на 20px левее остальной
+     страницы, а на узком экране её текст упирался в самый край. */
+  .nav { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; gap:16px; }
   .logo { display:flex; align-items:center; gap:10px; font-weight:900; font-size:18px;
     text-transform:uppercase; letter-spacing:-.02em; text-decoration:none; }
   .logo svg { flex-shrink:0; display:block; }
-  .nav-links { display:flex; align-items:center; gap:22px; font-family:"Geist Mono",monospace;
+  .nav-links { display:flex; align-items:center; gap:18px; font-family:"Geist Mono",monospace;
     font-size:11px; letter-spacing:.1em; text-transform:uppercase; }
   .nav-links a { text-decoration:none; }
   .nav-links a:hover { color:var(--accent); }
@@ -245,7 +249,10 @@
   }
   @media (max-width:1000px) {
     .grid { grid-template-columns:repeat(2,1fr); }
-    .nav-links { display:none; }
+    /* Прячем только якоря: до отдельных страниц с телефона иначе не дойти. */
+    .nav { flex-wrap:wrap; row-gap:0; }
+    .nav-links { order:3; width:100%; gap:16px; padding:0 0 10px; }
+    .nav-links a.jump { display:none; }
   }
   @media (max-width:900px) {
     .rules { grid-template-columns:1fr; }
@@ -368,11 +375,13 @@
       FIZKULT
     </a>
     <nav class="nav-links" aria-label="Sections">
-      <a href="/en/#chat">The chat</a>
-      <a href="/en/#scenarios">What it does</a>
-      <a href="/en/#trainers">For coaches</a>
+      <a class="jump" href="/en/#scenarios">What it does</a>
+      <a class="jump" href="/en/#trainers">For coaches</a>
+      <a class="jump" href="/en/#clubs">For clubs</a>
+      <a class="jump" href="#faq">Questions</a>
       <a href="/en/pricing" aria-current="page">Pricing</a>
-      <a href="#faq">Questions</a>
+      <a href="/en/garmin/">Metrics</a>
+      <a href="/en/calc/">Calculators</a>
     </nav>
     <a class="lang" href="/tarify" hreflang="ru" lang="ru" aria-label="Перейти на русский">RU</a>
     <a class="cta" href="https://t.me/fizkult_ai_bot?start=site_en_pricing">7 days free →</a>

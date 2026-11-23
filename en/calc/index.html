@@ -66,6 +66,9 @@
   .cta a.btn:hover { background:#A81E14; }
   .cta .note { color:#BDB3A2; }
   .back { display:inline-block; margin-top:44px; font-family:"Geist Mono",monospace; font-size:12px; letter-spacing:.06em; }
+  /* Вторая дверь внизу: витрина калькуляторов и витрина разборов стоят рядом
+     по смыслу, а ссылались друг на друга только изнутри статей. */
+  .back + .back { margin-left:22px; }
 </style>
 <script type="application/ld+json">
 {
@@ -175,6 +178,7 @@
   </div>
 
   <a class="back" href="/en/">← Home</a>
+  <a class="back" href="/en/garmin/">Garmin metrics explained →</a>
 </div>
 </body>
 </html>
